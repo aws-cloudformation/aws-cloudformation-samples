@@ -1,4 +1,4 @@
-## My Project
+## AWS CloudFormation Samples
 
 This repository contains CloudFormation samples.
 
