@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "Create a Firehose stream that writes to S3"
+Resources:
+  FirehoseDestination:
+    Type: MyCompany::S3::Bucket::MODULE
+    Properties:
+      KMSKeyAlias: !Sub "${AWS::StackName}"
+      ReadWriteArn: !GetAtt FirehoseRole.Arn
+      ReadOnlyArn: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+  FirehoseRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AssumeRole1
+            Effect: Allow
+            Principal:
+              Service: firehose.amazonaws.com
+            Action: 'sts:AssumeRole'
+  FirehosePolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: "ReadWrite"
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: "KmsEncryptionDecryption"
+            Effect: Allow
+            Action:
+              - 'kms:Decrypt'
+              - 'kms:GenerateDataKey'
+            Resource: !GetAtt FirehoseDestinationKmsKey.Arn
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub 's3:${AWS::Region}.amazonaws.com'
+              StringLike:
+                kms:EncryptionContext:aws:s3:arn: !Sub '${FirehoseDestinationBucket.Arn}/*'
+          - Sid: FirehoseAccess
+            Effect: Allow
+            Action:
+            - kinesis:DescribeStream
+            - kinesis:GetShardIterator
+            - kinesis:GetRecords
+            - kinesis:ListShards
+            Resource: !GetAtt Firehose.Arn
+          - Sid: "S3ListBucket"
+            Effect: Allow
+            Action:
+              - 's3:ListBucket'
+              - 's3:ListBucketByTags'
+              - 's3:ListBucketMultipartUploads'
+              - 's3:GetBucketLocation'
+            Resource: !GetAtt FirehoseDestinationBucket.Arn
+          - Sid: "S3GetPutDeleteObject"
+            Effect: Allow
+            Action:
+              - 's3:DeleteObject'
+              - 's3:DeleteObjectTagging'
+              - 's3:GetObject'
+              - 's3:GetObjectTagging'
+              - 's3:PutObject'
+              - 's3:PutObjectTagging'
+            Resource: !Sub '${FirehoseDestinationBucket.Arn}/*'
+      Roles: 
+      - !Ref FirehoseRole
+  Firehose:
+    Type: AWS::KinesisFirehose::DeliveryStream
+    Properties:
+      DeliveryStreamName: !Sub "${AWS::StackName}"
+      DeliveryStreamType: DirectPut
+      S3DestinationConfiguration:
+        BucketARN: !GetAtt FirehoseDestinationBucket.Arn
+        RoleARN: !GetAtt FirehoseRole.Arn
+        EncryptionConfiguration:
+          KMSEncryptionConfig:
+            AWSKMSKeyARN: !GetAtt FirehoseDestinationKmsKey.Arn
