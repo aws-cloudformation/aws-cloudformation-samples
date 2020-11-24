@@ -1,0 +1,13 @@
+cd ~/workplace/$USER
+brazil ws create --name rpdk
+cd rpdk
+brazil ws --use -p AWSCloudFormationRPDK # Yes, it uses "live" as main version set
+cd src/AWSCloudFormationRPDK
+git checkout Modules # switch to module branch
+pip install wheel # Not needed if you already have it.
+python setup.py sdist bdist_wheel 
+pip install ./dist/cloudformation_cli-0.1.14.1-py3-none-any.whl # if you environment is Python2, replace {py3} with {py2}
+
+# check installation
+pip list | grep -i "cloudformation"
+# what you should expect: cloudformation-cli 0.1.14.1

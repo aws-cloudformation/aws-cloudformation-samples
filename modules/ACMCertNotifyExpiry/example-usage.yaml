@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Sample template to use the CloudFormation module AWSSamples::ACMCert::NotifyExpiry::MODULE that notifies when the ACM certs in an account is near expiration"
+Resources:
+  SSLCertExpiryNotification:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "SSLCertExpiryNotification"
+
+  MyModule:
+    Type: "AWSSamples::ACMCert::NotifyExpiry::MODULE"
+    Properties:
+      ApplicationName: "MyApp"
+      Environment: "dev"
+      Threshold: 5
+      SNSTopicArn: !Ref SSLCertExpiryNotification

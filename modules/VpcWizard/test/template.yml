@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Template consuming VPC Wizard module
+
+Resources:
+  MyVPC:
+    Type: AWSSamples::net::vpcwizard::MODULE
+    Properties:
+      CidrBlock: 10.10.0.0/16
+      NumberOfAZs: 3
+      PrivateSubnetOutboundConnectivity: True
+      VpcFlowLogDestination: CloudWatchLogs
+      EnablePrivateSessionManager: True

@@ -1,0 +1,280 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Create a custom domain for API Gateway REST API",
+    "Parameters": {
+        "CertificateArn": {
+            "Description": "Arn of ACM certificate matching the custom domain",
+            "Type": "String"
+        },
+        "CustomDomainName": {
+            "Description": "Custom domain name for the API",
+            "Type": "String"
+        },
+        "ApiType": {
+            "Description": "API type (regional or edge-optimized)",
+            "Type": "String",
+            "Default": "EDGE",
+            "AllowedValues": [
+                "EDGE",
+                "REGIONAL"
+            ]
+        },
+        "ApiId": {
+            "Description": "The ID of the API",
+            "Type": "String"
+        },
+        "ApiStage": {
+            "Description": "The name of the API's stage",
+            "Type": "String"
+        },
+        "ApiBasePath": {
+            "Description": "The base path name that callers of the API must provide in the URL after the domain name",
+            "Type": "String",
+            "Default": ""
+        },
+        "PrivateHostedZoneId": {
+            "Description": "The ID of the private Route 53 hosted zone that you want to create records in. Specify at least one Private or Public hosted zone id.",
+            "Type": "String",
+            "Default": ""
+        },
+        "PublicHostedZoneId": {
+            "Description": "The ID of the public Route 53 hosted zone that you want to create records in. Specify at least one Private or Public hosted zone id.",
+            "Type": "String",
+            "Default": ""
+        }
+    },
+    "Conditions": {
+        "IsRegionalApi": {
+            "Fn::Equals": [
+                "REGIONAL",
+                {
+                    "Ref": "ApiType"
+                }
+            ]
+        },
+        "IsBasePathDefined": {
+            "Fn::Not": [
+                {
+                    "Fn::Equals": [
+                        "",
+                        {
+                            "Ref": "ApiBasePath"
+                        }
+                    ]
+                }
+            ]
+        },
+        "IsPrivateHostedZoneDefined": {
+            "Fn::Not": [
+                {
+                    "Fn::Equals": [
+                        "",
+                        {
+                            "Ref": "PrivateHostedZoneId"
+                        }
+                    ]
+                }
+            ]
+        },
+        "IsPublicHostedZoneDefined": {
+            "Fn::Not": [
+                {
+                    "Fn::Equals": [
+                        "",
+                        {
+                            "Ref": "PublicHostedZoneId"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "Resources": {
+        "ApiGatewayDomain": {
+            "Type": "AWS::ApiGateway::DomainName",
+            "Properties": {
+                "CertificateArn": {
+                    "Fn::If": [
+                        "IsRegionalApi",
+                        {
+                            "Ref": "AWS::NoValue"
+                        },
+                        {
+                            "Ref": "CertificateArn"
+                        }
+                    ]
+                },
+                "DomainName": {
+                    "Ref": "CustomDomainName"
+                },
+                "EndpointConfiguration": {
+                    "Types": [
+                        {
+                            "Ref": "ApiType"
+                        }
+                    ]
+                },
+                "RegionalCertificateArn": {
+                    "Fn::If": [
+                        "IsRegionalApi",
+                        {
+                            "Ref": "CertificateArn"
+                        },
+                        {
+                            "Ref": "AWS::NoValue"
+                        }
+                    ]
+                },
+                "SecurityPolicy": "TLS_1_2"
+            }
+        },
+        "ApiGatewayBasePathMapping": {
+            "Type": "AWS::ApiGateway::BasePathMapping",
+            "DependsOn": [
+                "ApiGatewayDomain"
+            ],
+            "Properties": {
+                "BasePath": {
+                    "Fn::If": [
+                        "IsBasePathDefined",
+                        {
+                            "Ref": "ApiBasePath"
+                        },
+                        {
+                            "Ref": "AWS::NoValue"
+                        }
+                    ]
+                },
+                "DomainName": {
+                    "Ref": "CustomDomainName"
+                },
+                "RestApiId": {
+                    "Ref": "ApiId"
+                },
+                "Stage": {
+                    "Ref": "ApiStage"
+                }
+            }
+        },
+        "PrivateRecordSetIpv4": {
+            "Type": "AWS::Route53::RecordSet",
+            "Condition": "IsPrivateHostedZoneDefined",
+            "DependsOn": [
+                "ApiGatewayBasePathMapping"
+            ],
+            "Properties": {
+                "Name": {
+                    "Ref": "CustomDomainName"
+                },
+                "Type": "A",
+                "AliasTarget": {
+                    "DNSName": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionDomainName"
+                        ]
+                    },
+                    "HostedZoneId": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionHostedZoneId"
+                        ]
+                    }
+                },
+                "HostedZoneId": {
+                    "Ref": "PrivateHostedZoneId"
+                }
+            }
+        },
+        "PrivateRecordSetIpv6": {
+            "Type": "AWS::Route53::RecordSet",
+            "Condition": "IsPrivateHostedZoneDefined",
+            "DependsOn": [
+                "ApiGatewayBasePathMapping"
+            ],
+            "Properties": {
+                "Name": {
+                    "Ref": "CustomDomainName"
+                },
+                "Type": "AAAA",
+                "AliasTarget": {
+                    "DNSName": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionDomainName"
+                        ]
+                    },
+                    "HostedZoneId": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionHostedZoneId"
+                        ]
+                    }
+                },
+                "HostedZoneId": {
+                    "Ref": "PrivateHostedZoneId"
+                }
+            }
+        },
+        "PublicRecordSetIpv4": {
+            "Type": "AWS::Route53::RecordSet",
+            "Condition": "IsPublicHostedZoneDefined",
+            "DependsOn": [
+                "ApiGatewayBasePathMapping"
+            ],
+            "Properties": {
+                "Name": {
+                    "Ref": "CustomDomainName"
+                },
+                "Type": "A",
+                "AliasTarget": {
+                    "DNSName": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionDomainName"
+                        ]
+                    },
+                    "HostedZoneId": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionHostedZoneId"
+                        ]
+                    }
+                },
+                "HostedZoneId": {
+                    "Ref": "PublicHostedZoneId"
+                }
+            }
+        },
+        "PublicRecordSetIpv6": {
+            "Type": "AWS::Route53::RecordSet",
+            "Condition": "IsPublicHostedZoneDefined",
+            "DependsOn": [
+                "ApiGatewayBasePathMapping"
+            ],
+            "Properties": {
+                "Name": {
+                    "Ref": "CustomDomainName"
+                },
+                "Type": "AAAA",
+                "AliasTarget": {
+                    "DNSName": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionDomainName"
+                        ]
+                    },
+                    "HostedZoneId": {
+                        "Fn::GetAtt": [
+                            "ApiGatewayDomain",
+                            "DistributionHostedZoneId"
+                        ]
+                    }
+                },
+                "HostedZoneId": {
+                    "Ref": "PublicHostedZoneId"
+                }
+            }
+        }
+    }
+}

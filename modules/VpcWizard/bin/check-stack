@@ -1,0 +1,6 @@
+#!/bin/bash
+STACK_NAME=$1
+
+aws cloudformation --region eu-west-1 \
+ --endpoint-url https://stackbuilder-2.amazonaws.com \
+ describe-stack-events --stack-name $STACK_NAME

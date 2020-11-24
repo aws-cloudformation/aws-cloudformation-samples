@@ -1,0 +1,170 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Lamdba to check SSL expiry and notify for certs in ACM (with ISSUED status)",
+    "Parameters": {
+        "ApplicationName": {
+            "Type": "String",
+            "Description": "Name of the application",
+            "Default": "SampleApp"
+        },
+        "Environment": {
+            "Type": "String",
+            "Description": "Current environment for the application",
+            "Default": "dev"
+        },
+        "SNSTopicArn": {
+            "Type": "String",
+            "Description": "The topic to publish message when ACM certs are nearing expiry"
+        },
+        "Threshold": {
+            "Type": "Number",
+            "Default": 14
+        }
+    },
+    "Resources": {
+        "CheckSSLExpiryLambda": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Description": "Lambda to check expiry of all SSL cert in ISSUED state and notify when nearing expiry",
+                "Handler": "index.lambda_handler",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "CheckSSLExpiryLambdaRole",
+                        "Arn"
+                    ]
+                },
+                "Runtime": "python3.7",
+                "Environment": {
+                    "Variables": {
+                        "NUMBER_OF_DAYS_THRESHOLD": {
+                            "Ref": "Threshold"
+                        },
+                        "NOTIFICATION_TOPIC": {
+                            "Ref": "SNSTopicArn"
+                        },
+                        "APP_NAME": {
+                            "Ref": "ApplicationName"
+                        },
+                        "APP_ENVIRONMENT": {
+                            "Ref": "Environment"
+                        }
+                    }
+                },
+                "Code": {
+                    "ZipFile": "import json\nimport boto3\nfrom datetime import datetime\nimport os\nimport logging\nclient = boto3.client('acm')\nsns_client = boto3.client('sns')\nlogging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)\n\ndef lambda_handler(event, context):\n    response = client.list_certificates(CertificateStatuses=[\n        'ISSUED'\n    ])\n    certs = response[\"CertificateSummaryList\"]\n    logging.info(f\"Number of ISSUED certs = {len(certs)}\")\n    for cert in certs:\n        certArn = cert[\"CertificateArn\"]\n        describe_cert_response = client.describe_certificate(\n            CertificateArn=certArn\n        )\n        naive_expiry_date = describe_cert_response[\"Certificate\"][\"NotAfter\"]\n        now = datetime.now().date()\n        difference = naive_expiry_date.date() - now\n        if difference.days < int(os.environ['NUMBER_OF_DAYS_THRESHOLD']):\n            logging.info(\"Days left to expire is less than the threshold\")\n            logging.info(\"Sending notification ..\")\n            publishToTopic(difference.days, certArn)\n\n    return {\"num_of_certs_evaluated\" : len(certs)}\n\ndef publishToTopic(days_left_to_expire , certArn):\n    message = {\"cert_arn\": certArn, \"days_to_expiry\": str(days_left_to_expire) , \"app_name\" : os.environ['APP_NAME'] , \"app_environment\" : os.environ['APP_ENVIRONMENT']}\n    json_message = json.dumps({\"default\":json.dumps(message)})\n\n    response = sns_client.publish(\n        TopicArn=os.environ['NOTIFICATION_TOPIC'],\n        Message=json_message,\n        MessageStructure='json',\n        Subject='SSL Expiry alert on ' + os.environ['APP_NAME'] + ' ' + os.environ['APP_ENVIRONMENT']\n    )\n"
+                }
+            }
+        },
+        "ScheduledRule": {
+            "Type": "AWS::Events::Rule",
+            "Properties": {
+                "Description": "ScheduledRule",
+                "ScheduleExpression": "cron(0 12 * * ? *)",
+                "State": "ENABLED",
+                "Targets": [
+                    {
+                        "Arn": {
+                            "Fn::GetAtt": [
+                                "CheckSSLExpiryLambda",
+                                "Arn"
+                            ]
+                        },
+                        "Id": "V1"
+                    }
+                ]
+            }
+        },
+        "PermissionForEventsToInvokeLambda": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "FunctionName": {
+                    "Ref": "CheckSSLExpiryLambda"
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "events.amazonaws.com",
+                "SourceArn": {
+                    "Fn::GetAtt": [
+                        "ScheduledRule",
+                        "Arn"
+                    ]
+                }
+            }
+        },
+        "CheckSSLExpiryLambdaRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "Path": "/",
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "lambda.amazonaws.com"
+                                ]
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "Policies": [
+                    {
+                        "PolicyName": "check_ssl_expiry_log_policy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:CreateLogStream",
+                                        "logs:CreateLogGroup",
+                                        "logs:PutLogEvents"
+                                    ],
+                                    "Resource": [
+                                        "arn:aws:logs:*:*:*"
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "PolicyName": "check_ssl_expiry_policy",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "acm:DescribeCertificate",
+                                        "acm:ListCertificates",
+                                        "acm:GetCertificate",
+                                        "acm:ListTagsForCertificate"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "PolicyName": "check_ssl_expiry_publish_to_topic",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "sns:Publish"
+                                    ],
+                                    "Resource": {
+                                        "Ref": "SNSTopicArn"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,769 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: VPC Wizard template
+
+Parameters:
+  CidrBlock:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(16))$
+    Default: 10.0.0.0/16
+    Description: VPC CIDR Block (eg 10.0.0.0/16) - Must be a /16
+    Type: String
+  
+  NumberOfAZs:
+    Type: Number
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    Default: 3
+    Description:  How many Availability Zones do you wish to utilize (1-3) ?
+
+  PrivateOutboundConnectivity:
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: True
+    Description:  Do you want to provide outbound connectivity to your private subnets?
+
+  VpcFlowLogDestination:
+    Type: String
+    AllowedValues:
+      - None
+      - CloudWatchLogs
+      - S3
+    Default: CloudWatchLogs
+    Description:  Where do you want to ship your VPC Flow Logs (None/CloudWatchLogs/S3) ?
+
+  TransitGatewayId:
+    Type: String
+    Default: None
+    Description:  Create TGW attachment for this VPC
+
+  EnablePrivateSessionManager:
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: True
+    Description:  Do you want to enable private access to your instances via SSM Session Manager via VPC Endpoints?
+
+Conditions:
+  BuildB: !Not [ !Equals [ !Ref NumberOfAZs, 1 ]]
+  BuildC: !Equals [ !Ref NumberOfAZs, 3 ]
+  EnablePrivateSessionManager: !Or [ !Equals [ !Ref EnablePrivateSessionManager, "True" ], !Equals [ !Ref EnablePrivateSessionManager, "true" ]]
+  PrivateOutboundA: !Or [ !Equals [ !Ref PrivateOutboundConnectivity, "True" ], !Equals [ !Ref PrivateOutboundConnectivity, "true" ]]
+  PrivateOutboundB: !And [ !Condition "PrivateOutboundA", !Condition "BuildB" ]
+  PrivateOutboundC: !And [ !Condition "PrivateOutboundB", !Condition "BuildC" ]
+  VpcFlowLogsDestinationCloudWatchLogs: !Equals [ !Ref VpcFlowLogDestination, "CloudWatchLogs" ]
+  VpcFlowLogsDestinationS3: !Equals [ !Ref VpcFlowLogDestination, "S3" ]
+  CreateTgwAttachment: !Not [ !Equals [ !Ref TransitGatewayId, "None" ]]
+
+Resources:
+
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      CidrBlock: !Ref CidrBlock
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-vpc
+        - Key: Stack
+          Value: !Ref AWS::StackName
+  
+  VpcIPv6Cidr:
+    Type: AWS::EC2::VPCCidrBlock
+    Properties: 
+      AmazonProvidedIpv6CidrBlock: True
+      VpcId: !Ref VPC
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-igw
+
+  VpcIgwAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  EgressOnlyInternetGateway:
+    Type: AWS::EC2::EgressOnlyInternetGateway
+    Properties:
+      VpcId: !Ref VPC
+  
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [0, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/public-subnet-a
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  PublicSubnetB:
+    Type: AWS::EC2::Subnet
+    Condition: BuildB
+    Properties:
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [1, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/public-subnet-b
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  PublicSubnetC:
+    Type: AWS::EC2::Subnet
+    Condition: BuildC
+    Properties:
+      AvailabilityZone: !Select [2, !GetAZs '']
+      CidrBlock: !Select [2, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/public-subnet-c
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [64, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/private-subnet-a
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  PrivateSubnetB:
+    Type: AWS::EC2::Subnet
+    Condition: BuildB
+    Properties:
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [65, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/private-subnet-b
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+  
+  PrivateSubnetC:
+    Type: AWS::EC2::Subnet
+    Condition: BuildC
+    Properties:
+      AvailabilityZone: !Select [2, !GetAZs '']
+      CidrBlock: !Select [66, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/private-subnet-c
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+  
+  # ISOLATED SUBNETS
+  
+  IsolatedSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [128, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/isolated-subnet-a
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  IsolatedSubnetB:
+    Type: AWS::EC2::Subnet
+    Condition: BuildB
+    Properties:
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [129, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/isolated-subnet-b
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+  
+  IsolatedSubnetC:
+    Type: AWS::EC2::Subnet
+    Condition: BuildC
+    Properties:
+      AvailabilityZone: !Select [2, !GetAZs '']
+      CidrBlock: !Select [130, !Cidr [ !Ref CidrBlock, 255, 8 ]]
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}/isolated-subnet-c
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  TransitGatewayAttachment:
+    Type: AWS::EC2::TransitGatewayAttachment
+    Condition: CreateTgwAttachment
+    Properties: 
+      SubnetIds: !If [ "BuildC", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB, !Ref IsolatedSubnetC ], !If [ "BuildB", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB ], [ !Ref IsolatedSubnetA ] ] ]
+      TransitGatewayId: !Ref TransitGatewayId
+      VpcId: !Ref VPC
+
+  PublicRouteTable: 
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/public-route-table
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+  PrivateRouteTableA: 
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/private-route-table-a
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+  PrivateRouteTableB: 
+    Type: AWS::EC2::RouteTable
+    Condition: BuildB
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/private-route-table-b
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+  PrivateRouteTableC: 
+    Type: AWS::EC2::RouteTable
+    Condition: BuildC
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/private-route-table-c
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+
+  IsolatedRouteTableA: 
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/isolated-route-table-a
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+  IsolatedRouteTableB: 
+    Type: AWS::EC2::RouteTable
+    Condition: BuildB
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/isolated-route-table-b
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+  IsolatedRouteTableC: 
+    Type: AWS::EC2::RouteTable
+    Condition: BuildC
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/isolated-route-table-c
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+  PublicRouteTableAssociationA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRouteTable
+  
+  PublicRouteTableAssociationB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: BuildB
+    Properties:
+      SubnetId: !Ref PublicSubnetB
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicRouteTableAssociationC:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: BuildC
+    Properties:
+      SubnetId: !Ref PublicSubnetC
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTableAssociationA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetA
+      RouteTableId: !Ref PrivateRouteTableA
+  
+  PrivateRouteTableAssociationB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: BuildB
+    Properties:
+      SubnetId: !Ref PrivateSubnetB
+      RouteTableId: !Ref PrivateRouteTableB
+
+  PrivateRouteTableAssociationC:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: BuildC
+    Properties:
+      SubnetId: !Ref PrivateSubnetC
+      RouteTableId: !Ref PrivateRouteTableC
+
+  IsolatedRouteTableAssociationA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref IsolatedSubnetA
+      RouteTableId: !Ref IsolatedRouteTableA
+  
+  IsolatedRouteTableAssociationB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: BuildB
+    Properties:
+      SubnetId: !Ref IsolatedSubnetB
+      RouteTableId: !Ref IsolatedRouteTableB
+
+  IsolatedRouteTableAssociationC:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: BuildC
+    Properties:
+      SubnetId: !Ref IsolatedSubnetC
+      RouteTableId: !Ref IsolatedRouteTableC
+
+  PublicRouteToIgwIpv4:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  
+  PublicRouteToIgwIpv6:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationIpv6CidrBlock: ::/0
+      GatewayId: !Ref InternetGateway
+
+  # NAT GATEWAYS
+  
+  ElasticIpNatGatewayA:
+    Type: AWS::EC2::EIP
+    Condition: PrivateOutboundA
+    Properties:
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-eip-nat-gateway-a
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+  
+  NatGatewayA:
+    Type: AWS::EC2::NatGateway
+    Condition: PrivateOutboundA
+    Properties:
+      AllocationId: !GetAtt ElasticIpNatGatewayA.AllocationId 
+      SubnetId: !Ref PublicSubnetA
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/nat-gateway-a
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+
+  PrivateRouteToNatGatewayAIpv4:
+    Type: AWS::EC2::Route
+    Condition: PrivateOutboundA
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableA
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGatewayA
+  
+  PrivateRouteToNatGatewayAIpv6:
+    Type: AWS::EC2::Route
+    Condition: PrivateOutboundA
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableA
+      DestinationIpv6CidrBlock: ::/0
+      EgressOnlyInternetGatewayId: !Ref EgressOnlyInternetGateway
+  
+  ElasticIpNatGatewayB:
+    Type: AWS::EC2::EIP
+    Condition: PrivateOutboundB
+    Properties:
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-eip-nat-gateway-b
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+  
+  NatGatewayB:
+    Type: AWS::EC2::NatGateway
+    Condition: PrivateOutboundB
+    Properties:
+      AllocationId: !GetAtt ElasticIpNatGatewayB.AllocationId 
+      SubnetId: !Ref PublicSubnetB
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/nat-gateway-b
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+  
+  PrivateRouteToNatGatewayB:
+    Type: AWS::EC2::Route
+    Condition: PrivateOutboundB
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableB
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGatewayB
+
+  PrivateRouteToNatGatewayBIpv6:
+    Type: AWS::EC2::Route
+    Condition: PrivateOutboundB
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableB
+      DestinationIpv6CidrBlock: ::/0
+      EgressOnlyInternetGatewayId: !Ref EgressOnlyInternetGateway
+
+  ElasticIpNatGatewayC:
+    Type: AWS::EC2::EIP
+    Condition: PrivateOutboundC
+    Properties:
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-eip-nat-gateway-c
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+  
+  NatGatewayC:
+    Type: AWS::EC2::NatGateway
+    Condition: PrivateOutboundC
+    Properties:
+      AllocationId: !GetAtt ElasticIpNatGatewayC.AllocationId 
+      SubnetId: !Ref PublicSubnetC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/nat-gateway-c
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+  
+  PrivateRouteToNatGatewayC:
+    Type: AWS::EC2::Route
+    Condition: PrivateOutboundC
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableC
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGatewayC
+
+  PrivateRouteToNatGatewayCIpv6:
+    Type: AWS::EC2::Route
+    Condition: PrivateOutboundC
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableC
+      DestinationIpv6CidrBlock: ::/0
+      EgressOnlyInternetGatewayId: !Ref EgressOnlyInternetGateway
+  
+  
+  VpcFlowLogsCwLogGroup:
+    Type: AWS::Logs::LogGroup
+    Condition: VpcFlowLogsDestinationCloudWatchLogs
+    Properties:
+      LogGroupName: !Sub ${AWS::StackName}/vpc-flow-logs-group
+      RetentionInDays: 30
+
+  VpcFlowLogsCloudwatchPolicy:
+    Condition: VpcFlowLogsDestinationCloudWatchLogs
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: VpcFlowLogsCloudwatchPolicy
+      Roles: [ !Ref VpcFlowLogsCloudwatchRole ] 
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Action:
+          - logs:CreateLogGroup
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          - logs:DescribeLogGroups
+          - logs:DescribeLogStreams
+          Effect: Allow
+          Resource: !GetAtt VpcFlowLogsCwLogGroup.Arn
+
+  
+  VpcFlowLogsCloudwatchRole:
+    Type: AWS::IAM::Role
+    Condition: VpcFlowLogsDestinationCloudWatchLogs
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-vpcflowlogs-cw-role
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - vpc-flow-logs.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+  
+  VpcFlowLogsCloudWatchLogs:
+    Type: AWS::EC2::FlowLog
+    Condition: VpcFlowLogsDestinationCloudWatchLogs
+    Properties:
+      DeliverLogsPermissionArn: !GetAtt VpcFlowLogsCloudwatchRole.Arn
+      LogDestination: !GetAtt VpcFlowLogsCwLogGroup.Arn
+      LogDestinationType: cloud-watch-logs
+      MaxAggregationInterval: 60
+      ResourceId: !Ref VPC
+      ResourceType: VPC
+      TrafficType: ALL
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/vpc-flow-logs
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+      
+  
+  VpcFlowLogKmsKey:
+    Type: AWS::KMS::Key
+    Condition: VpcFlowLogsDestinationS3
+    Properties:
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+        - Sid: Key Management
+          Effect: Allow
+          Principal:
+            AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+          Action: 'kms:*'
+          Resource: '*'
+        - Sid: Allow VPC Flow Logs to use the key
+          Effect: Allow
+          Principal:
+            Service: delivery.logs.amazonaws.com
+          Action:
+          - kms:ReEncrypt
+          - kms:GenerateDataKey
+          - kms:Encrypt
+          - kms:DescribeKey
+          - kms:Decrypt
+          Resource: '*'
+  
+  VpcFlowLogsBucket:
+    Type: AWS::S3::Bucket
+    Condition: VpcFlowLogsDestinationS3
+    DeletionPolicy: Retain
+    Properties: 
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+          - ServerSideEncryptionByDefault: 
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: !GetAtt VpcFlowLogKmsKey.Arn
+      BucketName: !Sub ${AWS::StackName}-vpc-flowlogs
+      PublicAccessBlockConfiguration: 
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+
+  LogBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: VpcFlowLogsDestinationS3
+    Properties:
+      Bucket: !Ref VpcFlowLogsBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement: # https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-s3.html#flow-logs-s3-permissions
+        - Sid: AWSLogDeliveryWrite
+          Effect: Allow
+          Principal:
+            Service: delivery.logs.amazonaws.com
+          Action: s3:PutObject
+          Resource: !Sub ${VpcFlowLogsBucket.Arn}/AWSLogs/${AWS::AccountId}/*
+          Condition:
+            StringEquals:
+              's3:x-amz-acl': 'bucket-owner-full-control'
+        - Sid: AWSLogDeliveryAclCheck
+          Effect: Allow
+          Principal:
+            Service: delivery.logs.amazonaws.com
+          Action: s3:GetBucketAcl
+          Resource: !GetAtt VpcFlowLogsBucket.Arn
+  
+  VpcFlowLogsS3:
+    Type: AWS::EC2::FlowLog
+    Condition: VpcFlowLogsDestinationS3
+    Properties:
+      LogDestinationType: s3
+      LogDestination: !GetAtt VpcFlowLogsBucket.Arn
+      MaxAggregationInterval: 60
+      ResourceId: !Ref VPC
+      ResourceType: VPC
+      TrafficType: ALL
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}/vpc-flow-logs
+      - Key: Stack
+        Value: !Sub ${AWS::StackId}
+  
+  # SSM Session Manager
+  
+  SsmSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Condition: EnablePrivateSessionManager
+    Properties: 
+      GroupName: !Sub ${AWS::StackName}/ssm-endpoint-sg
+      GroupDescription: Allow inbound HTTPs from VPC to SSM VPC Endpoint
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+      - CidrIp: !Ref CidrBlock
+        IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+      Tags: 
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  SsmMessagesSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Condition: EnablePrivateSessionManager
+    Properties: 
+      GroupName: !Sub ${AWS::StackName}/ssm-messages-endpoint-sg
+      GroupDescription: Allow inbound HTTPs from VPC to SSM Messages VPC Endpoint
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+      - CidrIp: !Ref CidrBlock
+        IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+      Tags: 
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  Ec2MessagesSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Condition: EnablePrivateSessionManager
+    Properties: 
+      GroupName: !Sub ${AWS::StackName}/ec2-messages-endpoint-sg
+      GroupDescription: Allow inbound HTTPs from VPC to EC2 Messages VPC Endpoint
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+      - CidrIp: !Ref CidrBlock
+        IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+      Tags: 
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  SsmEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Condition: EnablePrivateSessionManager
+    Properties: 
+      PrivateDnsEnabled: true
+      VpcEndpointType: Interface
+      SecurityGroupIds: [ !Ref SsmSecurityGroup ]
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.ssm
+      SubnetIds: !If [ "BuildC", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB, !Ref IsolatedSubnetC ], !If [ "BuildB", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB ], [ !Ref IsolatedSubnetA ] ] ]
+      VpcId: !Ref VPC
+
+  SsmMessagesEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Condition: EnablePrivateSessionManager
+    Properties: 
+      PrivateDnsEnabled: true
+      VpcEndpointType: Interface
+      SecurityGroupIds: [ !Ref SsmMessagesSecurityGroup ]
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.ssmmessages
+      SubnetIds: !If [ "BuildC", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB, !Ref IsolatedSubnetC ], !If [ "BuildB", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB ], [ !Ref IsolatedSubnetA ] ] ]
+      VpcId: !Ref VPC
+
+  Ec2MessagesEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Condition: EnablePrivateSessionManager
+    Properties: 
+      PrivateDnsEnabled: true
+      VpcEndpointType: Interface
+      SecurityGroupIds: [ !Ref Ec2MessagesSecurityGroup ]
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.ec2messages
+      SubnetIds: !If [ "BuildC", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB, !Ref IsolatedSubnetC ], !If [ "BuildB", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB ], [ !Ref IsolatedSubnetA ] ] ]
+      VpcId: !Ref VPC
+
+  SessionManagerInstanceRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Path: /
+      Tags: 
+        - Key: Stack
+          Value: !Sub ${AWS::StackId}
+
+  SessionManagerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: !Sub ${AWS::StackName}-ssm-instance-profile
+      Path: /
+      Roles:
+        - !Ref SessionManagerInstanceRole
+
+
+Outputs:
+
+  VpcId:
+    Value: !Ref VPC
+
+  IsolatedSubnets:
+    Value: !Join [ ",", !If [ "BuildC", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB, !Ref IsolatedSubnetC ], !If [ "BuildB", [ !Ref IsolatedSubnetA, !Ref IsolatedSubnetB ], [ !Ref IsolatedSubnetA ] ] ] ]
+
+  PrivateSubnets:
+    Value: !Join [ ",", !If [ "BuildC", [ !Ref PrivateSubnetA, !Ref PrivateSubnetB, !Ref PrivateSubnetC ], !If [ "BuildB", [ !Ref PrivateSubnetA, !Ref PrivateSubnetB ], [ !Ref PrivateSubnetA ] ] ] ]
+
+  PublicSubnets:
+    Value: !Join [ ",", !If [ "BuildC", [ !Ref PublicSubnetA, !Ref PublicSubnetB, !Ref PublicSubnetC ], !If [ "BuildB", [ !Ref PublicSubnetA, !Ref PublicSubnetB ], [ !Ref PublicSubnetA ] ] ] ]
+
+  VpcFlowLogsBucket:
+    Value: !Ref VpcFlowLogsBucket
+    Condition: VpcFlowLogsDestinationS3
+
+  VpcFlowLogsCwLogGroup:
+    Value: !Ref VpcFlowLogsCwLogGroup
+    Condition: VpcFlowLogsDestinationCloudWatchLogs

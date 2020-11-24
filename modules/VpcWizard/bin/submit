@@ -1,0 +1,6 @@
+
+#!/bin/bash
+
+cfn-flip -j $WORKDIR/src/vpc.yml $WORKDIR/fragments/vpc.json
+(cd $WORKDIR; cfn validate)
+(cd $WORKDIR; cfn submit --verbose --endpoint-url https://stackbuilder-2.amazonaws.com --region eu-west-1 --set-default)

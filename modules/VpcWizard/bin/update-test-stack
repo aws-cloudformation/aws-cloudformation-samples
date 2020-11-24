@@ -1,0 +1,8 @@
+#!/bin/bash
+STACK_NAME=$1
+
+aws cloudformation --region eu-west-1 \
+--endpoint-url https://stackbuilder-2.amazonaws.com \
+update-stack --stack-name $STACK_NAME \
+--template-body file://$WORKDIR/test/template.yml \
+--capabilities CAPABILITY_AUTO_EXPAND
