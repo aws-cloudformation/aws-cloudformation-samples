@@ -1,6 +1,6 @@
 # S3 Bucket Blog Cloudformation module
 
-This Cloudformation module makes it easy and quick to deploy a S3 bucket and is the template referenced in the blog.
+This Cloudformation module makes it easy and quick to deploy a S3 bucket and is the template referenced in the [blog](https://aws.amazon.com/blogs/mt/introducing-aws-cloudformation-modules/).
 
 You can use the module by consuming it from a normal Cloudformation template as follows:
 
