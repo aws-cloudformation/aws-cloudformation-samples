@@ -1,0 +1,5 @@
+{
+    "artifact_type": "MODULE",
+    "typeName": "AWSSamples::EC2ImageBuilder::GoldenAMI::MODULE",
+    "settings": {}
+}
