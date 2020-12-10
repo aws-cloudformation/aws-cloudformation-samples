@@ -1,0 +1,746 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "This module uses EC2 Image Builder to create, on a monthly schedule, an example golden Amazon Machine Image (AMI) based on the latest version of the parent image you choose.  Components applied to golden images with this module include latest security updates.  High, medium, and low severity Security Technical Implementation Guide (STIG) settings are applied to golden images based on parent images that include Amazon Linux 2 and Windows Server (1909, 2004, 2012 r2, 2016, 2019).  Tests for golden images include simple boot tests and reboot tests.  Image Builder logs are stored into an S3 bucket, that is created and set up with a lifecycle rule to transition objects to the Standard-IA class after 30 days, to the Glacier class after 60 days and to expire objects after 365 days.",
+  "Parameters": {
+    "OrganizationBusinessUnitName": {
+      "Default": "ExampleBusinessUnit",
+      "Description": "Please specify the name of your business unit.",
+      "Type": "String"
+    },
+    "OrganizationName": {
+      "Default": "ExampleOrganization",
+      "Description": "Please specify the name of your organization.",
+      "Type": "String"
+    },
+    "ParentImage": {
+      "AllowedValues": [
+        "amazon-linux-2-arm64",
+        "amazon-linux-2-x86",
+        "centos-linux-7-minimal-x86",
+        "centos-linux-8-x86",
+        "red-hat-enterprise-linux-7-x86",
+        "red-hat-enterprise-linux-8-x86",
+        "ubuntu-server-16-lts-x86",
+        "ubuntu-server-18-lts-x86",
+        "ubuntu-server-20-lts-x86",
+        "windows-server-1909-english-core-base-x86",
+        "windows-server-2004-english-core-base-x86",
+        "windows-server-2012-r2-rtm-english-base-x86",
+        "windows-server-2012-r2-rtm-english-core-x86",
+        "windows-server-2016-english-core-base-x86",
+        "windows-server-2016-english-full-base-x86",
+        "windows-server-2016-english-full-sql-2017-enterprise-x86",
+        "windows-server-2016-english-full-sql-2017-standard-x86",
+        "windows-server-2019-english-core-base-x86",
+        "windows-server-2019-english-core-ecs-optimized-x86",
+        "windows-server-2019-english-full-base-x86",
+        "windows-server-2019-english-full-sql-2017-enterprise-x86",
+        "windows-server-2019-english-full-sql-2017-standard-x86",
+        "windows-server-2019-english-full-sql-2019-enterprise-x86",
+        "windows-server-2019-english-full-sql-2019-standard-x86"
+      ],
+      "Default": "amazon-linux-2-x86",
+      "Description": "Please specify the parent image you wish to use.",
+      "Type": "String"
+    }
+  },
+  "Mappings": {
+    "ImageMap": {
+      "amazon-linux-2-arm64": {
+        "DeviceName": "/dev/xvda",
+        "ImageBuilderLogsS3BucketNamePrefix": "amazon-linux-2-arm64",
+        "InstanceTypes": [
+          "m6g.large",
+          "m6g.xlarge"
+        ],
+        "VolumeSize": "8"
+      },
+      "amazon-linux-2-x86": {
+        "DeviceName": "/dev/xvda",
+        "ImageBuilderLogsS3BucketNamePrefix": "amazon-linux-2-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "8"
+      },
+      "centos-linux-7-minimal-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "centos-linux-7-minimal-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "8"
+      },
+      "centos-linux-8-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "centos-linux-8-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "10"
+      },
+      "red-hat-enterprise-linux-7-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "rhel-7-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "10"
+      },
+      "red-hat-enterprise-linux-8-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "rhel-8-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "10"
+      },
+      "ubuntu-server-16-lts-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "ubuntu-server-16-lts-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "8"
+      },
+      "ubuntu-server-18-lts-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "ubuntu-server-18-lts-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "8"
+      },
+      "ubuntu-server-20-lts-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "ubuntu-server-20-lts-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "8"
+      },
+      "windows-server-1909-english-core-base-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv1909-eng-core-base-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2004-english-core-base-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2004-eng-core-base-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2012-r2-rtm-english-base-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2012r2-rtm-eng-base-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2012-r2-rtm-english-core-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2012r2-rtm-eng-core-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2016-english-core-base-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2016-eng-core-base-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2016-english-full-base-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2016-eng-full-base-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2016-english-full-sql-2017-enterprise-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2016-eng-full-sql2017-ent-x86",
+        "InstanceTypes": [
+          "m5.xlarge",
+          "m5.2xlarge"
+        ],
+        "VolumeSize": "50"
+      },
+      "windows-server-2016-english-full-sql-2017-standard-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2016-eng-full-sql2017-std-x86",
+        "InstanceTypes": [
+          "m5.xlarge",
+          "m5.2xlarge"
+        ],
+        "VolumeSize": "50"
+      },
+      "windows-server-2019-english-core-base-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2019-eng-core-base-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2019-english-core-ecs-optimized-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2019-eng-core-ecs-optmzd-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "50"
+      },
+      "windows-server-2019-english-full-base-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2019-eng-full-base-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "30"
+      },
+      "windows-server-2019-english-full-sql-2017-enterprise-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2019-eng-full-sql2017-ent-x86",
+        "InstanceTypes": [
+          "m5.xlarge",
+          "m5.2xlarge"
+        ],
+        "VolumeSize": "50"
+      },
+      "windows-server-2019-english-full-sql-2017-standard-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2019-eng-full-sql2017-std-x86",
+        "InstanceTypes": [
+          "m5.xlarge",
+          "m5.2xlarge"
+        ],
+        "VolumeSize": "50"
+      },
+      "windows-server-2019-english-full-sql-2019-enterprise-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2019-eng-full-sql2019-ent-x86",
+        "InstanceTypes": [
+          "m5.xlarge",
+          "m5.2xlarge"
+        ],
+        "VolumeSize": "50"
+      },
+      "windows-server-2019-english-full-sql-2019-standard-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "winsrv2019-eng-full-sql2019-std-x86",
+        "InstanceTypes": [
+          "m5.xlarge",
+          "m5.2xlarge"
+        ],
+        "VolumeSize": "50"
+      }
+    }
+  },
+  "Conditions": {
+    "IsAmazonLinux2": {
+      "Fn::And": [
+        {
+          "Fn::Equals": [
+            "amazon",
+            {
+              "Fn::Select": [
+                "0",
+                {
+                  "Fn::Split": [
+                    "-",
+                    {
+                      "Ref": "ParentImage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Fn::Equals": [
+            "linux",
+            {
+              "Fn::Select": [
+                "1",
+                {
+                  "Fn::Split": [
+                    "-",
+                    {
+                      "Ref": "ParentImage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Fn::Equals": [
+            "2",
+            {
+              "Fn::Select": [
+                "2",
+                {
+                  "Fn::Split": [
+                    "-",
+                    {
+                      "Ref": "ParentImage"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "IsWindowsPlatform": {
+      "Fn::Equals": [
+        "windows",
+        {
+          "Fn::Select": [
+            "0",
+            {
+              "Fn::Split": [
+                "-",
+                {
+                  "Ref": "ParentImage"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Resources": {
+    "DistributionConfiguration": {
+      "Type": "AWS::ImageBuilder::DistributionConfiguration",
+      "Properties": {
+        "Description": {
+          "Fn::Sub": "Golden-AMI-${ParentImage} distribution configuration"
+        },
+        "Distributions": [
+          {
+            "AmiDistributionConfiguration": {
+              "AmiTags": {
+                "Name": {
+                  "Fn::Sub": "Golden-AMI-${ParentImage}-{{ imagebuilder:buildDate }}"
+                }
+              },
+              "Description": {
+                "Fn::Sub": "Golden-AMI-${ParentImage} distribution configuration"
+              },
+              "Name": {
+                "Fn::Sub": "Golden-AMI-${ParentImage}-{{ imagebuilder:buildDate }}"
+              }
+            },
+            "Region": {
+              "Ref": "AWS::Region"
+            }
+          }
+        ],
+        "Name": {
+          "Fn::Sub": "Golden-AMI-${ParentImage}"
+        },
+        "Tags": {
+          "Name": {
+            "Fn::Sub": "Golden-AMI-${ParentImage}"
+          },
+          "OrganizationBusinessUnitName": {
+            "Ref": "OrganizationBusinessUnitName"
+          },
+          "OrganizationName": {
+            "Ref": "OrganizationName"
+          }
+        }
+      }
+    },
+    "ImageBuilderLogsS3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private",
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "aws:kms"
+              }
+            }
+          ]
+        },
+        "BucketName": {
+          "Fn::Sub": [
+            "${Param1}-${AWS::Region}-${AWS::AccountId}",
+            {
+              "Param1": {
+                "Fn::FindInMap": [
+                  "ImageMap",
+                  {
+                    "Ref": "ParentImage"
+                  },
+                  "ImageBuilderLogsS3BucketNamePrefix"
+                ]
+              }
+            }
+          ]
+        },
+        "LifecycleConfiguration": {
+          "Rules": [
+            {
+              "ExpirationInDays": "365",
+              "Id": "TransitionAndExpirationRule",
+              "Status": "Enabled",
+              "Transitions": [
+                {
+                  "StorageClass": "STANDARD_IA",
+                  "TransitionInDays": 30
+                },
+                {
+                  "StorageClass": "GLACIER",
+                  "TransitionInDays": 60
+                }
+              ]
+            }
+          ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Sub": "Golden-AMI-${ParentImage}"
+            }
+          },
+          {
+            "Key": "OrganizationBusinessUnitName",
+            "Value": {
+              "Ref": "OrganizationBusinessUnitName"
+            }
+          },
+          {
+            "Key": "OrganizationName",
+            "Value": {
+              "Ref": "OrganizationName"
+            }
+          }
+        ]
+      }
+    },
+    "ImageBuilderLogsStorageIntoS3Policy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:PutObject"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Sub": "${ImageBuilderLogsS3Bucket.Arn}/*"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "StoreImageBuilderLogsIntoS3Bucket",
+        "Roles": [
+          {
+            "Ref": "Role"
+          }
+        ]
+      }
+    },
+    "ImagePipeline": {
+      "Type": "AWS::ImageBuilder::ImagePipeline",
+      "Properties": {
+        "Description": {
+          "Fn::Sub": "Golden-AMI-${ParentImage} image pipeline"
+        },
+        "DistributionConfigurationArn": {
+          "Ref": "DistributionConfiguration"
+        },
+        "ImageRecipeArn": {
+          "Ref": "ImageRecipe"
+        },
+        "ImageTestsConfiguration": {
+          "ImageTestsEnabled": true,
+          "TimeoutMinutes": 90
+        },
+        "InfrastructureConfigurationArn": {
+          "Ref": "InfrastructureConfiguration"
+        },
+        "Name": {
+          "Fn::Sub": "Golden-AMI-${ParentImage}"
+        },
+        "Schedule": {
+          "PipelineExecutionStartCondition": "EXPRESSION_MATCH_ONLY",
+          "ScheduleExpression": "cron(0 8 * * SUN#3)"
+        },
+        "Status": "ENABLED",
+        "Tags": {
+          "Name": {
+            "Fn::Sub": "Golden-AMI-${ParentImage}"
+          },
+          "OrganizationBusinessUnitName": {
+            "Ref": "OrganizationBusinessUnitName"
+          },
+          "OrganizationName": {
+            "Ref": "OrganizationName"
+          }
+        }
+      }
+    },
+    "ImageRecipe": {
+      "Type": "AWS::ImageBuilder::ImageRecipe",
+      "Properties": {
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": {
+              "Fn::FindInMap": [
+                "ImageMap",
+                {
+                  "Ref": "ParentImage"
+                },
+                "DeviceName"
+              ]
+            },
+            "Ebs": {
+              "DeleteOnTermination": true,
+              "Encrypted": true,
+              "VolumeSize": {
+                "Fn::FindInMap": [
+                  "ImageMap",
+                  {
+                    "Ref": "ParentImage"
+                  },
+                  "VolumeSize"
+                ]
+              }
+            }
+          }
+        ],
+        "Components": [
+          {
+            "Fn::If": [
+              "IsWindowsPlatform",
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/update-windows/1.0.0"
+                }
+              },
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/update-linux/1.0.0"
+                }
+              }
+            ]
+          },
+          {
+            "Fn::If": [
+              "IsWindowsPlatform",
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/stig-build-windows-high/1.2.0"
+                }
+              },
+              {
+                "Ref": "AWS::NoValue"
+              }
+            ]
+          },
+          {
+            "Fn::If": [
+              "IsAmazonLinux2",
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/stig-build-linux-high/2.8.0"
+                }
+              },
+              {
+                "Ref": "AWS::NoValue"
+              }
+            ]
+          },
+          {
+            "Fn::If": [
+              "IsWindowsPlatform",
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/simple-boot-test-windows/1.0.0"
+                }
+              },
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/simple-boot-test-linux/1.0.0"
+                }
+              }
+            ]
+          },
+          {
+            "Fn::If": [
+              "IsWindowsPlatform",
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/reboot-test-windows/1.0.0"
+                }
+              },
+              {
+                "ComponentArn": {
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/reboot-test-linux/1.0.0"
+                }
+              }
+            ]
+          }
+        ],
+        "Description": {
+          "Fn::Sub": "Golden-AMI-${ParentImage} image recipe"
+        },
+        "Name": {
+          "Fn::Sub": "Golden-AMI-${ParentImage}"
+        },
+        "ParentImage": {
+          "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:image/${ParentImage}/x.x.x"
+        },
+        "Tags": {
+          "Name": {
+            "Fn::Sub": "Golden-AMI-${ParentImage}"
+          },
+          "OrganizationBusinessUnitName": {
+            "Ref": "OrganizationBusinessUnitName"
+          },
+          "OrganizationName": {
+            "Ref": "OrganizationName"
+          }
+        },
+        "Version": "1.0.0"
+      }
+    },
+    "InfrastructureConfiguration": {
+      "Type": "AWS::ImageBuilder::InfrastructureConfiguration",
+      "Properties": {
+        "Description": {
+          "Fn::Sub": "Infrastructure configuration for building and testing the image based on ${ParentImage}."
+        },
+        "InstanceProfileName": {
+          "Ref": "InstanceProfile"
+        },
+        "InstanceTypes": {
+          "Fn::FindInMap": [
+            "ImageMap",
+            {
+              "Ref": "ParentImage"
+            },
+            "InstanceTypes"
+          ]
+        },
+        "Logging": {
+          "S3Logs": {
+            "S3BucketName": {
+              "Ref": "ImageBuilderLogsS3Bucket"
+            }
+          }
+        },
+        "Name": {
+          "Fn::Sub": "Golden-AMI-${ParentImage}"
+        },
+        "ResourceTags": {
+          "OrganizationBusinessUnitName": {
+            "Ref": "OrganizationBusinessUnitName"
+          },
+          "OrganizationName": {
+            "Ref": "OrganizationName"
+          }
+        },
+        "Tags": {
+          "Name": {
+            "Fn::Sub": "Golden-AMI-${ParentImage}"
+          },
+          "OrganizationBusinessUnitName": {
+            "Ref": "OrganizationBusinessUnitName"
+          },
+          "OrganizationName": {
+            "Ref": "OrganizationName"
+          }
+        },
+        "TerminateInstanceOnFailure": true
+      }
+    },
+    "InstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/EC2ImageBuilderGoldenAMI/",
+        "Roles": [
+          {
+            "Ref": "Role"
+          }
+        ]
+      }
+    },
+    "Role": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/EC2InstanceProfileForImageBuilder"
+          },
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
+          }
+        ],
+        "Path": "/EC2ImageBuilderGoldenAMI/"
+      }
+    }
+  }
+}
