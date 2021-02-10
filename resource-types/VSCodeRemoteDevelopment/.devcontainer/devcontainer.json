@@ -1,0 +1,35 @@
+{
+    "name": "AWS Cloud Dev Container",
+    "dockerFile": "Dockerfile",
+    // "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-18.04",
+
+    // Use 'settings' to set *default* container specific settings.json values on container create. 
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+
+    // Add the IDs of extensions you want installed when the container is created in the array below.
+    "extensions": [
+        "ms-python.python",
+        "vscode-snippet.snippet",
+        "4tron.stack-overflow-view",
+        "kenhowardpdx.vscode-gist",
+        "aws-amplify.aws-amplify-vscode",
+        "amazonwebservices.aws-toolkit-vscode",
+        "aws-scripting-guy.cform",
+        "ms-azuretools.vscode-docker"
+    ],
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [80],
+    
+    "workspaceFolder": "/mnt/efs/fs1/workspace",
+    "workspaceMount": "source=/mnt/efs/fs1/workspace,target=/mnt/efs/fs1/workspace,type=bind,consistency=cached",
+
+    // Mounts Docker socket into the container so that you can use Docker.
+    "mounts": [ 
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+        "source=/mnt/efs/fs1/home,target=/root,type=bind,consistency=cached",
+        "source=/mnt/efs/fs1/docker_init,target=/docker_init,type=bind,consistency=cached",
+    ]
+}

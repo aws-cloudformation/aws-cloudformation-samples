@@ -1,0 +1,19 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "DELETE",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+            "InstanceType":"m4.2xlarge",
+            "DiskSize":200,
+            "UID": "DevInstance-cdd083c5-f2c9-4107-9691-f2a173ae7b16"
+        },
+        "previousResourceState": null,
+        "logicalResourceIdentifier": null
+    },
+    "callbackContext": null
+}

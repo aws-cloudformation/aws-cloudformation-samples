@@ -1,0 +1,11 @@
+{
+    "typeName": "AWSSamples::Devtools::Devinstance",
+    "language": "typescript",
+    "runtime": "nodejs12.x",
+    "entrypoint": "dist/handlers.entrypoint",
+    "testEntrypoint": "dist/handlers.testEntrypoint",
+    "settings": {
+        "useDocker": true,
+        "protocolVersion": "2.0.0"
+    }
+}

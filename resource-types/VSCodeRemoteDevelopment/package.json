@@ -1,0 +1,35 @@
+{
+    "name": "awssamples-devtools-devinstance",
+    "version": "1.0.0",
+    "description": "AWS custom resource provider named AWSSamples::Devtools::Devinstance.",
+    "main": "dist/handlers.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "all": "npm install && npm run build && cfn submit --set-default",
+        "e2e": "npm run build && sam build --use-container && sam local invoke --event sam-tests/create.json TestEntrypoint",
+        "build": "npx tsc",
+        "prepack": "npm run build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@aws-cdk/aws-ec2": "npm:@rhaws/aws-ec2@^1.58.0",
+        "@aws-cdk/aws-ecs": "1.58.0",
+        "@aws-cdk/aws-efs": "1.58.0",
+        "@aws-cdk/aws-iam": "1.58.0",
+        "@aws-cdk/core": "1.58.0",
+        "@types/uuid": "^8.3.0",
+        "aws-cdk": "1.58.0",
+        "cfn-rpdk": "https://github.com/eduardomourar/cloudformation-cli-typescript-plugin/releases/download/v0.5.0/cfn-rpdk-0.5.0.tgz",
+        "source-map-support": "^0.5.16",
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "@types/node": "^12.19.16",
+        "typescript": "^3.8.3"
+    },
+    "optionalDependencies": {
+        "aws-sdk": "^2.656.0"
+    }
+}
