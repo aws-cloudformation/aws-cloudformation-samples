@@ -28,3 +28,7 @@ env.json
 
 # envrc
 .envrc
+
+# sam
+sam.log
+.aws-sam
