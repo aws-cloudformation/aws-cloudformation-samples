@@ -1,9 +1,6 @@
 import * as cdk from '@aws-cdk/core'
 import * as ec2 from '@aws-cdk/aws-ec2'
-import * as ecs from '@aws-cdk/aws-ecs'
 import * as iam from '@aws-cdk/aws-iam'
-import * as efs from '@aws-cdk/aws-efs'
-import * as fs from 'fs'
 import { v4 as uuidv4 } from 'uuid'
 
 export class DevinstanceStack extends cdk.Stack {

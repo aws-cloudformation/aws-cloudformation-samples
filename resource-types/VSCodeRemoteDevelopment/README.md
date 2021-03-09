@@ -49,8 +49,8 @@ npm run all
 The included Dockerfile has everything to build and submit the resource type. Provided that you are running on MacOS or Linux and have your AWS CLI config in `~/.aws`:
 
 ```
-git clone https://github.com/hypescaler/aws-vscode-remote-containers.git
-cd aws-vscode-remote-containers
+git clone https://github.com/aws-cloudformation/aws-cloudformation-samples.git
+cd aws-cloudformation-samples/resource-types/VSCodeRemoteDevelopment
 docker build . -t dev-container
 SRC=$(pwd) && docker run --rm -it -e SRC=$SRC -v /var/run/docker.sock:/var/run/docker.sock -v $SRC:$SRC -v ~/.aws:/root/.aws dev-container /bin/bash -c "cd \$SRC && eval \$(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && npm run all"
 ```
