@@ -20,6 +20,7 @@
         "centos-linux-8-x86",
         "red-hat-enterprise-linux-7-x86",
         "red-hat-enterprise-linux-8-x86",
+        "suse-linux-enterprise-server-15-x86",
         "ubuntu-server-16-lts-x86",
         "ubuntu-server-18-lts-x86",
         "ubuntu-server-20-lts-x86",
@@ -94,6 +95,15 @@
       "red-hat-enterprise-linux-8-x86": {
         "DeviceName": "/dev/sda1",
         "ImageBuilderLogsS3BucketNamePrefix": "rhel-8-x86",
+        "InstanceTypes": [
+          "m5.large",
+          "m5.xlarge"
+        ],
+        "VolumeSize": "10"
+      },
+      "suse-linux-enterprise-server-15-x86": {
+        "DeviceName": "/dev/sda1",
+        "ImageBuilderLogsS3BucketNamePrefix": "sles-15-x86",
         "InstanceTypes": [
           "m5.large",
           "m5.xlarge"
@@ -417,7 +427,7 @@
         "LifecycleConfiguration": {
           "Rules": [
             {
-              "ExpirationInDays": "365",
+              "ExpirationInDays": 365,
               "Id": "TransitionAndExpirationRule",
               "Status": "Enabled",
               "Transitions": [
@@ -510,7 +520,7 @@
         },
         "Schedule": {
           "PipelineExecutionStartCondition": "EXPRESSION_MATCH_ONLY",
-          "ScheduleExpression": "cron(0 8 * * SUN#3)"
+          "ScheduleExpression": "cron(0 8 ? * sun#3 *)"
         },
         "Status": "ENABLED",
         "Tags": {

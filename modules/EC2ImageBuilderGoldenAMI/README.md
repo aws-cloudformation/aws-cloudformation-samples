@@ -143,6 +143,7 @@ The module is designed to accept following information as inputs:
   - `centos-linux-8-x86`
   - `red-hat-enterprise-linux-7-x86`
   - `red-hat-enterprise-linux-8-x86`
+  - `suse-linux-enterprise-server-15-x86`
   - `ubuntu-server-16-lts-x86`
   - `ubuntu-server-18-lts-x86`
   - `ubuntu-server-20-lts-x86`
@@ -218,8 +219,8 @@ The _EC2 Image Builder GoldenAMI_ example module, by default:
   for the image pipeline: _run on the third Sunday of every month, at
   08:00 UTC;_ the relevant [cron
   expression](https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-cron.html)
-  used in the template to describe this example schedule is: `cron(0
-  8 * * SUN#3)`
+  used in the template to describe this example schedule is: `cron(0 8
+  ? * sun#3 *)`
 
 - the module distributes the golden image, that it creates with EC2
   Image Builder, to the current account and region only
