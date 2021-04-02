@@ -58,6 +58,7 @@
         "centos-linux-8-x86",
         "red-hat-enterprise-linux-7-x86",
         "red-hat-enterprise-linux-8-x86",
+        "suse-linux-enterprise-server-15-x86",
         "ubuntu-server-16-lts-x86",
         "ubuntu-server-18-lts-x86",
         "ubuntu-server-20-lts-x86",
