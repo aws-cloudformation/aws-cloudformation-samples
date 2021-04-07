@@ -1,8 +1,8 @@
 {
     "typeName": "Example::Monitoring::Website",
     "description": "During the creation of a simple website you may want to provision a third-party website monitor, which has a public API.",
-    "sourceUrl": "https://github.com/eduardomourar/example-aws-resource-type.git",
-    "documentationUrl": "https://github.com/eduardomourar/example-aws-resource-type/blob/master/docs/README.md",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples.git",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/resource-types/typescript-example-website-monitor/docs/README.md",
     "definitions": {},
     "properties": {
         "Id": {
