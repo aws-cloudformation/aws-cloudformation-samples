@@ -1,0 +1,32 @@
+{
+    "name": "example-monitoring-website",
+    "version": "0.1.0",
+    "description": "AWS custom resource provider named Example::Monitoring::Website.",
+    "private": true,
+    "main": "dist/handlers.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "npx tsc",
+        "prepack": "npm run build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "engines": {
+        "node": ">=12.0.0",
+        "npm": ">=6.9.0"
+    },
+    "dependencies": {
+        "cfn-rpdk": "npm:@org-formation/cfn-rpdk@^0.5.0",
+        "class-transformer": "0.3.1",
+        "node-fetch": "^3.0.0-beta.9"
+    },
+    "devDependencies": {
+        "@types/node": "^12.0.0",
+        "typescript": "^4.1.2",
+        "aws-sdk": "^2.656.0"
+    },
+    "optionalDependencies": {
+        "aws-sdk": "^2.656.0"
+    }
+}

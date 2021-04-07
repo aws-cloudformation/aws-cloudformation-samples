@@ -1,0 +1,31 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "UPDATE",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+            "Id": "<MY_RESOURCE_ID_HERE>",
+            "ApiKey": "<MY_API_KEY_HERE>",
+            "EndpointRegion": "<MY_REGION_HERE>",
+            "Name": "MyWebsiteMonitor",
+            "Uri": "https://aws.amazon.com",
+            "Frequency": 30
+        },
+        "previousResourceState": {
+            "Id": "<MY_RESOURCE_ID_HERE>",
+            "ApiKey": "<MY_API_KEY_HERE>",
+            "EndpointRegion": "<MY_REGION_HERE>",
+            "Name": "MyWebsiteMonitor",
+            "Uri": "https://aws.amazon.com",
+            "Frequency": 10
+        },
+        "logicalResourceIdentifier": "MyResource"
+    },
+    "callbackContext": null,
+    "awsAccountId": "123456789012",
+    "region": "eu-central-1"
+}
