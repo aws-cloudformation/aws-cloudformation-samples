@@ -1,0 +1,19 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "READ",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+            "Id": "<MY_RESOURCE_ID_HERE>"
+        },
+        "previousResourceState": null,
+        "logicalResourceIdentifier": "MyResource"
+    },
+    "callbackContext": null,
+    "awsAccountId": "123456789012",
+    "region": "eu-central-1"
+}

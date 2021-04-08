@@ -1,0 +1,125 @@
+{
+    "typeName": "Example::Monitoring::Website",
+    "description": "During the creation of a simple website you may want to provision a third-party website monitor, which has a public API.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples.git",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/resource-types/typescript-example-website-monitor/docs/README.md",
+    "definitions": {},
+    "properties": {
+        "Id": {
+            "description": "The ID of the website monitor.",
+            "type": "string",
+            "minLength": 1
+        },
+        "ApiKey": {
+            "description": "API Key that allows using the REST API on the monitors of an account.",
+            "type": "string",
+            "minLength": 1
+        },
+        "EndpointRegion": {
+            "description": "The region from the account, which will influence the endpoint to be called: https://synthetics.newrelic.com/synthetics/api (US - default) or https://synthetics.eu.newrelic.com/synthetics/api (EU).",
+            "type": "string",
+            "default": "US",
+            "enum": [
+                "US",
+                "EU"
+            ]
+        },
+        "Kind": {
+            "description": "The type of the website monitor. Default is SIMPLE (ping).",
+            "type": "string",
+            "default": "SIMPLE",
+            "enum": [
+                "SIMPLE",
+                "BROWSER",
+                "SCRIPT_API",
+                "SCRIPT_BROWSER"
+            ]
+        },
+        "Name": {
+            "description": "The friendly name of the website monitor.",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50
+        },
+        "Uri": {
+            "description": "The URI of your website that will be monitored.",
+            "type": "string",
+            "pattern": "^https?://[^\\s/$.?#].[^\\s]*$"
+        },
+        "Frequency": {
+            "description": "The frequency interval for the monitoring check (in minutes). Default is 5 minutes.",
+            "type": "integer",
+            "default": 5,
+            "enum": [
+                1,
+                5,
+                10,
+                15,
+                30,
+                60,
+                360,
+                720,
+                1440
+            ]
+        },
+        "Locations": {
+            "description": "The locations from where your website will be checked. Default to AWS_EU_CENTRAL_1 and AWS_US_WEST_1.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1
+        },
+        "Status": {
+            "description": "The status of your website monitoring. Default is MUTED.",
+            "type": "string",
+            "default": "MUTED",
+            "enum": [
+                "ENABLED",
+                "MUTED",
+                "DISABLED"
+            ]
+        },
+        "SlaThreshold": {
+            "description": "The SLA threshold for the monitoring check (in seconds). Default is 7 seconds.",
+            "type": "number",
+            "default": 7.0
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "ApiKey",
+        "Name",
+        "Uri"
+    ],
+    "createOnlyProperties": [
+        "/properties/Name"
+    ],
+    "readOnlyProperties": [
+        "/properties/Id",
+        "/properties/Kind",
+        "/properties/Locations",
+        "/properties/Status",
+        "/properties/SlaThreshold"
+    ],
+    "primaryIdentifier": [
+        "/properties/Id"
+    ],
+    "additionalIdentifiers": [
+        [ "/properties/Name" ]
+    ],
+    "handlers": {
+        "create": {
+            "permissions": []
+        },
+        "read": {
+            "permissions": []
+        },
+        "update": {
+            "permissions": []
+        },
+        "delete": {
+            "permissions": []
+        }
+    }
+}

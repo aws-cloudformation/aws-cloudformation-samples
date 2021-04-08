@@ -1,0 +1,23 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "CREATE",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+            "ApiKey": "<MY_API_KEY_HERE>",
+            "EndpointRegion": "<MY_REGION_HERE>",
+            "Name": "MyWebsiteMonitor",
+            "Uri": "https://aws.amazon.com",
+            "Frequency": 10
+        },
+        "previousResourceState": null,
+        "logicalResourceIdentifier": "MyResource"
+    },
+    "callbackContext": null,
+    "awsAccountId": "123456789012",
+    "region": "eu-central-1"
+}

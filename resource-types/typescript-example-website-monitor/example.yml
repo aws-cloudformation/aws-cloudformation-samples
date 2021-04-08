@@ -1,0 +1,39 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  apiKey:
+    Type: String
+    NoEcho: true
+
+  endpointRegion:
+    Type: String
+    Default: 'EU'
+
+  monitorName:
+    Type: String
+    Default: 'MyWebsiteMonitor'
+
+  websiteUrl:
+    Type: String
+    Default: 'https://aws.amazon.com'
+
+Resources:
+  MyWebsiteMonitor:
+    Type: Example::Monitoring::Website
+    Properties:
+      ApiKey: !Ref apiKey
+      EndpointRegion: !Ref endpointRegion
+      Name: !Ref monitorName
+      Uri: !Ref websiteUrl
+      Frequency: 10
+
+Outputs:
+  MonitoringId:
+    Value: !GetAtt MyWebsiteMonitor.Id
+    
+  MonitoringKind:
+    Value: !GetAtt MyWebsiteMonitor.Kind
+
+  MonitoringLocations:
+    Value: !Join [ ',', !GetAtt MyWebsiteMonitor.Locations ]

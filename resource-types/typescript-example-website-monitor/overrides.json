@@ -1,0 +1,6 @@
+{
+    "CREATE": {
+        "/ApiKey": "<MY_API_KEY_HERE>",
+        "/EndpointRegion": "<MY_REGION_HERE>"
+    }
+}
