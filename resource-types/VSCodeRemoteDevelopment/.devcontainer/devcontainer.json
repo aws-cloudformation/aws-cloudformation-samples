@@ -23,13 +23,12 @@
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     "forwardPorts": [80],
     
-    "workspaceFolder": "/mnt/efs/fs1/workspace",
-    "workspaceMount": "source=/mnt/efs/fs1/workspace,target=/mnt/efs/fs1/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/mnt/ebs/fs1/workspace",
+    "workspaceMount": "source=/mnt/ebs/fs1/workspace,target=/mnt/ebs/fs1/workspace,type=bind,consistency=cached",
 
     // Mounts Docker socket into the container so that you can use Docker.
     "mounts": [ 
         "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-        "source=/mnt/efs/fs1/home,target=/root,type=bind,consistency=cached",
-        "source=/mnt/efs/fs1/docker_init,target=/docker_init,type=bind,consistency=cached",
+        "source=/mnt/ebs/fs1/home,target=/root,type=bind,consistency=cached"
     ]
 }

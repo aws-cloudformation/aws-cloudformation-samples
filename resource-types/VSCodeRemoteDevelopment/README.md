@@ -92,7 +92,7 @@ Connect to the instance once via your ssh client so that you can accept the fing
 ssh ec2-user@ec2-3-122-69-112.eu-central-1.compute.amazonaws.com
 ```
 
-In this code repository, open `.vscode/settings.json` and set your SSH URI (e.g. `ssh://ec2-user@ec2-3-122-69-112.eu-central-1.compute.amazonaws.com`) for `docker.host`. 
+In this code repository, make a copy of `.vscode/settings.template.json`, name it `settings.json` and set your SSH URI (e.g. `ssh://ec2-user@ec2-3-122-69-112.eu-central-1.compute.amazonaws.com`) for `docker.host`. 
 
 Open this repository in VS Code, or, if you already did that, restart VS Code so that the config changes are applied.
 
