@@ -13,55 +13,55 @@ export class ResourceModel extends BaseModel {
 
     @Expose({ name: 'UID' })
     @Transform(
-        ({ value, key, obj, type }) =>
-            transformValue(String, 'UID', value, obj, []),
+        (value: any, obj: any) =>
+            transformValue(String, 'uID', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    UID?: Optional<string>;
+    uID?: Optional<string>;
     @Expose({ name: 'InstanceType' })
     @Transform(
-        ({ value, key, obj, type }) =>
-            transformValue(String, 'InstanceType', value, obj, []),
+        (value: any, obj: any) =>
+            transformValue(String, 'instanceType', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    InstanceType?: Optional<string>;
+    instanceType?: Optional<string>;
     @Expose({ name: 'DiskSize' })
     @Transform(
-        ({ value, key, obj, type }) =>
-            transformValue(Integer, 'DiskSize', value, obj, []),
+        (value: any, obj: any) =>
+            transformValue(Integer, 'diskSize', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    DiskSize?: Optional<integer>;
+    diskSize?: Optional<integer>;
     @Expose({ name: 'Keypair' })
     @Transform(
-        ({ value, key, obj, type }) =>
-            transformValue(String, 'Keypair', value, obj, []),
+        (value: any, obj: any) =>
+            transformValue(String, 'keypair', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    Keypair?: Optional<string>;
+    keypair?: Optional<string>;
     @Expose({ name: 'SSH' })
     @Transform(
-        ({ value, key, obj, type }) =>
-            transformValue(String, 'SSH', value, obj, []),
+        (value: any, obj: any) =>
+            transformValue(String, 'sSH', value, obj, []),
         {
             toClassOnly: true,
         }
     )
-    SSH?: Optional<string>;
+    sSH?: Optional<string>;
 
     @Exclude()
     public getPrimaryIdentifier(): Dict {
         const identifier: Dict = {};
-        if (this.UID != null) {
-            identifier[this.IDENTIFIER_KEY_UID] = this.UID;
+        if (this.uID != null) {
+            identifier[this.IDENTIFIER_KEY_UID] = this.uID;
         }
 
         // only return the identifier if it can be used, i.e. if all components are present

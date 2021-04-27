@@ -80,20 +80,20 @@ async function getResourceModelFromStack(session: Optional<SessionProxy>, stackN
 
     return new ResourceModel(
         {
-            UID: stackName,
-            InstanceType: props.instanceType,
-            DiskSize: parseInt(props.diskSize) as number,
-            Keypair: props.keypair,
-            SSH: outputs.ssh
+            uID: stackName,
+            instanceType: props.instanceType,
+            diskSize: parseInt(props.diskSize) as number,
+            keypair: props.keypair,
+            sSH: outputs.ssh
         }
     )
 }
 
 function getStackParametersFromModel(model: ResourceModel): AWS.CloudFormation.Parameters {
     return [
-        { ParameterKey: "keypair", ParameterValue: model.Keypair },
-        { ParameterKey: "instanceType", ParameterValue: model.InstanceType },
-        { ParameterKey: "diskSize", ParameterValue: model.DiskSize.toString() }
+        { ParameterKey: "keypair", ParameterValue: model.keypair },
+        { ParameterKey: "instanceType", ParameterValue: model.instanceType },
+        { ParameterKey: "diskSize", ParameterValue: model.diskSize.toString() }
     ]
 }
 
@@ -131,7 +131,7 @@ class Resource extends BaseResource<ResourceModel> {
         const state = callbackContext.state
 
         if (state === "creating") {
-            const uuid: string = model.UID
+            const uuid: string = model.uID
             const response = await getCfClient(session).describeStacks({ StackName: uuid }).promise()
             const stack = response.Stacks[0]
             if (stack.StackStatus === "CREATE_COMPLETE") {
@@ -139,7 +139,7 @@ class Resource extends BaseResource<ResourceModel> {
                     map[item.OutputKey] = item.OutputValue
                     return map
                 }, {})
-                model.SSH = outputs.ssh
+                model.sSH = outputs.ssh
                 progress.status = OperationStatus.Success
                 emptyContext(progress)
             } else if (cfFailed(stack.StackStatus)) {
@@ -150,7 +150,7 @@ class Resource extends BaseResource<ResourceModel> {
         } else {
 
             try {
-                if (model.SSH !== undefined || model.UID !== undefined) {
+                if (model.sSH !== undefined || model.uID !== undefined) {
                     return createErrorProgressEvent(new Error("The SSH and UID properties are read-only."), HandlerErrorCode.InvalidRequest)
                 }
                 const uuid: string = "DevInstance-" + uuidv4()
@@ -160,7 +160,7 @@ class Resource extends BaseResource<ResourceModel> {
                 setContext(progress, {
                     state: "creating"
                 })
-                model.UID = uuid
+                model.uID = uuid
             } catch (err) {
                 emptyContext(progress)
                 return createErrorProgressEvent(err, HandlerErrorCode.InvalidRequest)
@@ -199,7 +199,7 @@ class Resource extends BaseResource<ResourceModel> {
         const state = callbackContext.state
 
         if (state === "updating") {
-            const response = await getCfClient(session).describeStacks({ StackName: model.UID }).promise()
+            const response = await getCfClient(session).describeStacks({ StackName: model.uID }).promise()
             const stack = response.Stacks[0]
             if (stack.StackStatus === "UPDATE_COMPLETE") {
                 progress.status = OperationStatus.Success
@@ -212,14 +212,14 @@ class Resource extends BaseResource<ResourceModel> {
         } else {
 
             try {
-                if (model.UID === undefined || model.UID === "") {
+                if (model.uID === undefined || model.uID === "") {
                     const err = new Error("Empty UID does not exist") as any
                     err.code = "ValidationError"
                     throw err
                 }
                 const parameters = getStackParametersFromModel(model)
                 const template = JSON.stringify(getTemplate())
-                await getCfClient(session).updateStack({ StackName: model.UID, Parameters: parameters, Capabilities: ["CAPABILITY_IAM"], TemplateBody: template }).promise()
+                await getCfClient(session).updateStack({ StackName: model.uID, Parameters: parameters, Capabilities: ["CAPABILITY_IAM"], TemplateBody: template }).promise()
                 setContext(progress, {
                     state: "updating"
                 })
@@ -286,7 +286,7 @@ class Resource extends BaseResource<ResourceModel> {
             }
 
         } else {
-            uuid = model.UID
+            uuid = model.uID
             try {
                 const response = await getCfClient(session).describeStacks({ StackName: uuid }).promise()
                 const stack = response.Stacks[0]
@@ -307,7 +307,7 @@ class Resource extends BaseResource<ResourceModel> {
         }
         if (progress.status === OperationStatus.InProgress) {
             const minimalModel = new ResourceModel()
-            minimalModel.UID = uuid
+            minimalModel.uID = uuid
             progress.resourceModel = minimalModel
         }
 
@@ -332,20 +332,8 @@ class Resource extends BaseResource<ResourceModel> {
     ): Promise<ProgressEvent> {
 
         debugLog(Action.Read, request, callbackContext)
-        /*
-                const test = new ResourceModel(
-                    {
-                        UID: "stackName",
-                        InstanceType: "props",
-                        DiskSize: 100,
-                        Keypair: "dev",
-                        SSH: "url"
-                    }
-                )
-                console.log(test)
-        */
         try {
-            const model: ResourceModel = await getResourceModelFromStack(session, request.desiredResourceState.UID)
+            const model: ResourceModel = await getResourceModelFromStack(session, request.desiredResourceState.uID)
             const progress: ProgressEvent<ResourceModel> = ProgressEvent.builder()
                 .status(OperationStatus.Success)
                 .resourceModel(model)
