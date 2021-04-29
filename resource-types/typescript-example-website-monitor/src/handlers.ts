@@ -12,7 +12,7 @@ import {
     ProgressEvent,
     ResourceHandlerRequest,
     SessionProxy
-} from 'cfn-rpdk';
+} from '@amazon-web-services-cloudformation/cloudformation-cli-typescript-lib';
 import fetch, { Response } from 'node-fetch';
 
 import { ResourceModel } from './models';
