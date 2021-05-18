@@ -22,23 +22,22 @@ The `Devinstance` resource supports this in the following ways:
 
 ## Installing the resource type
 
-This resource type is built with the [community Typescript plugin for CloudFormation](https://github.com/eduardomourar/cloudformation-cli-typescript-plugin):
+This resource type is built with the [Typescript plugin for CloudFormation](https://github.com/aws-cloudformation/cloudformation-cli-typescript-plugin):
 
 ```
-pip install git+https://github.com/eduardomourar/cloudformation-cli-typescript-plugin.git@v0.5.0#egg=cloudformation-cli-typescript-plugin
+pip install cloudformation-cli-typescript-plugin
 ```
-
-Note that as of this writing, the Typescript plugin does only support cfn cli version 0.1.x. You will get an error during `cfn submit` when you try to use a higher version.
 
 After checking out this repository,
 
 ```
-git clone https://github.com/hypescaler/aws-vscode-remote-containers.git
+git clone https://github.com/aws-cloudformation/aws-cloudformation-samples.git
 ```
 
  a complete build and submission can be started with:
 
 ```
+cd aws-cloudformation-samples/resource-types/VSCodeRemoteDevelopment
 # equals "npm install && npm run build && cfn submit --set-default"
 npm run all
 
@@ -68,28 +67,21 @@ If you want to use a specific AWS profile, you can add `-e AWS_PROFILE=your_prof
 You need to have a [key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) set up. Put the name of the key pair into the `Keypair` property in `cloudformation/template.json`. The key must be known by your ssh client. 
 
 ```
-aws cloudformation create-stack --stack-name myteststack01 --template-body file://cloudformation/template.json
+aws cloudformation create-stack --stack-name VSCodeRemoteDevelopment --template-body file://cloudformation/template.json
 ```
 
 Get the output of the stack to find the SSH URI of your instance:
 
 ```
-aws cloudformation describe-stacks --stack-name myteststack01
+aws cloudformation describe-stacks --stack-name VSCodeRemoteDevelopment --query 'Stacks[].Outputs[?OutputKey==`ssh`].OutputValue' --output text
 
- ...
- "Outputs": [
-                {
-                    "OutputKey": "ssh",
-                    "OutputValue": "ssh://ec2-user@ec2-3-122-69-112.eu-central-1.compute.amazonaws.com"
-                }
-            ],
- ...
+ssh://ec2-user@ec2-example-do-not-use.compute-1.amazonaws.com
 ```
 
 Connect to the instance once via your ssh client so that you can accept the fingerprint:
 
 ```
-ssh ec2-user@ec2-3-122-69-112.eu-central-1.compute.amazonaws.com
+ec2-user@ec2-example-do-not-use.compute-1.amazonaws.com
 ```
 
 In this code repository, make a copy of `.vscode/settings.template.json`, name it `settings.json` and set your SSH URI (e.g. `ssh://ec2-user@ec2-3-122-69-112.eu-central-1.compute.amazonaws.com`) for `docker.host`. 
@@ -119,7 +111,7 @@ You can
 in `template.json` and then update your stack:
 
 ```
-aws cloudformation update-stack --stack-name myteststack01 --template-body file://cloudformation/template.json
+aws cloudformation update-stack --stack-name VSCodeRemoteDevelopment --template-body file://cloudformation/template.json
 ```
 
 Any update will result in the recreation of the instance. After that, you will need to clean your `known_hosts` file from the old fingerprint and connect once via your SSH client to accept the new one.
