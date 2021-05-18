@@ -1,0 +1,20 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "UPDATE",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+            "InstanceType":"m4.2xlarge",
+            "DiskSize":200,
+            "UID": "DevInstance-8fadeaab-6608-48a2-b0a7-d650411f8d65",
+            "Keypair" : "dev"
+        },
+        "previousResourceState": null,
+        "logicalResourceIdentifier": null
+    },
+    "callbackContext": {"state":"updating"}
+}
