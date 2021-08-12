@@ -205,8 +205,7 @@
                             "Action": [
                                 "s3:GetObject",
                                 "s3:GetObjectTagging",
-                                "s3:ListBucket",
-                                "s3:ListBucketByTags"
+                                "s3:ListBucket"
                             ],
                             "Resource": [
                                 {
@@ -231,7 +230,6 @@
                                 "s3:GetObject",
                                 "s3:GetObjectTagging",
                                 "s3:ListBucket",
-                                "s3:ListBucketByTags",
                                 "s3:PutObject",
                                 "s3:PutObjectTagging"
                             ],
