@@ -1,0 +1,18 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "AWSSamples::EC2::ImportKeyPair",
+    "language": "python37",
+    "runtime": "python3.7",
+    "entrypoint": "awssamples_ec2_importkeypair.handlers.resource",
+    "testEntrypoint": "awssamples_ec2_importkeypair.handlers.test_entrypoint",
+    "settings": {
+        "version": false,
+        "subparser_name": null,
+        "verbose": 0,
+        "force": false,
+        "type_name": null,
+        "artifact_type": null,
+        "use_docker": true,
+        "protocolVersion": "2.0.0"
+    }
+}
