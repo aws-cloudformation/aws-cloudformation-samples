@@ -516,6 +516,8 @@ def _delete_create_tags_helper(
         model: ResourceModel,
 ) -> None:
     """Delete and create tags, if present"""
+    LOG.debug("_delete_create_tags_helper()")
+
     # Delete existing tags
     client.delete_tags(
         Resources=[
