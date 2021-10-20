@@ -1,7 +1,7 @@
 {
     "typeName": "AWSSamples::EC2::ImportKeyPair",
     "description": "Sample resource schema demonstrating a model for an example resource type to import a key pair.",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples.git",
     "definitions": {
         "Tag": {
             "description": "A key-value pair to associate with a resource.",

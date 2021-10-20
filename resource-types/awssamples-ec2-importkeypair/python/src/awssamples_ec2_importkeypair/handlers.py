@@ -43,8 +43,20 @@ resource = Resource(
 
 test_entrypoint = resource.test_entrypoint
 
-# How long to wait, in seconds, to call again a given handler as part
-# of a resource stabilization logic
+# When you want to have a resource to be in a specific state before
+# you, e.g., determine the resource is ready in your resource type
+# implementation logic, you want to implement a stabilization logic.
+# For example, you would want to look, in the Read handler, for the
+# presence of a resource-specific property value and drive the
+# callback process accordingly to determine if the resource is ready.
+# The example resource type in this sample would not need
+# stabilization, and hence it would not need to use a callback
+# mechanism to leverage the Read handler to determine if the resource
+# is ready.  However, this sample is meant to illustrate how a
+# callback mechanism would work, and that is why it is being leveraged
+# here.  In the example CALLBACK_DELAY_SECONDS variable below, you
+# specify how long to wait, in seconds, to call again a given handler
+# as part of a resource stabilization logic
 CALLBACK_DELAY_SECONDS = 5
 
 # Define a context for the callback logic.  The value for the "status"
@@ -94,6 +106,7 @@ def create_handler(
         # Prepare kwargs to pass to import_key_pair()
         import_key_pair_kwargs = _import_key_pair_helper(
             model=model,
+            request=request,
         )
         # Import the key pair
         response = client.import_key_pair(
@@ -106,7 +119,9 @@ def create_handler(
         model.KeyPairId = response['KeyPairId']
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
-            handler_error_code=HandlerErrorCode.NotFound,
+            handler_error_code=_get_handler_error_code(
+                ce.response['Error']['Code'],
+            ),
             error_message=str(ce),
             traceback_content=traceback.format_exc(),
         )
@@ -153,21 +168,24 @@ def update_handler(
 
     # KeyPairName and KeyPairPublicKey are set as createOnlyProperties
     # in the model; specifying values for such will then result in a
-    # new resource being created.  This Update handler is only used to
-    # update Tags as specified in the template
+    # new resource being created.  The Update handler for this
+    # specific resource is only used for update of Tags
     try:
         client = _get_session_client(
             session,
             'ec2',
         )
-        # delete and create, if any, tags for the resource
-        _delete_create_tags_helper(
+        # Update tags for the resource
+        _update_tags_helper(
             client=client,
             model=model,
+            request=request,
         )
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
-            handler_error_code=HandlerErrorCode.NotFound,
+            handler_error_code=_get_handler_error_code(
+                ce.response['Error']['Code'],
+            ),
             error_message=str(ce),
             traceback_content=traceback.format_exc(),
         )
@@ -236,7 +254,9 @@ def delete_handler(
         )
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
-            handler_error_code=HandlerErrorCode.NotFound,
+            handler_error_code=_get_handler_error_code(
+                ce.response['Error']['Code'],
+            ),
             error_message=str(ce),
             traceback_content=traceback.format_exc(),
         )
@@ -280,7 +300,9 @@ def read_handler(
         model.KeyFingerprint = response['KeyPairs'][0]['KeyFingerprint']
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
-            handler_error_code=HandlerErrorCode.NotFound,
+            handler_error_code=_get_handler_error_code(
+                ce.response['Error']['Code'],
+            ),
             error_message=str(ce),
             traceback_content=traceback.format_exc(),
         )
@@ -333,7 +355,9 @@ def list_handler(
             )
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
-            handler_error_code=HandlerErrorCode.NotFound,
+            handler_error_code=_get_handler_error_code(
+                ce.response['Error']['Code'],
+            ),
             error_message=str(ce),
             traceback_content=traceback.format_exc(),
         )
@@ -347,6 +371,45 @@ def list_handler(
         models=resource_model_list,
         is_delete_handler=False,
     )
+
+
+def _get_handler_error_code(
+        api_error_code: str,
+) -> HandlerErrorCode:
+    """Get a handler error code for a given service API error code"""
+    LOG.debug("_get_handler_error_code()")
+
+    # Handler error codes in the User Guide for Extension Development:
+    # https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract-errors.html
+    #
+    # Error codes for the Amazon EC2 API:
+    # https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html
+    if api_error_code == 'InvalidKeyPair.NotFound':
+        return HandlerErrorCode.NotFound
+    elif api_error_code == 'InvalidKeyPair.Duplicate':
+        return HandlerErrorCode.AlreadyExists
+    elif api_error_code in [
+            'InvalidKey.Format',
+            'InvalidKeyPair.Format',
+            'InvalidParameter',
+            'InvalidParameterCombination',
+            'InvalidParameterValue',
+            'InvalidTagKey.Malformed',
+            'MissingAction',
+            'MissingParameter',
+            'UnknownParameter',
+            'ValidationError',
+    ]:
+        return HandlerErrorCode.InvalidRequest
+    elif api_error_code in [
+            'KeyPairLimitExceeded',
+            'TagLimitExceeded',
+    ]:
+        return HandlerErrorCode.ServiceLimitExceeded
+    elif api_error_code == 'ConcurrentTagAccess':
+        return HandlerErrorCode.Throttling
+    else:
+        return HandlerErrorCode.GeneralServiceException
 
 
 def _progress_event_callback(
@@ -495,10 +558,44 @@ def _get_session_client(
     return None
 
 
+def _get_tags_from_desired_resource_tags(
+        desired_resource_tags: dict,
+) -> list:
+    """Create and return a list of tags from
+request.desiredResourceTags"""
+    LOG.debug("_get_tags_from_desired_resource_tags()")
+
+    tags = [
+        {
+            'Key': desired_resource_tag,
+            'Value': desired_resource_tags[desired_resource_tag],
+        }
+        for desired_resource_tag in desired_resource_tags
+    ]
+    return tags
+
+
+def _get_tags_from_previous_resource_tags(
+        previous_resource_tags: dict,
+) -> list:
+    """Create and return a list of tags from
+request.previousResourceTags"""
+    LOG.debug("_get_tags_from_previous_resource_tags()")
+
+    tags = [
+        {
+            'Key': previous_resource_tag,
+            'Value': previous_resource_tags[previous_resource_tag],
+        }
+        for previous_resource_tag in previous_resource_tags
+    ]
+    return tags
+
+
 def _get_tags_from_model_tags(
         model_tags: list,
 ) -> list:
-    """Create and return a list of key/value tags from model.Tags"""
+    """Create and return a list of tags from model.Tags"""
     LOG.debug("_get_tags_from_model_tags()")
 
     tags = [
@@ -511,24 +608,74 @@ def _get_tags_from_model_tags(
     return tags
 
 
-def _delete_create_tags_helper(
-        client: type,
+def _build_tag_list(
         model: ResourceModel,
-) -> None:
-    """Delete and create tags, if present"""
-    LOG.debug("_delete_create_tags_helper()")
+        request: ResourceHandlerRequest,
+) -> list:
+    """Build and return a list of resource tags"""
+    LOG.debug("_build_tag_list()")
 
-    # Delete existing tags
-    client.delete_tags(
-        Resources=[
-            model.KeyPairId,
-        ],
-    )
-    # Add new tags if specified in the template
+    tags = []
+
+    # Determine if stack-level tags are present
+    if request.desiredResourceTags:
+        desired_resource_tags = _get_tags_from_desired_resource_tags(
+            request.desiredResourceTags,
+        )
+        tags += desired_resource_tags
+
+    # Retrieve tags if specified in the model
     if model.Tags:
-        tags = _get_tags_from_model_tags(
+        model_tags = _get_tags_from_model_tags(
             model.Tags,
         )
+        tags += model_tags
+
+    return tags
+
+
+def _get_tag_lists_diff(
+        list_a: list,
+        list_b: list,
+) -> list:
+    """Return a list of tag differences between list_a and list_b"""
+    LOG.debug("_get_tag_lists_diff()")
+
+    return [list_item for list_item in list_a if list_item not in list_b]
+
+
+def _update_tags_helper(
+        client: type,
+        model: ResourceModel,
+        request: ResourceHandlerRequest,
+) -> None:
+    """Update tags on stack update"""
+    LOG.debug("_update_tags_helper()")
+
+    previous_resource_tags = []
+
+    # Retrieve existing tags, if any, from the request
+    if request.previousResourceTags:
+        previous_resource_tags = _get_tags_from_previous_resource_tags(
+            request.previousResourceTags,
+        )
+
+    # Retrieve current tags specified in the model and/or at the stack
+    # level
+    tags = _build_tag_list(
+        model,
+        request,
+    )
+
+    # Retrieve a list containing differences, if any, between previous
+    # resource tags and current tags
+    tag_lists_diff = _get_tag_lists_diff(
+        previous_resource_tags,
+        tags,
+    )
+
+    # Add/overwrite new tags if present
+    if tags:
         # Create new tags
         client.create_tags(
             Resources=[
@@ -537,9 +684,20 @@ def _delete_create_tags_helper(
             Tags=tags,
         )
 
+    # Delete existing tags that are not specified in the update
+    # request
+    if tag_lists_diff:
+        client.delete_tags(
+            Resources=[
+                model.KeyPairId,
+            ],
+            Tags=tag_lists_diff,
+        )
+
 
 def _import_key_pair_helper(
         model: ResourceModel,
+        request: ResourceHandlerRequest,
 ) -> dict:
     """Create and return a dictionary of arguments for import_key_pair()"""
     LOG.debug("_import_key_pair_helper()")
@@ -551,12 +709,14 @@ def _import_key_pair_helper(
             encoding='utf-8',
         ),
     }
-    if model.Tags:
-        tags = _get_tags_from_model_tags(
-            model.Tags,
-        )
-        # Add TagSpecifications to kwargs if Tags are specified in
-        # the template, and specify key/value data for Tags
+
+    tags = _build_tag_list(
+        model,
+        request,
+    )
+
+    # Add TagSpecifications to kwargs if tags are present
+    if tags:
         import_key_pair_kwargs['TagSpecifications'] = [
             {
                 'ResourceType': 'key-pair',

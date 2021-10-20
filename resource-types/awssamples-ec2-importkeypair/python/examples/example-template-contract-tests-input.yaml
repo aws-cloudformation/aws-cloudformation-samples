@@ -10,6 +10,20 @@ Parameters:
     Description: Please specify the public key material.
     MinLength: '1'
     Type: String
+  OrganizationBusinessUnitName:
+    ConstraintDescription: please specify a valid value.
+    Default: ExampleBusinessUnit
+    Description: 'Please specify the name of your business unit; maximum: 256 characters.'
+    MaxLength: '256'
+    MinLength: '0'
+    Type: String
+  OrganizationName:
+    ConstraintDescription: please specify a valid value.
+    Default: ExampleOrganization
+    Description: 'Please specify the name of your organization; maximum: 256 characters.'
+    MaxLength: '256'
+    MinLength: '0'
+    Type: String
 Resources:
   KeyPairPublicKeyParameter:
     Type: AWS::SSM::Parameter
@@ -19,6 +33,8 @@ Resources:
       Name: import-keypair-contract-tests-public-key-material
       Tags:
         Name: import-keypair-contract-tests-public-key-material
+        OrganizationBusinessUnitName: !Ref 'OrganizationBusinessUnitName'
+        OrganizationName: !Ref 'OrganizationName'
       Type: String
       Value: !Ref 'KeyPairPublicKey'
 Outputs:
