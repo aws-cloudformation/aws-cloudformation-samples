@@ -406,7 +406,10 @@ def _get_handler_error_code(
             'TagLimitExceeded',
     ]:
         return HandlerErrorCode.ServiceLimitExceeded
-    elif api_error_code == 'ConcurrentTagAccess':
+    elif api_error_code in [
+            'ConcurrentTagAccess',
+            'RequestLimitExceeded',
+    ]:
         return HandlerErrorCode.Throttling
     else:
         return HandlerErrorCode.GeneralServiceException
