@@ -1,0 +1,54 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This template describes an example resource type for importing a key
+  pair.
+Parameters:
+  KeyPairName:
+    AllowedPattern: ^[\x00-\x7F]{1,255}$
+    Default: example-key-pair
+    Description: 'Please specify the name you wish to assign to the key pair you are
+      importing.  Allowed values include ASCII characters; minimum length: 1, maximum:
+      255.'
+    MaxLength: '255'
+    MinLength: '1'
+    Type: String
+  KeyPairPublicKey:
+    AllowedPattern: ^ssh-[a-z0-9-]+ AAAA[a-zA-Z0-9\+\/]+=*( .*)?$
+    Description: Please specify the public key material for the key pair you are importing.
+    MinLength: '1'
+    Type: String
+  OrganizationBusinessUnitName:
+    ConstraintDescription: please specify a valid value.
+    Default: ExampleBusinessUnit
+    Description: 'Please specify the name of your business unit; maximum: 256 characters.'
+    MaxLength: '256'
+    MinLength: '0'
+    Type: String
+  OrganizationName:
+    ConstraintDescription: please specify a valid value.
+    Default: ExampleOrganization
+    Description: 'Please specify the name of your organization; maximum: 256 characters.'
+    MaxLength: '256'
+    MinLength: '0'
+    Type: String
+Resources:
+  KeyPair:
+    Type: AWSSamples::EC2::ImportKeyPair
+    Properties:
+      KeyName: !Ref 'KeyPairName'
+      PublicKeyMaterial: !Ref 'KeyPairPublicKey'
+      Tags:
+        - Key: Name
+          Value: !Ref 'KeyPairName'
+        - Key: OrganizationName
+          Value: !Ref 'OrganizationName'
+        - Key: OrganizationBusinessUnitName
+          Value: !Ref 'OrganizationBusinessUnitName'
+Outputs:
+  KeyFingerprint:
+    Description: The MD5 public key fingerprint of the imported key.
+    Value: !GetAtt 'KeyPair.KeyFingerprint'
+  KeyPairId:
+    Description: The ID of the key pair you imported.
+    Value: !Ref 'KeyPair'
+

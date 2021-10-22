@@ -1,0 +1,47 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template used for contract tests input of an example resource type to
+  import an EC2 key pair; input data will be made available to contract tests by using
+  the KeyPairPublicKeyForContractTests Export shown in the Outputs section of this
+  template.
+Parameters:
+  KeyPairPublicKey:
+    AllowedPattern: ^ssh-[a-z0-9-]+ AAAA[a-zA-Z0-9\+\/]+=*( .*)?$
+    Description: Please specify the public key material.
+    MinLength: '1'
+    Type: String
+  OrganizationBusinessUnitName:
+    ConstraintDescription: please specify a valid value.
+    Default: ExampleBusinessUnit
+    Description: 'Please specify the name of your business unit; maximum: 256 characters.'
+    MaxLength: '256'
+    MinLength: '0'
+    Type: String
+  OrganizationName:
+    ConstraintDescription: please specify a valid value.
+    Default: ExampleOrganization
+    Description: 'Please specify the name of your organization; maximum: 256 characters.'
+    MaxLength: '256'
+    MinLength: '0'
+    Type: String
+Resources:
+  KeyPairPublicKeyParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: SSM Parameter to store the public key material used as input for
+        contract testing of resource type to import an EC2 key pair.
+      Name: import-keypair-contract-tests-public-key-material
+      Tags:
+        Name: import-keypair-contract-tests-public-key-material
+        OrganizationBusinessUnitName: !Ref 'OrganizationBusinessUnitName'
+        OrganizationName: !Ref 'OrganizationName'
+      Type: String
+      Value: !Ref 'KeyPairPublicKey'
+Outputs:
+  KeyPairPublicKey:
+    Description: The public key material of the key pair you wish to use for contract
+      testing.
+    Export:
+      Name: KeyPairPublicKeyForContractTests
+    Value: !Ref 'KeyPairPublicKey'
+
