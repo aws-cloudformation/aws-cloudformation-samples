@@ -4,9 +4,11 @@
 
 - [Usage](#Usage)
 
-- [Unit tests](#Unit-tests)
+- [Tests](#Tests)
 
-- [Contract tests](#Contract-tests)
+  - [Unit tests](#Unit-tests)
+
+  - [Contract tests](#Contract-tests)
 
 - [Example schema and handlers](#Example-schema-and-handlers)
 
@@ -36,7 +38,11 @@ If you choose to activate and test this example resource type in your AWS accoun
   - CloudFormation will leverage the example resource type described in the template to import the public key in your account and region
 
 
-## Unit tests
+## Tests
+Example unit tests and information on how to run unit and contract tests are shown next.
+
+
+### Unit tests
 Example unit tests are available in `src/awssamples_ec2_importkeypair/tests`, and are meant to be used with [pytest](https://docs.pytest.org/) and [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/).  To run example unit tests:
 
 - choose to install `pytest-cov` with `pip`; for example: `pip install pytest-cov`
@@ -44,7 +50,7 @@ Example unit tests are available in `src/awssamples_ec2_importkeypair/tests`, an
 - you should now be able to run unit tests for this example resource type; make sure to be in the same directory where this README.md file is located, and choose to run unit tests with: `pytest --cov src --cov-report term-missing`.  The `.coveragerc` configuration file (located in the same directory as this README.md file) will be used to read configuration preferences, that include omitting a number of files as part of unit test runs and reports.
 
 
-## Contract tests
+### Contract tests
 Contract tests help you validate the resource type you're developing works as you expect.  For more information, see [Testing resource types using contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html) in the AWS documentation.  You use the [test](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-test.html) command of the CloudFormation CLI to run contract tests in your account: in this example, you will specify example values to create, update, delete EC2 key pair resources (named with an `example-keypair-for-contract-tests` prefix) in your account and region.  For contract tests runs, you can choose to specify an execution role that contract tests can assume; alternatively, contract tests will use your environment credentials or credentials specified in the Boto3 credentials chain.
 
 When you run contract tests, you pass in input values; for more information, see [Specifying input data for use in contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-test-input-data).  Contract tests for this example resource type use `create`, `update` and `invalid` input data from files in the `inputs` directory.  If you inspect create- and update-related input files content in the aforementioned directory, you will see a line such as `"PublicKeyMaterial": "{{KeyPairPublicKeyForContractTests}}",`: this line is used by contract tests to take, as an input, the public key material that you will use to run contract tests, and input data in this case is taken from a CloudFormation stack you will need to create before running contract tests.  To run contract tests for this resource type:

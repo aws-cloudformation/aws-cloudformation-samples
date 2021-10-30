@@ -339,17 +339,9 @@ def list_handler(
         )
         key_pairs = response['KeyPairs']
         resource_model_list = []
-        for key_pair in key_pairs:
-            resource_model_list_item = ResourceModel(
-                KeyPairId=key_pair['KeyPairId'],
-                KeyFingerprint=key_pair['KeyFingerprint'],
-                KeyName=key_pair['KeyName'],
-                Tags=key_pair['Tags'],
-                PublicKeyMaterial=None,
-            )
-            resource_model_list.append(
-                resource_model_list_item,
-            )
+        resource_model_list = _get_resource_model_list(
+            key_pairs,
+        )
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -724,3 +716,24 @@ def _import_key_pair_helper(
             },
         ]
     return import_key_pair_kwargs
+
+
+def _get_resource_model_list(
+        key_pairs: dict,
+) -> list:
+    """Create and return a list of resource model items"""
+    LOG.debug('_get_resource_model_list()')
+
+    resource_model_list = []
+    for key_pair in key_pairs:
+        resource_model_list_item = ResourceModel(
+            KeyPairId=key_pair['KeyPairId'],
+            KeyFingerprint=key_pair['KeyFingerprint'],
+            KeyName=key_pair['KeyName'],
+            Tags=key_pair['Tags'],
+            PublicKeyMaterial=None,
+        )
+        resource_model_list.append(
+            resource_model_list_item,
+        )
+    return resource_model_list
