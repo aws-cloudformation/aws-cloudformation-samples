@@ -532,7 +532,7 @@ def _callback_helper(
 
 def _get_session_client(
         session: Optional[SessionProxy],
-        service: str,
+        service_name: str,
 ) -> type:
     """Create and return a session client for a given service"""
     LOG.debug('_get_session_client()')
@@ -542,7 +542,7 @@ def _get_session_client(
             SessionProxy,
     ):
         client = session.client(
-            'ec2',
+            service_name,
         )
         return client
     return None

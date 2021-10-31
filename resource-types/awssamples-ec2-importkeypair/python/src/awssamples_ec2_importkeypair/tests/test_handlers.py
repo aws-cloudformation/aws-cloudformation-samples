@@ -740,6 +740,19 @@ def test__callback_helper_progress_event_callback(
         assert return_value.status == OperationStatus.IN_PROGRESS
 
 
+def test__get_session_client_session_is_instance_of_session_proxy(
+) -> None:
+    return_value = handlers._get_session_client(
+        _mock_get_session_proxy(),
+        MagicMock(),
+    )
+    assert return_value is not None
+    assert isinstance(
+        return_value,
+        MagicMock,
+    )
+
+
 def test__get_session_client_session_not_instance_of_session_proxy(
 ) -> None:
     assert handlers._get_session_client(
