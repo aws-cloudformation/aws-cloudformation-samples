@@ -1,12 +1,12 @@
 import logging
 import traceback
-
 from typing import (
     Any,
     MutableMapping,
     Optional,
 )
 
+import botocore
 from cloudformation_cli_python_lib import (
     Action,
     HandlerErrorCode,
@@ -20,8 +20,6 @@ from .models import (
     ResourceHandlerRequest,
     ResourceModel,
 )
-
-import botocore
 
 
 # Use this logger to forward log messages to CloudWatch Logs

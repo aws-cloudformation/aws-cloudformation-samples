@@ -1,19 +1,17 @@
 import re
-
+from functools import (
+    wraps,
+)
 from unittest.mock import (
     MagicMock,
     patch,
 )
-
-from functools import (
-    wraps,
-)
-
 from typing import (
     Any,
     Callable,
 )
 
+import botocore
 from cloudformation_cli_python_lib import (
     HandlerErrorCode,
     OperationStatus,
@@ -26,10 +24,7 @@ from .. models import (
     ResourceModel,
     Tag,
 )
-
 from .. import handlers
-
-import botocore
 
 
 # Determine the base module path name from the resource type name;
@@ -48,14 +43,14 @@ def handler_assertions(
     def decorator_function(
             decorated_function: Callable,
     ) -> Callable:
-        """Returns a wrapper for the decorated function"""
+        """Return a wrapper for the decorated function"""
 
         @wraps(decorated_function)
         def decorated_function_wrapper(
                 *args: list,
                 **kwargs: dict,
         ) -> Any:
-            """Runs the input function and performs test assertions"""
+            """Run the input function and perform test assertions"""
             decorated_function(
                 *args,
                 **kwargs,
@@ -274,9 +269,21 @@ def _operation_status_failed_generic_error_assertions(
 
 def _mock_get_session_proxy(
 ) -> SessionProxy:
-    """Create and return a mock SessionProxy"""
+    """Create and return a mock SessionProxy with a mock session client"""
+    # Create a mock session
+    session = MagicMock(
+        name='session',
+    )
+    # Create a mock session client
+    session.client = MagicMock(
+        name='client',
+        return_value=MagicMock(
+            name='client',
+        ),
+    )
+    # Return a SessionProxy with the mock session and client
     return SessionProxy(
-        MagicMock(),
+        session,
     )
 
 
@@ -387,8 +394,10 @@ def _get_mock_key_pair_dict(
 def test_create_handler_returns_operation_status_in_progress(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -398,8 +407,10 @@ def test_create_handler_returns_operation_status_in_progress(
 def test_update_handler_returns_operation_status_in_progress(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -409,8 +420,10 @@ def test_update_handler_returns_operation_status_in_progress(
 def test_delete_handler_returns_operation_status_in_progress(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -420,8 +433,10 @@ def test_delete_handler_returns_operation_status_in_progress(
 def test_read_handler_returns_operation_status_success(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -431,8 +446,10 @@ def test_read_handler_returns_operation_status_success(
 def test_list_handler_returns_operation_status_success(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -443,8 +460,10 @@ def test_list_handler_returns_operation_status_success(
 def test_create_handler_returns_operation_status_failed_botocore_client_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -454,8 +473,10 @@ def test_create_handler_returns_operation_status_failed_botocore_client_error(
 def test_create_handler_returns_operation_status_failed_generic_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -466,8 +487,10 @@ def test_create_handler_returns_operation_status_failed_generic_error(
 def test_update_handler_returns_operation_status_failed_botocore_client_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -477,8 +500,10 @@ def test_update_handler_returns_operation_status_failed_botocore_client_error(
 def test_update_handler_returns_operation_status_failed_generic_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -489,8 +514,10 @@ def test_update_handler_returns_operation_status_failed_generic_error(
 def test_delete_handler_returns_operation_status_failed_botocore_client_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -500,8 +527,10 @@ def test_delete_handler_returns_operation_status_failed_botocore_client_error(
 def test_delete_handler_returns_operation_status_failed_generic_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -512,8 +541,10 @@ def test_delete_handler_returns_operation_status_failed_generic_error(
 def test_read_handler_returns_operation_status_failed_botocore_client_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -523,8 +554,10 @@ def test_read_handler_returns_operation_status_failed_botocore_client_error(
 def test_read_handler_returns_operation_status_failed_generic_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -535,8 +568,10 @@ def test_read_handler_returns_operation_status_failed_generic_error(
 def test_list_handler_returns_operation_status_failed_botocore_client_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -546,8 +581,10 @@ def test_list_handler_returns_operation_status_failed_botocore_client_error(
 def test_list_handler_returns_operation_status_failed_generic_error(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -558,8 +595,10 @@ def test_list_handler_returns_operation_status_failed_generic_error(
 def test_list_handler_returns_operation_status_failed_not_found(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -570,8 +609,10 @@ def test_list_handler_returns_operation_status_failed_not_found(
 def test_list_handler_returns_operation_status_failed_duplicate(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -582,8 +623,10 @@ def test_list_handler_returns_operation_status_failed_duplicate(
 def test_list_handler_returns_operation_status_failed_key_pair_limit_exceeded(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -594,8 +637,10 @@ def test_list_handler_returns_operation_status_failed_key_pair_limit_exceeded(
 def test_list_handler_returns_operation_status_failed_request_limit_exceeded(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 @handler_assertions(
@@ -606,8 +651,10 @@ def test_list_handler_returns_operation_status_failed_request_limit_exceeded(
 def test_list_handler_returns_operation_status_failed_general_service(
 ) -> None:
     session = _mock_get_session_proxy()
-    client = session
-    assert isinstance(client, SessionProxy)
+    assert isinstance(
+        session,
+        SessionProxy,
+    )
 
 
 def test__progress_event_success_no_parameters_provided(
@@ -727,7 +774,8 @@ def test__get_tag_lists_diff(
 
 def test__update_tags_helper(
 ) -> None:
-    client = _mock_get_session_proxy()
+    session = _mock_get_session_proxy()
+    client = session.client
     client.create_tags = MagicMock(
         name='create_tags',
         return_value={},
