@@ -57,7 +57,7 @@ When you run contract tests, you pass in input values; for more information, see
 
 - create a CloudFormation stack using the `examples/example-template-contract-tests-input.yaml` template; for the `KeyPairPublicKey` input parameter, provide the public key material you wish to use for your contract tests.  This stack will create an [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) resource in your account and region, to store the public key material for your reference.  In the `Outputs` section of this stack, you will find an `KeyPairPublicKey` output exported as `KeyPairPublicKeyForContractTests`, which is the value contract tests in this example will read
 - run the Local Lambda Service: `sam local start-lambda`; for more information, see [Testing resource types locally using SAM](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-develop-test)
-- run contract tests as follows: `cfn submit --dry-run && cfn test`
+- run contract tests as follows: `cfn generate && cfn submit --dry-run && cfn test`
 - when you are done running contract tests/submitting the module, you can choose to delete the stack you created as part of this contract tests section
 
 
