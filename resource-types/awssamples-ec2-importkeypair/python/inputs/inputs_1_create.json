@@ -1,18 +1,4 @@
 {
-  "KeyName": "example-keypair-for-contract-tests-0",
-  "PublicKeyMaterial": "{{KeyPairPublicKeyForContractTests}}",
-  "Tags": [
-    {
-      "Key": "Name",
-      "Value": "example-keypair-for-contract-tests-0"
-    },
-    {
-      "Key": "OrganizationName",
-      "Value": "ExampleBusinessUnitUpdate-0"
-    },
-    {
-      "Key": "OrganizationBusinessUnitName",
-      "Value": "ExampleOrganizationUpdate-0"
-    }
-  ]
+  "KeyName": "example-keypair-for-contract-tests-1",
+  "PublicKeyMaterial": "{{KeyPairPublicKeyForContractTests}}"
 }

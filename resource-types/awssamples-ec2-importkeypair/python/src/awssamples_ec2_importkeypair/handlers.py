@@ -16,9 +16,10 @@ from cloudformation_cli_python_lib import (
     SessionProxy,
 )
 
-from .models import (
+from . models import (
     ResourceHandlerRequest,
     ResourceModel,
+    Tag,
 )
 
 
@@ -114,6 +115,16 @@ def create_handler(
         # that in this case is the KeyPairId.  Retrieving the primary
         # identifier and setting it in the model
         model.KeyPairId = response['KeyPairId']
+
+        # PublicKeyMaterial is not available in ImportKeyPair and
+        # DescribeKeyPairs response elements: hence, not including it
+        # in the model on responses.  In this example resource type,
+        # PublicKeyMaterial is then described as part of
+        # writeOnlyProperties in the schema: as such, it will not be
+        # returned in Read and List handlers.  Setting its value to
+        # None in handler responses as shown next, and elsewhere in
+        # handlers-related code for this example resource type
+        model.PublicKeyMaterial = None
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -177,6 +188,8 @@ def update_handler(
             model=model,
             request=request,
         )
+
+        model.PublicKeyMaterial = None
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -293,7 +306,18 @@ def read_handler(
                 model.KeyPairId,
             ],
         )
-        model.KeyFingerprint = response['KeyPairs'][0]['KeyFingerprint']
+        key_pair = response['KeyPairs'][0]
+        model.KeyPairId = key_pair['KeyPairId']
+        model.KeyName = key_pair['KeyName']
+        if 'Tags' in key_pair and key_pair['Tags']:
+            model.Tags = _get_model_tags_from_tags(
+                key_pair['Tags'],
+            )
+        else:
+            model.Tags = None
+        model.KeyFingerprint = key_pair['KeyFingerprint']
+        model.KeyType = key_pair['KeyType']
+        model.PublicKeyMaterial = None
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -515,6 +539,7 @@ def _callback_helper(
     elif rh.errorCode:
         LOG.debug(f'Callback: Read handler error code: {rh.errorCode}')
         if rh.errorCode == HandlerErrorCode.NotFound and is_delete_handler:
+            LOG.debug('NotFound error in Delete handler: returning success')
             # Return a success status if the resource is not found
             # (thus, assuming it has been deleted).  The Delete
             # handler's response object must not contain a model:
@@ -522,6 +547,12 @@ def _callback_helper(
             # below will not specify a model for ProgressEvent
             return _progress_event_success(
                 is_delete_handler=True,
+            )
+        elif rh.errorCode == HandlerErrorCode.NotFound:
+            return _progress_event_failed(
+                handler_error_code=rh.errorCode,
+                error_message=rh.message,
+                traceback_content=None,
             )
     # Otherwise, call this handler again by using a callback logic
     else:
@@ -596,6 +627,22 @@ def _get_tags_from_model_tags(
         for model_tag in model_tags
     ]
     return tags
+
+
+def _get_model_tags_from_tags(
+        tags: list,
+) -> list:
+    """Create and return a list of model.Tags from tags"""
+    LOG.debug('_get_model_tags_from_tags()')
+
+    model_tags = [
+        Tag(
+            Key=tag.get('Key'),
+            Value=tag.get('Value'),
+        )
+        for tag in tags
+    ]
+    return model_tags
 
 
 def _build_tag_list(
@@ -724,11 +771,20 @@ def _get_resource_model_list(
 
     resource_model_list = []
     for key_pair in key_pairs:
+
+        if 'Tags' in key_pair and key_pair['Tags']:
+            model_tags = _get_model_tags_from_tags(
+                key_pair['Tags'],
+            )
+        else:
+            model_tags = None
+
         resource_model_list_item = ResourceModel(
             KeyPairId=key_pair['KeyPairId'],
             KeyFingerprint=key_pair['KeyFingerprint'],
             KeyName=key_pair['KeyName'],
-            Tags=key_pair['Tags'],
+            KeyType=key_pair['KeyType'],
+            Tags=model_tags,
             PublicKeyMaterial=None,
         )
         resource_model_list.append(

@@ -329,6 +329,7 @@ def _get_mock_model(
         KeyPairId='mock-key-pair-id',
         KeyFingerprint='mock-key-fingerprint',
         KeyName='mock-key-name',
+        KeyType='mock-key-type',
         Tags=_get_mock_model_tags_list(),
         PublicKeyMaterial='mock-public-key-material',
     )
@@ -364,6 +365,7 @@ def _get_mock_key_pair_dict(
                 'KeyPairId': 'mock-key-pair-1',
                 'KeyFingerprint': 'mock-key-fingerprint-1',
                 'KeyName': 'mock-key-pair-name-1',
+                'KeyType': 'mock-key-pair-type-1',
                 'Tags': [
                     {
                         'Key': 'mock-key-1',
@@ -375,6 +377,7 @@ def _get_mock_key_pair_dict(
                 'KeyPairId': 'mock-key-pair-2',
                 'KeyFingerprint': 'mock-key-fingerprint-2',
                 'KeyName': 'mock-key-pair-name-2',
+                'KeyType': 'mock-key-pair-type-2',
                 'Tags': [
                     {
                         'Key': 'mock-key-2',
@@ -723,6 +726,24 @@ def test__callback_helper_read_handler_not_found_error_and_is_delete_handler(
         assert return_value.status == OperationStatus.SUCCESS
 
 
+def test__callback_helper_read_handler_not_found_error(
+) -> None:
+    with patch(
+            f'{BASE_MODULE_PATH_NAME}.handlers.read_handler',
+            return_value=ProgressEvent(
+                status=OperationStatus.FAILED,
+                errorCode=HandlerErrorCode.NotFound,
+            ),
+    ):
+        return_value = handlers._callback_helper(
+            MagicMock(),
+            MagicMock(),
+            MagicMock(),
+            MagicMock(),
+        )
+        assert return_value.status == OperationStatus.FAILED
+
+
 def test__callback_helper_progress_event_callback(
 ) -> None:
     with patch(
@@ -842,18 +863,26 @@ def test__get_resource_model_list(
             KeyPairId='mock-key-pair-1',
             KeyFingerprint='mock-key-fingerprint-1',
             KeyName='mock-key-pair-name-1',
+            KeyType='mock-key-pair-type-1',
             PublicKeyMaterial=None,
             Tags=[
-                {'Key': 'mock-key-1', 'Value': 'mock-value-1'},
+                Tag(
+                    Key='mock-key-1',
+                    Value='mock-value-1',
+                )
             ]
         ),
         ResourceModel(
             KeyPairId='mock-key-pair-2',
             KeyFingerprint='mock-key-fingerprint-2',
             KeyName='mock-key-pair-name-2',
+            KeyType='mock-key-pair-type-2',
             PublicKeyMaterial=None,
             Tags=[
-                {'Key': 'mock-key-2', 'Value': 'mock-value-2'},
+                Tag(
+                    Key='mock-key-2',
+                    Value='mock-value-2',
+                )
             ]
         ),
     ]
