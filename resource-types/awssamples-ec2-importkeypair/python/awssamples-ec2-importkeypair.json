@@ -43,6 +43,10 @@
             "minLength": 1,
             "maxLength": 255
         },
+        "KeyType": {
+            "description": "The type of the key pair.",
+            "type": "string"
+        },
         "PublicKeyMaterial": {
             "description": "The public key material is a mandatory element.",
             "type": "string",
@@ -66,7 +70,11 @@
     ],
     "readOnlyProperties": [
         "/properties/KeyPairId",
-        "/properties/KeyFingerprint"
+        "/properties/KeyFingerprint",
+        "/properties/KeyType"
+    ],
+    "writeOnlyProperties": [
+        "/properties/PublicKeyMaterial"
     ],
     "primaryIdentifier": [
         "/properties/KeyPairId"

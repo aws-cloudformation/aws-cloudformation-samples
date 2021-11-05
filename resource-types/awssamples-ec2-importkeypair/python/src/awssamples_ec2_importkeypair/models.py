@@ -43,6 +43,7 @@ class ResourceModel(BaseModel):
     KeyPairId: Optional[str]
     KeyFingerprint: Optional[str]
     KeyName: Optional[str]
+    KeyType: Optional[str]
     PublicKeyMaterial: Optional[str]
     Tags: Optional[Sequence["_Tag"]]
 
@@ -59,6 +60,7 @@ class ResourceModel(BaseModel):
             KeyPairId=json_data.get("KeyPairId"),
             KeyFingerprint=json_data.get("KeyFingerprint"),
             KeyName=json_data.get("KeyName"),
+            KeyType=json_data.get("KeyType"),
             PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
             Tags=deserialize_list(json_data.get("Tags"), Tag),
         )

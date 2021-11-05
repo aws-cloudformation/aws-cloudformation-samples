@@ -1,14 +1,11 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: This template describes an example resource type for importing a key
-  pair.
+Description: This template describes an example resource type for importing a key pair.
 Parameters:
   KeyPairName:
     AllowedPattern: ^[\x00-\x7F]{1,255}$
     Default: example-key-pair
-    Description: 'Please specify the name you wish to assign to the key pair you are
-      importing.  Allowed values include ASCII characters; minimum length: 1, maximum:
-      255.'
+    Description: 'Please specify the name you wish to assign to the key pair you are importing.  Allowed values include ASCII characters; minimum length: 1, maximum: 255.'
     MaxLength: '255'
     MinLength: '1'
     Type: String
@@ -51,4 +48,7 @@ Outputs:
   KeyPairId:
     Description: The ID of the key pair you imported.
     Value: !Ref 'KeyPair'
+  KeyType:
+    Description: The type of the key pair.
+    Value: !GetAtt 'KeyPair.KeyType'
 

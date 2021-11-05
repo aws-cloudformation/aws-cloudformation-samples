@@ -1,12 +1,12 @@
 import logging
 import traceback
-
 from typing import (
     Any,
     MutableMapping,
     Optional,
 )
 
+import botocore
 from cloudformation_cli_python_lib import (
     Action,
     HandlerErrorCode,
@@ -16,12 +16,11 @@ from cloudformation_cli_python_lib import (
     SessionProxy,
 )
 
-from .models import (
+from . models import (
     ResourceHandlerRequest,
     ResourceModel,
+    Tag,
 )
-
-import botocore
 
 
 # Use this logger to forward log messages to CloudWatch Logs
@@ -33,8 +32,8 @@ LOG = logging.getLogger(__name__)
 LOG.setLevel(logging.CRITICAL)
 # LOG.setLevel(logging.DEBUG)
 
-# This is name of the resource type
-TYPE_NAME = "AWSSamples::EC2::ImportKeyPair"
+# This is the name of the resource type
+TYPE_NAME = 'AWSSamples::EC2::ImportKeyPair'
 
 resource = Resource(
     TYPE_NAME,
@@ -59,7 +58,7 @@ test_entrypoint = resource.test_entrypoint
 # as part of a resource stabilization logic
 CALLBACK_DELAY_SECONDS = 5
 
-# Define a context for the callback logic.  The value for the "status"
+# Define a context for the callback logic.  The value for the 'status'
 # key in the dictionary below is consumed in is_callback() and in
 # _callback_helper(), that are invoked from a given handler
 CALLBACK_STATUS_IN_PROGRESS = {
@@ -74,14 +73,14 @@ def create_handler(
         callback_context: MutableMapping[str, Any],
 ) -> ProgressEvent:
     """Define the CREATE handler"""
-    LOG.debug("*CREATE handler*")
+    LOG.debug('*CREATE handler*')
 
     model = request.desiredResourceState
     progress: ProgressEvent = ProgressEvent(
         status=OperationStatus.IN_PROGRESS,
         resourceModel=model,
     )
-    LOG.debug(f"Progress status: {progress.status}")
+    LOG.debug(f'Progress status: {progress.status}')
 
     # Check whether or not this is a new invocation of this handler
     if _is_callback(
@@ -92,11 +91,10 @@ def create_handler(
             request,
             callback_context,
             model,
-            is_delete_handler=False,
         )
     # If no callback context is present, then this is a new invocation
     else:
-        LOG.debug("No callback context present")
+        LOG.debug('No callback context present')
 
     try:
         client = _get_session_client(
@@ -117,6 +115,16 @@ def create_handler(
         # that in this case is the KeyPairId.  Retrieving the primary
         # identifier and setting it in the model
         model.KeyPairId = response['KeyPairId']
+
+        # PublicKeyMaterial is not available in ImportKeyPair and
+        # DescribeKeyPairs response elements: hence, not including it
+        # in the model on responses.  In this example resource type,
+        # PublicKeyMaterial is then described as part of
+        # writeOnlyProperties in the schema: as such, it will not be
+        # returned in Read and List handlers.  Setting its value to
+        # None in handler responses as shown next, and elsewhere in
+        # handlers-related code for this example resource type
+        model.PublicKeyMaterial = None
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -143,14 +151,14 @@ def update_handler(
         callback_context: MutableMapping[str, Any],
 ) -> ProgressEvent:
     """Define the UPDATE handler"""
-    LOG.debug("*UPDATE handler*")
+    LOG.debug('*UPDATE handler*')
 
     model = request.desiredResourceState
     progress: ProgressEvent = ProgressEvent(
         status=OperationStatus.IN_PROGRESS,
         resourceModel=model,
     )
-    LOG.debug(f"Progress status: {progress.status}")
+    LOG.debug(f'Progress status: {progress.status}')
 
     # Reusing the callback context logic leveraged in the Read handler
     if _is_callback(
@@ -161,10 +169,9 @@ def update_handler(
             request,
             callback_context,
             model,
-            is_delete_handler=False,
         )
     else:
-        LOG.debug("No callback context present")
+        LOG.debug('No callback context present')
 
     # KeyPairName and KeyPairPublicKey are set as createOnlyProperties
     # in the model; specifying values for such will then result in a
@@ -181,6 +188,8 @@ def update_handler(
             model=model,
             request=request,
         )
+
+        model.PublicKeyMaterial = None
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -207,14 +216,14 @@ def delete_handler(
         callback_context: MutableMapping[str, Any],
 ) -> ProgressEvent:
     """Define the DELETE handler"""
-    LOG.debug("*DELETE handler*")
+    LOG.debug('*DELETE handler*')
 
     model = request.desiredResourceState
     progress: ProgressEvent = ProgressEvent(
         status=OperationStatus.IN_PROGRESS,
         resourceModel=None,
     )
-    LOG.debug(f"Progress status: {progress.status}")
+    LOG.debug(f'Progress status: {progress.status}')
 
     # Callback context logic
     if _is_callback(
@@ -228,7 +237,7 @@ def delete_handler(
             is_delete_handler=True,
         )
     else:
-        LOG.debug("No callback context present")
+        LOG.debug('No callback context present')
 
     try:
         client = _get_session_client(
@@ -278,14 +287,14 @@ def read_handler(
         callback_context: MutableMapping[str, Any],
 ) -> ProgressEvent:
     """Define the READ handler"""
-    LOG.debug("*READ handler*")
+    LOG.debug('*READ handler*')
 
     model = request.desiredResourceState
     progress: ProgressEvent = ProgressEvent(
         status=OperationStatus.IN_PROGRESS,
         resourceModel=model,
     )
-    LOG.debug(f"Progress status: {progress.status}")
+    LOG.debug(f'Progress status: {progress.status}')
 
     try:
         client = _get_session_client(
@@ -297,7 +306,18 @@ def read_handler(
                 model.KeyPairId,
             ],
         )
-        model.KeyFingerprint = response['KeyPairs'][0]['KeyFingerprint']
+        key_pair = response['KeyPairs'][0]
+        model.KeyPairId = key_pair['KeyPairId']
+        model.KeyName = key_pair['KeyName']
+        if 'Tags' in key_pair and key_pair['Tags']:
+            model.Tags = _get_model_tags_from_tags(
+                key_pair['Tags'],
+            )
+        else:
+            model.Tags = None
+        model.KeyFingerprint = key_pair['KeyFingerprint']
+        model.KeyType = key_pair['KeyType']
+        model.PublicKeyMaterial = None
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -314,7 +334,6 @@ def read_handler(
         )
     return _progress_event_success(
         model=model,
-        is_delete_handler=False,
     )
 
 
@@ -325,13 +344,13 @@ def list_handler(
         callback_context: MutableMapping[str, Any],
 ) -> ProgressEvent:
     """Define the LIST handler"""
-    LOG.debug("*LIST handler*")
+    LOG.debug('*LIST handler*')
 
     progress: ProgressEvent = ProgressEvent(
         status=OperationStatus.IN_PROGRESS,
         resourceModel=None,
     )
-    LOG.debug(f"Progress status: {progress.status}")
+    LOG.debug(f'Progress status: {progress.status}')
 
     try:
         client = _get_session_client(
@@ -342,17 +361,9 @@ def list_handler(
         )
         key_pairs = response['KeyPairs']
         resource_model_list = []
-        for key_pair in key_pairs:
-            resource_model_list_item = ResourceModel(
-                KeyPairId=key_pair['KeyPairId'],
-                KeyFingerprint=key_pair['KeyFingerprint'],
-                KeyName=key_pair['KeyName'],
-                Tags=key_pair['Tags'],
-                PublicKeyMaterial=None,
-            )
-            resource_model_list.append(
-                resource_model_list_item,
-            )
+        resource_model_list = _get_resource_model_list(
+            key_pairs,
+        )
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -369,7 +380,7 @@ def list_handler(
         )
     return _progress_event_success(
         models=resource_model_list,
-        is_delete_handler=False,
+        is_list_handler=True,
     )
 
 
@@ -377,7 +388,7 @@ def _get_handler_error_code(
         api_error_code: str,
 ) -> HandlerErrorCode:
     """Get a handler error code for a given service API error code"""
-    LOG.debug("_get_handler_error_code()")
+    LOG.debug('_get_handler_error_code()')
 
     # Handler error codes in the User Guide for Extension Development:
     # https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract-errors.html
@@ -419,7 +430,7 @@ def _progress_event_callback(
         model: ResourceModel,
 ) -> ProgressEvent:
     """Return a ProgressEvent indicating a callback should occur next"""
-    LOG.debug("_progress_event_callback()")
+    LOG.debug('_progress_event_callback()')
 
     return ProgressEvent(
         status=OperationStatus.IN_PROGRESS,
@@ -432,38 +443,39 @@ def _progress_event_callback(
 def _progress_event_success(
         model: ResourceModel = None,
         models: list = None,
-        is_delete_handler=False,
+        is_delete_handler: bool = False,
+        is_list_handler: bool = False,
 ) -> ProgressEvent:
     """Return a ProgressEvent indicating a success"""
-    LOG.debug("_progress_event_success()")
+    LOG.debug('_progress_event_success()')
 
-    if not model and not models and not is_delete_handler:
+    if not model \
+       and not models \
+       and not is_delete_handler \
+       and not is_list_handler:
         raise ValueError(
-            "Specify a model or models, or set is_delete_handler to True",
+            'Model, or models, or is_delete_handler, or is_list_handler unset',
+        )
+    # Otherwise, specify 'is_delete_handler' or 'is_list_handler', not both
+    elif is_delete_handler and is_list_handler:
+        raise ValueError(
+            'Specify either is_delete_handler or is_list_handler, not both',
         )
     # In the case of the Delete handler, just return the status
-    if is_delete_handler:
-        if model or models:
-            raise ValueError(
-                "Specified model data with is_delete_handler set to True",
-            )
+    elif is_delete_handler:
         return ProgressEvent(
             status=OperationStatus.SUCCESS,
         )
-    # Otherwise, specify either 'model' or 'models'
-    if not bool(model) ^ bool(models):
-        raise ValueError(
-            "Specify a model or models when is_delete_handler is set to False",
-        )
-    elif(model):
-        return ProgressEvent(
-            status=OperationStatus.SUCCESS,
-            resourceModel=model,
-        )
-    elif(models):
+    # In the case of the List handler, return the status and 'resourceModels'
+    elif is_list_handler:
         return ProgressEvent(
             status=OperationStatus.SUCCESS,
             resourceModels=models,
+        )
+    else:
+        return ProgressEvent(
+            status=OperationStatus.SUCCESS,
+            resourceModel=model,
         )
 
 
@@ -473,7 +485,7 @@ def _progress_event_failed(
         traceback_content: str = None,
 ) -> ProgressEvent:
     """Log an error, and return a ProgressEvent indicating a failure"""
-    LOG.debug("_progress_event_failed()")
+    LOG.debug('_progress_event_failed()')
 
     # Choose a logging level depending on the handler error code
     log_entry = f"""Error message: {error_message},
@@ -485,7 +497,7 @@ def _progress_event_failed(
         LOG.debug(log_entry)
     return ProgressEvent.failed(
         handler_error_code,
-        f"Error: {error_message}",
+        f'Error: {error_message}',
     )
 
 
@@ -493,7 +505,7 @@ def _is_callback(
         callback_context: MutableMapping[str, Any],
 ) -> bool:
     """Logic to determine whether or not a handler invocation is new"""
-    LOG.debug("_is_callback()")
+    LOG.debug('_is_callback()')
 
     # If there is a callback context status set, then assume this is a
     # handler invocation (e.g., Create handler) for a previous request
@@ -510,7 +522,7 @@ def _callback_helper(
         is_delete_handler: bool = False,
 ) -> ProgressEvent:
     """Define a callback logic used for resource stabilization"""
-    LOG.debug("_callback_helper()")
+    LOG.debug('_callback_helper()')
 
     # Call the Read handler to determine status
     rh = read_handler(
@@ -518,16 +530,16 @@ def _callback_helper(
         request,
         callback_context,
     )
-    LOG.debug(f"Callback: Read handler status: {rh.status}")
+    LOG.debug(f'Callback: Read handler status: {rh.status}')
     # Return success if the Read handler returns success
     if rh.status == OperationStatus.SUCCESS:
         return _progress_event_success(
             model=model,
-            is_delete_handler=False,
         )
     elif rh.errorCode:
-        LOG.debug(f"Callback: Read handler error code: {rh.errorCode}")
+        LOG.debug(f'Callback: Read handler error code: {rh.errorCode}')
         if rh.errorCode == HandlerErrorCode.NotFound and is_delete_handler:
+            LOG.debug('NotFound error in Delete handler: returning success')
             # Return a success status if the resource is not found
             # (thus, assuming it has been deleted).  The Delete
             # handler's response object must not contain a model:
@@ -535,6 +547,12 @@ def _callback_helper(
             # below will not specify a model for ProgressEvent
             return _progress_event_success(
                 is_delete_handler=True,
+            )
+        elif rh.errorCode == HandlerErrorCode.NotFound:
+            return _progress_event_failed(
+                handler_error_code=rh.errorCode,
+                error_message=rh.message,
+                traceback_content=None,
             )
     # Otherwise, call this handler again by using a callback logic
     else:
@@ -545,17 +563,17 @@ def _callback_helper(
 
 def _get_session_client(
         session: Optional[SessionProxy],
-        service: str,
+        service_name: str,
 ) -> type:
     """Create and return a session client for a given service"""
-    LOG.debug("_get_session_client()")
+    LOG.debug('_get_session_client()')
 
     if isinstance(
             session,
             SessionProxy,
     ):
         client = session.client(
-            'ec2',
+            service_name,
         )
         return client
     return None
@@ -566,7 +584,7 @@ def _get_tags_from_desired_resource_tags(
 ) -> list:
     """Create and return a list of tags from
 request.desiredResourceTags"""
-    LOG.debug("_get_tags_from_desired_resource_tags()")
+    LOG.debug('_get_tags_from_desired_resource_tags()')
 
     tags = [
         {
@@ -583,7 +601,7 @@ def _get_tags_from_previous_resource_tags(
 ) -> list:
     """Create and return a list of tags from
 request.previousResourceTags"""
-    LOG.debug("_get_tags_from_previous_resource_tags()")
+    LOG.debug('_get_tags_from_previous_resource_tags()')
 
     tags = [
         {
@@ -599,16 +617,32 @@ def _get_tags_from_model_tags(
         model_tags: list,
 ) -> list:
     """Create and return a list of tags from model.Tags"""
-    LOG.debug("_get_tags_from_model_tags()")
+    LOG.debug('_get_tags_from_model_tags()')
 
     tags = [
         {
-            "Key": model_tag.Key,
-            "Value": model_tag.Value,
+            'Key': model_tag.Key,
+            'Value': model_tag.Value,
         }
         for model_tag in model_tags
     ]
     return tags
+
+
+def _get_model_tags_from_tags(
+        tags: list,
+) -> list:
+    """Create and return a list of model.Tags from tags"""
+    LOG.debug('_get_model_tags_from_tags()')
+
+    model_tags = [
+        Tag(
+            Key=tag.get('Key'),
+            Value=tag.get('Value'),
+        )
+        for tag in tags
+    ]
+    return model_tags
 
 
 def _build_tag_list(
@@ -616,7 +650,7 @@ def _build_tag_list(
         request: ResourceHandlerRequest,
 ) -> list:
     """Build and return a list of resource tags"""
-    LOG.debug("_build_tag_list()")
+    LOG.debug('_build_tag_list()')
 
     tags = []
 
@@ -642,7 +676,7 @@ def _get_tag_lists_diff(
         list_b: list,
 ) -> list:
     """Return a list of tag differences between list_a and list_b"""
-    LOG.debug("_get_tag_lists_diff()")
+    LOG.debug('_get_tag_lists_diff()')
 
     return [list_item for list_item in list_a if list_item not in list_b]
 
@@ -653,7 +687,7 @@ def _update_tags_helper(
         request: ResourceHandlerRequest,
 ) -> None:
     """Update tags on stack update"""
-    LOG.debug("_update_tags_helper()")
+    LOG.debug('_update_tags_helper()')
 
     previous_resource_tags = []
 
@@ -703,7 +737,7 @@ def _import_key_pair_helper(
         request: ResourceHandlerRequest,
 ) -> dict:
     """Create and return a dictionary of arguments for import_key_pair()"""
-    LOG.debug("_import_key_pair_helper()")
+    LOG.debug('_import_key_pair_helper()')
 
     import_key_pair_kwargs = {
         'KeyName': model.KeyName,
@@ -727,3 +761,33 @@ def _import_key_pair_helper(
             },
         ]
     return import_key_pair_kwargs
+
+
+def _get_resource_model_list(
+        key_pairs: dict,
+) -> list:
+    """Create and return a list of resource model items"""
+    LOG.debug('_get_resource_model_list()')
+
+    resource_model_list = []
+    for key_pair in key_pairs:
+
+        if 'Tags' in key_pair and key_pair['Tags']:
+            model_tags = _get_model_tags_from_tags(
+                key_pair['Tags'],
+            )
+        else:
+            model_tags = None
+
+        resource_model_list_item = ResourceModel(
+            KeyPairId=key_pair['KeyPairId'],
+            KeyFingerprint=key_pair['KeyFingerprint'],
+            KeyName=key_pair['KeyName'],
+            KeyType=key_pair['KeyType'],
+            Tags=model_tags,
+            PublicKeyMaterial=None,
+        )
+        resource_model_list.append(
+            resource_model_list_item,
+        )
+    return resource_model_list

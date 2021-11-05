@@ -1,0 +1,20 @@
+# .coveragerc - configuration file used with `pytest --cov`
+# Configuration reference: https://coverage.readthedocs.io/en/latest/config.html
+
+
+[run]
+branch = True
+
+# Files to omit from tests and reports
+omit =
+    # omit any __init__.py file
+    */__init__.py
+
+    # omit the models.py file
+    src/*/models.py
+    # omit tests
+    src/*/tests/*
+
+
+[report]
+fail_under = 85

@@ -92,3 +92,7 @@ A Key Pair ID is automatically generated on creation and is assigned as the uniq
 
 The MD5 public key fingerprint of the imported key.
 
+#### KeyType
+
+The type of the key pair.
+
