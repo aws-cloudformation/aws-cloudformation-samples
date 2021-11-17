@@ -13,33 +13,6 @@
       "Type": "String"
     },
     "ParentImage": {
-      "AllowedValues": [
-        "amazon-linux-2-arm64",
-        "amazon-linux-2-x86",
-        "centos-linux-7-minimal-x86",
-        "centos-linux-8-x86",
-        "red-hat-enterprise-linux-7-x86",
-        "red-hat-enterprise-linux-8-x86",
-        "suse-linux-enterprise-server-15-x86",
-        "ubuntu-server-16-lts-x86",
-        "ubuntu-server-18-lts-x86",
-        "ubuntu-server-20-lts-x86",
-        "windows-server-1909-english-core-base-x86",
-        "windows-server-2004-english-core-base-x86",
-        "windows-server-2012-r2-rtm-english-base-x86",
-        "windows-server-2012-r2-rtm-english-core-x86",
-        "windows-server-2016-english-core-base-x86",
-        "windows-server-2016-english-full-base-x86",
-        "windows-server-2016-english-full-sql-2017-enterprise-x86",
-        "windows-server-2016-english-full-sql-2017-standard-x86",
-        "windows-server-2019-english-core-base-x86",
-        "windows-server-2019-english-core-ecs-optimized-x86",
-        "windows-server-2019-english-full-base-x86",
-        "windows-server-2019-english-full-sql-2017-enterprise-x86",
-        "windows-server-2019-english-full-sql-2017-standard-x86",
-        "windows-server-2019-english-full-sql-2019-enterprise-x86",
-        "windows-server-2019-english-full-sql-2019-standard-x86"
-      ],
       "Default": "amazon-linux-2-x86",
       "Description": "Please specify the parent image you wish to use.",
       "Type": "String"
