@@ -13,11 +13,7 @@
         "ApiType": {
             "Description": "API type (regional or edge-optimized)",
             "Type": "String",
-            "Default": "EDGE",
-            "AllowedValues": [
-                "EDGE",
-                "REGIONAL"
-            ]
+            "Default": "EDGE"
         },
         "ApiId": {
             "Description": "The ID of the API",
