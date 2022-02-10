@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "wide open group"
+  SecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !GetAtt SecurityGroup.GroupId
+      IpProtocol: -1
+      CidrIp: 10.0.0.0/16

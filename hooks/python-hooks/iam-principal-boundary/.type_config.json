@@ -1,0 +1,12 @@
+{
+  "CloudFormationConfiguration": {
+    "HookConfiguration": {
+      "TargetStacks": "ALL",
+      "FailureMode": "FAIL",
+      "Properties": {
+          "iamPrincipalBoundaryArn": "arn:aws:iam::555555555555:policy/s3_deny_permissions_boundary",
+          "excludedPrincipalSuffixes": "excluded,iam-excluded,test-excluded-user"
+      }
+    }
+  }
+}

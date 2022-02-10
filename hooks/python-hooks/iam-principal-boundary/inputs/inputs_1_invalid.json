@@ -1,0 +1,12 @@
+{
+  "AWS::IAM::Role": {
+    "resourceProperties": {
+      "RoleName": "test-invalid-role"
+    }
+  },
+  "AWS::IAM::User": {
+    "resourceProperties": {
+      "UserName": "test-invalid-user"
+    }
+  }
+}

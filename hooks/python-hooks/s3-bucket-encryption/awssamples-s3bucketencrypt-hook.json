@@ -1,0 +1,38 @@
+{
+    "typeName": "AWSSamples::S3BucketEncrypt::Hook",
+    "description": "Example resource hook that check Amazon S3 bucket encryption properties",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/s3-bucket-encryption",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/s3-bucket-encryption/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "minBuckets": {
+                "description": "Minimum number of compliant buckets",
+                "type": "string"
+                
+            },
+            "encryptionAlgorithm": {
+                "description": "Encryption algorithm for SSE",
+                "default": "AES256",
+                "type": "string"
+            }
+        },
+        "required": [],
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

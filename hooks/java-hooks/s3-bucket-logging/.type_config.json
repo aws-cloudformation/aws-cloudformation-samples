@@ -1,0 +1,11 @@
+{
+    "CloudFormationConfiguration": {
+        "HookConfiguration": {
+            "TargetStacks": "ALL",
+            "FailureMode": "FAIL",
+            "Properties": {
+                "LoggingBucket": "loggingbucket-${AWS::AccountId}-${AWS::Region}-sample"
+            }
+        }
+    }
+}

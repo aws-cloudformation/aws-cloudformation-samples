@@ -1,0 +1,32 @@
+{
+    "typeName": "AWSSamples::S3BucketLoggingCompliance::Hook",
+    "description": "Validates that any S3 Bucket has logging configured to go to a specific bucket",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/s3-bucket-logging",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/s3-bucket-logging/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "LoggingBucket": {
+                "description": "The bucket for where access logs are sent",
+                "type": "string"
+            }
+        },
+        "required": [],
+        "additionalProperties": false
+    },
+
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

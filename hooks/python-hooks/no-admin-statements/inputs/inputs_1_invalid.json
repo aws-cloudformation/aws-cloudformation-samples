@@ -1,0 +1,77 @@
+{
+  "AWS::IAM::Group": {
+    "resourceProperties": {
+      "Policies": [
+        {
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "*",
+                "Resource": "*"
+              }
+            ]
+          },
+          "PolicyName": "test"
+        }
+      ],
+      "UserName": "WithInlineEc2Policy"
+    }
+  },
+  "AWS::IAM::User": {
+    "resourceProperties": {
+      "Policies": [
+        {
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "*",
+                "Resource": "*"
+              }
+            ]
+          },
+          "PolicyName": "test"
+        }
+      ],
+      "UserName": "WithInlineEc2Policy"
+    }
+  },
+  "AWS::IAM::Role": {
+    "resourceProperties": {
+      "Policies": [
+        {
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "*",
+                "Resource": "*"
+              }
+            ]
+          },
+          "PolicyName": "test"
+        }
+      ],
+      "UserName": "WithInlineEc2Policy"
+    }
+  },
+    "AWS::IAM::Policy": {
+    "resourceProperties": {
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "*",
+                "Resource": "*"
+              }
+            ]
+          },
+          "PolicyName": "test"
+        }
+  }
+}

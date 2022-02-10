@@ -1,0 +1,7 @@
+{
+  "AWS::EC2::Instance": {
+    "resourceProperties": {
+      "ImageId": "ami-0e5b6b6a9f3db6db8"
+    }
+  }
+}

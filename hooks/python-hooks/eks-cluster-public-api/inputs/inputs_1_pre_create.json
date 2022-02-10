@@ -1,0 +1,9 @@
+{
+  "AWS::EKS::Cluster": {
+    "resourceProperties": {
+      "ResourcesVpcConfig": {
+        "EndpointPublicAccess": false
+      }
+    }
+  }
+}

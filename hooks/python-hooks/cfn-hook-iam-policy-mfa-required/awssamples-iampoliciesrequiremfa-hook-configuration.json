@@ -1,0 +1,6 @@
+{
+    "properties": {},
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::IamPoliciesRequireMfa::Hook"
+}

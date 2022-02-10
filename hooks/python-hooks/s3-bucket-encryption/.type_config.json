@@ -1,0 +1,12 @@
+{
+  "CloudFormationConfiguration": {
+    "HookConfiguration": {
+      "TargetStacks": "ALL",
+      "FailureMode": "FAIL",
+      "Properties": {
+        "minBuckets": "1",
+        "encryptionAlgorithm": "aws:kms"
+      }
+    }
+  }
+}

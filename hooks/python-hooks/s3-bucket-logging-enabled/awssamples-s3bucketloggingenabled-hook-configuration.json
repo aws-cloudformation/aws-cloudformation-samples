@@ -1,0 +1,17 @@
+{
+    "properties": {
+        "DestinationBucketName": {
+            "description": "The name of the bucket where Amazon S3 should store server access log files.",
+            "default": "",
+            "type": "string"
+        },
+        "LogFilePrefix": {
+            "description": "A prefix for all log object keys. Use \"%BUCKET_NAME%\" to represent the source bucket name, using \"%BUCKET_NAME%\" will require the resource's BucketName property is defined.",
+            "default": "",
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::S3BucketLoggingEnabled::Hook"
+}

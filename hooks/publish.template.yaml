@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS sample module publishing
+Parameters:
+  LogDeliveryBucket:
+    Type: String
+    Description: "Name of bucket to deliver test logs to"
+  PublicVersionNumber:
+    Type: String
+    Description: "Semantic version number, must be bumped for each update"
+  NameWithDashes:
+    Type: String
+    Description: "Name of type seperated by dashes eg.: My-SuperDuper-Hook"
+  NameWithColons:
+    Type: String
+    Description: "Name of type seperated by double colons eg.: My::SuperDuper::Hook"
+  Configuration:
+    Type: String
+    Description: "JSON configuration for hook"
+  SchemaHandlerPackage:
+    Type: String
+    Description: "S3 uri for resource type zip eg.: s3://my-bucket/path/to/my.zip"
+  ExRoleName:
+    Type: String
+    Description: "IAM role name. Passed to the handler code"
+  LogRoleName:
+    Type: String
+    Description: "IAM role name. Used for cwl logging"
+Resources:
+  Publish:
+    DependsOn: Config
+    Type: AWS::CloudFormation::PublicTypeVersion
+    Properties:
+      Arn: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:type/hook/${NameWithDashes}'
+      LogDeliveryBucket: !Ref LogDeliveryBucket
+      PublicVersionNumber: !Ref PublicVersionNumber
+      Type: HOOK
+      TypeName: !Ref NameWithColons
+  Config:
+    DependsOn: DefaultVersion
+    Type: AWS::CloudFormation::HookTypeConfig
+    Properties:
+      Configuration: !Ref Configuration
+      TypeName: !Ref NameWithColons
+  DefaultVersion:
+    Type: AWS::CloudFormation::HookDefaultVersion
+    Properties:
+      TypeVersionArn: !Ref Version
+  Version:
+    Type: AWS::CloudFormation::HookVersion
+    Properties:
+      ExecutionRoleArn: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${ExRoleName}'
+      LoggingConfig:
+        LogGroupName: !Sub 'cloudformation/hooks/${NameWithDashes}'
+        LogRoleArn: !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${LogRoleName}'
+      SchemaHandlerPackage: !Ref SchemaHandlerPackage

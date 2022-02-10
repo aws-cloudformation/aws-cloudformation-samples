@@ -1,0 +1,32 @@
+{
+    "typeName": "AWSSamples::IamPolicyDoesNotGiveAdmin::Hook",
+    "description": "Checks that policy definitions do not give the equivalent of the AdminAccess managed policy",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/no-admin-statements",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/no-admin-statements/README.md",
+    "typeConfiguration": {
+        "properties": {},
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::IAM::Policy",
+                "AWS::IAM::Role",
+                "AWS::IAM::Group",
+                "AWS::IAM::User"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::IAM::Policy",
+                "AWS::IAM::Role",
+                "AWS::IAM::Group",
+                "AWS::IAM::User"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

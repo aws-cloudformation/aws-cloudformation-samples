@@ -1,0 +1,13 @@
+{
+  "AWS::IAM::Role": {
+    "resourceProperties": {
+      "RoleName": "test-valid-role",
+      "PermissionsBoundary": "arn:aws:iam::555555555555:policy/s3_deny_permissions_boundary"
+    }
+  },
+  "AWS::IAM::User": {
+    "resourceProperties": {
+      "UserName": "test-excluded-user"
+    }
+  }
+}

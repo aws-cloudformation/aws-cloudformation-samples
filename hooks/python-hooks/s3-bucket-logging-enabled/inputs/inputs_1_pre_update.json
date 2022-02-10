@@ -1,0 +1,3 @@
+{
+  "AWS::S3::Bucket": {"resourceProperties": {"LoggingConfiguration": {}}}
+}

@@ -1,0 +1,27 @@
+{
+    "AWS::SQS::QueuePolicy": {
+        "resourceProperties": {
+            "Queues": [
+                "https://sqs:us-east-2.amazonaws.com/444455556666/queue2"
+            ],
+            "PolicyDocument": {
+                "Statement": [
+                    {
+                        "Action": [
+                            "SQS:SendMessage",
+                            "SQS:ReceiveMessage"
+                        ],
+                        "Effect": "Allow",
+                        "Resource": "arn:aws:sqs:us-east-2:444455556666:queue2",
+                        "Principal": "some-principal",
+                        "Condition": {
+                            "Bool": {
+                                "aws:SecureTransport": "false"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

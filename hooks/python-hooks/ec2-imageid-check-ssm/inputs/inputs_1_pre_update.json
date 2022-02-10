@@ -1,0 +1,22 @@
+{
+  "AWS::EC2::Instance": {
+    "typeConfiguration": {
+      "SsmKey": "blah"
+    },
+    "resourceProperties": {
+      "InstanceType": "t2.micro",
+      "SecurityGroups": [
+        {
+          "Ref": "InstanceSecurityGroup"
+        }
+      ],
+      "ImageId": "ami-0e5b6b6a9f3db6db8",
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "EC2InstanceCompliant"
+        }
+      ]
+    }
+  }
+}

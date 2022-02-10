@@ -1,0 +1,7 @@
+{
+  "AWS::RDS::DBInstance": {
+    "resourceProperties": {
+      "StorageEncrypted": "true"
+    }
+  }
+}

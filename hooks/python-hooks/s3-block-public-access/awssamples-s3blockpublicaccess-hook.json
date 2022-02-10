@@ -1,0 +1,31 @@
+{
+    "typeName": "AWSSamples::S3BlockPublicAccess::Hook",
+    "description": "Require S3 Block Public Access unless the bucket is excluded",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/s3-block-public-access",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/s3-block-public-access/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "excludedBucketSuffixes": {
+                "description": "A comma separated list of bucket names that should be excluded from the BPA requirement. Each name provided will be matched using starts-with logic.",
+                "type": "string"
+            }
+        },
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}
