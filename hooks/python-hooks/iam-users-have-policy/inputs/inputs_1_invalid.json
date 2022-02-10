@@ -1,0 +1,7 @@
+{
+  "AWS::IAM::User": {
+    "resourceProperties": {
+      "UserName": "NoPolicies"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+    "typeName": "AWSSamples::Ec2VolumeEncryptionKms::Hook",
+    "description": "Validates that any EC2 Volume has encryption configured and set to the compliant KMS key",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/ec2-volumeencryption-kms",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/ec2-volumeencryption-kms/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "KmsKeyId": {
+                "description": "KMS Key that should be used for encryption",
+                "type": "string"
+            }
+        },
+        "required": [],
+        "additionalProperties": false
+    },
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EC2::Volume"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::EC2::Volume"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

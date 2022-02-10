@@ -1,0 +1,18 @@
+{
+  "AWS::S3::Bucket": {
+    "resourceProperties": {
+      "BucketName": "test-compliant",
+      "BucketEncryption": {
+        "ServerSideEncryptionConfiguration": [
+          {
+            "ServerSideEncryptionByDefault": {
+              "SSEAlgorithm": "aws:kms",
+              "KMSMasterKeyID": "test-key"
+            },
+            "BucketKeyEnabled": "true"
+          }
+        ]
+      }
+    }
+  }
+}

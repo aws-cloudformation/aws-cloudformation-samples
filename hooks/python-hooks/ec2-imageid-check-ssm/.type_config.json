@@ -1,0 +1,11 @@
+{
+  "CloudFormationConfiguration": {
+    "HookConfiguration": {
+      "TargetStacks": "ALL",
+      "FailureMode": "FAIL",
+      "Properties": {
+        "SsmKey": "compliant-imageid-x86"
+      }
+    }
+  }
+}

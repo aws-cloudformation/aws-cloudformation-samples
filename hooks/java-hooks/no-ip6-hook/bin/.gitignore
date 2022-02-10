@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+._*
+
+# Maven outputs
+.classpath
+
+# IntelliJ
+*.iml
+.idea
+out.java
+out/
+.settings
+.project
+
+# auto-generated files
+target/
+
+# our logs
+rpdk.log*
+
+# contains credentials
+sam-tests/

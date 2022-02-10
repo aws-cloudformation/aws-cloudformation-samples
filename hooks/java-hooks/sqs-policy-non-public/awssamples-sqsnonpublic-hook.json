@@ -1,0 +1,27 @@
+{
+    "typeName": "AWSSamples::SQSNonPublic::Hook",
+    "description": "Example resource SSE (Server Side Encryption) verification hook",
+        "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/sqs-policy-non-public",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/sqs-policy-non-public/README.md",
+    "typeConfiguration": {
+        "properties": {      
+        },
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::SQS::QueuePolicy"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::SQS::QueuePolicy"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

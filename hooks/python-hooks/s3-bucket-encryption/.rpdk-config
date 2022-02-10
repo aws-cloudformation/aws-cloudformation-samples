@@ -1,0 +1,21 @@
+{
+    "artifact_type": "HOOK",
+    "typeName": "AWSSamples::S3BucketEncrypt::Hook",
+    "language": "python36",
+    "runtime": "python3.6",
+    "entrypoint": "awssamples_s3bucketencrypt_hook.handlers.hook",
+    "testEntrypoint": "awssamples_s3bucketencrypt_hook.handlers.test_entrypoint",
+    "settings": {
+        "version": false,
+        "subparser_name": null,
+        "verbose": 0,
+        "force": false,
+        "type_name": null,
+        "artifact_type": null,
+        "endpoint_url": null,
+        "region": null,
+        "target_schemas": [],
+        "use_docker": true,
+        "protocolVersion": "2.0.0"
+    }
+}

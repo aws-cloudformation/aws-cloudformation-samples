@@ -1,0 +1,12 @@
+{
+    "properties": {
+        "SsmKey": {
+            "description": "The key to get the ImageID parameter from",
+            "type": "string"
+        }
+    },
+    "required": [],
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::Ec2ImageIdCheckSsm::Hook"
+}

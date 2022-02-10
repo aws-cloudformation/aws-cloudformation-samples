@@ -1,0 +1,20 @@
+{
+    "AWS::S3::Bucket": {
+        "resourceProperties": {
+            "BucketName": "foo",
+            "AccessControl": "Private",
+            "LoggingConfiguration": {
+                "DestinationBucketName": "foo",
+                "LogFilePrefix": "/logs-samples/"
+            }
+        },
+        "previousResourceProperties": {
+            "BucketName": "foo",
+            "AccessControl": "Private",
+            "LoggingConfiguration": {
+                "DestinationBucketName": "loggingbucket-${AWS::AccountId}-${AWS::Region}-sample",
+                "LogFilePrefix": "/logs-samples/"
+            }
+        }
+    }
+}

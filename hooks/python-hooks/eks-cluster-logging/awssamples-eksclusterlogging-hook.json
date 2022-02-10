@@ -1,0 +1,26 @@
+{
+    "typeName": "AWSSamples::EksClusterLogging::Hook",
+    "description": "Validates that EKS clusters have audit and authentication logging enabled.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/eks-cluster-logging",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/eks-cluster-logging/README.md",
+    "typeConfiguration": {
+        "properties": {},
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EKS::Cluster"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::EKS::Cluster"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

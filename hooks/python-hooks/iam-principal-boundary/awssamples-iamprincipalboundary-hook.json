@@ -1,0 +1,35 @@
+{
+    "typeName": "AWSSamples::IAMPrincipalBoundary::Hook",
+    "description": "Example for requiring an Permissions Boundary on an IAM Principal hook",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/iam-principal-boundary",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/iam-principal-boundary/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "iamPrincipalBoundaryArn": {
+                "description": "The ARN that must be attached as an IAM Principal",
+                "type": "string"
+            },
+            "excludedPrincipalSuffixes": {
+                "description": "A comma separated list of principal names that should be excluded from the boundary. Each name provided will be matched using starts-with logic.",
+                "type": "string"
+            }
+        },
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::IAM::Role","AWS::IAM::User"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::IAM::Role","AWS::IAM::Role"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

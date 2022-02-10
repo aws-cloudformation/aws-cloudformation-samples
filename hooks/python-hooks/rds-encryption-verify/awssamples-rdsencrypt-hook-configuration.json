@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "excludeDBInstanceClassList": {
+            "description": "List of DB Instance classes does not support encryption",
+            "type": "array"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::RdsEncrypt::Hook"
+}

@@ -1,0 +1,248 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Tests ::EC2::EnforceSsmHook against arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore ManagedPolicyArn
+Parameters:
+  ManagedOrManualIAMPolicy:
+    Description: Select 'Manual' to use apply SSM Session Manager policies.
+    Type: String
+    AllowedValues:
+      - Managed
+      - Manual
+    Default: Managed
+
+  TestIllegalManualSSMPolicies:
+    Description: Select 'True' to simulate a failure scenario that should be caught by the hook
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: False
+
+  IncludeInstanceProfile:
+    Description: Select 'False' to simulate a failure scenario that should be caught by the hook
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: True
+
+  IncludeSSMKMS:
+    Description: Select 'True' to include a KMS key for SSM Session Encryption
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: False
+
+  IncludeExplicitSecurityGroup:
+    Description: Select 'True' to include an explicit Security Group
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: False
+
+  IncludeExplicitSSHSecurityGroup:
+    Description: Select 'True' to include an explicit SSH Security Group
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: False
+
+  UseProvidedDefaultVpcValues:
+    Description: Select 'True' to provide default VpcId and SubnetId
+    Type: String
+    AllowedValues:
+      - True
+      - False
+    Default: False
+
+  DefaultVpcId:
+    Description: VpcId of the default VPC
+    Type: AWS::EC2::VPC::Id
+
+  DefaultVpcSubnetId:
+    Description: SubnetId in the provided default VPC
+    Type: AWS::EC2::Subnet::Id
+
+
+Conditions:
+  CreateVpcAndSubnet: !Equals [!Ref UseProvidedDefaultVpcValues, False]
+  ApplyInstanceProfile: !Equals [!Ref IncludeInstanceProfile, True]
+  ApplyManualSSMIamPolicies: !Equals [!Ref ManagedOrManualIAMPolicy, Manual]
+  ApplyManagedSSMIamPolicies: !Equals [!Ref ManagedOrManualIAMPolicy, Managed]
+  ApplySSMKMSKey: !Equals [!Ref IncludeSSMKMS, 'True']
+  ApplyIllegalManualSSMPolicies: !Equals [!Ref TestIllegalManualSSMPolicies, True]
+  UseInstanceProfileAndManagedPolicy: !And [!Condition ApplyInstanceProfile, !Condition ApplyManagedSSMIamPolicies]
+  UseInstanceProfileAndManualPolicy: !And [!Condition ApplyInstanceProfile, !Condition ApplyManualSSMIamPolicies]
+  ApplyExplicitSecurityGroup: !Equals [!Ref IncludeExplicitSecurityGroup, True]
+  ApplyExplicitSSHSecurityGroup: !Equals [!Ref IncludeExplicitSSHSecurityGroup, True]
+  ApplySecurityGroups: !Or [!Condition ApplyExplicitSecurityGroup, !Condition ApplyExplicitSSHSecurityGroup]
+
+Resources:
+
+  SsmKmsKey:
+    Condition: ApplySSMKMSKey
+    Type: AWS::KMS::Key
+    Properties:
+       Description: "KMS Key for SSM Session Manager Encryption"
+       Enabled: true
+       KeyPolicy:
+        Version: 2012-10-17
+        Id: auto-ssm-1
+        Statement:
+          - Sid: Allow access through SSM for all principals in the account that are
+              authorized to use SSM
+            Effect: Allow
+            Principal:
+              AWS: "*"
+            Action:
+              - kms:*
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:CallerAccount: "094559051528"
+                kms:ViaService: ssm.us-west-2.amazonaws.com
+          - Sid: Allow direct access to key metadata to the account
+            Effect: Allow
+            Principal:
+              AWS: arn:aws:iam::094559051528:root
+            Action:
+              - kms:*
+            Resource: "*"
+
+  MyVPC:
+    Condition: CreateVpcAndSubnet
+    Type: AWS::EC2::VPC
+    Properties: 
+      CidrBlock: 10.0.0.0/16
+
+  MyPubSubnet:
+    Condition: CreateVpcAndSubnet
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.0.0/24
+
+  MyExplicitSecurityGroup:
+    Condition: ApplyExplicitSecurityGroup
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: EC2 SecuritryGroup
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      VpcId: !If [CreateVpcAndSubnet, !Ref MyVPC, !Ref DefaultVpcId]
+
+  MyExplicitSSHSecurityGroup:
+    Condition: ApplyExplicitSSHSecurityGroup
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: EC2 SecuritryGroup
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      VpcId: !If [CreateVpcAndSubnet, !Ref MyVPC, !Ref DefaultVpcId]
+
+  MyInstanceRoleWithManagedPolicyRole:
+    Condition: UseInstanceProfileAndManagedPolicy
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Amazon EC2 Role to enable AWS Systems Manager service core functionality.
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /   
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Policies:
+        - !If
+          - ApplySSMKMSKey
+          - PolicyName: SSMSessionManagerKMSEncryptionPermissions
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:GetEncryptionConfiguration
+                  Resource: "*"
+                - Effect: Allow
+                  Action:
+                    - kms:Decrypt
+                  Resource: !GetAtt SsmKmsKey.Arn    
+          - !Ref AWS::NoValue
+
+  MyInstanceRoleWithManualPolicyRole:
+    Condition: UseInstanceProfileAndManualPolicy
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Amazon EC2 Role to enable AWS Systems Manager service core functionality.
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /   
+      Policies:
+        - PolicyName: SSMSessionManagerManualPermissions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ssmmessages:CreateControlChannel
+                  - ssmmessages:CreateDataChannel
+                  - !If [ApplyIllegalManualSSMPolicies, !Ref AWS::NoValue, ssmmessages:OpenControlChannel]
+                  - ssmmessages:OpenDataChannel
+                Resource: "*"
+        - !If
+          - ApplySSMKMSKey
+          - PolicyName: SSMSessionManagerKMSEncryptionPermissions
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:GetEncryptionConfiguration
+                  Resource: "*"
+                - Effect: Allow
+                  Action:
+                    - kms:Decrypt
+                  Resource: !GetAtt SsmKmsKey.Arn    
+          - !Ref AWS::NoValue
+
+  MyInstanceProfile:
+    Condition: ApplyInstanceProfile
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles: 
+        - !If [ApplyManualSSMIamPolicies, !Ref MyInstanceRoleWithManualPolicyRole, !Ref MyInstanceRoleWithManagedPolicyRole]
+      
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: ami-0c2d06d50ce30b442
+      InstanceType: t3.medium
+      IamInstanceProfile: !If [ApplyInstanceProfile, !Ref MyInstanceProfile, !Ref AWS::NoValue]
+      SubnetId: !If [CreateVpcAndSubnet, !Ref MyPubSubnet, !Ref DefaultVpcSubnetId]
+      SecurityGroupIds: !If 
+        - ApplySecurityGroups
+        - - !If [ApplyExplicitSecurityGroup, !Ref MyExplicitSecurityGroup, !Ref AWS::NoValue]
+          - !If [ApplyExplicitSSHSecurityGroup, !Ref MyExplicitSSHSecurityGroup, !Ref AWS::NoValue]
+        - !Ref AWS::NoValue
+

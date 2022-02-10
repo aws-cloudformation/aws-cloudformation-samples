@@ -1,0 +1,26 @@
+{
+    "typeName": "AWSSamples::Ec2ImageIdCheckSsm::Hook",
+    "description": "Validates that EC2 Instances are using the correct AMI ImageID from SSM",
+        "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/ec2-imageid-check-ssm",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/ec2-imageid-check-ssm/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "SsmKey": {
+                "description": "The key to get the ImageID parameter from",
+                "type": "string"
+            }
+        },
+        "required": [],
+        "additionalProperties": false
+    },
+
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EC2::Instance"
+            ],
+            "permissions": ["ssm:GetParameter"]
+        }
+    },
+    "additionalProperties": false
+}

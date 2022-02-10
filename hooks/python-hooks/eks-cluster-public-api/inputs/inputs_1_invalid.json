@@ -1,0 +1,7 @@
+{
+  "AWS::EKS::Cluster": {
+    "resourceProperties": {
+      "ResourcesVpcConfig": {}
+    }
+  }
+}

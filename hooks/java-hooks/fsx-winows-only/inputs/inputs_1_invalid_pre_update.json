@@ -1,0 +1,36 @@
+{
+    "AWS::FSx::FileSystem": {
+        "resourceProperties": {
+            "FileSystemType": "LUSTRE",
+            "StorageCapacity": 1200,
+            "SubnetIds": [
+                "subnet-0a0a0a0a"
+            ],
+            "SecurityGroupIds": [
+                "sg-0a0a0a0a"
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "CFNs3linkedLustre"
+                }
+            ]
+        },
+        "previousResourceProperties": {
+            "FileSystemType": "LUSTRE",
+            "StorageCapacity": 1200,
+            "SubnetIds": [
+                "subnet-0a0a0a0a"
+            ],
+            "SecurityGroupIds": [
+                "sg-0a0a0a0a"
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "CFNs3linkedLustre"
+                }
+            ]
+        }
+    }
+}

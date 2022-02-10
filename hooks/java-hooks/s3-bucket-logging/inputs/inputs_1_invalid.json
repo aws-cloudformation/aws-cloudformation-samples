@@ -1,0 +1,12 @@
+{
+    "AWS::S3::Bucket": {
+        "resourceProperties": {
+            "BucketName": "foo",
+            "AccessControl": "Private",
+            "LoggingConfiguration": {
+                "DestinationBucketName": "foo",
+                "LogFilePrefix": "/logs-samples/"
+            }
+        }
+    }
+}

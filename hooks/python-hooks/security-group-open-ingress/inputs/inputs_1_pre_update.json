@@ -1,0 +1,18 @@
+{
+  "AWS::EC2::SecurityGroup": {
+    "resourceProperties": {
+      "SecurityGroupIngress": [
+        {
+          "IpProtocol": -1,
+          "CidrIpv6": "deadbeef:/32"
+        }
+      ]
+    }
+  },
+  "AWS::EC2::SecurityGroupIngress": {
+    "resourceProperties": {
+      "IpProtocol": -1,
+      "CidrIpv6": "deadbeef:/32"
+    }
+  }
+}

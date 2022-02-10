@@ -1,0 +1,28 @@
+{
+    "AWS::EC2::Subnet": {
+        "resourceProperties": {
+            "VpcId": "id",
+            "CidrBlock": "10.0.0.0/24",
+            "AvailabilityZone": "us-east-1a",
+            "AssignIpv6AddressOnCreation": true,
+            "Tags": [
+                {
+                    "Key": "stack",
+                    "Value": "production"
+                }
+            ]
+        },
+        "previousResourceProperties": {
+            "VpcId": "id",
+            "CidrBlock": "10.0.0.0/24",
+            "AvailabilityZone": "us-east-1a",
+            "AssignIpv6AddressOnCreation": false,
+            "Tags": [
+                {
+                    "Key": "stack",
+                    "Value": "production"
+                }
+            ]
+        }
+    }
+}

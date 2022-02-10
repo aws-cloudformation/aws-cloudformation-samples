@@ -1,0 +1,26 @@
+{
+    "typeName": "AWSSamples::EksClusterPublicApi::Hook",
+    "description": "Validates that EKS clusters do not have publicly accessible endpoints.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/eks-cluster-public-api",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/eks-cluster-public-api/README.md",
+    "typeConfiguration": {
+        "properties": {},
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EKS::Cluster"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::EKS::Cluster"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "excludedBucketSuffixes": {
+            "description": "A comma separated list of bucket names that should be excluded from the BPA requirement. Each name provided will be matched using starts-with logic.",
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::S3BlockPublicAccess::Hook"
+}

@@ -1,0 +1,7 @@
+{
+  "AWS::EC2::Instance": {
+    "resourceProperties": {
+      "ImageId": "ami-noallowed"
+    }
+  }
+}

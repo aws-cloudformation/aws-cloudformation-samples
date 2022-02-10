@@ -1,0 +1,37 @@
+{
+    "typeName": "AWSSamples::S3BucketLoggingEnabled::Hook",
+    "description": "Checks whether bucket logging is enabled for S3 bucket resources, and (optionally) that the log destination is a specified location.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/s3-bucket-logging-enabled",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/s3-bucket-logging-enabled/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "DestinationBucketName": {
+                "description": "The name of the bucket where Amazon S3 should store server access log files.",
+                "default": "",
+                "type": "string"
+            },
+            "LogFilePrefix": {
+                "description": "A prefix for all log object keys. Use \"%BUCKET_NAME%\" to represent the source bucket name, using \"%BUCKET_NAME%\" will require the resource's BucketName property is defined.",
+                "default": "",
+                "type": "string"
+            }
+        },
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::S3::Bucket"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

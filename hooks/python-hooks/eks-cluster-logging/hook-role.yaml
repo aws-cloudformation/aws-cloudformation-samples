@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  This CloudFormation template creates a role assumed by CloudFormation
+  during Hook operations on behalf of the customer.
+
+Resources:
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      MaxSessionDuration: 8400
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - resources.cloudformation.amazonaws.com
+                - hooks.cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+      Path: "/"
+      Policies:
+        - PolicyName: HookTypePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Deny
+                Action:
+                - "*"
+                Resource: "*"
+Outputs:
+  ExecutionRoleArn:
+    Value:
+      Fn::GetAtt: ExecutionRole.Arn

@@ -1,0 +1,15 @@
+{
+  "AWS::EKS::Cluster": {
+    "resourceProperties": {
+      "Logging": {
+        "ClusterLogging": {
+          "EnabledTypes": [
+            {"Type":  "audit"},
+            {"Type":  "api"},
+            {"Type":  "authenticator"}
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for the AWSSamples::Ec2VolumeEncryptionKms::Hook resource type
+
+Globals:
+  Function:
+    Timeout: 180  # docker start-up times can be long for SAM CLI
+    MemorySize: 256
+
+Resources:
+  TypeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.awssamples.ec2volumeencryptionkms.hook.HookHandlerWrapper::handleRequest
+      Runtime: java8
+      CodeUri: ./target/awssamples-ec2volumeencryptionkms-hook-handler-1.0-SNAPSHOT.jar
+
+  TestEntrypoint:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.awssamples.ec2volumeencryptionkms.hook.HookHandlerWrapper::testEntrypoint
+      Runtime: java8
+      CodeUri: ./target/awssamples-ec2volumeencryptionkms-hook-handler-1.0-SNAPSHOT.jar
+

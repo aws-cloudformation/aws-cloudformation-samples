@@ -1,0 +1,15 @@
+{
+    "properties": {
+        "iamPrincipalBoundaryArn": {
+            "description": "The ARN that must be attached as an IAM Principal",
+            "type": "string"
+        },
+        "excludedPrincipalSuffixes": {
+            "description": "A comma separated list of principal names that should be excluded from the boundary. Each name provided will be matched using starts-with logic.",
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::IAMPrincipalBoundary::Hook"
+}

@@ -1,0 +1,26 @@
+{
+    "typeName": "AWSSamples::NoIP6::Hook",
+    "description": "Example resource hook the prevents subnets from being created with IPv6 enabled.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/no-ip6-hook",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/no-ip6-hook/README.md",
+    "typeConfiguration": {
+        "properties": {},
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EC2::Subnet"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::EC2::Subnet"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+    "typeName": "AWSSamples::IamUsersHavePolicy::Hook",
+    "description": "Verifies that IAM Users defined in the stack are associated with a policy",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/iam-users-have-policy",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/iam-users-have-policy/README.md",
+    "typeConfiguration": {
+        "properties": {},
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::IAM::User"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::IAM::User"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

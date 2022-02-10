@@ -1,0 +1,26 @@
+{
+    "typeName": "AWSSamples::FSxWindowsOnly::Hook",
+    "description": "Example resource SSE (Server Side Encryption) verification hook",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/fsx-winows-only",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/fsx-winows-only/README.md",
+    "typeConfiguration": {
+        "properties": {},
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::FSx::FileSystem"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::FSx::FileSystem"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

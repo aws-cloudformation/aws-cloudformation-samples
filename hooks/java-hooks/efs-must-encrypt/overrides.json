@@ -1,0 +1,113 @@
+{
+    "CREATE_PRE_PROVISION": {
+        "AWS::EFS::FileSystem": {
+            "resourceProperties": {
+                "/PerformanceMode": "maxIO",
+                "/LifecyclePolicies": [
+                    {
+                        "TransitionToIA": "AFTER_30_DAYS"
+                    }
+                ],
+                "/Encrypted": true,
+                "/FileSystemTags": [
+                    {
+                        "Key": "Name",
+                        "Value": "TestFileSystem"
+                    }
+                ],
+                "/FileSystemPolicy": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "elasticfilesystem:ClientMount"
+                            ],
+                            "Principal": {
+                                "AWS": "arn:aws:iam::111122223333:role/EfsReadOnly"
+                            }
+                        }
+                    ]
+                },
+                "/BackupPolicy": {
+                    "Status": "ENABLED"
+                },
+                "/KmsKeyId": "foo"
+            }
+        }
+    },
+    "UPDATE_PRE_PROVISION": {
+        "AWS::EFS::FileSystem": {
+            "resourceProperties": {
+                "/PerformanceMode": "maxIO",
+                "/LifecyclePolicies": [
+                    {
+                        "TransitionToIA": "AFTER_30_DAYS"
+                    }
+                ],
+                "/Encrypted": true,
+                "/FileSystemTags": [
+                    {
+                        "Key": "Name",
+                        "Value": "TestFileSystem"
+                    }
+                ],
+                "/FileSystemPolicy": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "elasticfilesystem:ClientMount"
+                            ],
+                            "Principal": {
+                                "AWS": "arn:aws:iam::111122223333:role/EfsReadOnly"
+                            }
+                        }
+                    ]
+                },
+                "/BackupPolicy": {
+                    "Status": "ENABLED"
+                },
+                "/KmsKeyId": "foo"
+            }
+        }
+    },
+    "INVALID": {
+        "AWS::EFS::FileSystem": {
+            "resourceProperties": {
+                "/PerformanceMode": "maxIO",
+                "/LifecyclePolicies": [
+                    {
+                        "TransitionToIA": "AFTER_30_DAYS"
+                    }
+                ],
+                "/Encrypted": false,
+                "/FileSystemTags": [
+                    {
+                        "Key": "Name",
+                        "Value": "TestFileSystem"
+                    }
+                ],
+                "/FileSystemPolicy": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "elasticfilesystem:ClientMount"
+                            ],
+                            "Principal": {
+                                "AWS": "arn:aws:iam::111122223333:role/EfsReadOnly"
+                            }
+                        }
+                    ]
+                },
+                "/BackupPolicy": {
+                    "Status": "ENABLED"
+                },
+                "/KmsKeyId": "foo"
+            }
+        }
+    }
+}

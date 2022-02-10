@@ -1,0 +1,17 @@
+{
+    "properties": {
+        "minBuckets": {
+            "description": "Minimum number of compliant buckets",
+            "type": "string"
+        },
+        "encryptionAlgorithm": {
+            "description": "Encryption algorithm for SSE",
+            "default": "AES256",
+            "type": "string"
+        }
+    },
+    "required": [],
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::S3BucketEncrypt::Hook"
+}

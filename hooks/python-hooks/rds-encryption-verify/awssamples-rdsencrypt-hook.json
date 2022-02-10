@@ -1,0 +1,39 @@
+{
+    "typeName": "AWSSamples::RdsEncrypt::Hook",
+    "description": "Hook to validate if RDS DB Instance is SSE (Server Side Encryption) enabled",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/rds-encryption-verify",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/rds-encryption-verify/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "excludeDBInstanceClassList" : {
+                "description" : "List of DB Instance classes does not support encryption",
+                "type": "array"
+            }
+        },
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::RDS::DBInstance"
+            ],
+            "permissions": [
+                "rds:DescribeDBInstances"
+            ]
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::RDS::DBInstance"
+            ],
+            "permissions": [
+                "rds:DescribeDBInstances"
+            ]
+        },
+        "preDelete": {
+            "targetNames": [],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

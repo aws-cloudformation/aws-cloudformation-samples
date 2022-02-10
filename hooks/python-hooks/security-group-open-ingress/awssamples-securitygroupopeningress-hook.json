@@ -1,0 +1,28 @@
+{
+    "typeName": "AWSSamples::SecurityGroupOpenIngress::Hook",
+    "description": "Validates that Security Groups do not allow inbound traffic from any address (0.0.0.0/0/ or ::/0).",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/security-group-open-ingress",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/security-group-open-ingress/README.md",
+    "typeConfiguration": {
+        "properties": {},
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EC2::SecurityGroup",
+                "AWS::EC2::SecurityGroupIngress"
+            ],
+            "permissions": []
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::EC2::SecurityGroup",
+                "AWS::EC2::SecurityGroupIngress"
+            ],
+            "permissions": []
+        }
+    },
+    "additionalProperties": false
+}

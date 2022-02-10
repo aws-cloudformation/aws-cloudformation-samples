@@ -1,0 +1,68 @@
+{
+  "AWS::IAM::Role": {
+    "resourceProperties": {
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": [
+                {
+                  "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:root"
+                }
+              ]
+            },
+            "Action": [
+              "sts:AssumeRole"
+            ]
+          }
+        ]
+      },
+      "Path": "/",
+      "Policies": [
+        {
+          "PolicyName": "InlineRootOne",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "dynamodb:*",
+                "Resource": "*",
+                "Condition": {
+                  "Bool": {
+                    "aws:MultiFactorAuthPresent": "true"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "AWS::IAM::Policy": {
+      "PolicyName": "ExternalRoot",
+      "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Action": "s3:*",
+                  "Resource": "*",
+                  "Condition": {
+                      "Bool": {
+                          "aws:MultiFactorAuthPresent": "true"
+                      }
+                  }
+              }
+          ]
+      },
+      "Roles": [
+          {
+              "Ref": "RootRole"
+          }
+      ]
+  }
+}
