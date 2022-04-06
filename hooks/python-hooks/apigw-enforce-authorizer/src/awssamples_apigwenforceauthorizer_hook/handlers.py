@@ -86,7 +86,7 @@ def validate_open_api_auth(resource_properties: Dict) -> bool:
     # If security is defined at top level
     # skip individual validation
     top_level_security = body.get("security", None)
-    if top_level_security is None:
+    if top_level_security is not None:
         return True
 
     paths = body.get("paths", {})
