@@ -1,6 +1,6 @@
 import logging
 import resource
-from typing import Any, MutableMapping, Optional
+from typing import Any, Dict, MutableMapping, Optional
 
 from cloudformation_cli_python_lib import (
     BaseHookHandlerRequest,
@@ -36,7 +36,7 @@ def pre_create_handler(
     )
     target_name = request.hookContext.targetName
     target_model = request.hookContext.targetModel
-    resource_properties = target_model.get("resourceProperties")
+    resource_properties = target_model.get("resourceProperties") if target_model is not None else None
 
     if validate_auth(target_name, resource_properties):
         progress.status = OperationStatus.SUCCESS
@@ -58,7 +58,7 @@ def pre_update_handler(
     )
     target_name = request.hookContext.targetName
     target_model = request.hookContext.targetModel
-    resource_properties = target_model.get("resourceProperties")
+    resource_properties = target_model.get("resourceProperties") if target_model is not None else None
 
     if validate_auth(target_name, resource_properties):
         progress.status = OperationStatus.SUCCESS
@@ -68,7 +68,10 @@ def pre_update_handler(
     return progress
 
 
-def validate_auth(target_name, resource_properties) -> bool:
+def validate_auth(target_name: Optional[str], resource_properties: Optional[Dict]) -> bool:
+    if target_name is None or resource_properties is None:
+        return False
+
     if target_name == "AWS::ApiGateway::RestApi" or target_name == "AWS::ApiGatewayV2::Api":
         return validate_open_api_auth(resource_properties)
     elif target_name == "AWS::ApiGateway::Method" or target_name == "AWS::ApiGatewayV2::Route":
@@ -77,7 +80,7 @@ def validate_auth(target_name, resource_properties) -> bool:
         raise ValueError("Unknown target: " + target_name)
 
 
-def validate_open_api_auth(resource_properties) -> bool:
+def validate_open_api_auth(resource_properties: Dict) -> bool:
     body = resource_properties.get("Body", {})
 
     # If security is defined at top level
@@ -103,7 +106,7 @@ def validate_open_api_auth(resource_properties) -> bool:
     return True
 
 
-def validate_cfn_auth(resource_properties):
+def validate_cfn_auth(resource_properties: Dict) -> bool:
     if resource_properties.get("HttpMethod", "").lower() in PUBLIC_METHODS:
         return True
     return bool(resource_properties.get("AuthorizerId", None))
