@@ -1,0 +1,8 @@
+{
+  "AWS::IAM::User": {
+    "resourceProperties": {
+      "UserName": "WithManagedPolicy",
+      "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AWSDenyAll"]
+    }
+  }
+}
