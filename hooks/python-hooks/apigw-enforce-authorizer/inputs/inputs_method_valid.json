@@ -1,0 +1,8 @@
+{
+    "AWS::ApiGateway::Method": {
+        "resourceProperties": {
+            "HttpMethod": "GET",
+            "AuthorizerId": "Example"
+        }
+    }
+}

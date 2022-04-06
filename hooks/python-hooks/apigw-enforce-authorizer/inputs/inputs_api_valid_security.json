@@ -1,0 +1,25 @@
+{
+    "AWS::ApiGatewayV2::Api": {
+        "resourceProperties": {
+            "Body": {
+                "paths": {
+                    "/post": {
+                        "post": {
+                            "x-amazon-apigateway-integration": {
+                                "payloadFormatVersion": "1.0",
+                                "httpMethod": "POST",
+                                "type": "aws_proxy",
+                                "uri": "..."
+                            },
+                            "security": [
+                                {
+                                    "MyLambdaAuthUpdated": []
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

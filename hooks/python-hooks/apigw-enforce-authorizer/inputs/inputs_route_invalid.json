@@ -1,0 +1,7 @@
+{
+    "AWS::ApiGatewayV2::Route": {
+        "resourceProperties": {
+            "HttpMethod": "GET"
+        }
+    }
+}

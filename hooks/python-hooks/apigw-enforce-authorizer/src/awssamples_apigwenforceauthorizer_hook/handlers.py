@@ -89,9 +89,12 @@ def validate_open_api_auth(resource_properties) -> bool:
     paths = body.get("paths", {})
     for path, methods in paths.items():
         for method, method_definition in methods.items():
+            # Skip over public methods such as OPTIONS
+            if method.lower() in PUBLIC_METHODS:
+                continue
             # Check both security and x-amazon-apigateway-auth section
             security = method_definition.get("security", None)
-            apigateway_auth = method.definition.get("x-amazon-apigateway-auth", None)
+            apigateway_auth = method_definition.get("x-amazon-apigateway-auth", None)
 
             # Assume [] or {} is a valid security definition
             if security is None and apigateway_auth is None:
