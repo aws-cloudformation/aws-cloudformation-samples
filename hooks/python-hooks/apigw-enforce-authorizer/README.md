@@ -6,7 +6,7 @@ This sample AWS CloudFormation Hook enforces [Amazon API Gateway](https://aws.am
 * When creating or updating an `AWS::ApiGateway::Method` or `AWS::ApiGatewayV2::Route`, the hook will check whether `AuthorizerId` is defined in the resource.
 
 ## Limitations
-This hook serves as a simple example on how authorizers can be enforced on APIGateway resources. There are a few limitation associated with it in favor of simplicity. It is encouraged to fork this example and customize it depending on the need.
+This hook serves as a simple example on how authorizers can be enforced on API Gateway resources. There are a few limitations associated with it in favor of simplicity. It is encouraged to fork this example and customize it depending on the need.
 1. OpenAPI definitions specified in S3 will be skipped and not validated.
 2. Hook will be enforced on all stacks and all routes. There is no way to skip certain stack or route.
 
