@@ -2,7 +2,7 @@
 
 This sample AWS CloudFormation Hook enforces [Amazon API Gateway](https://aws.amazon.com/api-gateway/) resources to have authorizers attached when created and updated.
 
-* When creating or updating an AWS::ApiGateway::RestApi or AWS::ApiGatewayV2::Api resource, the hook will check the JSON definition specified in `Body` to see whether all sections in `paths` have `security` defined.
+* When creating or updating an `AWS::ApiGateway::RestApi` or `AWS::ApiGatewayV2::Api` resource, the hook will check the JSON definition specified in `Body` to see whether all sections in `paths` have `security` defined.
 * When creating or updating an AWS::ApiGateway::Method or AWS::ApiGatewayV2::Route, the hook will check whether `AuthorizerId` is defined in the resource.
 
 ## Limitations
