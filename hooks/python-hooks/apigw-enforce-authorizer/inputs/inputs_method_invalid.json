@@ -1,7 +1,0 @@
-{
-    "AWS::ApiGateway::Method": {
-        "resourceProperties": {
-            "HttpMethod": "GET"
-        }
-    }
-}

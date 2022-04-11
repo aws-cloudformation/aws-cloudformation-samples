@@ -1,0 +1,56 @@
+{
+    "AWS::ApiGatewayV2::Api": {
+        "resourceProperties": {
+            "Body": {
+                "paths": {
+                    "/post": {
+                        "post": {
+                            "x-amazon-apigateway-integration": {
+                                "payloadFormatVersion": "1.0",
+                                "httpMethod": "POST",
+                                "type": "aws_proxy",
+                                "uri": "..."
+                            },
+                            "x-amazon-apigateway-auth": {
+                                "type": "AWS_IAM"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "AWS::ApiGateway::RestApi": {
+        "resourceProperties": {
+            "Body": {
+                "paths": {
+                    "/post": {
+                        "post": {
+                            "x-amazon-apigateway-integration": {
+                                "payloadFormatVersion": "1.0",
+                                "httpMethod": "POST",
+                                "type": "aws_proxy",
+                                "uri": "..."
+                            },
+                            "x-amazon-apigateway-auth": {
+                                "type": "AWS_IAM"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "AWS::ApiGateway::Method": {
+        "resourceProperties": {
+            "HttpMethod": "GET",
+            "AuthorizerId": "Example"
+        }
+    },
+    "AWS::ApiGatewayV2::Route": {
+        "resourceProperties": {
+            "HttpMethod": "GET",
+            "AuthorizerId": "Example"
+        }
+    }
+}
