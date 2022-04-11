@@ -28,7 +28,7 @@ PUBLIC_METHODS = ["options"]
 
 @hook.handler(HookInvocationPoint.CREATE_PRE_PROVISION)
 @hook.handler(HookInvocationPoint.UPDATE_PRE_PROVISION)
-def pre_update_handler(
+def pre_create_update_handler(
     _session: Optional[SessionProxy],
     request: BaseHookHandlerRequest,
     _callback_context: MutableMapping[str, Any],
