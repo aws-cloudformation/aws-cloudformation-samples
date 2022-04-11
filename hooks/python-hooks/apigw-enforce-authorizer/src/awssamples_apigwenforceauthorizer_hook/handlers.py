@@ -25,28 +25,6 @@ test_entrypoint = hook.test_entrypoint
 PUBLIC_METHODS = ["options"]
 
 @hook.handler(HookInvocationPoint.CREATE_PRE_PROVISION)
-def pre_create_handler(
-        session: Optional[SessionProxy],
-        request: HookHandlerRequest,
-        callback_context: MutableMapping[str, Any],
-        type_configuration: TypeConfigurationModel
-) -> ProgressEvent:
-    progress: ProgressEvent = ProgressEvent(
-        status=OperationStatus.FAILED
-    )
-    target_name = request.hookContext.targetName
-    target_model = request.hookContext.targetModel
-    resource_properties = target_model.get("resourceProperties") if target_model is not None else None
-
-    if validate_auth(target_name, resource_properties):
-        progress.status = OperationStatus.SUCCESS
-    else:
-        progress.status = OperationStatus.FAILED
-        progress.message = "Not all paths and methods have authorizers specified."
-        progress.errorCode = HandlerErrorCode.NonCompliant
-    return progress
-
-
 @hook.handler(HookInvocationPoint.UPDATE_PRE_PROVISION)
 def pre_update_handler(
         session: Optional[SessionProxy],
