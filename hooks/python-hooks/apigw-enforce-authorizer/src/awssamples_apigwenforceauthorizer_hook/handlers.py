@@ -1,5 +1,7 @@
+"""
+Hook handler for enforcing API Gateway authorizers.
+"""
 import logging
-import resource
 from typing import Any, Dict, MutableMapping, Optional
 
 from cloudformation_cli_python_lib import (
@@ -10,10 +12,9 @@ from cloudformation_cli_python_lib import (
     OperationStatus,
     ProgressEvent,
     SessionProxy,
-    exceptions,
 )
 
-from .models import HookHandlerRequest, TypeConfigurationModel
+from .models import TypeConfigurationModel
 
 # Use this logger to forward log messages to CloudWatch Logs.
 LOG = logging.getLogger(__name__)
@@ -24,20 +25,24 @@ test_entrypoint = hook.test_entrypoint
 
 PUBLIC_METHODS = ["options"]
 
+
 @hook.handler(HookInvocationPoint.CREATE_PRE_PROVISION)
 @hook.handler(HookInvocationPoint.UPDATE_PRE_PROVISION)
 def pre_update_handler(
-        session: Optional[SessionProxy],
-        request: BaseHookHandlerRequest,
-        callback_context: MutableMapping[str, Any],
-        type_configuration: TypeConfigurationModel
+    _session: Optional[SessionProxy],
+    request: BaseHookHandlerRequest,
+    _callback_context: MutableMapping[str, Any],
+    _type_configuration: TypeConfigurationModel,
 ) -> ProgressEvent:
-    progress: ProgressEvent = ProgressEvent(
-        status=OperationStatus.FAILED
-    )
+    """
+    Hook entry point for create and update.
+    """
+    progress: ProgressEvent = ProgressEvent(status=OperationStatus.FAILED)
     target_name = request.hookContext.targetName
     target_model = request.hookContext.targetModel
-    resource_properties = target_model.get("resourceProperties") if target_model is not None else None
+    resource_properties = (
+        target_model.get("resourceProperties") if target_model is not None else None
+    )
 
     if validate_auth(target_name, resource_properties):
         progress.status = OperationStatus.SUCCESS
@@ -48,19 +53,22 @@ def pre_update_handler(
     return progress
 
 
-def validate_auth(target_name: Optional[str], resource_properties: Optional[Dict]) -> bool:
+def validate_auth(
+    target_name: Optional[str], resource_properties: Optional[Dict]
+) -> bool:
+    """Validate whether API Gateway APIs or Methods/Routes have authorizers."""
     if target_name is None or resource_properties is None:
         return False
 
-    if target_name == "AWS::ApiGateway::RestApi" or target_name == "AWS::ApiGatewayV2::Api":
+    if target_name in ["AWS::ApiGateway::RestApi", "AWS::ApiGatewayV2::Api"]:
         return validate_open_api_auth(resource_properties)
-    elif target_name == "AWS::ApiGateway::Method" or target_name == "AWS::ApiGatewayV2::Route":
+    if target_name in ["AWS::ApiGateway::Method", "AWS::ApiGatewayV2::Route"]:
         return validate_cfn_auth(resource_properties)
-    else:
-        raise ValueError("Unknown target: " + target_name)
+    raise ValueError("Unknown target: " + target_name)
 
 
 def validate_open_api_auth(resource_properties: Dict) -> bool:
+    """Validate OpenAPI definition specified in an API resource."""
     body = resource_properties.get("Body", {})
 
     # If security is defined at top level
@@ -70,7 +78,7 @@ def validate_open_api_auth(resource_properties: Dict) -> bool:
         return True
 
     paths = body.get("paths", {})
-    for path, methods in paths.items():
+    for _, methods in paths.items():
         for method, method_definition in methods.items():
             # Skip over public methods such as OPTIONS
             if method.lower() in PUBLIC_METHODS:
@@ -87,6 +95,7 @@ def validate_open_api_auth(resource_properties: Dict) -> bool:
 
 
 def validate_cfn_auth(resource_properties: Dict) -> bool:
+    """Validate API Gateway Method and Route resources for authorizers."""
     if resource_properties.get("HttpMethod", "").lower() in PUBLIC_METHODS:
         return True
     return bool(resource_properties.get("AuthorizerId", None))
