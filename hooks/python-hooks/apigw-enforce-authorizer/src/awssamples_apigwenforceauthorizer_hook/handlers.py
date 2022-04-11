@@ -43,6 +43,7 @@ def pre_create_handler(
     else:
         progress.status = OperationStatus.FAILED
         progress.message = "Not all paths and methods have authorizers specified."
+        progress.errorCode = HandlerErrorCode.NonCompliant
     return progress
 
 
@@ -65,6 +66,7 @@ def pre_update_handler(
     else:
         progress.status = OperationStatus.FAILED
         progress.message = "Not all paths and methods have authorizers specified."
+        progress.errorCode = HandlerErrorCode.NonCompliant
     return progress
 
 
