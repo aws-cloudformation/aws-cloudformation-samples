@@ -1,6 +1,6 @@
 {
     "typeName": "AWSSamples::APIGWEnforceAuthorizer::Hook",
-    "description": "Enforces all APIGateway resources to have authorizers attached when created and updated.",
+    "description": "Enforces Amazon API Gateway resources to have authorizers attached when created and updated.",
     "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/apigw-enforce-authorizer",
     "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/apigw-enforce-authorizer/README.md",
     "typeConfiguration": {
