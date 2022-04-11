@@ -1,8 +1,8 @@
 {
     "typeName": "AWSSamples::APIGWEnforceAuthorizer::Hook",
-    "description": "Verifies that IAM Users defined in the stack are associated with a policy",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/iam-users-have-policy",
-    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/iam-users-have-policy/README.md",
+    "description": "Enforces all APIGateway resources to have authorizers attached when created and updated.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/apigw-enforce-authorizer",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/python-hooks/apigw-enforce-authorizer/README.md",
     "typeConfiguration": {
         "properties": {},
         "additionalProperties": false
