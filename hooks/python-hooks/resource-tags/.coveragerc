@@ -1,0 +1,15 @@
+# Configuration file used with `pytest --cov`
+# Configuration reference: https://coverage.readthedocs.io/en/latest/config.html
+
+[run]
+branch = True
+include =
+    src/*/*
+omit =
+    */__init__.py
+    src/*/models.py
+    src/*/tests/*
+
+[report]
+fail_under = 85
+show_missing = True

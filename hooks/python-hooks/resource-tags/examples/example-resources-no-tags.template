@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template that describes example resources with no tags specified.
+
+Parameters:
+  InstanceType:
+    Description: Amazon EC2 instance type to use.
+    Type: String
+    AllowedValues:
+      - t2.micro
+      - t2.small
+    Default: t2.micro
+
+  LatestAmiId:
+    Description: Region-specific image to use.
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  Subnets:
+    Description: List of subnets for the Auto Scaling group.
+    Type: List<AWS::EC2::Subnet::Id>
+
+Resources:
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      DesiredCapacity: "1"
+      LaunchTemplate:
+        LaunchTemplateId: !Ref 'LaunchTemplate'
+        Version: !GetAtt LaunchTemplate.LatestVersionNumber
+      MaxSize: "1"
+      MinSize: "0"
+      VPCZoneIdentifier: !Ref 'Subnets'
+
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref 'LatestAmiId'
+        InstanceType: !Ref 'InstanceType'
+      LaunchTemplateName: !Sub '${AWS::StackName}-launch-template'
+
+  Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Example SSM parameter.
+      Type: String
+      Value: test
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled

@@ -1,0 +1,12 @@
+{
+    "CloudFormationConfiguration": {
+        "HookConfiguration": {
+            "TargetStacks": "ALL",
+            "FailureMode": "FAIL",
+            "Properties": {
+                "TagKeys": "Name,",
+                "ValidationStrategy": "resource"
+            }
+        }
+    }
+}
