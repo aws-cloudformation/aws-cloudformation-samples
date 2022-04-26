@@ -1,0 +1,138 @@
+# Configuration file for pre-commit; reference: https://pre-commit.com/
+
+fail_fast: true
+
+repos:
+
+  - repo: https://github.com/awslabs/git-secrets
+    rev: b9e96b3212fa06aea65964ff0d5cda84ce935f38
+    hooks:
+      - id: git-secrets
+        entry: git-secrets --scan
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: check-case-conflict
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+      - id: check-merge-conflict
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+      - id: check-yaml
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+        # Using https://github.com/aws-cloudformation/cfn-python-lint
+        # and https://github.com/aws-cloudformation/rain (see below in
+        # this file) for AWS CloudFormation templates; hence,
+        # excluding example templates in the following path.
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*examples/.*\.(template|yaml|yml)$
+      - id: detect-private-key
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+      - id: end-of-file-fixer
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+      - id: mixed-line-ending
+        args:
+          - --fix=lf
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+      - id: pretty-format-json
+        args:
+          - --autofix
+          - --indent=4
+          - --no-sort-keys
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+      - id: trailing-whitespace
+        files: ^hooks\/python-hooks\/resource-tags\/.*
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      - id: python-check-blanket-noqa
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+      - id: python-check-mock-methods
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+      - id: python-no-log-warn
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        args:
+          - --ignore=W503,W504
+          - --max-complexity=10
+          - --max-line-length=79
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+
+  - repo: local
+    hooks:
+      - id: pytest-local
+        name: pytest-local
+        entry: bash -c "cd hooks/python-hooks/resource-tags && pytest --cov src --cov-report term-missing"
+        always_run: true
+        language: system
+        pass_filenames: false
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.942
+    hooks:
+      - id: mypy
+        args:
+          - --no-warn-unused-ignores
+          - --follow-imports=silent
+          - --strict
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+
+  # Using a custom isort configuration for Black, but with a line
+  # length of 79.  References:
+  #   - https://pycqa.github.io/isort/docs/configuration/options.html
+  #   - https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#custom-configuration
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        args:
+          - --fgw
+          - --tc
+          - --use-parentheses
+          - -l 79
+          - -m3
+          - -n
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.1.1
+    hooks:
+      - id: pydocstyle
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*(__init__|models)\.py$
+
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        args:
+          - -l 79
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+        files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*test_.*\.py$
+
+  - repo: https://github.com/aws-cloudformation/cfn-python-lint
+    rev: v0.59.0
+    hooks:
+      - id: cfn-python-lint
+        files: ^hooks\/python-hooks\/resource-tags\/.*examples/.*\.(template|json|yaml|yml)$
+
+  - repo: https://github.com/aws-cloudformation/rain
+    rev: v1.2.0
+    hooks:
+      - id: cfn-format
+        files: ^hooks\/python-hooks\/resource-tags\/.*examples/.*\.(template|json|yaml|yml)$

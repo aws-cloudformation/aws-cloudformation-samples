@@ -1,0 +1,30 @@
+[
+    {
+        "name": "AWS::CodeDeploy::DeploymentGroup",
+        "ignored_target_properties": [
+            {
+                "property_name": "Ec2TagFilters"
+            },
+            {
+                "property_name": "Ec2TagSet"
+            },
+            {
+                "property_name": "OnPremisesInstanceTagFilters"
+            },
+            {
+                "property_name": "OnPremisesTagSet"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::TransitGateway",
+        "ignored_target_properties": [
+            {
+                "property_name": "DefaultRouteTablePropagation"
+            },
+            {
+                "property_name": "PropagationDefaultRouteTableId"
+            }
+        ]
+    }
+]

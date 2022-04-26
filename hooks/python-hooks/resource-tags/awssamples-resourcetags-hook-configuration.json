@@ -1,0 +1,24 @@
+{
+    "properties": {
+        "TagKeys": {
+            "description": "Comma-delimited list of tag keys you require.",
+            "default": "Name,",
+            "type": "string"
+        },
+        "ValidationStrategy": {
+            "description": "Choose to specify either `resource` (default value) or `stack` to validate tag keys and values either at the resource or at the stack level.",
+            "default": "resource",
+            "type": "string",
+            "enum": [
+                "resource",
+                "stack"
+            ]
+        }
+    },
+    "required": [
+        "TagKeys"
+    ],
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::ResourceTags::Hook"
+}
