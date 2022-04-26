@@ -4,7 +4,7 @@
 
 - [Usage](#Usage)
 
-- [Updating the hook](#Updating the hook)
+- [Updating the hook](#Updating-the-hook)
 
 - [Tests](#Tests)
 
