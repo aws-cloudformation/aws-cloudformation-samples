@@ -11,7 +11,7 @@ Parameters:
     MinLength: 0
 
   Env:
-    Description: Amazon EC2 instance type to use.
+    Description: Environment name to use.
     Type: String
     AllowedValues:
       - dev
