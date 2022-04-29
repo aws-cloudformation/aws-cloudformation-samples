@@ -1,0 +1,189 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Registers the hook in the AWS CloudFormation Private Registry, and sets it to a new default resource version.
+
+Parameters:
+  Env:
+    Description: Name of the environment.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  FailureMode:
+    Description: Whether to send a warning message or to prevent the provisioning when an error occurs.
+    Type: String
+    AllowedValues:
+      - FAIL
+      - WARN
+    Default: FAIL
+
+  LogRetentionInDays:
+    Description: Retain log events for this number of day(s).
+    Type: String
+    AllowedValues:
+      - 1
+      - 3
+      - 5
+      - 7
+      - 14
+      - 30
+      - 60
+      - 90
+      - 120
+      - 150
+      - 180
+      - 365
+      - 400
+      - 545
+      - 731
+      - 1827
+      - 3653
+    Default: 30
+
+  SchemaHandlerPackage:
+    Description: URL to the Amazon Simple Storage Service (Amazon S3) bucket where you stored the hook's project ZIP package.
+    Type: String
+
+  TagKeys:
+    Description: Tag keys and optional values you expect as part of the validation.  For more information, see https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/resource-tags#usage .
+    Type: String
+    Default: Name=regexp:^[a-zA-Z0-9_-]+$, Env=dev|qa|prod|regexp:^[a-z]+$,
+
+  TypeName:
+    Description: Name of the extension.
+    Type: String
+    Default: AWSSamples::ResourceTags::Hook
+
+  ValidationStrategy:
+    Description: Whether to use a resource-based (default) or a stack-based strategy for tag validation.
+    Type: String
+    AllowedValues:
+      - resource
+      - stack
+    Default: resource
+
+Resources:
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref 'AWS::AccountId'
+              StringLike:
+                aws:SourceArn: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:type/hook/AWSSamples-ResourceTags-Hook/*'
+            Effect: Allow
+            Principal:
+              Service:
+                - hooks.cloudformation.amazonaws.com
+                - resources.cloudformation.amazonaws.com
+        Version: "2012-10-17"
+      MaxSessionDuration: 8400
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - cloudformation:DescribeStacks
+                Effect: Allow
+                Resource: '*'
+            Version: "2012-10-17"
+          PolicyName: HookTypePolicy
+      Tags:
+        - Key: Name
+          Value: HookExecutionRole
+        - Key: Env
+          Value: !Ref 'Env'
+
+  HookDefaultVersion:
+    Type: AWS::CloudFormation::HookDefaultVersion
+    Properties:
+      TypeName: !Ref 'TypeName'
+      VersionId: !GetAtt HookVersion.VersionId
+
+  HookTypeConfig:
+    Type: AWS::CloudFormation::HookTypeConfig
+    DependsOn: HookDefaultVersion
+    Properties:
+      Configuration: !Sub |
+        {
+            "CloudFormationConfiguration": {
+                "HookConfiguration": {
+                    "TargetStacks": "ALL",
+                    "FailureMode": "${FailureMode}",
+                    "Properties": {
+                        "TagKeys": "${TagKeys}",
+                        "ValidationStrategy": "${ValidationStrategy}"
+                    }
+                }
+            }
+        }
+      TypeArn: !GetAtt HookVersion.TypeArn
+
+  HookVersion:
+    Type: AWS::CloudFormation::HookVersion
+    Properties:
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      LoggingConfig:
+        LogGroupName: !Ref 'LogGroup'
+        LogRoleArn: !GetAtt LogAndMetricsDeliveryRole.Arn
+      SchemaHandlerPackage: !Ref 'SchemaHandlerPackage'
+      TypeName: !Ref 'TypeName'
+
+  LogAndMetricsDeliveryRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref 'AWS::AccountId'
+            Effect: Allow
+            Principal:
+              Service:
+                - resources.cloudformation.amazonaws.com
+                - hooks.cloudformation.amazonaws.com
+        Version: "2012-10-17"
+      MaxSessionDuration: 43200
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:DescribeLogGroups
+                  - logs:DescribeLogStreams
+                  - logs:PutLogEvents
+                  - cloudwatch:ListMetrics
+                  - cloudwatch:PutMetricData
+                Effect: Allow
+                Resource: '*'
+            Version: "2012-10-17"
+          PolicyName: LogAndMetricsDeliveryRolePolicy
+      Tags:
+        - Key: Name
+          Value: HookLogAndMetricsDeliveryRole
+        - Key: Env
+          Value: !Ref 'Env'
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: !Ref 'LogRetentionInDays'
+      Tags:
+        - Key: Name
+          Value: HookLogGroup
+        - Key: Env
+          Value: !Ref 'Env'
+
+Outputs:
+  VersionId:
+    Description: The ID of the hook version.
+    Value: !GetAtt HookVersion.VersionId

@@ -4,6 +4,8 @@
 
 - [Usage](#Usage)
 
+- [Hook Deployment with StackSets](#Hook-Deployment-with-StackSets)
+
 - [Updating the hook](#Updating-the-hook)
 
 - [Tests](#Tests)
@@ -110,6 +112,50 @@ aws cloudformation set-type-configuration \
   --configuration file://type_config.json \
   --type-arn 'YOUR_HOOK_ARN'
 ```
+
+
+## Hook Deployment with StackSets
+You can choose to use [StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html) to make this hook available in other regions for your account.  For this, you can choose to use the `examples/hook-deployment-stack.yaml` sample CloudFormation template that describes deployment-related resources for this hook with code, and then use StackSets to deploy the hook across AWS regions you need.  To get started, follow steps shown next:
+
+- Create a stack with the `examples/hook-deployment-bucket.yaml` sample template, that describes an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (Amazon S3) bucket where you will store the hook archive file you'll generate, and the `examples/hook-deployment-stack.yaml` template file that you will use with StackSets.  Choose a stack creation method, such as via the AWS CloudFormation console, or the AWS Command Line interface: for more information, see [Working with stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html).
+
+- When done, navigate to the **Outputs** tab for your stack in the AWS CloudFormation console, and note the value for the `BucketName` output key: this is the name of the bucket you created in the previous step, and you will use this bucket next.
+
+- Next, create the ZIP archive for this hook content with the following commands:
+
+```shell
+cfn generate && cfn submit --dry-run
+```
+
+- The last command above should have created the `awssamples-resourcetags-hook.zip` archive in the same directory as this `README.md` file.  Upload the ZIP archive to the bucket whose name you noted earlier.  Use a method of your choice, such as the S3 console or the AWS CLI; for more information, see [Uploading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).
+
+- Next, upload the `hook-deployment-stack.yaml` template file - that you can find in the `examples/` directory - to your bucket as well.
+
+- In this next step, prepare your account for it to work with StackSets, by referring to [Prerequisites for stack set operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html).  For example, if you choose to use [Self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html#prereqs-self-managed-permissions), refer to [Set up basic permissions for stack set operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html#stacksets-prereqs-accountsetup) to create `AWSCloudFormationStackSetAdministrationRole` and `AWSCloudFormationStackSetExecutionRole` roles with provided templates.
+
+- Next, [create](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-getting-started-create.html) your StackSet.  As an example, the following process describes next steps if you choose to use the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation/) and [self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-getting-started-create.html).
+
+- From the navigation pane in the console, choose **StackSets**, and then **Create StackSet**.
+
+- In the **Prerequisite - Prepare template** section, specify the Amazon S3 URL of the `hook-deployment-stack.yaml` template you uploaded to your bucket earlier.  Alternatively, choose to upload the `hook-deployment-stack.yaml` template file.
+
+- Specify a name for your StackSet, for example: `AWSSamples-ResourceTags-Hook-deployment`.
+
+- Specify parameter values you require for the hook configuration.  For the `SchemaHandlerPackage` parameter, specify the URL of the ZIP file you uploaded to your bucket earlier.  Choose **Next** when done specifying parameter values.
+
+- In **Execution configuration**, choose `Active` for **Managed execution**.  Choose **Next**.
+
+- Specify your account number in the **Account numbers** section for **Accounts**.
+
+- In the **Regions** section, specify regions where you wish to deploy this hook.
+
+- In **Deployment options**, choose `Parallel` for **Region Concurrency**.  Choose **Next**.
+
+- In the **Review** page, review your selections.  Choose **I acknowledge that AWS CloudFormation might create IAM resources** at the bottom of the page, and choose **Next**.
+
+- Your StackSet creation process should start shortly; you can review the status in the **Operations** pane in **StackSet details**.
+
+At the end of the process, your hook should have been deployed into target regions you chose earlier.
 
 
 ## Updating the hook
