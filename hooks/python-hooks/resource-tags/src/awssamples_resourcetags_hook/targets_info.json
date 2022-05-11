@@ -528,6 +528,42 @@
         ]
     },
     {
+        "name": "AWS::BillingConductor::BillingGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::BillingConductor::CustomLineItem",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::BillingConductor::PricingPlan",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::BillingConductor::PricingRule",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CE::AnomalyMonitor",
         "tags_info": [
             {
@@ -817,6 +853,15 @@
     },
     {
         "name": "AWS::Connect::HoursOfOperation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Connect::PhoneNumber",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1277,6 +1322,15 @@
     },
     {
         "name": "AWS::EC2::InternetGateway",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::KeyPair",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3683,6 +3737,15 @@
         ]
     },
     {
+        "name": "AWS::Rekognition::StreamProcessor",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ResilienceHub::App",
         "tags_info": [
             {
@@ -4359,6 +4422,15 @@
     },
     {
         "name": "AWS::Transfer::Workflow",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VoiceID::Domain",
         "tags_info": [
             {
                 "property_name": "Tags",
