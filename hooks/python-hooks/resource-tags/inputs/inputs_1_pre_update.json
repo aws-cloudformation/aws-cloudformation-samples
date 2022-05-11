@@ -542,6 +542,46 @@
             }
         }
     },
+    "AWS::BillingConductor::BillingGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::BillingConductor::CustomLineItem": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::BillingConductor::PricingPlan": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::BillingConductor::PricingRule": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::CE::AnomalyMonitor": {
         "resourceProperties": {
             "ResourceTags": [
@@ -854,6 +894,16 @@
         }
     },
     "AWS::Connect::HoursOfOperation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Connect::PhoneNumber": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1378,6 +1428,16 @@
         }
     },
     "AWS::EC2::InternetGateway": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::KeyPair": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3907,6 +3967,16 @@
             ]
         }
     },
+    "AWS::Rekognition::StreamProcessor": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::ResilienceHub::App": {
         "resourceProperties": {
             "Tags": {
@@ -4628,6 +4698,16 @@
         }
     },
     "AWS::Transfer::Workflow": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VoiceID::Domain": {
         "resourceProperties": {
             "Tags": [
                 {
