@@ -559,7 +559,7 @@
               "IsWindowsPlatform",
               {
                 "ComponentArn": {
-                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/stig-build-windows-high/1.2.0"
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/stig-build-windows-high/1.5.1"
                 }
               },
               {
@@ -572,7 +572,7 @@
               "IsAmazonLinux2",
               {
                 "ComponentArn": {
-                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/stig-build-linux-high/2.8.0"
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/stig-build-linux-high/3.6.0"
                 }
               },
               {
