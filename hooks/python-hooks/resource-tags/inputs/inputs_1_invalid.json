@@ -923,6 +923,16 @@
             ]
         }
     },
+    "AWS::Connect::TaskTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Connect::User": {
         "resourceProperties": {
             "Tags": [
@@ -1890,6 +1900,16 @@
             ]
         }
     },
+    "AWS::EMRServerless::Application": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::ElastiCache::CacheCluster": {
         "resourceProperties": {
             "Tags": [
@@ -2680,6 +2700,16 @@
             ]
         }
     },
+    "AWS::IoT::RoleAlias": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::IoT::ScheduledAudit": {
         "resourceProperties": {
             "Tags": [
@@ -2919,6 +2949,16 @@
         }
     },
     "AWS::IoTWireless::MulticastGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoTWireless::NetworkAnalyzerConfiguration": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3470,6 +3510,36 @@
             ]
         }
     },
+    "AWS::NetworkManager::ConnectAttachment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::NetworkManager::ConnectPeer": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::NetworkManager::CoreNetwork": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::NetworkManager::Device": {
         "resourceProperties": {
             "Tags": [
@@ -3501,6 +3571,26 @@
         }
     },
     "AWS::NetworkManager::Site": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::NetworkManager::SiteToSiteVpnAttachment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::NetworkManager::VpcAttachment": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3838,6 +3928,16 @@
         }
     },
     "AWS::RDS::DBSubnetGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::RDS::EventSubscription": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4417,6 +4517,16 @@
         }
     },
     "AWS::SageMaker::ModelExplainabilityJobDefinition": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::SageMaker::ModelPackage": {
         "resourceProperties": {
             "Tags": [
                 {

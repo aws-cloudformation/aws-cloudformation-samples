@@ -26,5 +26,13 @@
                 "property_name": "PropagationDefaultRouteTableId"
             }
         ]
+    },
+    {
+        "name": "AWS::SageMaker::ModelPackage",
+        "ignored_target_properties": [
+            {
+                "property_name": "Tag"
+            }
+        ]
     }
 ]

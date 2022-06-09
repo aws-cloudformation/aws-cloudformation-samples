@@ -879,6 +879,15 @@
         ]
     },
     {
+        "name": "AWS::Connect::TaskTemplate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Connect::User",
         "tags_info": [
             {
@@ -1745,6 +1754,15 @@
         ]
     },
     {
+        "name": "AWS::EMRServerless::Application",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ElastiCache::CacheCluster",
         "tags_info": [
             {
@@ -2518,6 +2536,15 @@
         ]
     },
     {
+        "name": "AWS::IoT::RoleAlias",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IoT::ScheduledAudit",
         "tags_info": [
             {
@@ -2744,6 +2771,15 @@
     },
     {
         "name": "AWS::IoTWireless::MulticastGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoTWireless::NetworkAnalyzerConfiguration",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3260,6 +3296,33 @@
         ]
     },
     {
+        "name": "AWS::NetworkManager::ConnectAttachment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::NetworkManager::ConnectPeer",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::NetworkManager::CoreNetwork",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::NetworkManager::Device",
         "tags_info": [
             {
@@ -3288,6 +3351,24 @@
     },
     {
         "name": "AWS::NetworkManager::Site",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::NetworkManager::SiteToSiteVpnAttachment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::NetworkManager::VpcAttachment",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3621,6 +3702,15 @@
     },
     {
         "name": "AWS::RDS::DBSubnetGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::RDS::EventSubscription",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4161,6 +4251,15 @@
     },
     {
         "name": "AWS::SageMaker::ModelExplainabilityJobDefinition",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SageMaker::ModelPackage",
         "tags_info": [
             {
                 "property_name": "Tags",
