@@ -400,7 +400,7 @@
         "tags_info": [
             {
                 "property_name": "Tags",
-                "property_type": "object"
+                "property_type": "array"
             }
         ]
     },
@@ -654,6 +654,15 @@
         ]
     },
     {
+        "name": "AWS::CloudTrail::EventDataStore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CloudTrail::Trail",
         "tags_info": [
             {
@@ -897,6 +906,15 @@
         ]
     },
     {
+        "name": "AWS::ConnectCampaigns::Campaign",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CustomerProfiles::Domain",
         "tags_info": [
             {
@@ -1069,6 +1087,15 @@
     },
     {
         "name": "AWS::DataSync::LocationFSxLustre",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::DataSync::LocationFSxONTAP",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2473,6 +2500,15 @@
         ]
     },
     {
+        "name": "AWS::IoT::CACertificate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IoT::CustomMetric",
         "tags_info": [
             {
@@ -3782,6 +3818,24 @@
         ]
     },
     {
+        "name": "AWS::RedshiftServerless::Namespace",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::RedshiftServerless::Workgroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::RefactorSpaces::Application",
         "tags_info": [
             {
@@ -3895,6 +3949,33 @@
             {
                 "property_name": "Tags",
                 "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::RolesAnywhere::CRL",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::RolesAnywhere::Profile",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::RolesAnywhere::TrustAnchor",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
             }
         ]
     },

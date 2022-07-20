@@ -50,7 +50,7 @@ Parameters:
   TagKeys:
     Description: Tag keys and optional values you expect as part of the validation.  For more information, see https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/python-hooks/resource-tags#usage .
     Type: String
-    Default: Name=regexp:^[a-zA-Z0-9_-]+$, Env=dev|qa|prod|regexp:^[a-z]+$,
+    Default: Name=regexp:^[a-zA-Z0-9_-]+$, Env=dev|qa|prod|regexp:^[a-z]+$, AppName=regexp:^[a-zA-Z0-9_-]+$,
 
   TypeName:
     Description: Name of the extension.
@@ -97,6 +97,8 @@ Resources:
       Tags:
         - Key: Name
           Value: HookExecutionRole
+        - Key: AppName
+          Value: hook-deployment
         - Key: Env
           Value: !Ref 'Env'
 
@@ -170,6 +172,8 @@ Resources:
       Tags:
         - Key: Name
           Value: HookLogAndMetricsDeliveryRole
+        - Key: AppName
+          Value: hook-deployment
         - Key: Env
           Value: !Ref 'Env'
 
@@ -180,6 +184,8 @@ Resources:
       Tags:
         - Key: Name
           Value: HookLogGroup
+        - Key: AppName
+          Value: hook-deployment
         - Key: Env
           Value: !Ref 'Env'
 

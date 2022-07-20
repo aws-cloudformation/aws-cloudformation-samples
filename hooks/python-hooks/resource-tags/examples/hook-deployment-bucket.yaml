@@ -28,6 +28,8 @@ Resources:
       Tags:
         - Key: Name
           Value: hook-deployment-bucket
+        - Key: AppName
+          Value: hook-deployment
         - Key: Env
           Value: !Ref 'Env'
       VersioningConfiguration:
