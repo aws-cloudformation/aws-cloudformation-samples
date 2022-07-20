@@ -34,5 +34,21 @@
                 "property_name": "Tag"
             }
         ]
+    },
+    {
+        "name": "AWS::LakeFormation::Tag",
+        "ignored_target_properties": [
+            {
+                "property_name": "TagValues"
+            }
+        ]
+    },
+    {
+        "name": "AWS::LakeFormation::TagAssociation",
+        "ignored_target_properties": [
+            {
+                "property_name": "LFTags"
+            }
+        ]
     }
 ]

@@ -423,9 +423,12 @@
     },
     "AWS::AppSync::GraphQLApi": {
         "resourceProperties": {
-            "Tags": {
-                "Name": "Test1"
-            }
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
         }
     },
     "AWS::ApplicationInsights::Application": {
@@ -673,6 +676,16 @@
         }
     },
     "AWS::CloudFront::StreamingDistribution": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::CloudTrail::EventDataStore": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -943,6 +956,16 @@
             ]
         }
     },
+    "AWS::ConnectCampaigns::Campaign": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::CustomerProfiles::Domain": {
         "resourceProperties": {
             "Tags": [
@@ -1131,6 +1154,16 @@
         }
     },
     "AWS::DataSync::LocationFSxLustre": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::DataSync::LocationFSxONTAP": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2630,6 +2663,16 @@
             ]
         }
     },
+    "AWS::IoT::CACertificate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::IoT::CustomMetric": {
         "resourceProperties": {
             "Tags": [
@@ -4017,6 +4060,26 @@
             ]
         }
     },
+    "AWS::RedshiftServerless::Namespace": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::RedshiftServerless::Workgroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::RefactorSpaces::Application": {
         "resourceProperties": {
             "Tags": [
@@ -4127,6 +4190,36 @@
             "Tags": {
                 "Name": "Test1"
             }
+        }
+    },
+    "AWS::RolesAnywhere::CRL": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::RolesAnywhere::Profile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::RolesAnywhere::TrustAnchor": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
         }
     },
     "AWS::Route53::HealthCheck": {
