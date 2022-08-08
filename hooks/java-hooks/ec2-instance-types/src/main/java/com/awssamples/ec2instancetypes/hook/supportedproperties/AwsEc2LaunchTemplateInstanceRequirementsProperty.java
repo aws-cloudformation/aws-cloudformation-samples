@@ -1,0 +1,205 @@
+package com.awssamples.ec2instancetypes.hook.supportedproperties;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.awssamples.ec2instancetypes.hook.CallbackContext;
+import com.awssamples.ec2instancetypes.hook.ClientBuilder;
+import com.awssamples.ec2instancetypes.hook.Translator;
+import com.awssamples.ec2instancetypes.hook.model.aws.ec2.launchtemplate.InstanceRequirements;
+import com.awssamples.ec2instancetypes.hook.model.aws.ec2.launchtemplate.LaunchTemplateData;
+
+import org.apache.commons.lang3.StringUtils;
+
+import software.amazon.awssdk.services.ec2.Ec2Client;
+import software.amazon.awssdk.services.ec2.model.GetInstanceTypesFromInstanceRequirementsRequest;
+import software.amazon.awssdk.services.ec2.model.GetInstanceTypesFromInstanceRequirementsResponse;
+import software.amazon.awssdk.services.ec2.model.InstanceTypeInfoFromInstanceRequirements;
+import software.amazon.cloudformation.proxy.AmazonWebServicesClientProxy;
+import software.amazon.cloudformation.proxy.HandlerErrorCode;
+import software.amazon.cloudformation.proxy.Logger;
+import software.amazon.cloudformation.proxy.OperationStatus;
+import software.amazon.cloudformation.proxy.ProgressEvent;
+import software.amazon.cloudformation.proxy.hook.HookContext;
+import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
+
+/**
+ * Interface containing utility methods for the InstanceRequirements property
+ * that is used, for example, in the AWS::EC2::LaunchTemplate resource type.
+ */
+public interface AwsEc2LaunchTemplateInstanceRequirementsProperty {
+
+    /**
+     * Validate that either InstanceType or InstanceRequirements are specified.
+     *
+     * @param targetInstanceType         String
+     * @param targetInstanceRequirements InstanceRequirements
+     * @param logger                     Logger
+     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     */
+    default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeAndInstanceRequirementsTargetProperties(
+            final String targetInstanceType,
+            final InstanceRequirements targetInstanceRequirements,
+            final Logger logger) {
+
+        if (targetInstanceType == null && targetInstanceRequirements == null) {
+            final String failureMessage = "Neither InstanceType nor InstanceRequirements are specified.  Specify one or the other.";
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
+        if (targetInstanceType != null && targetInstanceRequirements != null) {
+            final String failureMessage = "Both InstanceType and InstanceRequirements are specified.  Specify one or the other.";
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
+        return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                .status(OperationStatus.IN_PROGRESS)
+                .build();
+    }
+
+    /**
+     * Validate the InstanceRequirements property.
+     *
+     * @param targetInstanceRequirements InstanceRequirements
+     * @param proxy                      AmazonWebServicesClientProxy
+     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param hookContext                HookContext
+     * @param launchTemplateData         LaunchTemplateData
+     * @param logger                     Logger
+     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     */
+    default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceRequirementsTargetProperty(
+            final InstanceRequirements targetInstanceRequirements,
+            final AmazonWebServicesClientProxy proxy,
+            final Set<String> allowedEc2InstanceTypesSet,
+            final HookContext hookContext,
+            final LaunchTemplateData launchTemplateData,
+            final Logger logger) {
+        if (targetInstanceRequirements.getVCpuCount() == null
+                && targetInstanceRequirements.getMemoryMiB() == null) {
+            final String failureMessage = "You must specify both VCpuCount and MemoryMiB when using InstanceRequirements.";
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
+        if (targetInstanceRequirements.getVCpuCount().getMin() == null) {
+            final String failureMessage = "You must specify an integer minimum value for VCpuCount; specify zero for no minimum limit.";
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
+        if (targetInstanceRequirements.getMemoryMiB().getMin() == null) {
+            final String failureMessage = "You must specify an integer minimum value for MemoryMiB; specify zero for no minimum limit.";
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
+        final List<InstanceTypeInfoFromInstanceRequirements> instanceTypeInfoFromInstanceRequirementsList = getInstanceTypesFromInstanceRequirements(
+                proxy, hookContext, launchTemplateData);
+        final Set<String> instanceTypeInfoFromInstanceRequirementsSet = new HashSet<String>();
+        for (final InstanceTypeInfoFromInstanceRequirements instanceType : instanceTypeInfoFromInstanceRequirementsList) {
+            instanceTypeInfoFromInstanceRequirementsSet.add(instanceType.instanceType());
+        }
+
+        final Set<String> differencesBetweenSets = new HashSet<String>(instanceTypeInfoFromInstanceRequirementsSet);
+        differencesBetweenSets.removeAll(allowedEc2InstanceTypesSet);
+
+        if (!differencesBetweenSets.isEmpty()) {
+            final String failureMessage = StringUtils.abbreviate(String.format(
+                    "Specified instance requirements will result in instance types not allowed by this hook's configuration.  Allowed value(s): %s; resulting value(s): %s.",
+                    allowedEc2InstanceTypesSet.toString(), differencesBetweenSets.toString()), 0, 512);
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.NonCompliant)
+                    .build();
+        }
+
+        return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                .status(OperationStatus.IN_PROGRESS)
+                .build();
+    }
+
+    /**
+     * Return a list of InstanceTypeInfoFromInstanceRequirements based on
+     * user-specified input.
+     *
+     * @param proxy              AmazonWebServicesClientProxy
+     * @param hookContext        HookContext
+     * @param launchTemplateData LaunchTemplateData,
+     * @return List<InstanceTypeInfoFromInstanceRequirements>
+     */
+    default List<InstanceTypeInfoFromInstanceRequirements> getInstanceTypesFromInstanceRequirements(
+            final AmazonWebServicesClientProxy proxy,
+            final HookContext hookContext,
+            final LaunchTemplateData launchTemplateData) {
+        String nextToken = null;
+        GetInstanceTypesFromInstanceRequirementsResponse response = null;
+        final List<InstanceTypeInfoFromInstanceRequirements> instanceTypeInfoFromInstanceRequirements = new ArrayList<InstanceTypeInfoFromInstanceRequirements>();
+        final Ec2Client ec2Client = ClientBuilder.getEc2Client();
+        do {
+            final GetInstanceTypesFromInstanceRequirementsRequest request = buildInstanceTypesFromInstanceRequirementsRequest(
+                    launchTemplateData,
+                    nextToken);
+
+            response = proxy.injectCredentialsAndInvokeV2(
+                    request,
+                    ec2Client::getInstanceTypesFromInstanceRequirements);
+
+            instanceTypeInfoFromInstanceRequirements.addAll(response.instanceTypes());
+
+            nextToken = response.nextToken();
+        } while (nextToken != null);
+
+        return instanceTypeInfoFromInstanceRequirements;
+    }
+
+    /**
+     * Build a GetInstanceTypesFromInstanceRequirementsRequest with the
+     * translateToGetInstanceTypesFromInstanceRequirementsRequest() Translator.
+     *
+     * @param resourceProperties AwsEc2Launchtemplate
+     * @param nextToken          String
+     * @return GetInstanceTypesFromInstanceRequirementsRequest
+     */
+    default GetInstanceTypesFromInstanceRequirementsRequest buildInstanceTypesFromInstanceRequirementsRequest(
+            final LaunchTemplateData launchTemplateData,
+            final String nextToken) {
+        return Translator
+                .translateToGetInstanceTypesFromInstanceRequirementsRequest(
+                        launchTemplateData,
+                        nextToken);
+    }
+
+}

@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for the AWSSamples::EC2InstanceTypes::Hook resource type
+
+Globals:
+  Function:
+    Timeout: 180  # docker start-up times can be long for SAM CLI
+    MemorySize: 512
+
+Resources:
+  TypeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.awssamples.ec2instancetypes.hook.HookHandlerWrapper::handleRequest
+      Runtime: java8
+      CodeUri: ./target/awssamples-ec2instancetypes-hook-handler-1.0-SNAPSHOT.jar
+
+  TestEntrypoint:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.awssamples.ec2instancetypes.hook.HookHandlerWrapper::testEntrypoint
+      Runtime: java8
+      CodeUri: ./target/awssamples-ec2instancetypes-hook-handler-1.0-SNAPSHOT.jar

@@ -1,0 +1,39 @@
+{
+    "typeName": "AWSSamples::EC2InstanceTypes::Hook",
+    "description": "Example verification hook for Amazon EC2 Instance Types (https://aws.amazon.com/ec2/instance-types/) you wish to use and allow for your workload.",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/ec2-instance-types",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/ec2-instance-types/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "EC2InstanceTypes": {
+                "description": "Comma-delimited list of Amazon EC2 Instance Types (https://aws.amazon.com/ec2/instance-types/) you wish to use and allow for your workload.",
+                "type": "string"
+            }
+        },
+        "additionalProperties": false
+    },
+    "required": [
+        "EC2InstanceTypes"
+    ],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EC2::Instance",
+                "AWS::EC2::LaunchTemplate"
+            ],
+            "permissions": [
+                "ec2:GetInstanceTypesFromInstanceRequirements"
+            ]
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::EC2::Instance",
+                "AWS::EC2::LaunchTemplate"
+            ],
+            "permissions": [
+                "ec2:GetInstanceTypesFromInstanceRequirements"
+            ]
+        }
+    },
+    "additionalProperties": false
+}

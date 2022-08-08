@@ -1,0 +1,74 @@
+{
+    "AWS::EC2::Instance": {
+        "resourceProperties": {
+            "InstanceType": "t2.micro"
+        }
+    },
+    "AWS::EC2::LaunchTemplate": {
+        "resourceProperties": {
+            "LaunchTemplateData": {
+                "InstanceRequirements": {
+                    "AcceleratorCount": {
+                        "Max": 1,
+                        "Min": 1
+                    },
+                    "AcceleratorManufacturers": [
+                        "amazon-web-services"
+                    ],
+                    "AcceleratorNames": [
+                        "a100"
+                    ],
+                    "AcceleratorTotalMemoryMiB": {
+                        "Max": 1,
+                        "Min": 1
+                    },
+                    "AcceleratorTypes": [
+                        "gpu"
+                    ],
+                    "BareMetal": "excluded",
+                    "BaselineEbsBandwidthMbps": {
+                        "Max": 1,
+                        "Min": 1
+                    },
+                    "BurstablePerformance": "excluded",
+                    "CpuManufacturers": [
+                        "amazon-web-services"
+                    ],
+                    "ExcludedInstanceTypes": [
+                        "m5.8xlarge"
+                    ],
+                    "InstanceGenerations": [
+                        "current"
+                    ],
+                    "LocalStorage": "excluded",
+                    "LocalStorageTypes": [
+                        "ssd"
+                    ],
+                    "MemoryGiBPerVCpu": {
+                        "Max": 1.0,
+                        "Min": 1.0
+                    },
+                    "MemoryMiB": {
+                        "Max": 1,
+                        "Min": 1
+                    },
+                    "NetworkInterfaceCount": {
+                        "Max": 1,
+                        "Min": 1
+                    },
+                    "OnDemandMaxPricePercentageOverLowestPrice": 20,
+                    "RequireHibernateSupport": false,
+                    "SpotMaxPricePercentageOverLowestPrice": 100,
+                    "TotalLocalStorageGB": {
+                        "Max": 1.0,
+                        "Min": 1.0
+                    },
+                    "VCpuCount": {
+                        "Max": 1,
+                        "Min": 1
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "AWS::EC2::Instance": {
+        "resourceProperties": {
+            "InstanceType": "invalid"
+        }
+    },
+    "AWS::EC2::LaunchTemplate": {
+        "resourceProperties": {
+            "LaunchTemplateData": {
+                "InstanceType": "invalid"
+            }
+        }
+    }
+}
