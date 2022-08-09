@@ -1,0 +1,14 @@
+{
+    "AWS::EC2::Instance": {
+        "resourceProperties": {
+            "InstanceType": "t2.micro"
+        }
+    },
+    "AWS::EC2::LaunchTemplate": {
+        "resourceProperties": {
+            "LaunchTemplateData": {
+                "InstanceType": "t2.micro"
+            }
+        }
+    }
+}

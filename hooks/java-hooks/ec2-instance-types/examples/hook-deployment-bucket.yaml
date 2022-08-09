@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Creates an Amazon Simple Storage Service (Amazon S3) bucket that you will use to deploy an AWS CloudFormation hook.
+
+Parameters:
+  Env:
+    Description: Name of the environment.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: hook-deployment-bucket
+        - Key: AppName
+          Value: hook-deployment
+        - Key: Env
+          Value: !Ref 'Env'
+      VersioningConfiguration:
+        Status: Enabled
+
+Outputs:
+  BucketName:
+    Description: The name of the bucket you created with this template.
+    Value: !Ref 'Bucket'

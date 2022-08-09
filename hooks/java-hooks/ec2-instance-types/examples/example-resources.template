@@ -1,0 +1,156 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template that describes example resources.
+
+Parameters:
+  AppNameTagValue:
+    Description: 'Please specify a value; minimum length: 0, maximum: 20.'
+    Type: String
+    Default: ExampleAppName
+    MaxLength: 20
+    MinLength: 0
+
+  CpuMax:
+    Description: Maximum amount of CPUs for EC2 instances for the example AWS::EC2::LaunchTemplate resource described in this sample template that describes the InstanceRequirements property.  Leave this parameter blank to omit this value and not specify a maximum.
+    Type: String
+    Default: 1
+    AllowedPattern: ^[0-9]*$
+
+  CpuMin:
+    Description: Minimum amount of CPUs for EC2 instances for the example AWS::EC2::LaunchTemplate resource described in this sample template that describes the InstanceRequirements property.
+    Type: Number
+    Default: 1
+    MinValue: 0
+
+  Env:
+    Description: Environment name to use.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  InstanceType:
+    Description: Amazon EC2 instance type to use for the example AWS::EC2::Instance resource described in this sample template.  If you choose "(not specified)", the value used will be the default m1.small instance type.
+    Type: String
+    AllowedValues:
+      - (not specified)
+      - t1.micro
+      - t2.micro
+      - t2.small
+    Default: t2.micro
+
+  LatestAmiId:
+    Description: Region-specific image to use.
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  LaunchTemplateInstanceType:
+    Description: Amazon EC2 instance type to use for the example AWS::EC2::LaunchTemplate resource described in this sample template that describes the InstanceType property.
+    Type: String
+    AllowedValues:
+      - t1.micro
+      - t2.micro
+      - t2.small
+    Default: t2.micro
+
+  MemoryMax:
+    Description: Maximum amount of memory, in MiB, for EC2 instances for the example AWS::EC2::LaunchTemplate resource described in this sample template that describes the InstanceRequirements property.  Leave this parameter blank to omit this value and not specify a maximum.
+    Type: String
+    Default: 1
+    AllowedPattern: ^[0-9]*$
+
+  MemoryMin:
+    Description: Minimum amount of memory, in MiB, for EC2 instances for the example AWS::EC2::LaunchTemplate resource described in this sample template that describes the InstanceRequirements property.
+    Type: Number
+    Default: 1
+    MinValue: 0
+
+  NameTagValue:
+    Description: 'Please specify a value; minimum length: 0, maximum: 20.'
+    Type: String
+    Default: ExampleName
+    MaxLength: 20
+    MinLength: 0
+
+Conditions:
+  CpuMaxNotSpecified: !Equals
+    - !Ref 'CpuMax'
+    - ""
+
+  InstanceTypeNotSpecified: !Equals
+    - !Ref 'InstanceType'
+    - (not specified)
+
+  MemoryMaxNotSpecified: !Equals
+    - !Ref 'MemoryMax'
+    - ""
+
+Resources:
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref 'LatestAmiId'
+      InstanceType: !If
+        - InstanceTypeNotSpecified
+        - !Ref 'AWS::NoValue'
+        - !Ref 'InstanceType'
+      PropagateTagsToVolumeOnCreation: true
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref 'LatestAmiId'
+        InstanceType: !Ref 'LaunchTemplateInstanceType'
+      LaunchTemplateName: !Sub '${AWS::StackName}-launch-template'
+      TagSpecifications:
+        - ResourceType: launch-template
+          Tags:
+            - Key: Name
+              Value: !Ref 'NameTagValue'
+            - Key: AppName
+              Value: !Ref 'AppNameTagValue'
+            - Key: Env
+              Value: !Ref 'Env'
+
+  LaunchTemplateWithInstanceRequirements:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref 'LatestAmiId'
+        InstanceRequirements:
+          AcceleratorCount:
+            Min: 0
+          AcceleratorTotalMemoryMiB:
+            Min: 0
+          MemoryMiB:
+            Max: !If
+              - MemoryMaxNotSpecified
+              - !Ref 'AWS::NoValue'
+              - !Ref 'MemoryMax'
+            Min: !Ref 'MemoryMin'
+          VCpuCount:
+            Max: !If
+              - CpuMaxNotSpecified
+              - !Ref 'AWS::NoValue'
+              - !Ref 'CpuMax'
+            Min: !Ref 'CpuMin'
+      LaunchTemplateName: !Sub '${AWS::StackName}-launch-template-with-instance-requirements'
+      TagSpecifications:
+        - ResourceType: launch-template
+          Tags:
+            - Key: Name
+              Value: !Ref 'NameTagValue'
+            - Key: AppName
+              Value: !Ref 'AppNameTagValue'
+            - Key: Env
+              Value: !Ref 'Env'

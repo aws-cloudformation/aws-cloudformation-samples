@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+._*
+
+# Maven outputs
+.classpath
+
+# IntelliJ
+*.iml
+.idea
+out.java
+out/
+.settings
+.project
+
+# auto-generated files
+target/
+
+# our logs
+rpdk.log*
+
+# contains credentials
+sam-tests/
+
+# Unit test / coverage reports
+.hypothesis/
+.pytest_cache/
+
+.factorypath
+
+awssamples-ec2instancetypes-hook.zip
