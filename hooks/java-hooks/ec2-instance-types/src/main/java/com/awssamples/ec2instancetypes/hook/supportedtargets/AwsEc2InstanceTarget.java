@@ -16,7 +16,10 @@ import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
 import software.amazon.cloudformation.proxy.hook.targetmodel.ResourceHookTargetModel;
 
 /**
- * Class containing helper methods for the AWS::EC2::Instance resource type.
+ * This class implements AWS::EC2::Instance-related helper methods defined in
+ * {@link SupportedTarget}, and consumes validation helper methods defined in
+ * interface(s) relevant to supported resource properties, such as
+ * {@link AwsEc2InstanceInstanceTypeProperty}.
  */
 public final class AwsEc2InstanceTarget implements SupportedTarget, AwsEc2InstanceInstanceTypeProperty {
 

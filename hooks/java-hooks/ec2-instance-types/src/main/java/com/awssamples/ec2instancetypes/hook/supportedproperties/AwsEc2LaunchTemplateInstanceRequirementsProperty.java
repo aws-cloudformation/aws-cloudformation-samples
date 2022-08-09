@@ -26,8 +26,8 @@ import software.amazon.cloudformation.proxy.hook.HookContext;
 import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
 
 /**
- * Interface containing utility methods for the InstanceRequirements property
- * that is used, for example, in the AWS::EC2::LaunchTemplate resource type.
+ * This interface contains AWS::EC2::LaunchTemplate-related helper methods, that
+ * are relevant to the validation of the InstanceRequirements property.
  */
 public interface AwsEc2LaunchTemplateInstanceRequirementsProperty {
 

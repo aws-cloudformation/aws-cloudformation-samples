@@ -6,7 +6,7 @@ import software.amazon.cloudformation.proxy.ProgressEvent;
 import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
 
 /**
- * This class contains methods to help with operations for this hook's input
+ * This class contains helper methods to validate this hook's input
  * configuration.
  */
 class HookInputConfigValidationHelpers {

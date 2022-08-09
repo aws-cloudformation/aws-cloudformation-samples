@@ -11,8 +11,8 @@ import software.amazon.cloudformation.proxy.ProgressEvent;
 import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
 
 /**
- * Interface containing utility methods for the InstanceType property that is
- * used, for example, in the AWS::EC2::Instance resource type.
+ * This interface contains AWS::EC2::Instance-related helper methods, that are
+ * relevant to the validation of the InstanceType property.
  */
 public interface AwsEc2InstanceInstanceTypeProperty {
 
