@@ -3,9 +3,9 @@ package com.awssamples.ec2instancetypes.hook.supportedtargets;
 import java.util.Set;
 
 import com.awssamples.ec2instancetypes.hook.CallbackContext;
-import com.awssamples.ec2instancetypes.hook.model.aws.ec2.instance.AwsEc2Instance;
-import com.awssamples.ec2instancetypes.hook.model.aws.ec2.instance.AwsEc2InstanceTargetModel;
-import com.awssamples.ec2instancetypes.hook.supportedproperties.AwsEc2InstanceInstanceTypeProperty;
+import com.awssamples.ec2instancetypes.hook.model.aws.ec2.capacityreservation.AwsEc2Capacityreservation;
+import com.awssamples.ec2instancetypes.hook.model.aws.ec2.capacityreservation.AwsEc2CapacityreservationTargetModel;
+import com.awssamples.ec2instancetypes.hook.supportedproperties.AwsEc2CapacityReservationInstanceTypeProperty;
 
 import software.amazon.cloudformation.proxy.AmazonWebServicesClientProxy;
 import software.amazon.cloudformation.proxy.Logger;
@@ -16,14 +16,15 @@ import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
 import software.amazon.cloudformation.proxy.hook.targetmodel.ResourceHookTargetModel;
 
 /**
- * This class implements AWS::EC2::Instance-related helper methods defined in
- * {@link SupportedTarget}, and consumes validation helper methods defined in
- * interface(s) relevant to supported resource properties, such as
- * {@link AwsEc2InstanceInstanceTypeProperty}.
+ * This class implements AWS::EC2::CapacityReservation-related helper methods
+ * defined in {@link SupportedTarget}, and consumes validation helper methods
+ * defined in interface(s) relevant to supported resource properties, such as
+ * {@link AwsEc2CapacityReservationInstanceTypeProperty}.
  */
-public final class AwsEc2InstanceTarget implements SupportedTarget, AwsEc2InstanceInstanceTypeProperty {
+public final class AwsEc2CapacityReservationTarget
+        implements SupportedTarget, AwsEc2CapacityReservationInstanceTypeProperty {
 
-    private final String typeName = AwsEc2Instance.TYPE_NAME;
+    private final String typeName = AwsEc2Capacityreservation.TYPE_NAME;
 
     /**
      * Return the resource type name.
@@ -52,14 +53,7 @@ public final class AwsEc2InstanceTarget implements SupportedTarget, AwsEc2Instan
             final HookContext hookContext,
             final Logger logger,
             final String targetName) {
-        String targetInstanceType = getTargetEc2InstanceType(hookContext);
-        /*
-         * For AWS::EC2::Instance, the InstanceType parameter is not required. When not
-         * specified, its value defaults to m1.small: hence, reflecting this behavior
-         * here.
-         */
-        if (targetInstanceType == null)
-            targetInstanceType = "m1.small";
+        final String targetInstanceType = getTargetEc2InstanceType(hookContext);
 
         final ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeTargetProperty = validateInstanceTypeTargetProperty(
                 allowedEc2InstanceTypesSet,
@@ -71,7 +65,7 @@ public final class AwsEc2InstanceTarget implements SupportedTarget, AwsEc2Instan
         }
 
         final String successMessage = String.format(
-                "Successfully verified instance type for target: [%s].  If you have not specified an EC2 instance type, its value defaults to m1.small.",
+                "Successfully verified instance type for target: [%s].",
                 targetName);
 
         return ProgressEvent.<HookTargetModel, CallbackContext>builder()
@@ -84,12 +78,12 @@ public final class AwsEc2InstanceTarget implements SupportedTarget, AwsEc2Instan
      * Return resource-specific properties from this hook's context.
      *
      * @param hookContext HookContext
-     * @return AwsEc2Instance
+     * @return AwsEc2Capacityreservation
      */
     @Override
-    public final AwsEc2Instance getResourcePropertiesFromTargetModel(final HookContext hookContext) {
-        final ResourceHookTargetModel<AwsEc2Instance> targetModel = hookContext
-                .getTargetModel(AwsEc2InstanceTargetModel.class);
+    public final AwsEc2Capacityreservation getResourcePropertiesFromTargetModel(final HookContext hookContext) {
+        final ResourceHookTargetModel<AwsEc2Capacityreservation> targetModel = hookContext
+                .getTargetModel(AwsEc2CapacityreservationTargetModel.class);
         return targetModel.getResourceProperties();
     }
 
@@ -100,7 +94,7 @@ public final class AwsEc2InstanceTarget implements SupportedTarget, AwsEc2Instan
      * @return String
      */
     private final String getTargetEc2InstanceType(final HookContext hookContext) {
-        final AwsEc2Instance resourceProperties = getResourcePropertiesFromTargetModel(hookContext);
+        final AwsEc2Capacityreservation resourceProperties = getResourcePropertiesFromTargetModel(hookContext);
         return resourceProperties.getInstanceType();
     }
 

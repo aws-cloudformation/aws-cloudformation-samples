@@ -32,46 +32,6 @@ import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
 public interface AwsEc2LaunchTemplateInstanceRequirementsProperty {
 
     /**
-     * Validate that either InstanceType or InstanceRequirements are specified.
-     *
-     * @param targetInstanceType         String
-     * @param targetInstanceRequirements InstanceRequirements
-     * @param logger                     Logger
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
-     */
-    default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeAndInstanceRequirementsTargetProperties(
-            final String targetInstanceType,
-            final InstanceRequirements targetInstanceRequirements,
-            final Logger logger) {
-
-        if (targetInstanceType == null && targetInstanceRequirements == null) {
-            final String failureMessage = "Neither InstanceType nor InstanceRequirements are specified.  Specify one or the other.";
-            logger.log(failureMessage);
-
-            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
-                    .status(OperationStatus.FAILED)
-                    .message(failureMessage)
-                    .errorCode(HandlerErrorCode.InvalidRequest)
-                    .build();
-        }
-
-        if (targetInstanceType != null && targetInstanceRequirements != null) {
-            final String failureMessage = "Both InstanceType and InstanceRequirements are specified.  Specify one or the other.";
-            logger.log(failureMessage);
-
-            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
-                    .status(OperationStatus.FAILED)
-                    .message(failureMessage)
-                    .errorCode(HandlerErrorCode.InvalidRequest)
-                    .build();
-        }
-
-        return ProgressEvent.<HookTargetModel, CallbackContext>builder()
-                .status(OperationStatus.IN_PROGRESS)
-                .build();
-    }
-
-    /**
      * Validate the InstanceRequirements property.
      *
      * @param targetInstanceRequirements InstanceRequirements
@@ -165,21 +125,22 @@ public interface AwsEc2LaunchTemplateInstanceRequirementsProperty {
             final HookContext hookContext,
             final LaunchTemplateData launchTemplateData) {
         String nextToken = null;
-        GetInstanceTypesFromInstanceRequirementsResponse response = null;
+        GetInstanceTypesFromInstanceRequirementsResponse getInstanceTypesFromInstanceRequirementsResponse = null;
         final List<InstanceTypeInfoFromInstanceRequirements> instanceTypeInfoFromInstanceRequirements = new ArrayList<InstanceTypeInfoFromInstanceRequirements>();
         final Ec2Client ec2Client = ClientBuilder.getEc2Client();
         do {
-            final GetInstanceTypesFromInstanceRequirementsRequest request = buildInstanceTypesFromInstanceRequirementsRequest(
+            final GetInstanceTypesFromInstanceRequirementsRequest getInstanceTypesFromInstanceRequirementsRequest = buildInstanceTypesFromInstanceRequirementsRequest(
                     launchTemplateData,
                     nextToken);
 
-            response = proxy.injectCredentialsAndInvokeV2(
-                    request,
+            getInstanceTypesFromInstanceRequirementsResponse = proxy.injectCredentialsAndInvokeV2(
+                    getInstanceTypesFromInstanceRequirementsRequest,
                     ec2Client::getInstanceTypesFromInstanceRequirements);
 
-            instanceTypeInfoFromInstanceRequirements.addAll(response.instanceTypes());
+            instanceTypeInfoFromInstanceRequirements
+                    .addAll(getInstanceTypesFromInstanceRequirementsResponse.instanceTypes());
 
-            nextToken = response.nextToken();
+            nextToken = getInstanceTypesFromInstanceRequirementsResponse.nextToken();
         } while (nextToken != null);
 
         return instanceTypeInfoFromInstanceRequirements;
@@ -189,7 +150,7 @@ public interface AwsEc2LaunchTemplateInstanceRequirementsProperty {
      * Build a GetInstanceTypesFromInstanceRequirementsRequest with the
      * translateToGetInstanceTypesFromInstanceRequirementsRequest() Translator.
      *
-     * @param resourceProperties AwsEc2Launchtemplate
+     * @param launchTemplateData LaunchTemplateData
      * @param nextToken          String
      * @return GetInstanceTypesFromInstanceRequirementsRequest
      */

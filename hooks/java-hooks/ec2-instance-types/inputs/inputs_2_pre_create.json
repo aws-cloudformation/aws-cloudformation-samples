@@ -1,4 +1,28 @@
 {
+    "AWS::EC2::CapacityReservation": {
+        "resourceProperties": {
+            "AvailabilityZone": "us-east-2a",
+            "InstanceCount": 1,
+            "InstanceMatchCriteria": "targeted",
+            "InstancePlatform": "Linux/UNIX",
+            "InstanceType": "t2.micro"
+        }
+    },
+    "AWS::EC2::CapacityReservationFleet": {
+        "resourceProperties": {
+            "AllocationStrategy": "prioritized",
+            "InstanceTypeSpecifications": [
+                {
+                    "InstanceType": "t2.micro",
+                    "InstancePlatform": "Linux/UNIX",
+                    "AvailabilityZone": "us-east-2a"
+                }
+            ],
+            "Tenancy": "default",
+            "TotalTargetCapacity": 1,
+            "InstanceMatchCriteria": "open"
+        }
+    },
     "AWS::EC2::Instance": {
         "resourceProperties": {
             "InstanceType": "t2.micro"

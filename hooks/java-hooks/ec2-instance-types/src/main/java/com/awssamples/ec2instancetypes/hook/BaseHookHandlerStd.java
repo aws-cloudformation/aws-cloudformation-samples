@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationFleetTarget;
+import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2InstanceTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2LaunchTemplateTarget;
 
@@ -37,6 +39,8 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
                     new String[] {
                             new AwsEc2InstanceTarget().getTypeName(),
                             new AwsEc2LaunchTemplateTarget().getTypeName(),
+                            new AwsEc2CapacityReservationTarget().getTypeName(),
+                            new AwsEc2CapacityReservationFleetTarget().getTypeName(),
                     }));
 
     @Override
@@ -104,19 +108,20 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
             if (targetName.equals(new AwsEc2InstanceTarget().getTypeName())) {
                 // Handle the case of the AWS::EC2::Instance resource type target.
                 validationResult = new AwsEc2InstanceTarget().validateTarget(
-                        proxy,
-                        allowedEc2InstanceTypesSet,
-                        hookContext,
-                        logger,
-                        targetName);
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
             } else if (targetName.equals(new AwsEc2LaunchTemplateTarget().getTypeName())) {
                 // Handle the case of the AWS::EC2::LaunchTemplate resource type target.
                 validationResult = new AwsEc2LaunchTemplateTarget().validateTarget(
-                        proxy,
-                        allowedEc2InstanceTypesSet,
-                        hookContext,
-                        logger,
-                        targetName);
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
+            } else if (targetName.equals(new AwsEc2CapacityReservationTarget().getTypeName())) {
+                // Handle the case of the AWS::EC2::CapacityReservation resource type target.
+                validationResult = new AwsEc2CapacityReservationTarget().validateTarget(
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
+            } else if (targetName.equals(new AwsEc2CapacityReservationFleetTarget().getTypeName())) {
+                // Handle the case of the AWS::EC2::CapacityReservationFleet resource type
+                // target.
+                validationResult = new AwsEc2CapacityReservationFleetTarget().validateTarget(
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
             }
             return validationResult;
         } catch (final Throwable throwable) {

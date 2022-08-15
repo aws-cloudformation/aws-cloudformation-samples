@@ -11,10 +11,10 @@ import software.amazon.cloudformation.proxy.ProgressEvent;
 import software.amazon.cloudformation.proxy.hook.targetmodel.HookTargetModel;
 
 /**
- * This interface contains AWS::EC2::LaunchTemplate-related helper methods, that
- * are relevant to the validation of the InstanceType property.
+ * This interface contains AWS::EC2::CapacityReservation-related helper methods,
+ * that are relevant to the validation of the InstanceType property.
  */
-public interface AwsEc2LaunchTemplateInstanceTypeProperty {
+public interface AwsEc2CapacityReservationInstanceTypeProperty {
 
     /**
      * Validate the InstanceType property when a default value is not present.
@@ -30,6 +30,19 @@ public interface AwsEc2LaunchTemplateInstanceTypeProperty {
             final String targetInstanceType,
             final String targetName,
             final Logger logger) {
+        if (targetInstanceType == null) {
+            final String failureMessage = String.format(
+                    "Failed to verify instance type for target: [%s].  Missing value for the InstanceType property.",
+                    targetName);
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
         if (!allowedEc2InstanceTypesSet.contains(targetInstanceType)) {
             final String failureMessage = String.format(
                     "Failed to verify instance type for target: [%s].  Allowed value(s): %s; specified value: [%s].",

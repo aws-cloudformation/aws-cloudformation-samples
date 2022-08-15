@@ -18,6 +18,8 @@
     "handlers": {
         "preCreate": {
             "targetNames": [
+                "AWS::EC2::CapacityReservation",
+                "AWS::EC2::CapacityReservationFleet",
                 "AWS::EC2::Instance",
                 "AWS::EC2::LaunchTemplate"
             ],
@@ -27,6 +29,8 @@
         },
         "preUpdate": {
             "targetNames": [
+                "AWS::EC2::CapacityReservation",
+                "AWS::EC2::CapacityReservationFleet",
                 "AWS::EC2::Instance",
                 "AWS::EC2::LaunchTemplate"
             ],
