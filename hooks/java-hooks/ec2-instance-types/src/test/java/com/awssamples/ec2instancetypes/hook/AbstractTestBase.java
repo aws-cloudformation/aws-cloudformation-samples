@@ -8,9 +8,12 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.awssamples.ec2instancetypes.hook.model.aws.ec2.capacityreservationfleet.InstanceTypeSpecification;
 import com.awssamples.ec2instancetypes.hook.model.aws.ec2.launchtemplate.AcceleratorCount;
 import com.awssamples.ec2instancetypes.hook.model.aws.ec2.launchtemplate.AcceleratorTotalMemoryMiB;
 import com.awssamples.ec2instancetypes.hook.model.aws.ec2.launchtemplate.BaselineEbsBandwidthMbps;
@@ -107,7 +110,6 @@ public class AbstractTestBase {
 
         final Map<String, Object> targetModel = new HashMap<String, Object>();
         final Map<String, Object> resourceProperties = new HashMap<String, Object>();
-        resourceProperties.put("InstanceType", null);
         targetModel.put("ResourceProperties", resourceProperties);
 
         final HookHandlerRequest request = HookHandlerRequest.builder()
@@ -327,7 +329,6 @@ public class AbstractTestBase {
 
         final Map<String, Object> targetModel = new HashMap<String, Object>();
         final Map<String, Object> resourceProperties = new HashMap<String, Object>();
-        resourceProperties.put("InstanceType", null);
         targetModel.put("ResourceProperties", resourceProperties);
 
         final HookHandlerRequest request = HookHandlerRequest.builder()
@@ -372,7 +373,6 @@ public class AbstractTestBase {
 
         final Map<String, Object> targetModel = new HashMap<String, Object>();
         final Map<String, Object> resourceProperties = new HashMap<String, Object>();
-        resourceProperties.put("InstanceType", null);
         targetModel.put("ResourceProperties", resourceProperties);
 
         final HookHandlerRequest request = HookHandlerRequest.builder()
@@ -484,6 +484,47 @@ public class AbstractTestBase {
     }
 
     /**
+     * Invalid request failure test for AWS::EC2::LaunchTemplate: missing
+     * LaunchTemplateData property.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSLaunchTemplate_LaunchTemplateData_Property_Missing(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::LaunchTemplate")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::EC2::LaunchTemplate].  Missing property: LaunchTemplateData.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
      * You need to specify either InstanceType or InstanceRequirements for
      * AWS::EC2::LaunchTemplate.
      *
@@ -500,10 +541,8 @@ public class AbstractTestBase {
 
         final Map<String, Object> targetModel = new HashMap<String, Object>();
         final Map<String, Object> resourceProperties = new HashMap<String, Object>();
-        resourceProperties.put("InstanceType", null);
         targetModel.put("ResourceProperties", resourceProperties);
 
-        resourceProperties.put("InstanceRequirements", null);
         final Map<String, Object> launchTemplateData = new HashMap<String, Object>();
         launchTemplateData.put("LaunchTemplateData", resourceProperties);
         targetModel.put("ResourceProperties", launchTemplateData);
@@ -950,8 +989,11 @@ public class AbstractTestBase {
     }
 
     /**
-     * Test that omitted request parameters for GetInstanceRequirementsRequest
-     * result in null or empty values when translated in the request.
+     * Translator test for GetInstanceRequirementsRequest. Test that omitted request
+     * parameters for GetInstanceRequirementsRequest result in null or empty values
+     * when translated in the request. This is a direct test with the Translator
+     * class, and it is not called from mock calls from PreCreateHookHandlerTest and
+     * PreUpdateHookHandlerTest.
      */
     @Test
     protected void translateToGetInstanceRequirementsRequest_BuiltRequestOmittedRequestParameters() {
@@ -992,8 +1034,11 @@ public class AbstractTestBase {
     }
 
     /**
-     * Test that specified request parameters for GetInstanceRequirementsRequest
-     * result in expected translated values.
+     * Translator test for GetInstanceRequirementsRequest. Test that specified
+     * request parameters for GetInstanceRequirementsRequest result in expected
+     * translated values. This is a direct test with the Translator class, and it is
+     * not called from mock calls from PreCreateHookHandlerTest and
+     * PreUpdateHookHandlerTest.
      */
     @Test
     protected void translateToGetInstanceRequirementsRequest_BuiltRequestSpecifiedRequestParameters() {
@@ -1104,6 +1149,606 @@ public class AbstractTestBase {
 
         assertThat(getInstanceRequirementsRequest.totalLocalStorageGB().min().equals(1.0));
         assertThat(getInstanceRequirementsRequest.totalLocalStorageGB().max().equals(1.0));
+    }
+
+    /**
+     * Translator test for GetInstanceRequirementsRequest. Test that specified
+     * request parameters for GetInstanceRequirementsRequest result in expected
+     * translated values, and that Min values are null in the request if not
+     * specified before the translation. This is a direct test with the Translator
+     * class, and it is not called from mock calls from PreCreateHookHandlerTest and
+     * PreUpdateHookHandlerTest.
+     */
+    @Test
+    protected void translateToGetInstanceRequirementsRequest_BuiltRequestSpecifiedRequestParametersNullMinValues() {
+        final InstanceRequirements instanceRequirements = InstanceRequirements.builder()
+                .vCpuCount(VCpuCount.builder().max(1).build())
+                .memoryMiB(MemoryMiB.builder().max(1).build())
+                .acceleratorCount(AcceleratorCount.builder().max(1).build())
+                .acceleratorManufacturers(new ArrayList<String>() {
+                    {
+                        add(AcceleratorManufacturer.AMAZON_WEB_SERVICES.name());
+                    }
+                })
+                .acceleratorNames(new ArrayList<String>() {
+                    {
+                        add(AcceleratorName.A100.name());
+                    }
+                })
+                .acceleratorTotalMemoryMiB(AcceleratorTotalMemoryMiB.builder().max(1).build())
+                .acceleratorTypes(new ArrayList<String>() {
+                    {
+                        add(AcceleratorType.GPU.name());
+                    }
+                })
+                .bareMetal(BareMetal.EXCLUDED.name())
+                .baselineEbsBandwidthMbps(BaselineEbsBandwidthMbps.builder().max(1).build())
+                .burstablePerformance(BurstablePerformance.EXCLUDED.name())
+                .cpuManufacturers(new ArrayList<String>() {
+                    {
+                        add(CpuManufacturer.AMAZON_WEB_SERVICES.name());
+                    }
+                })
+                .excludedInstanceTypes(new ArrayList<String>() {
+                    {
+                        add("m5.8xlarge");
+                    }
+                })
+                .instanceGenerations(new ArrayList<String>() {
+                    {
+                        add(InstanceGeneration.CURRENT.name());
+                    }
+                })
+                .localStorage(LocalStorage.EXCLUDED.name())
+                .localStorageTypes(new ArrayList<String>() {
+                    {
+                        add(LocalStorageType.SSD.name());
+                    }
+                })
+                .memoryGiBPerVCpu(MemoryGiBPerVCpu.builder().max(1.0).build())
+                .networkInterfaceCount(NetworkInterfaceCount.builder().max(1).build())
+                .onDemandMaxPricePercentageOverLowestPrice(20)
+                .requireHibernateSupport(true)
+                .spotMaxPricePercentageOverLowestPrice(100)
+                .totalLocalStorageGB(TotalLocalStorageGB.builder().max(1.0).build())
+
+                .build();
+
+        final InstanceRequirementsRequest getInstanceRequirementsRequest = Translator
+                .translateToGetInstanceRequirementsRequest(instanceRequirements);
+
+        assertThat(getInstanceRequirementsRequest.vCpuCount().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.vCpuCount().max().equals(1));
+
+        assertThat(getInstanceRequirementsRequest.memoryMiB().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.memoryMiB().max().equals(1));
+
+        assertThat(getInstanceRequirementsRequest.acceleratorCount().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.acceleratorCount().max().equals(1));
+
+        assertThat(getInstanceRequirementsRequest.acceleratorManufacturers()
+                .contains(AcceleratorManufacturer.AMAZON_WEB_SERVICES.name()));
+
+        assertThat(getInstanceRequirementsRequest.acceleratorNames().contains(AcceleratorName.A100.name()));
+
+        assertThat(getInstanceRequirementsRequest.acceleratorTotalMemoryMiB().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.acceleratorTotalMemoryMiB().max().equals(1));
+
+        assertThat(getInstanceRequirementsRequest.acceleratorTypes().contains(AcceleratorType.GPU.name()));
+
+        assertThat(getInstanceRequirementsRequest.bareMetal().equals(BareMetal.EXCLUDED.name()));
+
+        assertThat(getInstanceRequirementsRequest.baselineEbsBandwidthMbps().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.baselineEbsBandwidthMbps().max().equals(1));
+
+        assertThat(getInstanceRequirementsRequest.burstablePerformance().equals(BurstablePerformance.EXCLUDED));
+
+        assertThat(
+                getInstanceRequirementsRequest.cpuManufacturers().contains(CpuManufacturer.AMAZON_WEB_SERVICES.name()));
+
+        assertThat(getInstanceRequirementsRequest.excludedInstanceTypes().contains("m5.8xlarge"));
+
+        assertThat(getInstanceRequirementsRequest.instanceGenerations().contains(InstanceGeneration.CURRENT.name()));
+
+        assertThat(getInstanceRequirementsRequest.localStorage().equals(LocalStorage.EXCLUDED));
+
+        assertThat(getInstanceRequirementsRequest.localStorageTypes().contains(LocalStorageType.SSD.name()));
+
+        assertThat(getInstanceRequirementsRequest.memoryGiBPerVCpu().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.memoryGiBPerVCpu().max().equals(1.0));
+
+        assertThat(getInstanceRequirementsRequest.networkInterfaceCount().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.networkInterfaceCount().max().equals(1));
+
+        assertThat(getInstanceRequirementsRequest.onDemandMaxPricePercentageOverLowestPrice().equals(20));
+
+        assertThat(getInstanceRequirementsRequest.requireHibernateSupport()).isTrue();
+
+        assertThat(getInstanceRequirementsRequest.spotMaxPricePercentageOverLowestPrice().equals(100));
+
+        assertThat(getInstanceRequirementsRequest.totalLocalStorageGB().min()).isNull();
+        assertThat(getInstanceRequirementsRequest.totalLocalStorageGB().max().equals(1.0));
+    }
+
+    /**
+     * Translator test for GetInstanceRequirementsRequest. Test that specified
+     * request parameters for GetInstanceRequirementsRequest result in expected
+     * translated values, and that Max values are null in the request if not
+     * specified before the translation. This is a direct test with the Translator
+     * class, and it is not called from mock calls from PreCreateHookHandlerTest and
+     * PreUpdateHookHandlerTest.
+     */
+    @Test
+    protected void translateToGetInstanceRequirementsRequest_BuiltRequestSpecifiedRequestParametersNullMaxValues() {
+        final InstanceRequirements instanceRequirements = InstanceRequirements.builder()
+                .vCpuCount(VCpuCount.builder().min(1).build())
+                .memoryMiB(MemoryMiB.builder().min(1).build())
+                .acceleratorCount(AcceleratorCount.builder().min(1).build())
+                .acceleratorManufacturers(new ArrayList<String>() {
+                    {
+                        add(AcceleratorManufacturer.AMAZON_WEB_SERVICES.name());
+                    }
+                })
+                .acceleratorNames(new ArrayList<String>() {
+                    {
+                        add(AcceleratorName.A100.name());
+                    }
+                })
+                .acceleratorTotalMemoryMiB(AcceleratorTotalMemoryMiB.builder().min(1).build())
+                .acceleratorTypes(new ArrayList<String>() {
+                    {
+                        add(AcceleratorType.GPU.name());
+                    }
+                })
+                .bareMetal(BareMetal.EXCLUDED.name())
+                .baselineEbsBandwidthMbps(BaselineEbsBandwidthMbps.builder().min(1).build())
+                .burstablePerformance(BurstablePerformance.EXCLUDED.name())
+                .cpuManufacturers(new ArrayList<String>() {
+                    {
+                        add(CpuManufacturer.AMAZON_WEB_SERVICES.name());
+                    }
+                })
+                .excludedInstanceTypes(new ArrayList<String>() {
+                    {
+                        add("m5.8xlarge");
+                    }
+                })
+                .instanceGenerations(new ArrayList<String>() {
+                    {
+                        add(InstanceGeneration.CURRENT.name());
+                    }
+                })
+                .localStorage(LocalStorage.EXCLUDED.name())
+                .localStorageTypes(new ArrayList<String>() {
+                    {
+                        add(LocalStorageType.SSD.name());
+                    }
+                })
+                .memoryGiBPerVCpu(MemoryGiBPerVCpu.builder().min(1.0).build())
+                .networkInterfaceCount(NetworkInterfaceCount.builder().min(1).build())
+                .onDemandMaxPricePercentageOverLowestPrice(20)
+                .requireHibernateSupport(true)
+                .spotMaxPricePercentageOverLowestPrice(100)
+                .totalLocalStorageGB(TotalLocalStorageGB.builder().min(1.0).build())
+
+                .build();
+
+        final InstanceRequirementsRequest getInstanceRequirementsRequest = Translator
+                .translateToGetInstanceRequirementsRequest(instanceRequirements);
+
+        assertThat(getInstanceRequirementsRequest.vCpuCount().min().equals(1));
+        assertThat(getInstanceRequirementsRequest.vCpuCount().max()).isNull();
+
+        assertThat(getInstanceRequirementsRequest.memoryMiB().min().equals(1));
+        assertThat(getInstanceRequirementsRequest.memoryMiB().max()).isNull();
+
+        assertThat(getInstanceRequirementsRequest.acceleratorCount().min().equals(1));
+        assertThat(getInstanceRequirementsRequest.acceleratorCount().max()).isNull();
+
+        assertThat(getInstanceRequirementsRequest.acceleratorManufacturers()
+                .contains(AcceleratorManufacturer.AMAZON_WEB_SERVICES.name()));
+
+        assertThat(getInstanceRequirementsRequest.acceleratorNames().contains(AcceleratorName.A100.name()));
+
+        assertThat(getInstanceRequirementsRequest.acceleratorTotalMemoryMiB().min().equals(1));
+        assertThat(getInstanceRequirementsRequest.acceleratorTotalMemoryMiB().max()).isNull();
+
+        assertThat(getInstanceRequirementsRequest.acceleratorTypes().contains(AcceleratorType.GPU.name()));
+
+        assertThat(getInstanceRequirementsRequest.bareMetal().equals(BareMetal.EXCLUDED.name()));
+
+        assertThat(getInstanceRequirementsRequest.baselineEbsBandwidthMbps().min().equals(1));
+        assertThat(getInstanceRequirementsRequest.baselineEbsBandwidthMbps().max()).isNull();
+
+        assertThat(getInstanceRequirementsRequest.burstablePerformance().equals(BurstablePerformance.EXCLUDED));
+
+        assertThat(
+                getInstanceRequirementsRequest.cpuManufacturers().contains(CpuManufacturer.AMAZON_WEB_SERVICES.name()));
+
+        assertThat(getInstanceRequirementsRequest.excludedInstanceTypes().contains("m5.8xlarge"));
+
+        assertThat(getInstanceRequirementsRequest.instanceGenerations().contains(InstanceGeneration.CURRENT.name()));
+
+        assertThat(getInstanceRequirementsRequest.localStorage().equals(LocalStorage.EXCLUDED));
+
+        assertThat(getInstanceRequirementsRequest.localStorageTypes().contains(LocalStorageType.SSD.name()));
+
+        assertThat(getInstanceRequirementsRequest.memoryGiBPerVCpu().min().equals(1.0));
+        assertThat(getInstanceRequirementsRequest.memoryGiBPerVCpu().max()).isNull();
+
+        assertThat(getInstanceRequirementsRequest.networkInterfaceCount().min().equals(1));
+        assertThat(getInstanceRequirementsRequest.networkInterfaceCount().max()).isNull();
+
+        assertThat(getInstanceRequirementsRequest.onDemandMaxPricePercentageOverLowestPrice().equals(20));
+
+        assertThat(getInstanceRequirementsRequest.requireHibernateSupport()).isTrue();
+
+        assertThat(getInstanceRequirementsRequest.spotMaxPricePercentageOverLowestPrice().equals(100));
+
+        assertThat(getInstanceRequirementsRequest.totalLocalStorageGB().min().equals(1.0));
+        assertThat(getInstanceRequirementsRequest.totalLocalStorageGB().max()).isNull();
+    }
+
+    /**
+     * Invalid request failure test for AWS::EC2::CapacityReservation: missing
+     * InstanceType property.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservation_InstanceType_Property_Missing(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservation")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::EC2::CapacityReservation].  Missing value for the InstanceType property.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * Compliance failure test for AWS::EC2::CapacityReservation.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservation_Failure(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "t2.small");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservation")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::EC2::CapacityReservation].  Allowed value(s): [t2.nano, t2.micro]; specified value: [t2.small].");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.NonCompliant);
+    }
+
+    /**
+     * Compliance success test for AWS::EC2::CapacityReservation.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservation_Success(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t1.micro,t2.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "t2.micro");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservation")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Successfully verified instance type for target: [AWS::EC2::CapacityReservation].");
+        assertThat(response.getErrorCode()).isNull();
+    }
+
+    /**
+     * Invalid request failure test for AWS::EC2::CapacityReservationFleet: missing
+     * InstanceTypeSpecifications property.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservationFleet_InstanceTypeSpecifications_Property_Missing(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservationFleet")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type(s) for target: [AWS::EC2::CapacityReservationFleet].  Missing property: InstanceTypeSpecifications.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * Invalid request failure test for AWS::EC2::CapacityReservationFleet:
+     * InstanceTypeSpecifications property containing no list items.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservationFleet_InstanceTypeSpecifications_Property_Empty(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        final Set<InstanceTypeSpecification> instanceTypeSpecifications = new HashSet<InstanceTypeSpecification>();
+        resourceProperties.put("InstanceTypeSpecifications", instanceTypeSpecifications);
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservationFleet")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type(s) for target: [AWS::EC2::CapacityReservationFleet].  The InstanceTypeSpecifications property contains no items.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * Invalid request failure test for AWS::EC2::CapacityReservationFleet:
+     * the InstanceType property underneath InstanceTypeSpecifications is missing.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_Missing(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        final Set<InstanceTypeSpecification> instanceTypeSpecifications = new HashSet<InstanceTypeSpecification>();
+        final InstanceTypeSpecification instanceTypeSpecification = InstanceTypeSpecification.builder()
+                .availabilityZone("us-east-2a")
+                .build();
+        instanceTypeSpecifications.add(instanceTypeSpecification);
+        resourceProperties.put("InstanceTypeSpecifications", instanceTypeSpecifications);
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservationFleet")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type(s) for target: [AWS::EC2::CapacityReservationFleet].  Missing InstanceType for an item in the InstanceTypeSpecifications list of properties.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * Compliance failure test for AWS::EC2::CapacityReservationFleet.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_For_List_item_Failure(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        final Set<InstanceTypeSpecification> instanceTypeSpecifications = new HashSet<InstanceTypeSpecification>();
+        final InstanceTypeSpecification instanceTypeSpecification = InstanceTypeSpecification.builder()
+                .availabilityZone("us-east-2a")
+                .instancePlatform("Linux/UNIX")
+                .instanceType("t2.small")
+                .build();
+        instanceTypeSpecifications.add(instanceTypeSpecification);
+        resourceProperties.put("InstanceTypeSpecifications", instanceTypeSpecifications);
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservationFleet")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type(s) for target: [AWS::EC2::CapacityReservationFleet] while inspecting InstanceType for an item in the InstanceTypeSpecifications list of properties.  Allowed value(s): [t2.nano, t2.micro]; specified value: [t2.small].");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.NonCompliant);
+    }
+
+    /**
+     * Compliance success test for AWS::EC2::CapacityReservationFleet.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_For_List_item_Success(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        final Set<InstanceTypeSpecification> instanceTypeSpecifications = new HashSet<InstanceTypeSpecification>();
+        final InstanceTypeSpecification instanceTypeSpecification = InstanceTypeSpecification.builder()
+                .availabilityZone("us-east-2a")
+                .instancePlatform("Linux/UNIX")
+                .instanceType("t2.micro")
+                .build();
+        instanceTypeSpecifications.add(instanceTypeSpecification);
+        resourceProperties.put("InstanceTypeSpecifications", instanceTypeSpecifications);
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::CapacityReservationFleet")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Successfully verified instance type(s) for target: [AWS::EC2::CapacityReservationFleet].");
+        assertThat(response.getErrorCode()).isNull();
     }
 
 }

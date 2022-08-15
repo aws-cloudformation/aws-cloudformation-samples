@@ -19,7 +19,12 @@
 
 ## Overview
 
-This is an example hook for [AWS CloudFormation](https://aws.amazon.com/cloudformation/), that demonstrates verification for [Amazon EC2 instance types](https://aws.amazon.com/ec2/instance-types/) you wish to use and allow for your workload.  This sample hook is designed to look at a number of [resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html), that include `AWS::EC2::Instance`, `AWS::EC2::LaunchTemplate` whose configuration you describe in your CloudFormation template.
+This is an example hook for [AWS CloudFormation](https://aws.amazon.com/cloudformation/), that demonstrates verification for [Amazon EC2 instance types](https://aws.amazon.com/ec2/instance-types/) you wish to use and allow for your workload.  This sample hook is designed to look at a number of [resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html), that include a number of resource types whose configuration you describe in your CloudFormation template.  Supported resource types in this example hook are:
+
+- `AWS::EC2::Instance`
+- `AWS::EC2::LaunchTemplate`
+- `AWS::EC2::CapacityReservation`
+- `AWS::EC2::CapacityReservationFleet`
 
 For more information on developing hooks, see [Developing hooks](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks.html).
 

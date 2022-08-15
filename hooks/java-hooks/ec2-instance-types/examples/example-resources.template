@@ -10,6 +10,24 @@ Parameters:
     MaxLength: 20
     MinLength: 0
 
+  CapacityReservationFleetInstanceType:
+    Description: Amazon EC2 instance type to use for the example AWS::EC2::CapacityReservationFleet resource described in this sample template that describes the InstanceType property in an InstanceTypeSpecifications list item.
+    Type: String
+    AllowedValues:
+      - t1.micro
+      - t2.micro
+      - t2.small
+    Default: t2.micro
+
+  CapacityReservationInstanceType:
+    Description: Amazon EC2 instance type to use for the example AWS::EC2::CapacityReservation resource described in this sample template that describes the InstanceType property.
+    Type: String
+    AllowedValues:
+      - t1.micro
+      - t2.micro
+      - t2.small
+    Default: t2.micro
+
   CpuMax:
     Description: Maximum amount of CPUs for EC2 instances for the example AWS::EC2::LaunchTemplate resource described in this sample template that describes the InstanceRequirements property.  Leave this parameter blank to omit this value and not specify a maximum.
     Type: String
@@ -88,6 +106,45 @@ Conditions:
     - ""
 
 Resources:
+  CapacityReservation:
+    Type: AWS::EC2::CapacityReservation
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      InstanceCount: 1
+      InstanceMatchCriteria: targeted
+      InstancePlatform: Linux/UNIX
+      InstanceType: !Ref 'CapacityReservationInstanceType'
+      TagSpecifications:
+        - ResourceType: capacity-reservation
+          Tags:
+            - Key: Name
+              Value: !Ref 'NameTagValue'
+            - Key: AppName
+              Value: !Ref 'AppNameTagValue'
+            - Key: Env
+              Value: !Ref 'Env'
+
+  CapacityReservationFleet:
+    Type: AWS::EC2::CapacityReservationFleet
+    Properties:
+      AllocationStrategy: prioritized
+      InstanceMatchCriteria: open
+      InstanceTypeSpecifications:
+        - AvailabilityZone: !Sub '${AWS::Region}a'
+          InstancePlatform: Linux/UNIX
+          InstanceType: !Ref 'CapacityReservationFleetInstanceType'
+      TagSpecifications:
+        - ResourceType: capacity-reservation-fleet
+          Tags:
+            - Key: Name
+              Value: !Ref 'NameTagValue'
+            - Key: AppName
+              Value: !Ref 'AppNameTagValue'
+            - Key: Env
+              Value: !Ref 'Env'
+      Tenancy: default
+      TotalTargetCapacity: 1
+
   Ec2Instance:
     Type: AWS::EC2::Instance
     Properties:

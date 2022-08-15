@@ -25,24 +25,15 @@ public interface AwsEc2InstanceInstanceTypeProperty {
      * @param logger                     Logger
      * @return ProgressEvent<HookTargetModel, CallbackContext>
      */
-    default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeTargetPropertyWithDefaultValue(
+    default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeTargetProperty(
             final Set<String> allowedEc2InstanceTypesSet,
             final String targetInstanceType,
             final String targetName,
             final Logger logger) {
-        /*
-         * For AWS::EC2::Instance, the InstanceType parameter is not required. When not
-         * specified, its value defaults to m1.small: hence, reflecting this behavior
-         * here.
-         */
-        String targetInstanceTypeToVerify = targetInstanceType;
-        if (targetInstanceType == null)
-            targetInstanceTypeToVerify = "m1.small";
-
-        if (!allowedEc2InstanceTypesSet.contains(targetInstanceTypeToVerify)) {
+        if (!allowedEc2InstanceTypesSet.contains(targetInstanceType)) {
             final String failureMessage = String.format(
                     "Failed to verify instance type for target: [%s].  Allowed value(s): %s; specified value: [%s].  If you have not specified an EC2 instance type, its value defaults to m1.small.",
-                    targetName, allowedEc2InstanceTypesSet.toString(), targetInstanceTypeToVerify);
+                    targetName, allowedEc2InstanceTypesSet.toString(), targetInstanceType);
             logger.log(failureMessage);
 
             return ProgressEvent.<HookTargetModel, CallbackContext>builder()

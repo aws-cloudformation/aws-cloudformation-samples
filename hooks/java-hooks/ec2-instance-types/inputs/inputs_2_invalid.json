@@ -1,4 +1,28 @@
 {
+    "AWS::EC2::CapacityReservation": {
+        "resourceProperties": {
+            "AvailabilityZone": "invalid",
+            "InstanceCount": 1,
+            "InstanceMatchCriteria": "invalid",
+            "InstancePlatform": "invalid",
+            "InstanceType": "invalid"
+        }
+    },
+    "AWS::EC2::CapacityReservationFleet": {
+        "resourceProperties": {
+            "AllocationStrategy": "prioritized",
+            "InstanceTypeSpecifications": [
+                {
+                    "InstanceType": "invalid",
+                    "InstancePlatform": "invalid",
+                    "AvailabilityZone": "invalid"
+                }
+            ],
+            "Tenancy": "default",
+            "TotalTargetCapacity": 1,
+            "InstanceMatchCriteria": "open"
+        }
+    },
     "AWS::EC2::Instance": {
         "resourceProperties": {
             "InstanceType": "invalid"

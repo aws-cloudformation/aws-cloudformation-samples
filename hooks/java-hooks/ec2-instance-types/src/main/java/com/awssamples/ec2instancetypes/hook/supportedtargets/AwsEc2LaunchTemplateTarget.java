@@ -11,6 +11,7 @@ import com.awssamples.ec2instancetypes.hook.supportedproperties.AwsEc2LaunchTemp
 import com.awssamples.ec2instancetypes.hook.supportedproperties.AwsEc2LaunchTemplateInstanceTypeProperty;
 
 import software.amazon.cloudformation.proxy.AmazonWebServicesClientProxy;
+import software.amazon.cloudformation.proxy.HandlerErrorCode;
 import software.amazon.cloudformation.proxy.Logger;
 import software.amazon.cloudformation.proxy.OperationStatus;
 import software.amazon.cloudformation.proxy.ProgressEvent;
@@ -58,6 +59,21 @@ public final class AwsEc2LaunchTemplateTarget
             final HookContext hookContext,
             final Logger logger,
             final String targetName) {
+        try {
+            getTargetLaunchTemplateData(hookContext);
+        } catch (final NullPointerException nullPointerException) {
+            final String failureMessage = String.format(
+                    "Failed to verify instance type for target: [%s].  Missing property: LaunchTemplateData.",
+                    targetName);
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
         final String targetInstanceType = getTargetEc2InstanceType(hookContext);
         final InstanceRequirements targetInstanceRequirements = getTargetInstanceRequirements(hookContext);
 
@@ -70,7 +86,7 @@ public final class AwsEc2LaunchTemplateTarget
         }
 
         if (targetInstanceType != null) {
-            final ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeTargetProperty = validateInstanceTypeTargetPropertyNoDefaultValue(
+            final ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeTargetProperty = validateInstanceTypeTargetProperty(
                     allowedEc2InstanceTypesSet,
                     targetInstanceType,
                     targetName,
@@ -79,8 +95,7 @@ public final class AwsEc2LaunchTemplateTarget
                 return validateInstanceTypeTargetProperty;
             }
         } else if (targetInstanceRequirements != null) {
-            final LaunchTemplateData launchTemplateData = getResourcePropertiesFromTargetModel(hookContext)
-                    .getLaunchTemplateData();
+            final LaunchTemplateData launchTemplateData = getTargetLaunchTemplateData(hookContext);
 
             final ProgressEvent<HookTargetModel, CallbackContext> validateInstanceRequirementsTargetProperty = validateInstanceRequirementsTargetProperty(
                     targetInstanceRequirements,
@@ -123,8 +138,18 @@ public final class AwsEc2LaunchTemplateTarget
      * @return String
      */
     public final String getTargetEc2InstanceType(final HookContext hookContext) {
+        return getTargetLaunchTemplateData(hookContext).getInstanceType();
+    }
+
+    /**
+     * Return the LaunchTemplateData property from this resource type.
+     *
+     * @param hookContext HookContext
+     * @return LaunchTemplateData
+     */
+    public final LaunchTemplateData getTargetLaunchTemplateData(final HookContext hookContext) {
         final AwsEc2Launchtemplate resourceProperties = getResourcePropertiesFromTargetModel(hookContext);
-        return resourceProperties.getLaunchTemplateData().getInstanceType();
+        return resourceProperties.getLaunchTemplateData();
     }
 
     /**
@@ -136,6 +161,46 @@ public final class AwsEc2LaunchTemplateTarget
     public final InstanceRequirements getTargetInstanceRequirements(final HookContext hookContext) {
         final AwsEc2Launchtemplate resourceProperties = getResourcePropertiesFromTargetModel(hookContext);
         return resourceProperties.getLaunchTemplateData().getInstanceRequirements();
+    }
+
+    /**
+     * Validate that either InstanceType or InstanceRequirements are specified.
+     *
+     * @param targetInstanceType         String
+     * @param targetInstanceRequirements InstanceRequirements
+     * @param logger                     Logger
+     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     */
+    public final ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeAndInstanceRequirementsTargetProperties(
+            final String targetInstanceType,
+            final InstanceRequirements targetInstanceRequirements,
+            final Logger logger) {
+
+        if (targetInstanceType == null && targetInstanceRequirements == null) {
+            final String failureMessage = "Neither InstanceType nor InstanceRequirements are specified.  Specify one or the other.";
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
+        if (targetInstanceType != null && targetInstanceRequirements != null) {
+            final String failureMessage = "Both InstanceType and InstanceRequirements are specified.  Specify one or the other.";
+            logger.log(failureMessage);
+
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                    .status(OperationStatus.FAILED)
+                    .message(failureMessage)
+                    .errorCode(HandlerErrorCode.InvalidRequest)
+                    .build();
+        }
+
+        return ProgressEvent.<HookTargetModel, CallbackContext>builder()
+                .status(OperationStatus.IN_PROGRESS)
+                .build();
     }
 
 }

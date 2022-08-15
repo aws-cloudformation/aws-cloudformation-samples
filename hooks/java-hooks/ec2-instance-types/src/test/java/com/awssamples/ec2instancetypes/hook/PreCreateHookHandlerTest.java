@@ -112,6 +112,14 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
     }
 
     @Test
+    public void handleRequest_AWSLaunchTemplate_LaunchTemplateData_Property_Missing() {
+        handleRequest_AWSLaunchTemplate_LaunchTemplateData_Property_Missing(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
     public void handleRequest_AWSEC2LaunchTemplate_NeitherInstanceTypeNorInstanceRequirementsSpecified() {
         handleRequest_AWSEC2LaunchTemplate_NeitherInstanceTypeNorInstanceRequirementsSpecified(
                 PRE_CREATE_OPERATION,
@@ -173,6 +181,70 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
     @Test
     public void handleRequest_AWSEC2LaunchTemplate_InstanceType_Property_Success() {
         handleRequest_AWSEC2LaunchTemplate_InstanceType_Property_Success(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservation_InstanceType_Property_Missing() {
+        handleRequest_AWSEC2CapacityReservation_InstanceType_Property_Missing(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservation_Failure() {
+        handleRequest_AWSEC2CapacityReservation_Failure(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservation_Success() {
+        handleRequest_AWSEC2CapacityReservation_Success(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservationFleet_InstanceTypeSpecifications_Property_Missing() {
+        handleRequest_AWSEC2CapacityReservationFleet_InstanceTypeSpecifications_Property_Missing(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservationFleet_InstanceTypeSpecifications_Property_Empty() {
+        handleRequest_AWSEC2CapacityReservationFleet_InstanceTypeSpecifications_Property_Empty(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_Missing() {
+        handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_Missing(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_For_List_item_Failure() {
+        handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_For_List_item_Failure(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_For_List_item_Success() {
+        handleRequest_AWSEC2CapacityReservationFleet_InstanceType_Property_For_List_item_Success(
                 PRE_CREATE_OPERATION,
                 proxy,
                 logger);
