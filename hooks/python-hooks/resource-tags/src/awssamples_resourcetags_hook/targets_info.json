@@ -1952,6 +1952,15 @@
         ]
     },
     {
+        "name": "AWS::Evidently::Segment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::FIS::ExperimentTemplate",
         "tags_info": [
             {
@@ -2308,6 +2317,42 @@
     },
     {
         "name": "AWS::GroundStation::MissionProfile",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::GuardDuty::Detector",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::GuardDuty::Filter",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::GuardDuty::IPSet",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::GuardDuty::ThreatIntelSet",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3081,6 +3126,15 @@
     },
     {
         "name": "AWS::MSK::Cluster",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MSK::ServerlessCluster",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4548,6 +4602,15 @@
     },
     {
         "name": "AWS::Synthetics::Canary",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Synthetics::Group",
         "tags_info": [
             {
                 "property_name": "Tags",

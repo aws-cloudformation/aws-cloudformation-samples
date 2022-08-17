@@ -2123,6 +2123,16 @@
             ]
         }
     },
+    "AWS::Evidently::Segment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::FIS::ExperimentTemplate": {
         "resourceProperties": {
             "Tags": {
@@ -2472,6 +2482,46 @@
         }
     },
     "AWS::GroundStation::MissionProfile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::GuardDuty::Detector": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::GuardDuty::Filter": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::GuardDuty::IPSet": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::GuardDuty::ThreatIntelSet": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3298,6 +3348,13 @@
         }
     },
     "AWS::MSK::Cluster": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::MSK::ServerlessCluster": {
         "resourceProperties": {
             "Tags": {
                 "invalid": ""
@@ -4841,6 +4898,16 @@
         }
     },
     "AWS::Synthetics::Canary": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Synthetics::Group": {
         "resourceProperties": {
             "Tags": [
                 {
