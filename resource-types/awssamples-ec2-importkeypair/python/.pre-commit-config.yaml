@@ -1,0 +1,138 @@
+# Configuration file for pre-commit; reference: https://pre-commit.com/
+
+fail_fast: true
+
+repos:
+
+  - repo: https://github.com/awslabs/git-secrets
+    rev: b9e96b3212fa06aea65964ff0d5cda84ce935f38
+    hooks:
+      - id: git-secrets
+        entry: git-secrets --scan
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: check-case-conflict
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+      - id: check-merge-conflict
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+      - id: check-yaml
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+        # Using https://github.com/aws-cloudformation/cfn-python-lint
+        # and https://github.com/aws-cloudformation/rain (see below in
+        # this file) for AWS CloudFormation templates; hence,
+        # excluding example templates in the following path.
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*examples/.*\.(template|yaml|yml)$
+      - id: detect-private-key
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+      - id: end-of-file-fixer
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*models\.py$
+      - id: mixed-line-ending
+        args:
+          - --fix=lf
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+      - id: pretty-format-json
+        args:
+          - --autofix
+          - --indent=4
+          - --no-sort-keys
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+      - id: trailing-whitespace
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      - id: python-check-blanket-noqa
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+      - id: python-check-mock-methods
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+      - id: python-no-log-warn
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 5.0.4
+    hooks:
+      - id: flake8
+        args:
+          - --ignore=W503,W504
+          - --max-complexity=10
+          - --max-line-length=79
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*models\.py$
+
+  - repo: local
+    hooks:
+      - id: pytest-local
+        name: pytest-local
+        entry: bash -c "cd resource-types/awssamples-ec2-importkeypair/python && pytest --cov src --cov-report term-missing"
+        always_run: true
+        language: system
+        pass_filenames: false
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.971
+    hooks:
+      - id: mypy
+        args:
+          - --no-warn-unused-ignores
+          - --follow-imports=silent
+          - --strict
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*models\.py$
+
+  # Using a custom isort configuration for Black, but with a line
+  # length of 79.  References:
+  #   - https://pycqa.github.io/isort/docs/configuration/options.html
+  #   - https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#custom-configuration
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        args:
+          - --fgw
+          - --tc
+          - --use-parentheses
+          - -l 79
+          - -m3
+          - -n
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*models\.py$
+
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.1.1
+    hooks:
+      - id: pydocstyle
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*(__init__|models)\.py$
+
+  - repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+      - id: black
+        args:
+          - -l 79
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*models\.py$
+
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*\.py$
+        exclude: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*test_.*\.py$
+
+  - repo: https://github.com/aws-cloudformation/cfn-python-lint
+    rev: v0.65.0
+    hooks:
+      - id: cfn-python-lint
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*examples/.*\.(template|json|yaml|yml)$
+
+  - repo: https://github.com/aws-cloudformation/rain
+    rev: v1.2.0
+    hooks:
+      - id: cfn-format
+        files: ^resource-types\/awssamples-ec2-importkeypair\/python\/.*examples/.*\.(template|json|yaml|yml)$

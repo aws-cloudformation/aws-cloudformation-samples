@@ -1,10 +1,10 @@
 {
-  "KeyName": "example-keypair-for-contract-tests-2",
-  "PublicKeyMaterial": "{{KeyPairPublicKeyForContractTests}}",
-  "Tags": [
-    {
-      "Key": "Name",
-      "Value": "example-keypair-for-contract-tests-2"
-    }
-  ]
+    "KeyName": "example-keypair-for-contract-tests-2",
+    "PublicKeyMaterial": "{{KeyPairPublicKeyForContractTests}}",
+    "Tags": [
+        {
+            "Key": "Name",
+            "Value": "example-keypair-for-contract-tests-2"
+        }
+    ]
 }

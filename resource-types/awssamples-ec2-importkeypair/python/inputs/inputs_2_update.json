@@ -1,4 +1,4 @@
 {
-  "KeyName": "example-keypair-for-contract-tests-2",
-  "PublicKeyMaterial": "{{KeyPairPublicKeyForContractTests}}"
+    "KeyName": "example-keypair-for-contract-tests-2",
+    "PublicKeyMaterial": "{{KeyPairPublicKeyForContractTests}}"
 }

@@ -1,33 +1,45 @@
----
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
+
 Description: This template describes an example resource type for importing a key pair.
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - E1010
+        - E3001
+
 Parameters:
   KeyPairName:
-    AllowedPattern: ^[\x00-\x7F]{1,255}$
-    Default: example-key-pair
     Description: 'Please specify the name you wish to assign to the key pair you are importing.  Allowed values include ASCII characters; minimum length: 1, maximum: 255.'
-    MaxLength: '255'
-    MinLength: '1'
     Type: String
+    Default: example-key-pair
+    AllowedPattern: ^[\x00-\x7F]{1,255}$
+    MaxLength: "255"
+    MinLength: "1"
+
   KeyPairPublicKey:
-    AllowedPattern: ^ssh-[a-z0-9-]+ AAAA[a-zA-Z0-9\+\/]+=*( .*)?$
     Description: Please specify the public key material for the key pair you are importing.
-    MinLength: '1'
     Type: String
+    AllowedPattern: ^ssh-[a-z0-9-]+ AAAA[a-zA-Z0-9\+\/]+=*( .*)?$
+    MinLength: "1"
+
   OrganizationBusinessUnitName:
-    ConstraintDescription: please specify a valid value.
-    Default: ExampleBusinessUnit
     Description: 'Please specify the name of your business unit; maximum: 256 characters.'
-    MaxLength: '256'
-    MinLength: '0'
     Type: String
-  OrganizationName:
+    Default: ExampleBusinessUnit
     ConstraintDescription: please specify a valid value.
-    Default: ExampleOrganization
+    MaxLength: "256"
+    MinLength: "0"
+
+  OrganizationName:
     Description: 'Please specify the name of your organization; maximum: 256 characters.'
-    MaxLength: '256'
-    MinLength: '0'
     Type: String
+    Default: ExampleOrganization
+    ConstraintDescription: please specify a valid value.
+    MaxLength: "256"
+    MinLength: "0"
+
 Resources:
   KeyPair:
     Type: AWSSamples::EC2::ImportKeyPair
@@ -41,14 +53,16 @@ Resources:
           Value: !Ref 'OrganizationName'
         - Key: OrganizationBusinessUnitName
           Value: !Ref 'OrganizationBusinessUnitName'
+
 Outputs:
   KeyFingerprint:
     Description: The MD5 public key fingerprint of the imported key.
-    Value: !GetAtt 'KeyPair.KeyFingerprint'
+    Value: !GetAtt KeyPair.KeyFingerprint
+
   KeyPairId:
     Description: The ID of the key pair you imported.
     Value: !Ref 'KeyPair'
+
   KeyType:
     Description: The type of the key pair.
-    Value: !GetAtt 'KeyPair.KeyType'
-
+    Value: !GetAtt KeyPair.KeyType

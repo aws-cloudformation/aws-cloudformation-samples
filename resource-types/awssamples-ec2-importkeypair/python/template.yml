@@ -21,4 +21,3 @@ Resources:
       Handler: awssamples_ec2_importkeypair.handlers.test_entrypoint
       Runtime: python3.7
       CodeUri: build/
-
