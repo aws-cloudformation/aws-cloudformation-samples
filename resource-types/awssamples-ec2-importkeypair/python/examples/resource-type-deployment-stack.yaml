@@ -1,0 +1,156 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Registers the resource type in the AWS CloudFormation Private Registry, and sets it to a new default resource version.
+
+Parameters:
+  Env:
+    Description: Name of the environment.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  LogRetentionInDays:
+    Description: Retain log events for this number of day(s).
+    Type: String
+    AllowedValues:
+      - 1
+      - 3
+      - 5
+      - 7
+      - 14
+      - 30
+      - 60
+      - 90
+      - 120
+      - 150
+      - 180
+      - 365
+      - 400
+      - 545
+      - 731
+      - 1827
+      - 3653
+    Default: 30
+
+  SchemaHandlerPackage:
+    Description: URL to the Amazon Simple Storage Service (Amazon S3) bucket where you stored the resource type's project ZIP package.
+    Type: String
+
+  TypeName:
+    Description: Name of the extension.
+    Type: String
+    Default: AWSSamples::EC2::ImportKeyPair
+
+Resources:
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref 'AWS::AccountId'
+              StringLike:
+                aws:SourceArn: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:type/resource/AWSSamples-EC2-ImportKeyPair/*'
+            Effect: Allow
+            Principal:
+              Service: resources.cloudformation.amazonaws.com
+        Version: "2012-10-17"
+      MaxSessionDuration: 8400
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - ec2:CreateTags
+                  - ec2:DeleteKeyPair
+                  - ec2:DeleteTags
+                  - ec2:DescribeKeyPairs
+                  - ec2:ImportKeyPair
+                Effect: Allow
+                Resource: '*'
+            Version: "2012-10-17"
+          PolicyName: ResourceTypePolicy
+      Tags:
+        - Key: Name
+          Value: ResourceTypeExecutionRole
+        - Key: AppName
+          Value: resource-type-deployment
+        - Key: Env
+          Value: !Ref 'Env'
+
+  ResourceDefaultVersion:
+    Type: AWS::CloudFormation::ResourceDefaultVersion
+    Properties:
+      TypeName: !Ref 'TypeName'
+      VersionId: !GetAtt ResourceVersion.VersionId
+
+  LogAndMetricsDeliveryRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref 'AWS::AccountId'
+            Effect: Allow
+            Principal:
+              Service:
+                - resources.cloudformation.amazonaws.com
+        Version: "2012-10-17"
+      MaxSessionDuration: 43200
+      Path: /
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:DescribeLogGroups
+                  - logs:DescribeLogStreams
+                  - logs:PutLogEvents
+                  - cloudwatch:ListMetrics
+                  - cloudwatch:PutMetricData
+                Effect: Allow
+                Resource: '*'
+            Version: "2012-10-17"
+          PolicyName: LogAndMetricsDeliveryRolePolicy
+      Tags:
+        - Key: Name
+          Value: ResourceTypeLogAndMetricsDeliveryRole
+        - Key: AppName
+          Value: resource-type-deployment
+        - Key: Env
+          Value: !Ref 'Env'
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: !Ref 'LogRetentionInDays'
+      Tags:
+        - Key: Name
+          Value: ResourceTypeLogGroup
+        - Key: AppName
+          Value: resource-type-deployment
+        - Key: Env
+          Value: !Ref 'Env'
+
+  ResourceVersion:
+    Type: AWS::CloudFormation::ResourceVersion
+    Properties:
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      LoggingConfig:
+        LogGroupName: !Ref 'LogGroup'
+        LogRoleArn: !GetAtt LogAndMetricsDeliveryRole.Arn
+      SchemaHandlerPackage: !Ref 'SchemaHandlerPackage'
+      TypeName: !Ref 'TypeName'
+
+Outputs:
+  VersionId:
+    Description: The ID of the resource type version.
+    Value: !GetAtt ResourceVersion.VersionId
