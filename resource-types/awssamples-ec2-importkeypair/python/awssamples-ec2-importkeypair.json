@@ -83,7 +83,13 @@
         "/properties/KeyName",
         "/properties/PublicKeyMaterial"
     ],
-    "taggable": true,
+    "tagging": {
+        "taggable": true,
+        "tagOnCreate": true,
+        "tagUpdatable": true,
+        "cloudFormationSystemTags": false,
+        "tagProperty": "/properties/Tags"
+    },
     "handlers": {
         "create": {
             "permissions": [
