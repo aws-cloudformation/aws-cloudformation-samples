@@ -4,7 +4,11 @@
     "Tags": [
         {
             "Key": "Name",
-            "Value": "example-keypair-for-contract-tests-2"
+            "Value": "example-keypair-for-contract-tests-2-create-tag1"
+        },
+        {
+            "Key": "Test",
+            "Value": "example-keypair-for-contract-tests-2-create-tag2"
         }
     ]
 }
