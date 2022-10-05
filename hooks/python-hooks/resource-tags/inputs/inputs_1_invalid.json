@@ -2923,6 +2923,66 @@
             ]
         }
     },
+    "AWS::IoTFleetWise::Campaign": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::DecoderManifest": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::Fleet": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::ModelManifest": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::SignalCatalog": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::Vehicle": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::IoTSiteWise::Asset": {
         "resourceProperties": {
             "Tags": [
@@ -3347,6 +3407,20 @@
             ]
         }
     },
+    "AWS::M2::Application": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::M2::Environment": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
     "AWS::MSK::Cluster": {
         "resourceProperties": {
             "Tags": {
@@ -3366,6 +3440,16 @@
             "Tags": {
                 "invalid": ""
             }
+        }
+    },
+    "AWS::Macie::AllowList": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
         }
     },
     "AWS::MediaConvert::JobTemplate": {

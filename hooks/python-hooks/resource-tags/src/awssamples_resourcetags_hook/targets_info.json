@@ -2734,6 +2734,60 @@
         ]
     },
     {
+        "name": "AWS::IoTFleetWise::Campaign",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoTFleetWise::DecoderManifest",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoTFleetWise::Fleet",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoTFleetWise::ModelManifest",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoTFleetWise::SignalCatalog",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoTFleetWise::Vehicle",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IoTSiteWise::Asset",
         "tags_info": [
             {
@@ -3125,6 +3179,24 @@
         ]
     },
     {
+        "name": "AWS::M2::Application",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::M2::Environment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::MSK::Cluster",
         "tags_info": [
             {
@@ -3148,6 +3220,15 @@
             {
                 "property_name": "Tags",
                 "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Macie::AllowList",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
             }
         ]
     },
