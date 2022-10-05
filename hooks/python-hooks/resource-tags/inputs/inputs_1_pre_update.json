@@ -2923,6 +2923,66 @@
             ]
         }
     },
+    "AWS::IoTFleetWise::Campaign": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::DecoderManifest": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::Fleet": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::ModelManifest": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::SignalCatalog": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IoTFleetWise::Vehicle": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::IoTSiteWise::Asset": {
         "resourceProperties": {
             "Tags": [
@@ -3347,6 +3407,20 @@
             ]
         }
     },
+    "AWS::M2::Application": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::M2::Environment": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
     "AWS::MSK::Cluster": {
         "resourceProperties": {
             "Tags": {
@@ -3366,6 +3440,16 @@
             "Tags": {
                 "Name": "Test1"
             }
+        }
+    },
+    "AWS::Macie::AllowList": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
         }
     },
     "AWS::MediaConvert::JobTemplate": {
