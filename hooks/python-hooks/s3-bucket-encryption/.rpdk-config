@@ -1,8 +1,8 @@
 {
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::S3BucketEncrypt::Hook",
-    "language": "python36",
-    "runtime": "python3.6",
+    "language": "python37",
+    "runtime": "python3.7",
     "entrypoint": "awssamples_s3bucketencrypt_hook.handlers.hook",
     "testEntrypoint": "awssamples_s3bucketencrypt_hook.handlers.test_entrypoint",
     "settings": {
