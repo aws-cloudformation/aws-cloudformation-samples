@@ -1853,7 +1853,7 @@ def test_tag_propagation_invalid_string() -> None:
     assert return_value.errorCode == HandlerErrorCode.NonCompliant
 
 
-def test_multiple_regexps__and_values_input_for_resource_target_success() -> None:  # noqa: E501
+def test_multiple_regexps_and_values_input_for_resource_target_success() -> None:  # noqa: E501
     """Success: matching regexps and values for allowed tag values."""
     return_value = handlers.pre_create_pre_update_handler(  # type: ignore
         session=None,
@@ -1878,3 +1878,543 @@ def test_multiple_regexps__and_values_input_for_resource_target_success() -> Non
     )
     assert return_value.status == OperationStatus.SUCCESS
     assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tags_no_stack_level_and_no_resource_level_tags_specified() -> None:  # noqa: E501
+    """Failure: no tags specified when using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::S3::Bucket",
+                target_type="AWS::S3::Bucket",
+                target_model=mocks.STACK_TAGS_TEST_CASES,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="Env=dev,AppName=ExampleAppName,",
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "No stack tags and no resource tags specified."
+        )
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_array_required_tag_not_present() -> None:  # noqa: E501
+    """Failure: tags is array use case: expect presence of an allowed tag using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[
+            {"Key": "TestStackTagKey", "Value": "TestStackTagValue"}
+        ],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::S3::Bucket",
+                target_type="AWS::S3::Bucket",
+                target_model=mocks.TAGS_IS_ARRAY,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit,Name=ExampleName,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "Required tag key(s) missing: ['BusinessUnit']."
+        )
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_array_required_tag_present() -> None:  # noqa: E501
+    """Success: tags is array use case: expect presence of allowed tags using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[{"Key": "BusinessUnit", "Value": "test"}],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::S3::Bucket",
+                target_type="AWS::S3::Bucket",
+                target_model=mocks.TAGS_IS_ARRAY,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit,Name=ExampleName,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::S3::Bucket: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_object_required_tag_not_present() -> None:  # noqa: E501
+    """Failure: tags is object use case: expect presence of an allowed tag using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[
+            {"Key": "TestStackTagKey", "Value": "TestStackTagValue"}
+        ],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::SSM::Parameter",
+                target_type="AWS::SSM::Parameter",
+                target_model=mocks.TAGS_IS_OBJECT,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit,Name=ExampleName,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "Required tag key(s) missing: ['BusinessUnit']."
+        )
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_object_required_tag_present() -> None:  # noqa: E501
+    """Success: tags is object use case: expect presence of allowed tags using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[{"Key": "BusinessUnit", "Value": "test"}],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::SSM::Parameter",
+                target_type="AWS::SSM::Parameter",
+                target_model=mocks.TAGS_IS_OBJECT,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit=test,Name=ExampleName,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::SSM::Parameter: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_array_required_tag_present_with_stack_level_tags_only() -> None:  # noqa: E501
+    """Success: tags is array use case: expected tags with stack-level tags only using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[
+            {"Key": "BusinessUnit", "Value": "test"},
+            {"Key": "Team", "Value": "Team1"},
+            {"Key": "Env", "Value": "dev"},
+            {"Key": "AppName", "Value": "ExampleAppName"},
+        ],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::S3::Bucket",
+                target_type="AWS::S3::Bucket",
+                target_model=mocks.WITH_NO_PROPERTIES,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit=test,Team=Team1,Env=dev,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::S3::Bucket: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_array_required_tag_present_with_resource_level_tags_only() -> None:  # noqa: E501
+    """Success: tags is array use case: expected tags with resource-level tags only using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::S3::Bucket",
+                target_type="AWS::S3::Bucket",
+                target_model=mocks.TAGS_IS_ARRAY,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="Name=ExampleName,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::S3::Bucket: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_object_required_tag_present_with_stack_level_tags_only() -> None:  # noqa: E501
+    """Success: tags is object use case: expected tags with stack-level tags only using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[
+            {"Key": "BusinessUnit", "Value": "test"},
+            {"Key": "Team", "Value": "Team1"},
+            {"Key": "Env", "Value": "dev"},
+            {"Key": "AppName", "Value": "ExampleAppName"},
+        ],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::SSM::Parameter",
+                target_type="AWS::SSM::Parameter",
+                target_model=mocks.WITH_NO_PROPERTIES,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit=test,Team=Team1,Env=dev,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::SSM::Parameter: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_object_required_tag_present_with_resource_level_tags_only() -> None:  # noqa: E501
+    """Success: tags is object use case: expected tags with resource-level tags only using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::SSM::Parameter",
+                target_type="AWS::SSM::Parameter",
+                target_model=mocks.TAGS_IS_OBJECT,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="Name=ExampleName,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::SSM::Parameter: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tagspecifications_required_tag_not_present() -> None:  # noqa: E501
+    """Failure: expect presence of allowed tag values using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[
+            {"Key": "TestStackTagKey", "Value": "TestStackTagValue"}
+        ],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::EC2::LaunchTemplate",
+                target_type="AWS::EC2::LaunchTemplate",
+                target_model=mocks.TAGSPECIFICATIONS,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit=test,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "Required tag key(s) missing: ['BusinessUnit']."
+        )
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant
+
+
+def test_resource_plus_stack_validation_strategy_tagspecifications_required_tag_present() -> None:  # noqa: E501
+    """Success: expect presence of allowed tag values using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[{"Key": "BusinessUnit", "Value": "test"}],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::EC2::LaunchTemplate",
+                target_type="AWS::EC2::LaunchTemplate",
+                target_model=mocks.TAGSPECIFICATIONS,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit=test,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::EC2::LaunchTemplate: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tagspecifications_required_tag_present_with_stack_level_tags_only() -> None:  # noqa: E501
+    """Success: expect presence of allowed tag values using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[
+            {"Key": "BusinessUnit", "Value": "test"},
+            {"Key": "AppName", "Value": "ExampleAppName"},
+        ],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::EC2::LaunchTemplate",
+                target_type="AWS::EC2::LaunchTemplate",
+                target_model=mocks.WITH_NO_PROPERTIES,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="BusinessUnit=test,AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::EC2::LaunchTemplate: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tagspecifications_required_tag_present_with_resource_level_tags_only() -> None:  # noqa: E501
+    """Success: expect presence of allowed tag values using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::EC2::LaunchTemplate",
+                target_type="AWS::EC2::LaunchTemplate",
+                target_model=mocks.TAGSPECIFICATIONS,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="AppName=ExampleAppName,",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message
+            == "AWSSamples::ResourceTags::Hook succeeded: AWS::EC2::LaunchTemplate: test + test."  # noqa: E501
+        )
+        assert return_value.status == OperationStatus.SUCCESS
+        assert return_value.errorCode is None
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_array_resource_level_property_no_tag_value() -> None:  # noqa: E501
+    """Failure: tag is array use case: no stack-level tags present, and missing tag value at the resource level when using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::S3::Bucket",
+                target_type="AWS::S3::Bucket",
+                target_model=mocks.TAGS_IS_ARRAY_MISSING_VALUE,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="Name,AppName",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message == "Empty value(s) for tag(s): ['AppName']."
+        )
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant
+
+
+def test_resource_plus_stack_validation_strategy_tags_is_object_resource_level_property_no_tag_value() -> None:  # noqa: E501
+    """Failure: tag is list use case: no stack-level tags present, and missing tag value at the resource level when using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::SSM::Parameter",
+                target_type="AWS::SSM::Parameter",
+                target_model=mocks.TAGS_IS_OBJECT_MISSING_VALUE,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="Name,AppName",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message == "Empty value(s) for tag(s): ['AppName']."
+        )
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant
+
+
+def test_properties_resource_plus_stack_validation_strategy_tags_is_array_resource_level_property_no_tag_value() -> None:  # noqa: E501
+    """Failure: tag is array for multiple tag-related properties use case: no stack-level tags present, and missing tag value at the resource level when using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::Lex::Bot",
+                target_type="AWS::Lex::Bot",
+                target_model=mocks.TAGS_IS_ARRAY_PROPERTIES_MISSING_VALUE,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="Name,AppName",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert return_value.message == "Empty value(s) for tag(s): ['Name']."
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant
+
+
+def test_resource_plus_stack_validation_strategy_tagspecifications_resource_level_property_no_tag_value() -> None:  # noqa: E501
+    """Failure: tag specifications use case: no stack-level tags present, and missing tag value at the resource level when using the resource+stack validation strategy."""  # noqa: E501
+    with patch(
+        f"{BASE_PATH}.handlers._get_stack_tags",
+        return_value=[],
+    ):
+        return_value = handlers.pre_create_pre_update_handler(  # type: ignore
+            session=None,
+            request=_get_base_hook_handler_request_mock(
+                target_name="AWS::EC2::LaunchTemplate",
+                target_type="AWS::EC2::LaunchTemplate",
+                target_model=mocks.TAGSPECIFICATIONS_MISSING_VALUE,
+            ),
+            callback_context=None,
+            type_configuration=TypeConfigurationModel(
+                TagKeys="Name,AppName",  # noqa: E501
+                ValidationStrategy="resource+stack",
+            ),
+        )
+        assert isinstance(
+            return_value,
+            ProgressEvent,
+        )
+        assert (
+            return_value.message == "Empty value(s) for tag(s): ['AppName']."
+        )
+        assert return_value.status == OperationStatus.FAILED
+        assert return_value.errorCode == HandlerErrorCode.NonCompliant

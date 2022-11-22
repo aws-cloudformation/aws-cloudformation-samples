@@ -4,6 +4,10 @@
 
 - [Usage](#Usage)
 
+  - [Validation strategy notes](#Validation-strategy-notes)
+
+  - [Parser syntax](#Parser-syntax)
+
 - [Hook Deployment with StackSets](#Hook-Deployment-with-StackSets)
 
 - [Updating the hook](#Updating-the-hook)
@@ -45,7 +49,15 @@ First, make sure you install the [CloudFormation CLI](https://docs.aws.amazon.co
 cfn generate && cfn submit --dry-run && cfn submit --set-default
 ```
 
-Next, configure this hook.  Create a `type_config.json` file with the hook configuration, as shown next; note the `Properties` section, where you'll need to configure comma-delimited tags keys you require in `TagKeys`, as well as either `resource` (default) or `stack` for `ValidationStrategy` (that is, whether this hook reads tag key/values you specify, for supported resources, in either your CloudFormation template for a given resource or at the stack level):
+Next, configure this hook.  Create a `type_config.json` file with the hook configuration, as shown next; note the `Properties` section, where you'll need to configure comma-delimited tags keys you require in `TagKeys`, as well as a `ValidationStrategy` that can be one of the following:
+
+- `resource` (default): evaluates tag key/values you specify, for supported resources, in your CloudFormation template for a given resource;
+
+- `stack`: evaluates tag key/values you specify at the CloudFormation stack level;
+
+- `resource+stack`: evaluates tag key/values you specify in your CloudFormation template and at the stack level.
+
+Example configuration:
 
 ```shell
 cat <<EOF > type_config.json
@@ -64,9 +76,17 @@ cat <<EOF > type_config.json
 EOF
 ```
 
+
+### Validation strategy notes
+
 Note that since the default value for `ValidationStrategy` is `resource`, when you choose to use this value you can also choose to omit the `"ValidationStrategy": "resource"` line altogether.
 
-If you choose the `stack` validation strategy: note that stack-level tags propagation to resources can vary by resource.  For more information, see [Resource tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html).
+If you choose the `stack` validation strategy: note that stack-level tags propagation to resources can vary by resource.  For more information, see [Resource tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html).  Also, when you choose this validation strategy, this hook does not validate tag propagation-related resource properties you might have specified in your template, as it only looks at keys and values for tags you specify at the stack level and not in your template.
+
+If you choose the `resource+stack` validation strategy, this example hook will merge keys and values you specify at the resource and stack level, and perform the validation.  With this validation strategy, the same considerations for the `stack` validation strategy mentioned earlier apply.
+
+
+### Parser syntax
 
 The example above uses `Name` as a tag key you require.  You can also, optionally, choose to specify allowed values for keys you require, with the following syntax:
 
