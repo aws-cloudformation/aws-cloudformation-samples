@@ -6,12 +6,13 @@
             "type": "string"
         },
         "ValidationStrategy": {
-            "description": "Choose to specify either `resource` (default value) or `stack` to validate tag keys and values either at the resource or at the stack level.",
+            "description": "Choose to specify `resource` (default value), `stack`, or `resource+stack` to validate tag keys and values at the resource level, at the stack level, or both respectively.",
             "default": "resource",
             "type": "string",
             "enum": [
                 "resource",
-                "stack"
+                "stack",
+                "resource+stack"
             ]
         }
     },

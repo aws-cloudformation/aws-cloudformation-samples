@@ -146,6 +146,22 @@ def pre_create_pre_update_handler(
                 type_config_tag_keys=type_config_tag_keys,
                 type_config_tag_allowed_values=type_config_tag_allowed_values,
             )
+        elif type_configuration.ValidationStrategy == "resource+stack":
+            stack_id = request.hookContext.stackId
+            stack_name = stack_id.split("/")[1]  # type: ignore
+            return _resource_plus_stack_tags_validation(
+                progress=progress,
+                target_name=target_name,
+                target_logical_id=f"{target_logical_id} + {stack_name}",
+                resource_properties=resource_properties,  # type: ignore
+                target_info=target_info,
+                stack_tags=_get_stack_tags(
+                    session=session,
+                    stack_id=stack_id,  # type: ignore
+                ),
+                type_config_tag_keys=type_config_tag_keys,
+                type_config_tag_allowed_values=type_config_tag_allowed_values,
+            )
         else:
             return ProgressEvent.failed(
                 HandlerErrorCode.InvalidTypeConfiguration,
@@ -226,6 +242,7 @@ def _resource_tags_validation(
             resource_tags = resource_properties.get(target_tag_property_name)
         else:
             resource_tags = []
+
         validate_resource_properties = _validate_resource_properties(
             progress=progress,
             target_name=target_name,
@@ -801,28 +818,57 @@ def _validate_resource_tags(
     type_config_tag_keys: List[str],
     type_config_tag_allowed_values: List[Dict[str, Sequence[str]]],
     resource_tags: Any,
+    stack_tags: Optional[List[Dict[str, str]]] = None,
 ) -> ProgressEvent:
     """Perform resource tags validation against comma-delimited tag_keys."""
     LOG.debug(f"resource_tags: {resource_tags}")
+    LOG.debug(f"stack_tags: {stack_tags}")
+
+    # This function performs resource tags validation for the
+    # resource+stack validation strategy if you specify `stack_tags`
+    # as an input parameter in addition to the other required input
+    # parameters.  If you only specify the required parameters, this
+    # function performs the resource tags validation using the default
+    # resource validation strategy.
+
+    # If both resource-level and stack-level tags are not specified,
+    # return a NonCompliant error.
+    if not resource_tags and not stack_tags:
+        message = "No stack tags and no resource tags specified."
+        return _non_compliant(
+            progress=progress,
+            target_name=target_name,
+            target_logical_id=target_logical_id,
+            message=message,
+            error_code=HandlerErrorCode.NonCompliant,
+        )
 
     # If the tag property type is an object, convert it to a list model.
     LOG.debug(f"target_tag_property_type: {target_tag_property_type}")
-    if target_tag_property_type == "object":
+    if (
+        target_tag_property_type == "object"
+        and resource_tags
+        and isinstance(resource_tags, dict)
+    ):
         resource_tags = _tags_object_to_list(
             tags_object=resource_tags,
         )
 
     # If the target resource type property is TagSpecifications,
     # validate tag keys and values for each TagSpecification item.
-    if target_tag_property_name == "TagSpecifications":
+    if target_tag_property_name == "TagSpecifications" and resource_tags:
         for tagspecification_tags in resource_tags:
+            resource_tags = tagspecification_tags["Tags"]
+            if stack_tags:
+                resource_tags = tagspecification_tags["Tags"] + stack_tags
+
             validate_tagspecification_tag_keys_values = _validate_resource_tag_keys_values(  # noqa: E501
                 progress=progress,
                 target_name=target_name,
                 target_logical_id=target_logical_id,
                 type_config_tag_keys=type_config_tag_keys,
                 type_config_tag_allowed_values=type_config_tag_allowed_values,
-                resource_tags=tagspecification_tags["Tags"],
+                resource_tags=resource_tags,
             )
             if (
                 validate_tagspecification_tag_keys_values.status
@@ -830,6 +876,12 @@ def _validate_resource_tags(
             ):
                 return validate_tagspecification_tag_keys_values
         return validate_tagspecification_tag_keys_values
+
+    if stack_tags:
+        if resource_tags:
+            resource_tags += stack_tags
+        else:
+            resource_tags = stack_tags
 
     validate_tag_keys_values = _validate_resource_tag_keys_values(
         progress=progress,
@@ -944,3 +996,48 @@ def _stack_tags_validation(
         target_name="stack",
         target_logical_id=stack_name,
     )
+
+
+def _resource_plus_stack_tags_validation(
+    progress: ProgressEvent,
+    target_name: str,
+    target_logical_id: str,
+    resource_properties: Dict[str, Any],
+    target_info: Dict[Any, Any],
+    stack_tags: List[Dict[str, str]],
+    type_config_tag_keys: List[str],
+    type_config_tag_allowed_values: List[Dict[str, Sequence[str]]],
+) -> ProgressEvent:
+    """Run the resource tags validation logic."""
+    # Read tags-related information from target_info.
+    for target_tag_info in target_info["tags_info"]:
+        target_tag_property_name = target_tag_info["property_name"]
+        target_tag_property_type = target_tag_info["property_type"]
+
+        if resource_properties:
+            resource_tags = resource_properties.get(target_tag_property_name)
+        else:
+            resource_tags = []
+
+        # Skipping resource properties validation, as in this
+        # validation strategy resource properties are empty when tags
+        # are provided.
+
+        tags_validation = _validate_resource_tags(
+            progress=progress,
+            target_name=target_name,
+            target_logical_id=target_logical_id,
+            target_tag_property_name=target_tag_property_name,
+            target_tag_property_type=target_tag_property_type,
+            stack_tags=stack_tags,
+            type_config_tag_keys=type_config_tag_keys,
+            type_config_tag_allowed_values=type_config_tag_allowed_values,
+            resource_tags=resource_tags,
+        )
+        if tags_validation.status == OperationStatus.FAILED:
+            return tags_validation
+
+    # Skipping tag propagation validation for this validation
+    # strategy.
+
+    return tags_validation

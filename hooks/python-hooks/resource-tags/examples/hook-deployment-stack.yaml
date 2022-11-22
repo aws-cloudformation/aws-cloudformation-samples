@@ -58,11 +58,12 @@ Parameters:
     Default: AWSSamples::ResourceTags::Hook
 
   ValidationStrategy:
-    Description: Whether to use a resource-based (default) or a stack-based strategy for tag validation.
+    Description: Whether to use a resource-based tag validation strategy (default), a stack-based one, or both.
     Type: String
     AllowedValues:
       - resource
       - stack
+      - resource+stack
     Default: resource
 
 Resources:
