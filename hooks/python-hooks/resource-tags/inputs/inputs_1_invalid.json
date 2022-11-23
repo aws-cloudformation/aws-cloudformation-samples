@@ -86,6 +86,13 @@
             }
         }
     },
+    "AWS::AmplifyUIBuilder::Form": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
     "AWS::AmplifyUIBuilder::Theme": {
         "resourceProperties": {
             "Tags": {
@@ -362,6 +369,16 @@
         }
     },
     "AWS::AppRunner::VpcConnector": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::AppRunner::VpcIngressConnection": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2461,6 +2478,13 @@
             }
         }
     },
+    "AWS::GreengrassV2::Deployment": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
     "AWS::GroundStation::Config": {
         "resourceProperties": {
             "Tags": [
@@ -3852,6 +3876,36 @@
             ]
         }
     },
+    "AWS::Organizations::Account": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Organizations::OrganizationalUnit": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Organizations::Policy": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Panorama::ApplicationInstance": {
         "resourceProperties": {
             "Tags": [
@@ -4289,6 +4343,20 @@
         }
     },
     "AWS::ResilienceHub::ResiliencyPolicy": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::ResourceExplorer2::Index": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::ResourceExplorer2::View": {
         "resourceProperties": {
             "Tags": {
                 "invalid": ""
@@ -4850,6 +4918,16 @@
             ]
         }
     },
+    "AWS::Scheduler::ScheduleGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::SecretsManager::Secret": {
         "resourceProperties": {
             "Tags": [
@@ -5022,6 +5100,46 @@
         }
     },
     "AWS::Timestream::Table": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Agreement": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Certificate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Connector": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Profile": {
         "resourceProperties": {
             "Tags": [
                 {

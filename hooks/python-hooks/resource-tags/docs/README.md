@@ -55,6 +55,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Amplify::App`
 * `AWS::Amplify::Branch`
 * `AWS::AmplifyUIBuilder::Component`
+* `AWS::AmplifyUIBuilder::Form`
 * `AWS::AmplifyUIBuilder::Theme`
 * `AWS::ApiGateway::ApiKey`
 * `AWS::ApiGateway::ClientCertificate`
@@ -85,6 +86,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::AppRunner::ObservabilityConfiguration`
 * `AWS::AppRunner::Service`
 * `AWS::AppRunner::VpcConnector`
+* `AWS::AppRunner::VpcIngressConnection`
 * `AWS::AppStream::AppBlock`
 * `AWS::AppStream::Application`
 * `AWS::AppStream::Fleet`
@@ -298,6 +300,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Greengrass::ResourceDefinition`
 * `AWS::Greengrass::SubscriptionDefinition`
 * `AWS::GreengrassV2::ComponentVersion`
+* `AWS::GreengrassV2::Deployment`
 * `AWS::GroundStation::Config`
 * `AWS::GroundStation::DataflowEndpointGroup`
 * `AWS::GroundStation::MissionProfile`
@@ -444,6 +447,9 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::OpsWorks::Layer`
 * `AWS::OpsWorks::Stack`
 * `AWS::OpsWorksCM::Server`
+* `AWS::Organizations::Account`
+* `AWS::Organizations::OrganizationalUnit`
+* `AWS::Organizations::Policy`
 * `AWS::Panorama::ApplicationInstance`
 * `AWS::Panorama::Package`
 * `AWS::Pinpoint::App`
@@ -491,6 +497,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Rekognition::StreamProcessor`
 * `AWS::ResilienceHub::App`
 * `AWS::ResilienceHub::ResiliencyPolicy`
+* `AWS::ResourceExplorer2::Index`
+* `AWS::ResourceExplorer2::View`
 * `AWS::ResourceGroups::Group`
 * `AWS::RoboMaker::Fleet`
 * `AWS::RoboMaker::Robot`
@@ -548,6 +556,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SageMaker::Project`
 * `AWS::SageMaker::UserProfile`
 * `AWS::SageMaker::Workteam`
+* `AWS::Scheduler::ScheduleGroup`
 * `AWS::SecretsManager::Secret`
 * `AWS::SecurityHub::Hub`
 * `AWS::ServiceCatalog::CloudFormationProduct`
@@ -567,6 +576,10 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Timestream::Database`
 * `AWS::Timestream::ScheduledQuery`
 * `AWS::Timestream::Table`
+* `AWS::Transfer::Agreement`
+* `AWS::Transfer::Certificate`
+* `AWS::Transfer::Connector`
+* `AWS::Transfer::Profile`
 * `AWS::Transfer::Server`
 * `AWS::Transfer::User`
 * `AWS::Transfer::Workflow`

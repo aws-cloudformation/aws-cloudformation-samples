@@ -86,6 +86,13 @@
             }
         }
     },
+    "AWS::AmplifyUIBuilder::Form": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
     "AWS::AmplifyUIBuilder::Theme": {
         "resourceProperties": {
             "Tags": {
@@ -362,6 +369,16 @@
         }
     },
     "AWS::AppRunner::VpcConnector": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::AppRunner::VpcIngressConnection": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2461,6 +2478,13 @@
             }
         }
     },
+    "AWS::GreengrassV2::Deployment": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
     "AWS::GroundStation::Config": {
         "resourceProperties": {
             "Tags": [
@@ -3852,6 +3876,36 @@
             ]
         }
     },
+    "AWS::Organizations::Account": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Organizations::OrganizationalUnit": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Organizations::Policy": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Panorama::ApplicationInstance": {
         "resourceProperties": {
             "Tags": [
@@ -4289,6 +4343,20 @@
         }
     },
     "AWS::ResilienceHub::ResiliencyPolicy": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::ResourceExplorer2::Index": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::ResourceExplorer2::View": {
         "resourceProperties": {
             "Tags": {
                 "Name": "Test"
@@ -4850,6 +4918,16 @@
             ]
         }
     },
+    "AWS::Scheduler::ScheduleGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::SecretsManager::Secret": {
         "resourceProperties": {
             "Tags": [
@@ -5022,6 +5100,46 @@
         }
     },
     "AWS::Timestream::Table": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Agreement": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Certificate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Connector": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Transfer::Profile": {
         "resourceProperties": {
             "Tags": [
                 {

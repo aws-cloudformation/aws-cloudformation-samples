@@ -50,5 +50,13 @@
                 "property_name": "LFTags"
             }
         ]
+    },
+    {
+        "name": "AWS::FSx::DataRepositoryAssociation",
+        "ignored_target_properties": [
+            {
+                "property_name": "Tags"
+            }
+        ]
     }
 ]
