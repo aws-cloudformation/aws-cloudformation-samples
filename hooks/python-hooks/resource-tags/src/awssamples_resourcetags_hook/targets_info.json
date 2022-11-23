@@ -81,6 +81,15 @@
         ]
     },
     {
+        "name": "AWS::AmplifyUIBuilder::Form",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::AmplifyUIBuilder::Theme",
         "tags_info": [
             {
@@ -343,6 +352,15 @@
     },
     {
         "name": "AWS::AppRunner::VpcConnector",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::AppRunner::VpcIngressConnection",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2298,6 +2316,15 @@
         ]
     },
     {
+        "name": "AWS::GreengrassV2::Deployment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::GroundStation::Config",
         "tags_info": [
             {
@@ -3620,6 +3647,33 @@
         ]
     },
     {
+        "name": "AWS::Organizations::Account",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Organizations::OrganizationalUnit",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Organizations::Policy",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Panorama::ApplicationInstance",
         "tags_info": [
             {
@@ -4035,6 +4089,24 @@
     },
     {
         "name": "AWS::ResilienceHub::ResiliencyPolicy",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ResourceExplorer2::Index",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ResourceExplorer2::View",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4556,6 +4628,15 @@
         ]
     },
     {
+        "name": "AWS::Scheduler::ScheduleGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::SecretsManager::Secret",
         "tags_info": [
             {
@@ -4719,6 +4800,42 @@
     },
     {
         "name": "AWS::Timestream::Table",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Transfer::Agreement",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Transfer::Certificate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Transfer::Connector",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Transfer::Profile",
         "tags_info": [
             {
                 "property_name": "Tags",
