@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationFleetTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationTarget;
+import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2HostTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2InstanceTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2LaunchTemplateTarget;
 
@@ -37,10 +38,11 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
     private static final Set<String> SUPPORTED_TARGETS = new HashSet<String>(
             Arrays.asList(
                     new String[] {
+                            new AwsEc2CapacityReservationFleetTarget().getTypeName(),
+                            new AwsEc2CapacityReservationTarget().getTypeName(),
+                            new AwsEc2HostTarget().getTypeName(),
                             new AwsEc2InstanceTarget().getTypeName(),
                             new AwsEc2LaunchTemplateTarget().getTypeName(),
-                            new AwsEc2CapacityReservationTarget().getTypeName(),
-                            new AwsEc2CapacityReservationFleetTarget().getTypeName(),
                     }));
 
     @Override
@@ -105,15 +107,7 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
 
             ProgressEvent<HookTargetModel, CallbackContext> validationResult = null;
 
-            if (targetName.equals(new AwsEc2InstanceTarget().getTypeName())) {
-                // Handle the case of the AWS::EC2::Instance resource type target.
-                validationResult = new AwsEc2InstanceTarget().validateTarget(
-                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
-            } else if (targetName.equals(new AwsEc2LaunchTemplateTarget().getTypeName())) {
-                // Handle the case of the AWS::EC2::LaunchTemplate resource type target.
-                validationResult = new AwsEc2LaunchTemplateTarget().validateTarget(
-                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
-            } else if (targetName.equals(new AwsEc2CapacityReservationTarget().getTypeName())) {
+            if (targetName.equals(new AwsEc2CapacityReservationTarget().getTypeName())) {
                 // Handle the case of the AWS::EC2::CapacityReservation resource type target.
                 validationResult = new AwsEc2CapacityReservationTarget().validateTarget(
                         proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
@@ -121,6 +115,18 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
                 // Handle the case of the AWS::EC2::CapacityReservationFleet resource type
                 // target.
                 validationResult = new AwsEc2CapacityReservationFleetTarget().validateTarget(
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
+            } else if (targetName.equals(new AwsEc2InstanceTarget().getTypeName())) {
+                // Handle the case of the AWS::EC2::Instance resource type target.
+                validationResult = new AwsEc2InstanceTarget().validateTarget(
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
+            } else if (targetName.equals(new AwsEc2HostTarget().getTypeName())) {
+                // Handle the case of the AWS::EC2::Host resource type target.
+                validationResult = new AwsEc2HostTarget().validateTarget(
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
+            } else if (targetName.equals(new AwsEc2LaunchTemplateTarget().getTypeName())) {
+                // Handle the case of the AWS::EC2::LaunchTemplate resource type target.
+                validationResult = new AwsEc2LaunchTemplateTarget().validateTarget(
                         proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
             }
             return validationResult;

@@ -12,7 +12,7 @@ repos:
         files: ^hooks\/java-hooks\/ec2-instance-types\/.*
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: check-case-conflict
         files: ^hooks\/java-hooks\/ec2-instance-types\/.*
@@ -31,6 +31,7 @@ repos:
 
       - id: end-of-file-fixer
         files: ^hooks\/java-hooks\/ec2-instance-types\/.*
+        exclude: ^hooks\/java-hooks\/ec2-instance-types\/.*docs/.*\.md$
 
       - id: mixed-line-ending
         args:
@@ -57,7 +58,7 @@ repos:
         pass_filenames: false
 
   - repo: https://github.com/aws-cloudformation/cfn-python-lint
-    rev: v0.61.3
+    rev: v0.72.2
     hooks:
       - id: cfn-python-lint
         files: ^hooks\/java-hooks\/ec2-instance-types\/.*examples/.*\.(template|json|yaml|yml)$

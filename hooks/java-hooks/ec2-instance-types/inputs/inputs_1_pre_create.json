@@ -32,6 +32,11 @@
             "InstanceMatchCriteria": "open"
         }
     },
+    "AWS::EC2::Host": {
+        "resourceProperties": {
+            "InstanceType": "t2.micro"
+        }
+    },
     "AWS::EC2::Instance": {
         "resourceProperties": {
             "InstanceType": "t1.micro"
