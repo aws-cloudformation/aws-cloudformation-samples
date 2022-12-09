@@ -21,10 +21,13 @@
 
 This is an example hook for [AWS CloudFormation](https://aws.amazon.com/cloudformation/), that demonstrates verification for [Amazon EC2 instance types](https://aws.amazon.com/ec2/instance-types/) you wish to use and allow for your workload.  This sample hook is designed to look at a number of [resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html), that include a number of resource types whose configuration you describe in your CloudFormation template.  Supported resource types in this example hook are:
 
+- `AWS::EC2::CapacityReservationFleet`
+- `AWS::EC2::CapacityReservation`
+- `AWS::EC2::Host`
 - `AWS::EC2::Instance`
 - `AWS::EC2::LaunchTemplate`
-- `AWS::EC2::CapacityReservation`
-- `AWS::EC2::CapacityReservationFleet`
+
+Note: when you describe the `AWS::EC2::Host` [resource type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-host.html) in your CloudFormation template(s), you have the choice of specifying either the `InstanceType` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-host.html#cfn-ec2-host-instancetype), or the `InstanceFamily` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-host.html#cfn-ec2-host-instancefamily).  If you specify a value for `InstanceFamily` in your template, and you then create/update your stack with the template, this sample hook is triggered (assuming you have configured this hook for this - see the usage section below), and will still use the values you specify in the hook's configuration for `EC2InstanceTypes` to perform the validation, but will only consider the sub-string to the left of the `.` character.  For example, if you specify to allow-list `t1.micro` and `t2.micro` instance types in this hook's configuration, this hook will validate the value you specify for `InstanceFamily` in your template for the `AWS::EC2::Host` resource type against `t1` and `t2` instance families.
 
 For more information on developing hooks, see [Developing hooks](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks.html).
 

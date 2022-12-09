@@ -20,6 +20,7 @@
             "targetNames": [
                 "AWS::EC2::CapacityReservation",
                 "AWS::EC2::CapacityReservationFleet",
+                "AWS::EC2::Host",
                 "AWS::EC2::Instance",
                 "AWS::EC2::LaunchTemplate"
             ],
@@ -31,6 +32,7 @@
             "targetNames": [
                 "AWS::EC2::CapacityReservation",
                 "AWS::EC2::CapacityReservationFleet",
+                "AWS::EC2::Host",
                 "AWS::EC2::Instance",
                 "AWS::EC2::LaunchTemplate"
             ],

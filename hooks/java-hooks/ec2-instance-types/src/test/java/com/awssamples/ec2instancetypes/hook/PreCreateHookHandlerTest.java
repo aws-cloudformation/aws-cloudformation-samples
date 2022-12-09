@@ -250,4 +250,52 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
                 logger);
     }
 
+    @Test
+    public void handleRequest_AWSEC2Host_NeitherInstanceTypeNorInstanceFamilySpecified() {
+        handleRequest_AWSEC2Host_NeitherInstanceTypeNorInstanceFamilySpecified(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2Host_BothInstanceTypeAndInstanceFamilySpecified() {
+        handleRequest_AWSEC2Host_BothInstanceTypeAndInstanceFamilySpecified(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2Host_InstanceType_Property_Failure() {
+        handleRequest_AWSEC2Host_InstanceType_Property_Failure(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2Host_InstanceFamily_Property_Failure() {
+        handleRequest_AWSEC2Host_InstanceFamily_Property_Failure(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2Host_InstanceType_Property_Success() {
+        handleRequest_AWSEC2Host_InstanceType_Property_Success(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSEC2Host_InstanceFamily_Property_Success() {
+        handleRequest_AWSEC2Host_InstanceFamily_Property_Success(
+                PRE_CREATE_OPERATION,
+                proxy,
+                logger);
+    }
+
 }

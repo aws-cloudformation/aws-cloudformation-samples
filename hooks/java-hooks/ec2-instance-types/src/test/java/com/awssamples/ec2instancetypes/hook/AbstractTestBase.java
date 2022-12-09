@@ -1751,4 +1751,262 @@ public class AbstractTestBase {
         assertThat(response.getErrorCode()).isNull();
     }
 
+    /**
+     * You need to specify either InstanceType or InstanceFamily for
+     * AWS::EC2::Host.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2Host_NeitherInstanceTypeNorInstanceFamilySpecified(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::Host")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Neither InstanceType nor InstanceFamily are specified.  Specify one or the other.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * You need to specify either InstanceType or InstanceFamily for
+     * AWS::EC2::Host, and not both.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2Host_BothInstanceTypeAndInstanceFamilySpecified(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "test");
+        resourceProperties.put("InstanceFamily", "test");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::Host")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Both InstanceType and InstanceFamily are specified.  Specify one or the other.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * Compliance failure test for AWS::EC2::Host (InstanceType property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2Host_InstanceType_Property_Failure(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "t3.small");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::Host")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::EC2::Host].  Allowed value(s): [t3.micro, t2.micro]; specified value: [t3.small].");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.NonCompliant);
+    }
+
+    /**
+     * Compliance failure test for AWS::EC2::Host (InstanceFamily property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2Host_InstanceFamily_Property_Failure(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceFamily", "m5");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::Host")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance family for target: [AWS::EC2::Host].  Allowed value(s): [t2, t3]; specified value: [m5].");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.NonCompliant);
+    }
+
+    /**
+     * Compliance success test for AWS::EC2::Host (InstanceType property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2Host_InstanceType_Property_Success(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "t3.micro");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::Host")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Successfully verified instance type for target: [AWS::EC2::Host].");
+        assertThat(response.getErrorCode()).isNull();
+    }
+
+    /**
+     * Compliance success test for AWS::EC2::Host (InstanceFamily property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSEC2Host_InstanceFamily_Property_Success(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceFamily", "t3");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::EC2::Host")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Successfully verified instance family for target: [AWS::EC2::Host].");
+        assertThat(response.getErrorCode()).isNull();
+    }
+
 }

@@ -32,6 +32,11 @@
             "InstanceMatchCriteria": "open"
         }
     },
+    "AWS::EC2::Host": {
+        "resourceProperties": {
+            "InstanceType": "invalid"
+        }
+    },
     "AWS::EC2::Instance": {
         "resourceProperties": {
             "InstanceType": "invalid"
