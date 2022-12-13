@@ -2009,4 +2009,132 @@ public class AbstractTestBase {
         assertThat(response.getErrorCode()).isNull();
     }
 
+    /**
+     * Validate the InstanceType is not empty for the AWS::Cloud9::EnvironmentEC2
+     * resource type.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Missing(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::Cloud9::EnvironmentEC2")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::Cloud9::EnvironmentEC2].  Missing property value: InstanceType.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * Compliance failure test for AWS::Cloud9::EnvironmentEC2.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Failure(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "m1.small");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::Cloud9::EnvironmentEC2")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::Cloud9::EnvironmentEC2].  Allowed value(s): [t2.micro]; specified value: [m1.small].");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.NonCompliant);
+    }
+
+    /**
+     * Compliance success test for AWS::Cloud9::EnvironmentEC2.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Success(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "t2.micro");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::Cloud9::EnvironmentEC2")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Successfully verified instance type for target: [AWS::Cloud9::EnvironmentEC2].");
+        assertThat(response.getErrorCode()).isNull();
+    }
+
 }

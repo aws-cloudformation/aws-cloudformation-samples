@@ -298,4 +298,28 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
                 logger);
     }
 
+    @Test
+    public void handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Missing() {
+        handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Missing(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Failure() {
+        handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Failure(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Success() {
+        handleRequest_AWSCloud9EnvironmentEC2_InstanceType_Property_Success(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
 }

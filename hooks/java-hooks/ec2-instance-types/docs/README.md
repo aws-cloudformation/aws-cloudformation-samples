@@ -35,6 +35,7 @@ _Type_: String
 
 ## Targets
 
+* `AWS::Cloud9::EnvironmentEC2`
 * `AWS::EC2::CapacityReservation`
 * `AWS::EC2::CapacityReservationFleet`
 * `AWS::EC2::Host`
