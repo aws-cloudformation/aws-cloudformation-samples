@@ -1,4 +1,9 @@
 {
+    "AWS::Cloud9::EnvironmentEC2": {
+        "resourceProperties": {
+            "InstanceType": "invalid"
+        }
+    },
     "AWS::EC2::CapacityReservation": {
         "resourceProperties": {
             "AvailabilityZone": "invalid",

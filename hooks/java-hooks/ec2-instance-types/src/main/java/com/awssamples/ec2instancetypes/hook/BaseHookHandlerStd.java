@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsCloud9EnvironmentEc2Target;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationFleetTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2HostTarget;
@@ -38,6 +39,7 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
     private static final Set<String> SUPPORTED_TARGETS = new HashSet<String>(
             Arrays.asList(
                     new String[] {
+                            new AwsCloud9EnvironmentEc2Target().getTypeName(),
                             new AwsEc2CapacityReservationFleetTarget().getTypeName(),
                             new AwsEc2CapacityReservationTarget().getTypeName(),
                             new AwsEc2HostTarget().getTypeName(),
@@ -107,7 +109,11 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
 
             ProgressEvent<HookTargetModel, CallbackContext> validationResult = null;
 
-            if (targetName.equals(new AwsEc2CapacityReservationTarget().getTypeName())) {
+            if (targetName.equals(new AwsCloud9EnvironmentEc2Target().getTypeName())) {
+                // Handle the case of the AWS::Cloud9::EnvironmentEC2 resource type target.
+                validationResult = new AwsCloud9EnvironmentEc2Target().validateTarget(
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
+            } else if (targetName.equals(new AwsEc2CapacityReservationTarget().getTypeName())) {
                 // Handle the case of the AWS::EC2::CapacityReservation resource type target.
                 validationResult = new AwsEc2CapacityReservationTarget().validateTarget(
                         proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);

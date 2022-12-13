@@ -1,4 +1,9 @@
 {
+    "AWS::Cloud9::EnvironmentEC2": {
+        "resourceProperties": {
+            "InstanceType": "t1.micro"
+        }
+    },
     "AWS::EC2::CapacityReservation": {
         "resourceProperties": {
             "AvailabilityZone": "us-east-2a",
