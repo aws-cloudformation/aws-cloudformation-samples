@@ -953,6 +953,16 @@
             ]
         }
     },
+    "AWS::Connect::Rule": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::Connect::TaskTemplate": {
         "resourceProperties": {
             "Tags": [
@@ -1311,6 +1321,16 @@
         }
     },
     "AWS::DocDB::DBSubnetGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::DocDBElastic::Cluster": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2313,6 +2333,16 @@
             ]
         }
     },
+    "AWS::GameLift::Location": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::GameLift::MatchmakingConfiguration": {
         "resourceProperties": {
             "Tags": [
@@ -3088,6 +3118,13 @@
             }
         }
     },
+    "AWS::IoTTwinMaker::SyncJob": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
     "AWS::IoTTwinMaker::Workspace": {
         "resourceProperties": {
             "Tags": {
@@ -3836,6 +3873,30 @@
             }
         }
     },
+    "AWS::Oam::Link": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Oam::Sink": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::OpenSearchServerless::Collection": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::OpenSearchService::Domain": {
         "resourceProperties": {
             "Tags": [
@@ -4003,6 +4064,13 @@
                     "Value": "Test1"
                 }
             ]
+        }
+    },
+    "AWS::Pipes::Pipe": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
         }
     },
     "AWS::QLDB::Ledger": {
@@ -4659,6 +4727,16 @@
         }
     },
     "AWS::SSM::PatchBaseline": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::SSMIncidents::ReplicationSet": {
         "resourceProperties": {
             "Tags": [
                 {

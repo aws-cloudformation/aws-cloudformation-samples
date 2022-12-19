@@ -906,6 +906,15 @@
         ]
     },
     {
+        "name": "AWS::Connect::Rule",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Connect::TaskTemplate",
         "tags_info": [
             {
@@ -1231,6 +1240,15 @@
     },
     {
         "name": "AWS::DocDB::DBSubnetGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::DocDBElastic::Cluster",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2127,6 +2145,15 @@
         ]
     },
     {
+        "name": "AWS::GameLift::Location",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::GameLift::MatchmakingConfiguration",
         "tags_info": [
             {
@@ -2896,6 +2923,15 @@
         ]
     },
     {
+        "name": "AWS::IoTTwinMaker::SyncJob",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::IoTTwinMaker::Workspace",
         "tags_info": [
             {
@@ -3611,6 +3647,33 @@
         ]
     },
     {
+        "name": "AWS::Oam::Link",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Oam::Sink",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::OpenSearchServerless::Collection",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::OpenSearchService::Domain",
         "tags_info": [
             {
@@ -3778,6 +3841,15 @@
             {
                 "property_name": "Tags",
                 "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Pipes::Pipe",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
             }
         ]
     },
@@ -4395,6 +4467,15 @@
     },
     {
         "name": "AWS::SSM::PatchBaseline",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SSMIncidents::ReplicationSet",
         "tags_info": [
             {
                 "property_name": "Tags",
