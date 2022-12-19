@@ -146,6 +146,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Connect::HoursOfOperation`
 * `AWS::Connect::PhoneNumber`
 * `AWS::Connect::QuickConnect`
+* `AWS::Connect::Rule`
 * `AWS::Connect::TaskTemplate`
 * `AWS::Connect::User`
 * `AWS::ConnectCampaigns::Campaign`
@@ -183,6 +184,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::DocDB::DBClusterParameterGroup`
 * `AWS::DocDB::DBInstance`
 * `AWS::DocDB::DBSubnetGroup`
+* `AWS::DocDBElastic::Cluster`
 * `AWS::DynamoDB::Table`
 * `AWS::EC2::CapacityReservation`
 * `AWS::EC2::CapacityReservationFleet`
@@ -279,6 +281,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::FraudDetector::Variable`
 * `AWS::GameLift::GameServerGroup`
 * `AWS::GameLift::GameSessionQueue`
+* `AWS::GameLift::Location`
 * `AWS::GameLift::MatchmakingConfiguration`
 * `AWS::GameLift::MatchmakingRuleSet`
 * `AWS::GameLift::Script`
@@ -364,6 +367,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IoTTwinMaker::ComponentType`
 * `AWS::IoTTwinMaker::Entity`
 * `AWS::IoTTwinMaker::Scene`
+* `AWS::IoTTwinMaker::SyncJob`
 * `AWS::IoTTwinMaker::Workspace`
 * `AWS::IoTWireless::Destination`
 * `AWS::IoTWireless::DeviceProfile`
@@ -443,6 +447,9 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::NimbleStudio::StreamingImage`
 * `AWS::NimbleStudio::Studio`
 * `AWS::NimbleStudio::StudioComponent`
+* `AWS::Oam::Link`
+* `AWS::Oam::Sink`
+* `AWS::OpenSearchServerless::Collection`
 * `AWS::OpenSearchService::Domain`
 * `AWS::OpsWorks::Layer`
 * `AWS::OpsWorks::Stack`
@@ -462,6 +469,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::PinpointEmail::ConfigurationSet`
 * `AWS::PinpointEmail::DedicatedIpPool`
 * `AWS::PinpointEmail::Identity`
+* `AWS::Pipes::Pipe`
 * `AWS::QLDB::Ledger`
 * `AWS::QLDB::Stream`
 * `AWS::QuickSight::Analysis`
@@ -531,6 +539,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SSM::MaintenanceWindow`
 * `AWS::SSM::Parameter`
 * `AWS::SSM::PatchBaseline`
+* `AWS::SSMIncidents::ReplicationSet`
 * `AWS::SSMIncidents::ResponsePlan`
 * `AWS::SSO::PermissionSet`
 * `AWS::SageMaker::App`
@@ -601,3 +610,4 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 <p id="footnote-1"><i> Please note that the enum values for <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-targetstacks" title="TargetStacks">
 TargetStacks</a> and <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-failuremode" title="FailureMode">FailureMode</a>
 might go out of date, please refer to their official documentation page for up-to-date values. </i></p>
+
