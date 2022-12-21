@@ -1,5 +1,6 @@
 package com.awssamples.ec2instancetypes.hook;
 
+import software.amazon.awssdk.services.autoscaling.AutoScalingClient;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.cloudformation.HookLambdaWrapper;
 

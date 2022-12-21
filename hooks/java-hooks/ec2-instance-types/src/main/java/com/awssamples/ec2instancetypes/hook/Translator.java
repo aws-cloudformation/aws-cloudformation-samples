@@ -10,7 +10,9 @@ import software.amazon.awssdk.services.ec2.model.AcceleratorCountRequest;
 import software.amazon.awssdk.services.ec2.model.AcceleratorTotalMemoryMiBRequest;
 import software.amazon.awssdk.services.ec2.model.ArchitectureType;
 import software.amazon.awssdk.services.ec2.model.BaselineEbsBandwidthMbpsRequest;
+import software.amazon.awssdk.services.ec2.model.DescribeInstanceAttributeRequest;
 import software.amazon.awssdk.services.ec2.model.GetInstanceTypesFromInstanceRequirementsRequest;
+import software.amazon.awssdk.services.ec2.model.InstanceAttributeName;
 import software.amazon.awssdk.services.ec2.model.InstanceRequirementsRequest;
 import software.amazon.awssdk.services.ec2.model.MemoryGiBPerVCpuRequest;
 import software.amazon.awssdk.services.ec2.model.MemoryMiBRequest;
@@ -25,6 +27,24 @@ import software.amazon.awssdk.services.ec2.model.VirtualizationType;
  * - object translation to/from the AWS SDK.
  */
 public class Translator {
+
+    /**
+     * Build and return a DescribeInstanceAttributeRequest for
+     * AWS::AutoScaling::LaunchConfiguration.
+     *
+     * @param String                targetInstanceId
+     * @param InstanceAttributeName instanceAttributeName
+     * @return DescribeInstanceAttributeRequest
+     */
+    public static DescribeInstanceAttributeRequest translateToDescribeInstanceAttributeRequest(
+            final String targetInstanceId,
+            final InstanceAttributeName instanceAttributeName) {
+        return DescribeInstanceAttributeRequest
+                .builder()
+                .instanceId(targetInstanceId)
+                .attribute(instanceAttributeName)
+                .build();
+    }
 
     /**
      * Build and return a GetInstanceTypesFromInstanceRequirementsRequest for

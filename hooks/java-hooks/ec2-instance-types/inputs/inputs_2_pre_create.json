@@ -1,4 +1,9 @@
 {
+    "AWS::AutoScaling::LaunchConfiguration": {
+        "resourceProperties": {
+            "InstanceType": "t2.micro"
+        }
+    },
     "AWS::Cloud9::EnvironmentEC2": {
         "resourceProperties": {
             "InstanceType": "t2.micro"

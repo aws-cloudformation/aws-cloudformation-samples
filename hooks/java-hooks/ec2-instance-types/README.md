@@ -21,12 +21,15 @@
 
 This is an example hook for [AWS CloudFormation](https://aws.amazon.com/cloudformation/), that demonstrates verification for [Amazon EC2 instance types](https://aws.amazon.com/ec2/instance-types/) you wish to use and allow for your workload.  This sample hook is designed to look at a number of [resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html), that include a number of resource types whose configuration you describe in your CloudFormation template.  Supported resource types in this example hook are:
 
+- `AWS::AutoScaling::LaunchConfiguration` (see note)
 - `AWS::Cloud9::EnvironmentEC2`
 - `AWS::EC2::CapacityReservationFleet`
 - `AWS::EC2::CapacityReservation`
-- `AWS::EC2::Host`
+- `AWS::EC2::Host` (see note)
 - `AWS::EC2::Instance`
 - `AWS::EC2::LaunchTemplate`
+
+Note for the `AWS::AutoScaling::LaunchConfiguration` resource type: as per the important note on this [page](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-configurations.html), it is strongly recommended that you do not use launch configurations, whose information are provided to users who have not yet migrated to launch templates.  For more information, see [Amazon EC2 Auto Scaling will no longer add support for new EC2 features to Launch Configurations](https://aws.amazon.com/blogs/compute/amazon-ec2-auto-scaling-will-no-longer-add-support-for-new-ec2-features-to-launch-configurations/).
 
 Note: when you describe the `AWS::EC2::Host` [resource type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-host.html) in your CloudFormation template(s), you have the choice of specifying either the `InstanceType` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-host.html#cfn-ec2-host-instancetype), or the `InstanceFamily` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-host.html#cfn-ec2-host-instancefamily).  If you specify a value for `InstanceFamily` in your template, and you then create/update your stack with the template, this sample hook is triggered (assuming you have configured this hook for this - see the usage section below), and will still use the values you specify in the hook's configuration for `EC2InstanceTypes` to perform the validation, but will only consider the sub-string to the left of the `.` character.  For example, if you specify to allow-list `t1.micro` and `t2.micro` instance types in this hook's configuration, this hook will validate the value you specify for `InstanceFamily` in your template for the `AWS::EC2::Host` resource type against `t1` and `t2` instance families.
 

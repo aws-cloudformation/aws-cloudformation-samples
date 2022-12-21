@@ -1,4 +1,9 @@
 {
+    "AWS::AutoScaling::LaunchConfiguration": {
+        "resourceProperties": {
+            "InstanceType": "invalid"
+        }
+    },
     "AWS::Cloud9::EnvironmentEC2": {
         "resourceProperties": {
             "InstanceType": "invalid"
