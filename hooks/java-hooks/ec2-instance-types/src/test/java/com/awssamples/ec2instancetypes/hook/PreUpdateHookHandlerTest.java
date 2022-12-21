@@ -322,4 +322,44 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
                 logger);
     }
 
+    @Test
+    public void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceTypeAndInstanceFamilyNotSpecified() {
+        handleRequest_AWSAutoScalingLaunchConfiguration_InstanceTypeAndInstanceFamilyNotSpecified(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceType_Property_Failure() {
+        handleRequest_AWSAutoScalingLaunchConfiguration_InstanceType_Property_Failure(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceId_Property_Failure() {
+        handleRequest_AWSAutoScalingLaunchConfiguration_InstanceId_Property_Failure(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceType_Property_Success() {
+        handleRequest_AWSAutoScalingLaunchConfiguration_InstanceType_Property_Success(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
+    @Test
+    public void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceId_Property_Success() {
+        handleRequest_AWSAutoScalingLaunchConfiguration_InstanceId_Property_Success(
+                PRE_UPDATE_OPERATION,
+                proxy,
+                logger);
+    }
+
 }

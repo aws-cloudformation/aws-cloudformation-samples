@@ -55,14 +55,25 @@ Parameters:
     AllowedValues:
       - (not specified)
       - t1.micro
+      - t1.small
+      - t1.medium
       - t2.micro
       - t2.small
+      - t2.medium
     Default: t2.micro
 
   LatestAmiId:
     Description: Region-specific image to use.
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  LaunchConfigurationInstanceType:
+    Description: Amazon EC2 instance type to use for the example AWS::AutoScaling::LaunchConfiguration resource described in this sample template.
+    Type: String
+    AllowedValues:
+      - t1.micro
+      - m1.small
+    Default: t1.micro
 
   LaunchTemplateInstanceType:
     Description: Amazon EC2 instance type to use for the example AWS::EC2::LaunchTemplate resource described in this sample template that describes the InstanceType property.
@@ -161,6 +172,12 @@ Resources:
           Value: !Ref 'AppNameTagValue'
         - Key: Env
           Value: !Ref 'Env'
+
+  LaunchConfiguration:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
+      ImageId: !Ref 'LatestAmiId'
+      InstanceType: !Ref 'LaunchConfigurationInstanceType'
 
   LaunchTemplate:
     Type: AWS::EC2::LaunchTemplate

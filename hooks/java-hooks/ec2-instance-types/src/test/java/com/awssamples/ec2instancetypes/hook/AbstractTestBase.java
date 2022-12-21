@@ -29,9 +29,11 @@ import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.ec2.model.AcceleratorManufacturer;
 import software.amazon.awssdk.services.ec2.model.AcceleratorName;
 import software.amazon.awssdk.services.ec2.model.AcceleratorType;
+import software.amazon.awssdk.services.ec2.model.AttributeValue;
 import software.amazon.awssdk.services.ec2.model.BareMetal;
 import software.amazon.awssdk.services.ec2.model.BurstablePerformance;
 import software.amazon.awssdk.services.ec2.model.CpuManufacturer;
+import software.amazon.awssdk.services.ec2.model.DescribeInstanceAttributeResponse;
 import software.amazon.awssdk.services.ec2.model.GetInstanceTypesFromInstanceRequirementsResponse;
 import software.amazon.awssdk.services.ec2.model.InstanceGeneration;
 import software.amazon.awssdk.services.ec2.model.InstanceRequirementsRequest;
@@ -196,7 +198,6 @@ public class AbstractTestBase {
                 .hookContext(HookContext.builder().targetName("AWS::EC2::Instance")
                         .targetModel(HookTargetModel.of(targetModel)).build())
                 .build();
-
         when(handler.handleRequest(proxy, request, new CallbackContext(), logger, typeConfiguration))
                 .thenThrow(new NullPointerException("Unit test-injected error, testing only."));
 
@@ -2134,6 +2135,233 @@ public class AbstractTestBase {
         assertThat(response.getMessage())
                 .isEqualTo(
                         "Successfully verified instance type for target: [AWS::Cloud9::EnvironmentEC2].");
+        assertThat(response.getErrorCode()).isNull();
+    }
+
+    /**
+     * Both InstanceType and InstanceId are missing for
+     * AWS::AutoScaling::LaunchConfiguration.
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceTypeAndInstanceFamilyNotSpecified(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::AutoScaling::LaunchConfiguration")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Neither InstanceType nor InstanceId are specified.  Specify one or both.");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+    }
+
+    /**
+     * Compliance failure test for AWS::AutoScaling::LaunchConfiguration
+     * (InstanceType property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceType_Property_Failure(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro,t3.micro,");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "t3.small");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::AutoScaling::LaunchConfiguration")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::AutoScaling::LaunchConfiguration].  Allowed value(s): [t3.micro, t2.micro]; specified value: [t3.small].");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.NonCompliant);
+    }
+
+    /**
+     * Compliance failure test for AWS::AutoScaling::LaunchConfiguration (InstanceId
+     * property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceId_Property_Failure(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceId", "i-1234abcd");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        when(proxy.injectCredentialsAndInvokeV2(any(), any()))
+                .thenReturn(
+                        DescribeInstanceAttributeResponse.builder()
+                                .instanceType(AttributeValue.builder().value("t2.large").build())
+                                .build());
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::AutoScaling::LaunchConfiguration")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Failed to verify instance type for target: [AWS::AutoScaling::LaunchConfiguration].  Allowed value(s): [t2.nano, t2.micro]; specified value: [t2.large].");
+        assertThat(response.getErrorCode()).isNotNull();
+        assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.NonCompliant);
+    }
+
+    /**
+     * Compliance success test for AWS::AutoScaling::LaunchConfiguration
+     * (InstanceType property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceType_Property_Success(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.micro");
+
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceType", "t2.micro");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::AutoScaling::LaunchConfiguration")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Successfully verified instance type for target: [AWS::AutoScaling::LaunchConfiguration].");
+        assertThat(response.getErrorCode()).isNull();
+    }
+
+    /**
+     * Compliance success test for AWS::AutoScaling::LaunchConfiguration (InstanceId
+     * property).
+     *
+     * @param handlerOperation String
+     * @param proxy            AmazonWebServicesClientProxy
+     * @param logger           Logger
+     */
+    protected void handleRequest_AWSAutoScalingLaunchConfiguration_InstanceId_Property_Success(
+            final String handlerOperation,
+            final AmazonWebServicesClientProxy proxy,
+            final Logger logger) {
+        final TypeConfigurationModel typeConfiguration = mock(TypeConfigurationModel.class);
+        when(typeConfiguration.getEC2InstanceTypes()).thenReturn("t2.nano,t2.micro,");
+        final Map<String, Object> targetModel = new HashMap<String, Object>();
+        final Map<String, Object> resourceProperties = new HashMap<String, Object>();
+        resourceProperties.put("InstanceId", "i-1234abcd");
+        targetModel.put("ResourceProperties", resourceProperties);
+
+        when(proxy.injectCredentialsAndInvokeV2(any(), any()))
+                .thenReturn(
+                        DescribeInstanceAttributeResponse.builder()
+                                .instanceType(AttributeValue.builder().value("t2.micro").build())
+                                .build());
+
+        final HookHandlerRequest request = HookHandlerRequest.builder()
+                .hookContext(HookContext.builder().targetName("AWS::AutoScaling::LaunchConfiguration")
+                        .targetModel(HookTargetModel.of(targetModel)).build())
+                .build();
+
+        final ProgressEvent<HookTargetModel, CallbackContext> response = makeRequestAndGetResponse(
+                handlerOperation,
+                proxy,
+                typeConfiguration,
+                request,
+                logger);
+
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
+        assertThat(response.getCallbackContext()).isNull();
+        assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
+        assertThat(response.getMessage()).isNotNull();
+        assertThat(response.getMessage())
+                .isEqualTo(
+                        "Successfully verified instance type for target: [AWS::AutoScaling::LaunchConfiguration].");
         assertThat(response.getErrorCode()).isNull();
     }
 

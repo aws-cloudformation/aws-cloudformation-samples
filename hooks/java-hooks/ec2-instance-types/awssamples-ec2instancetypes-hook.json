@@ -18,6 +18,7 @@
     "handlers": {
         "preCreate": {
             "targetNames": [
+                "AWS::AutoScaling::LaunchConfiguration",
                 "AWS::Cloud9::EnvironmentEC2",
                 "AWS::EC2::CapacityReservation",
                 "AWS::EC2::CapacityReservationFleet",
@@ -26,11 +27,13 @@
                 "AWS::EC2::LaunchTemplate"
             ],
             "permissions": [
+                "ec2:DescribeInstanceAttribute",
                 "ec2:GetInstanceTypesFromInstanceRequirements"
             ]
         },
         "preUpdate": {
             "targetNames": [
+                "AWS::AutoScaling::LaunchConfiguration",
                 "AWS::Cloud9::EnvironmentEC2",
                 "AWS::EC2::CapacityReservation",
                 "AWS::EC2::CapacityReservationFleet",
@@ -39,6 +42,7 @@
                 "AWS::EC2::LaunchTemplate"
             ],
             "permissions": [
+                "ec2:DescribeInstanceAttribute",
                 "ec2:GetInstanceTypesFromInstanceRequirements"
             ]
         }

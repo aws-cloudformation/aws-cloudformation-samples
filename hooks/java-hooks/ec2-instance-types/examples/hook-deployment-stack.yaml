@@ -81,6 +81,7 @@ Resources:
         - PolicyDocument:
             Statement:
               - Action:
+                  - ec2:DescribeInstanceAttribute
                   - ec2:GetInstanceTypesFromInstanceRequirements
                 Effect: Allow
                 Resource: '*'

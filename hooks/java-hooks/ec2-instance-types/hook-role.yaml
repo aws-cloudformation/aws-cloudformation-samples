@@ -32,6 +32,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                - "ec2:DescribeInstanceAttribute"
                 - "ec2:GetInstanceTypesFromInstanceRequirements"
                 Resource: "*"
 Outputs:

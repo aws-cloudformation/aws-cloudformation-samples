@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsAutoScalingLaunchConfigurationTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsCloud9EnvironmentEc2Target;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationFleetTarget;
 import com.awssamples.ec2instancetypes.hook.supportedtargets.AwsEc2CapacityReservationTarget;
@@ -39,6 +40,7 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
     private static final Set<String> SUPPORTED_TARGETS = new HashSet<String>(
             Arrays.asList(
                     new String[] {
+                            new AwsAutoScalingLaunchConfigurationTarget().getTypeName(),
                             new AwsCloud9EnvironmentEc2Target().getTypeName(),
                             new AwsEc2CapacityReservationFleetTarget().getTypeName(),
                             new AwsEc2CapacityReservationTarget().getTypeName(),
@@ -109,7 +111,12 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
 
             ProgressEvent<HookTargetModel, CallbackContext> validationResult = null;
 
-            if (targetName.equals(new AwsCloud9EnvironmentEc2Target().getTypeName())) {
+            if (targetName.equals(new AwsAutoScalingLaunchConfigurationTarget().getTypeName())) {
+                // Handle the case of the AWS::AutoScaling::LaunchConfiguration resource type
+                // target.
+                validationResult = new AwsAutoScalingLaunchConfigurationTarget().validateTarget(
+                        proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
+            } else if (targetName.equals(new AwsCloud9EnvironmentEc2Target().getTypeName())) {
                 // Handle the case of the AWS::Cloud9::EnvironmentEC2 resource type target.
                 validationResult = new AwsCloud9EnvironmentEc2Target().validateTarget(
                         proxy, allowedEc2InstanceTypesSet, hookContext, logger, targetName);
