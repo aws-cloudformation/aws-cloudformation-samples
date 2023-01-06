@@ -32,8 +32,8 @@ public class Translator {
      * Build and return a DescribeInstanceAttributeRequest for
      * AWS::AutoScaling::LaunchConfiguration.
      *
-     * @param String                targetInstanceId
-     * @param InstanceAttributeName instanceAttributeName
+     * @param targetInstanceId      String
+     * @param instanceAttributeName InstanceAttributeName
      * @return DescribeInstanceAttributeRequest
      */
     public static DescribeInstanceAttributeRequest translateToDescribeInstanceAttributeRequest(

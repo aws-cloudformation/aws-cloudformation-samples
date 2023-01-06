@@ -20,11 +20,11 @@ public interface AwsEc2CapacityReservationFleetInstanceTypeSpecificationsPropert
     /**
      * Validate the InstanceType property when a default value is not present.
      *
-     * @param allowedEc2InstanceTypesSet      Set<String>
-     * @param targetInstanceTypeSpecification Set<InstanceTypeSpecification>
+     * @param allowedEc2InstanceTypesSet      Set
+     * @param targetInstanceTypeSpecification Set
      * @param targetName                      String
      * @param logger                          Logger
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeSpecificationsTargetProperty(
             final Set<String> allowedEc2InstanceTypesSet,

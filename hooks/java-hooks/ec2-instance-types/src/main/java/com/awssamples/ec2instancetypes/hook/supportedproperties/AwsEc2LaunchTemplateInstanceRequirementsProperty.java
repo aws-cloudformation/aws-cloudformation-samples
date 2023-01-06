@@ -36,11 +36,11 @@ public interface AwsEc2LaunchTemplateInstanceRequirementsProperty {
      *
      * @param targetInstanceRequirements InstanceRequirements
      * @param proxy                      AmazonWebServicesClientProxy
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param hookContext                HookContext
      * @param launchTemplateData         LaunchTemplateData
      * @param logger                     Logger
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceRequirementsTargetProperty(
             final InstanceRequirements targetInstanceRequirements,
@@ -118,7 +118,7 @@ public interface AwsEc2LaunchTemplateInstanceRequirementsProperty {
      * @param proxy              AmazonWebServicesClientProxy
      * @param hookContext        HookContext
      * @param launchTemplateData LaunchTemplateData,
-     * @return List<InstanceTypeInfoFromInstanceRequirements>
+     * @return List
      */
     default List<InstanceTypeInfoFromInstanceRequirements> getInstanceTypesFromInstanceRequirements(
             final AmazonWebServicesClientProxy proxy,

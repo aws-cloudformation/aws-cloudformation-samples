@@ -40,11 +40,11 @@ public final class AwsEc2CapacityReservationTarget
      * Validate the specified target's configuration.
      *
      * @param proxy                      AmazonWebServicesClientProxy
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param hookContext                HookContext
      * @param logger                     Logger
      * @param targetName                 String
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     @Override
     public final ProgressEvent<HookTargetModel, CallbackContext> validateTarget(

@@ -20,11 +20,11 @@ public interface AwsEc2HostInstanceFamilyProperty {
     /**
      * Validate the InstanceFamily property.
      *
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param targetInstanceFamily       String
      * @param targetName                 String
      * @param logger                     Logger
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceFamilyTargetProperty(
             final Set<String> allowedEc2InstanceTypesSet,

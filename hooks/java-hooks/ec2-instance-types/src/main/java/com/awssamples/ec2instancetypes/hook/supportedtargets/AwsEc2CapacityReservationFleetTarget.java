@@ -43,11 +43,11 @@ public final class AwsEc2CapacityReservationFleetTarget
      * Validate the specified target's configuration.
      *
      * @param proxy                      AmazonWebServicesClientProxy
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param hookContext                HookContext
      * @param logger                     Logger
      * @param targetName                 String
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     @Override
     public final ProgressEvent<HookTargetModel, CallbackContext> validateTarget(
@@ -122,7 +122,7 @@ public final class AwsEc2CapacityReservationFleetTarget
      * Return instance type specifications from the target's relevant property.
      *
      * @param hookContext HookContext
-     * @return Set<InstanceTypeSpecification>
+     * @return Set
      */
     private final Set<InstanceTypeSpecification> getTargetInstanceTypeSpecifications(final HookContext hookContext) {
         final AwsEc2Capacityreservationfleet resourceProperties = getResourcePropertiesFromTargetModel(hookContext);

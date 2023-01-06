@@ -49,6 +49,16 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
                             new AwsEc2LaunchTemplateTarget().getTypeName(),
                     }));
 
+    /**
+     * Define a request handler.
+     *
+     * @param proxy             AmazonWebServicesClientProxy
+     * @param request           HookHandlerRequest
+     * @param callbackContext   CallbackContext
+     * @param logger            Logger
+     * @param typeConfiguration TypeConfigurationModel
+     * @return ProgressEvent
+     */
     @Override
     public ProgressEvent<HookTargetModel, CallbackContext> handleRequest(
             final AmazonWebServicesClientProxy proxy,
@@ -72,7 +82,7 @@ public abstract class BaseHookHandlerStd extends BaseHookHandler<CallbackContext
      * @param callbackContext   CallbackContext
      * @param logger            Logger
      * @param typeConfiguration TypeConfigurationModel
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     protected ProgressEvent<HookTargetModel, CallbackContext> preCreatePreUpdateOperations(
             final AmazonWebServicesClientProxy proxy,

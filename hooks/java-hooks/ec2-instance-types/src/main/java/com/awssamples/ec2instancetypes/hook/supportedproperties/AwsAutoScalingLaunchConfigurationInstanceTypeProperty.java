@@ -20,11 +20,11 @@ public interface AwsAutoScalingLaunchConfigurationInstanceTypeProperty {
     /**
      * Validate the InstanceType property.
      *
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param targetInstanceType         String
      * @param targetName                 String
      * @param logger                     Logger
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeTargetProperty(
             final Set<String> allowedEc2InstanceTypesSet,
