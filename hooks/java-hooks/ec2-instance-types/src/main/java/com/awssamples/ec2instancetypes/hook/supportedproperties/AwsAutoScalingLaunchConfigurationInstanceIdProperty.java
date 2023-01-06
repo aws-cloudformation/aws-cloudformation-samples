@@ -28,11 +28,11 @@ public interface AwsAutoScalingLaunchConfigurationInstanceIdProperty {
      * Validate the InstanceId property.
      *
      * @param proxy                      AmazonWebServicesClientProxy
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param targetInstanceId           String
      * @param targetName                 String
      * @param logger                     Logger
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     default ProgressEvent<HookTargetModel, CallbackContext> validateInstanceIdTargetProperty(
             final AmazonWebServicesClientProxy proxy,
@@ -71,8 +71,8 @@ public interface AwsAutoScalingLaunchConfigurationInstanceIdProperty {
      * Build a DescribeInstanceAttributeRequest with the
      * translateToDescribeInstanceAttributeRequest() Translator.
      *
-     * @param String                targetInstanceId
-     * @param InstanceAttributeName instanceAttributeName
+     * @param targetInstanceId      String
+     * @param instanceAttributeName InstanceAttributeName
      * @return DescribeInstanceAttributeRequest
      */
     default DescribeInstanceAttributeRequest buildDescribeInstanceAttributeRequest(

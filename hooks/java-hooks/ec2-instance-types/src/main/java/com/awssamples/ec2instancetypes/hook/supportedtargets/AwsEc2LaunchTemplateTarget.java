@@ -46,11 +46,11 @@ public final class AwsEc2LaunchTemplateTarget
      * Validate the specified target's configuration.
      *
      * @param proxy                      AmazonWebServicesClientProxy
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param hookContext                HookContext
      * @param logger                     Logger
      * @param targetName                 String
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     @Override
     public final ProgressEvent<HookTargetModel, CallbackContext> validateTarget(
@@ -169,7 +169,7 @@ public final class AwsEc2LaunchTemplateTarget
      * @param targetInstanceType         String
      * @param targetInstanceRequirements InstanceRequirements
      * @param logger                     Logger
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     public final ProgressEvent<HookTargetModel, CallbackContext> validateInstanceTypeAndInstanceRequirementsTargetProperties(
             final String targetInstanceType,

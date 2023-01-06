@@ -29,11 +29,11 @@ public interface SupportedTarget {
      * Validate the specified target's configuration.
      *
      * @param proxy                      AmazonWebServicesClientProxy
-     * @param allowedEc2InstanceTypesSet Set<String>
+     * @param allowedEc2InstanceTypesSet Set
      * @param hookContext                HookContext
      * @param logger                     Logger
      * @param targetName                 String
-     * @return ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     public ProgressEvent<HookTargetModel, CallbackContext> validateTarget(
             AmazonWebServicesClientProxy proxy,
@@ -46,9 +46,10 @@ public interface SupportedTarget {
      * Return resource-specific properties from this hook's context.
      *
      * @param hookContext HookContext
-     * @return ResourceHookTarget Each implementing class should specialize and
-     *         return an object whose type inherits from ResourceHookTarget; for
-     *         example: AwsEc2Instance, AwsEc2Launchtemplate
+     * @return ResourceHookTarget - Each implementing class should
+     *         specialize and return an object whose type inherits
+     *         from ResourceHookTarget; for example: AwsEc2Instance,
+     *         AwsEc2Launchtemplate
      */
     public ResourceHookTarget getResourcePropertiesFromTargetModel(HookContext hookContext);
 

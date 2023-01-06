@@ -67,7 +67,7 @@ public class AbstractTestBase {
      * @param typeConfiguration TypeConfigurationModel
      * @param request           HookHandlerRequest
      * @param logger            Logger
-     * @return ProgressEvent ProgressEvent<HookTargetModel, CallbackContext>
+     * @return ProgressEvent
      */
     private ProgressEvent<HookTargetModel, CallbackContext> makeRequestAndGetResponse(
             final String handlerOperation,
