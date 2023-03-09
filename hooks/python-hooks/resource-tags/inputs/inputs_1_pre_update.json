@@ -702,6 +702,16 @@
             ]
         }
     },
+    "AWS::CloudTrail::Channel": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::CloudTrail::EventDataStore": {
         "resourceProperties": {
             "Tags": [
@@ -1486,6 +1496,26 @@
             ]
         }
     },
+    "AWS::EC2::IPAMResourceDiscovery": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::IPAMResourceDiscoveryAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::EC2::IPAMScope": {
         "resourceProperties": {
             "Tags": [
@@ -1542,7 +1572,27 @@
             ]
         }
     },
+    "AWS::EC2::LocalGatewayRouteTable": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::EC2::LocalGatewayRouteTableVPCAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::LocalGatewayRouteTableVirtualInterfaceGroupAssociation": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1613,6 +1663,16 @@
         }
     },
     "AWS::EC2::NetworkInterface": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::PlacementGroup": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2030,6 +2090,26 @@
             ]
         }
     },
+    "AWS::ElastiCache::User": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::ElastiCache::UserGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::ElasticBeanstalk::Environment": {
         "resourceProperties": {
             "Tags": [
@@ -2185,6 +2265,16 @@
                     "Value": "Test1"
                 }
             ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::FMS::ResourceSet": {
+        "resourceProperties": {
             "Tags": [
                 {
                     "Key": "Name",
@@ -2695,6 +2785,26 @@
             ]
         }
     },
+    "AWS::IVSChat::LoggingConfiguration": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IVSChat::Room": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::ImageBuilder::Component": {
         "resourceProperties": {
             "Tags": {
@@ -2750,6 +2860,16 @@
     "AWS::Inspector::ResourceGroup": {
         "resourceProperties": {
             "ResourceGroupTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::InternetMonitor::Monitor": {
+        "resourceProperties": {
+            "Tags": [
                 {
                     "Key": "Name",
                     "Value": "Test1"
@@ -3282,6 +3402,16 @@
             ]
         }
     },
+    "AWS::KendraRanking::ExecutionPlan": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::Kinesis::Stream": {
         "resourceProperties": {
             "Tags": [
@@ -3504,6 +3634,16 @@
         }
     },
     "AWS::Macie::AllowList": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::ManagedBlockchain::Accessor": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3835,6 +3975,26 @@
             ]
         }
     },
+    "AWS::NetworkManager::TransitGatewayPeering": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::NetworkManager::TransitGatewayRouteTableAttachment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::NetworkManager::VpcAttachment": {
         "resourceProperties": {
             "Tags": [
@@ -3881,6 +4041,48 @@
         }
     },
     "AWS::Oam::Sink": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Omics::AnnotationStore": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Omics::ReferenceStore": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Omics::RunGroup": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Omics::SequenceStore": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Omics::VariantStore": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Omics::Workflow": {
         "resourceProperties": {
             "Tags": {
                 "Name": "Test1"
@@ -3958,6 +4160,16 @@
         }
     },
     "AWS::Organizations::Policy": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Organizations::ResourcePolicy": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4896,6 +5108,16 @@
             ]
         }
     },
+    "AWS::SageMaker::ModelCard": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::SageMaker::ModelExplainabilityJobDefinition": {
         "resourceProperties": {
             "Tags": [
@@ -4967,6 +5189,16 @@
         }
     },
     "AWS::SageMaker::Project": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::SageMaker::Space": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5148,6 +5380,16 @@
         }
     },
     "AWS::Synthetics::Group": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::SystemsManagerSAP::Application": {
         "resourceProperties": {
             "Tags": [
                 {

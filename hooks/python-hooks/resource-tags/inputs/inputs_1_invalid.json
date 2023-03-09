@@ -702,6 +702,16 @@
             ]
         }
     },
+    "AWS::CloudTrail::Channel": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::CloudTrail::EventDataStore": {
         "resourceProperties": {
             "Tags": [
@@ -1486,6 +1496,26 @@
             ]
         }
     },
+    "AWS::EC2::IPAMResourceDiscovery": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::EC2::IPAMResourceDiscoveryAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::EC2::IPAMScope": {
         "resourceProperties": {
             "Tags": [
@@ -1542,7 +1572,27 @@
             ]
         }
     },
+    "AWS::EC2::LocalGatewayRouteTable": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::EC2::LocalGatewayRouteTableVPCAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::EC2::LocalGatewayRouteTableVirtualInterfaceGroupAssociation": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1613,6 +1663,16 @@
         }
     },
     "AWS::EC2::NetworkInterface": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::EC2::PlacementGroup": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2030,6 +2090,26 @@
             ]
         }
     },
+    "AWS::ElastiCache::User": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::ElastiCache::UserGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::ElasticBeanstalk::Environment": {
         "resourceProperties": {
             "Tags": [
@@ -2185,6 +2265,16 @@
                     "Value": ""
                 }
             ],
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::FMS::ResourceSet": {
+        "resourceProperties": {
             "Tags": [
                 {
                     "Key": "invalid",
@@ -2695,6 +2785,26 @@
             ]
         }
     },
+    "AWS::IVSChat::LoggingConfiguration": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IVSChat::Room": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::ImageBuilder::Component": {
         "resourceProperties": {
             "Tags": {
@@ -2750,6 +2860,16 @@
     "AWS::Inspector::ResourceGroup": {
         "resourceProperties": {
             "ResourceGroupTags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::InternetMonitor::Monitor": {
+        "resourceProperties": {
+            "Tags": [
                 {
                     "Key": "invalid",
                     "Value": ""
@@ -3282,6 +3402,16 @@
             ]
         }
     },
+    "AWS::KendraRanking::ExecutionPlan": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Kinesis::Stream": {
         "resourceProperties": {
             "Tags": [
@@ -3504,6 +3634,16 @@
         }
     },
     "AWS::Macie::AllowList": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::ManagedBlockchain::Accessor": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3835,6 +3975,26 @@
             ]
         }
     },
+    "AWS::NetworkManager::TransitGatewayPeering": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::NetworkManager::TransitGatewayRouteTableAttachment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::NetworkManager::VpcAttachment": {
         "resourceProperties": {
             "Tags": [
@@ -3881,6 +4041,48 @@
         }
     },
     "AWS::Oam::Sink": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::Omics::AnnotationStore": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::Omics::ReferenceStore": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::Omics::RunGroup": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::Omics::SequenceStore": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::Omics::VariantStore": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::Omics::Workflow": {
         "resourceProperties": {
             "Tags": {
                 "invalid": ""
@@ -3958,6 +4160,16 @@
         }
     },
     "AWS::Organizations::Policy": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Organizations::ResourcePolicy": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4896,6 +5108,16 @@
             ]
         }
     },
+    "AWS::SageMaker::ModelCard": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::SageMaker::ModelExplainabilityJobDefinition": {
         "resourceProperties": {
             "Tags": [
@@ -4967,6 +5189,16 @@
         }
     },
     "AWS::SageMaker::Project": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::SageMaker::Space": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5148,6 +5380,16 @@
         }
     },
     "AWS::Synthetics::Group": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::SystemsManagerSAP::Application": {
         "resourceProperties": {
             "Tags": [
                 {
