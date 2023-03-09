@@ -672,6 +672,15 @@
         ]
     },
     {
+        "name": "AWS::CloudTrail::Channel",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CloudTrail::EventDataStore",
         "tags_info": [
             {
@@ -1369,6 +1378,24 @@
         ]
     },
     {
+        "name": "AWS::EC2::IPAMResourceDiscovery",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::IPAMResourceDiscoveryAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::EC2::IPAMScope",
         "tags_info": [
             {
@@ -1420,7 +1447,25 @@
         ]
     },
     {
+        "name": "AWS::EC2::LocalGatewayRouteTable",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::EC2::LocalGatewayRouteTableVPCAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::LocalGatewayRouteTableVirtualInterfaceGroupAssociation",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1484,6 +1529,15 @@
     },
     {
         "name": "AWS::EC2::NetworkInterface",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::PlacementGroup",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1871,6 +1925,24 @@
         ]
     },
     {
+        "name": "AWS::ElastiCache::User",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ElastiCache::UserGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ElasticBeanstalk::Environment",
         "tags_info": [
             {
@@ -2012,6 +2084,15 @@
                 "property_name": "ResourceTags",
                 "property_type": "array"
             },
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::FMS::ResourceSet",
+        "tags_info": [
             {
                 "property_name": "Tags",
                 "property_type": "array"
@@ -2514,6 +2595,24 @@
         ]
     },
     {
+        "name": "AWS::IVSChat::LoggingConfiguration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IVSChat::Room",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ImageBuilder::Component",
         "tags_info": [
             {
@@ -2585,6 +2684,15 @@
         "tags_info": [
             {
                 "property_name": "ResourceGroupTags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::InternetMonitor::Monitor",
+        "tags_info": [
+            {
+                "property_name": "Tags",
                 "property_type": "array"
             }
         ]
@@ -3076,6 +3184,15 @@
         ]
     },
     {
+        "name": "AWS::KendraRanking::ExecutionPlan",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Kinesis::Stream",
         "tags_info": [
             {
@@ -3288,6 +3405,15 @@
     },
     {
         "name": "AWS::Macie::AllowList",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ManagedBlockchain::Accessor",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3602,6 +3728,24 @@
         ]
     },
     {
+        "name": "AWS::NetworkManager::TransitGatewayPeering",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::NetworkManager::TransitGatewayRouteTableAttachment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::NetworkManager::VpcAttachment",
         "tags_info": [
             {
@@ -3657,6 +3801,60 @@
     },
     {
         "name": "AWS::Oam::Sink",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Omics::AnnotationStore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Omics::ReferenceStore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Omics::RunGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Omics::SequenceStore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Omics::VariantStore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Omics::Workflow",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3729,6 +3927,15 @@
     },
     {
         "name": "AWS::Organizations::Policy",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Organizations::ResourcePolicy",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4619,6 +4826,15 @@
         ]
     },
     {
+        "name": "AWS::SageMaker::ModelCard",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::SageMaker::ModelExplainabilityJobDefinition",
         "tags_info": [
             {
@@ -4683,6 +4899,15 @@
     },
     {
         "name": "AWS::SageMaker::Project",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SageMaker::Space",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4854,6 +5079,15 @@
     },
     {
         "name": "AWS::Synthetics::Group",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SystemsManagerSAP::Application",
         "tags_info": [
             {
                 "property_name": "Tags",

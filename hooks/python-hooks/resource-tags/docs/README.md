@@ -120,6 +120,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::CloudFormation::StackSet`
 * `AWS::CloudFront::Distribution`
 * `AWS::CloudFront::StreamingDistribution`
+* `AWS::CloudTrail::Channel`
 * `AWS::CloudTrail::EventDataStore`
 * `AWS::CloudTrail::Trail`
 * `AWS::CloudWatch::InsightRule`
@@ -197,12 +198,16 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EC2::FlowLog`
 * `AWS::EC2::IPAM`
 * `AWS::EC2::IPAMPool`
+* `AWS::EC2::IPAMResourceDiscovery`
+* `AWS::EC2::IPAMResourceDiscoveryAssociation`
 * `AWS::EC2::IPAMScope`
 * `AWS::EC2::Instance`
 * `AWS::EC2::InternetGateway`
 * `AWS::EC2::KeyPair`
 * `AWS::EC2::LaunchTemplate`
+* `AWS::EC2::LocalGatewayRouteTable`
 * `AWS::EC2::LocalGatewayRouteTableVPCAssociation`
+* `AWS::EC2::LocalGatewayRouteTableVirtualInterfaceGroupAssociation`
 * `AWS::EC2::NatGateway`
 * `AWS::EC2::NetworkAcl`
 * `AWS::EC2::NetworkInsightsAccessScope`
@@ -210,6 +215,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EC2::NetworkInsightsAnalysis`
 * `AWS::EC2::NetworkInsightsPath`
 * `AWS::EC2::NetworkInterface`
+* `AWS::EC2::PlacementGroup`
 * `AWS::EC2::PrefixList`
 * `AWS::EC2::RouteTable`
 * `AWS::EC2::SecurityGroup`
@@ -251,6 +257,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ElastiCache::ReplicationGroup`
 * `AWS::ElastiCache::SecurityGroup`
 * `AWS::ElastiCache::SubnetGroup`
+* `AWS::ElastiCache::User`
+* `AWS::ElastiCache::UserGroup`
 * `AWS::ElasticBeanstalk::Environment`
 * `AWS::ElasticLoadBalancing::LoadBalancer`
 * `AWS::ElasticLoadBalancingV2::LoadBalancer`
@@ -267,6 +275,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Evidently::Segment`
 * `AWS::FIS::ExperimentTemplate`
 * `AWS::FMS::Policy`
+* `AWS::FMS::ResourceSet`
 * `AWS::FSx::FileSystem`
 * `AWS::FSx::Snapshot`
 * `AWS::FSx::StorageVirtualMachine`
@@ -322,6 +331,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IVS::PlaybackKeyPair`
 * `AWS::IVS::RecordingConfiguration`
 * `AWS::IVS::StreamKey`
+* `AWS::IVSChat::LoggingConfiguration`
+* `AWS::IVSChat::Room`
 * `AWS::ImageBuilder::Component`
 * `AWS::ImageBuilder::ContainerRecipe`
 * `AWS::ImageBuilder::DistributionConfiguration`
@@ -330,6 +341,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ImageBuilder::ImageRecipe`
 * `AWS::ImageBuilder::InfrastructureConfiguration`
 * `AWS::Inspector::ResourceGroup`
+* `AWS::InternetMonitor::Monitor`
 * `AWS::IoT::Authorizer`
 * `AWS::IoT::CACertificate`
 * `AWS::IoT::CustomMetric`
@@ -384,6 +396,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Kendra::DataSource`
 * `AWS::Kendra::Faq`
 * `AWS::Kendra::Index`
+* `AWS::KendraRanking::ExecutionPlan`
 * `AWS::Kinesis::Stream`
 * `AWS::KinesisAnalyticsV2::Application`
 * `AWS::KinesisFirehose::DeliveryStream`
@@ -408,6 +421,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::MSK::ServerlessCluster`
 * `AWS::MWAA::Environment`
 * `AWS::Macie::AllowList`
+* `AWS::ManagedBlockchain::Accessor`
 * `AWS::MediaConvert::JobTemplate`
 * `AWS::MediaConvert::Preset`
 * `AWS::MediaConvert::Queue`
@@ -442,6 +456,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::NetworkManager::Link`
 * `AWS::NetworkManager::Site`
 * `AWS::NetworkManager::SiteToSiteVpnAttachment`
+* `AWS::NetworkManager::TransitGatewayPeering`
+* `AWS::NetworkManager::TransitGatewayRouteTableAttachment`
 * `AWS::NetworkManager::VpcAttachment`
 * `AWS::NimbleStudio::LaunchProfile`
 * `AWS::NimbleStudio::StreamingImage`
@@ -449,6 +465,12 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::NimbleStudio::StudioComponent`
 * `AWS::Oam::Link`
 * `AWS::Oam::Sink`
+* `AWS::Omics::AnnotationStore`
+* `AWS::Omics::ReferenceStore`
+* `AWS::Omics::RunGroup`
+* `AWS::Omics::SequenceStore`
+* `AWS::Omics::VariantStore`
+* `AWS::Omics::Workflow`
 * `AWS::OpenSearchServerless::Collection`
 * `AWS::OpenSearchService::Domain`
 * `AWS::OpsWorks::Layer`
@@ -457,6 +479,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Organizations::Account`
 * `AWS::Organizations::OrganizationalUnit`
 * `AWS::Organizations::Policy`
+* `AWS::Organizations::ResourcePolicy`
 * `AWS::Panorama::ApplicationInstance`
 * `AWS::Panorama::Package`
 * `AWS::Pinpoint::App`
@@ -555,6 +578,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SageMaker::Image`
 * `AWS::SageMaker::Model`
 * `AWS::SageMaker::ModelBiasJobDefinition`
+* `AWS::SageMaker::ModelCard`
 * `AWS::SageMaker::ModelExplainabilityJobDefinition`
 * `AWS::SageMaker::ModelPackage`
 * `AWS::SageMaker::ModelPackageGroup`
@@ -563,6 +587,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SageMaker::NotebookInstance`
 * `AWS::SageMaker::Pipeline`
 * `AWS::SageMaker::Project`
+* `AWS::SageMaker::Space`
 * `AWS::SageMaker::UserProfile`
 * `AWS::SageMaker::Workteam`
 * `AWS::Scheduler::ScheduleGroup`
@@ -582,6 +607,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::StepFunctions::StateMachine`
 * `AWS::Synthetics::Canary`
 * `AWS::Synthetics::Group`
+* `AWS::SystemsManagerSAP::Application`
 * `AWS::Timestream::Database`
 * `AWS::Timestream::ScheduledQuery`
 * `AWS::Timestream::Table`
