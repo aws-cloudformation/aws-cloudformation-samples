@@ -41,7 +41,7 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
     @Test
     public void handleRequest_SimpleSuccess() {
         Map<String, Object> bool = new LinkedHashMap<>();
-        bool.put("aws:SecureTransport", "true");
+        bool.put("aws:SecureTransport", "false");
 
         Map<String, Object> condition = new LinkedHashMap<>();
         condition.put("Bool", bool);
@@ -52,7 +52,7 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
         statement.put("Condition", condition);
         statement.put("Action", action);
         statement.put("Resource", "arn:aws:sqs:us-east-2:444455556666:queue2");
-        statement.put("Effect", "Allow");
+        statement.put("Effect", "Deny");
         statement.put("Principal", "foo");
 
 
@@ -72,11 +72,11 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
         final ProgressEvent<HookTargetModel, CallbackContext> response = handler.handleRequest(proxy, request, null,
                 logger, null);
         assertResponse(response, OperationStatus.SUCCESS, "Queue policy is valid.");
-        
+
     }
-   
+
     @Test
-    public void handleRequest_AWSSQSQueuePolicyFail_SecureTransport_False() {
+    public void handleRequest_AWSSQSQueuePolicyFail_Effect_Allow_SecureTransport_False() {
         Map<String, Object> bool = new LinkedHashMap<>();
         bool.put("aws:SecureTransport", "false");
 
@@ -92,11 +92,9 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
         statement.put("Effect", "Allow");
         statement.put("Principal", "foo");
 
-
         Map<String, Object> doc = new LinkedHashMap<>();
         doc.put("Statement", Arrays.asList(statement));
-      AwsSqsQueuepolicy policy = AwsSqsQueuepolicy.builder().policyDocument(doc).build();
-
+        AwsSqsQueuepolicy policy = AwsSqsQueuepolicy.builder().policyDocument(doc).build();
 
         final PreCreateHookHandler handler = new PreCreateHookHandler();
 
@@ -108,6 +106,7 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
 
         final ProgressEvent<HookTargetModel, CallbackContext> response = handler.handleRequest(proxy, request, null,
                 logger, null);
-        assertResponse(response, OperationStatus.FAILED, "Allow only encrypted connections over HTTPS (TLS) using the aws:SecureTransport condition in the queue policy to force requests to use SSL.");
+        assertResponse(response, OperationStatus.FAILED,
+                "Deny non-encrypted connections to the queue by using the `Deny` effect and the `Bool` `aws:SecureTransport` condition set to `false` in the queue policy to force requests to use TLS connections.");
     }
 }
