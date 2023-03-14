@@ -43,38 +43,10 @@
 
     <dependencies>
 
-        <!-- AWS SDK for Java: SDK Core -->
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>sdk-core</artifactId>
-        </dependency>
-
-        <!-- AWS SDK for Java: Amazon EC2 Auto Scaling model -->
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>autoscaling</artifactId>
-        </dependency>
-
-        <!-- AWS SDK for Java: AWS Cloud9 model -->
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>cloud9</artifactId>
-        </dependency>
-
         <!-- AWS SDK for Java: Amazon Elastic Compute Cloud model -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>ec2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>utils</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>apache-client</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/software.amazon.cloudformation/aws-cloudformation-rpdk-java-plugin -->
