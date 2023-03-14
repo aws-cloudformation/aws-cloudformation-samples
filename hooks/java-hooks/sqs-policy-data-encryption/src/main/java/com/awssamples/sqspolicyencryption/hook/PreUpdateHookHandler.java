@@ -60,20 +60,20 @@ public class PreUpdateHookHandler extends BaseHookHandler<CallbackContext, TypeC
 
     private ProgressEvent<HookTargetModel, CallbackContext> validatePolicy(final Policy policy, Logger logger) {
 
+        final String errorMessage = "Deny non-encrypted connections to the queue by using the `Deny` effect and the `Bool` `aws:SecureTransport` condition set to `false` in the queue policy to force requests to use TLS connections.";
+
         if (policy == null || policy.getStatements().isEmpty()) {
-            return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED).message(
-                    "Allow only encrypted connections over HTTPS (TLS) using the aws:SecureTransport condition in the queue policy to force requests to use SSL.")
+            return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED).message(errorMessage)
                     .errorCode(HandlerErrorCode.NonCompliant).build();
         }
 
         for (Statement statement : policy.getStatements()) {
             // only review allow statements
-            if (StringUtils.equals(statement.getEffect().name(), "Allow")) {
-                // Return falure if policy contains less than one condition
+            if (StringUtils.equals(statement.getEffect().name(), "Deny")) {
+                // Return failure if policy contains less than one condition
                 if (statement.getConditions().size() < 1) {
                     return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED)
-                            .message(
-                                    "Allow only encrypted connections over HTTPS (TLS) using the aws:SecureTransport condition in the queue policy to force requests to use SSL.")
+                            .message(errorMessage)
                             .errorCode(HandlerErrorCode.NonCompliant).build();
                 }
                 // Must have aws:SecureTransport condition
@@ -84,7 +84,7 @@ public class PreUpdateHookHandler extends BaseHookHandler<CallbackContext, TypeC
 
                     if (StringUtils.equals(condition.getType(), "Bool")
                             || StringUtils.equals(condition.getConditionKey(), "aws:SecureTransport")) {
-                        if (condition.getValues().contains("true")) {
+                        if (condition.getValues().contains("false")) {
                             return ProgressEvent.<HookTargetModel, CallbackContext>builder()
                                     .status(OperationStatus.SUCCESS).message("Queue policy is valid.").build();
                         }
@@ -92,8 +92,7 @@ public class PreUpdateHookHandler extends BaseHookHandler<CallbackContext, TypeC
                 }
             }
         }
-        return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED).message(
-                "Allow only encrypted connections over HTTPS (TLS) using the aws:SecureTransport condition in the queue policy to force requests to use SSL.")
+        return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED).message(errorMessage)
                 .errorCode(HandlerErrorCode.NonCompliant).build();
     }
 }

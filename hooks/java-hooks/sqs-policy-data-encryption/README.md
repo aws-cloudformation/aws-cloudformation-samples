@@ -1,8 +1,8 @@
 # AWSSamples::SQSPolicyEncryption::Hook
 
-This AWS CloudFormation Hook validates that aws:SecureTransport is enabled when creating or updating an AWS SQS Policy. This hook validates that the  `aws:SecureTransport` condition is present and set to `True`. Without HTTPS (TLS), a network-based attacker can eavesdrop on network traffic or manipulate it, using an attack such as man-in-the-middle. Allow only encrypted connections over HTTPS (TLS) using the aws:SecureTransport condition in the queue policy to force requests to use SSL.
+This AWS CloudFormation Hook validates that when creating or updating an `AWS::SQS::Policy` resource, the SQS policy is configured to enforce encryption in transit. This hook validates that the `Effect` is set to `Deny`, and the `Bool` `aws:SecureTransport` condition is present and set to `false`. Without HTTPS (TLS), a network-based attacker can eavesdrop on network traffic or manipulate it, using an attack such as man-in-the-middle. Allow only encrypted connections over HTTPS (TLS) using the `Deny` `Effect`, and the `Bool` `aws:SecureTransport` condition set to `false` in the queue policy to force requests to use SSL.
 
-Below is sample CloudFromation template that will trigger the hook.
+Below is sample CloudFormation template that will trigger the hook.
 ```
 {
     "Resources": {

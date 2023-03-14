@@ -35,12 +35,12 @@
                         "SQS:SendMessage",
                         "SQS:ReceiveMessage"
                     ],
-                    "Effect": "Allow",
+                    "Effect": "Deny",
                     "Resource": "arn:aws:sqs:us-east-2:444455556666:queue2",
                     "Principal": "foo",
                     "Condition": {
                         "Bool": {
-                            "aws:SecureTransport": "true"
+                            "aws:SecureTransport": "false"
                         }
                     }
                 }
