@@ -1,8 +1,9 @@
 # AWSSamples::IamPoliciesRequireMfa::Hook
 
-This AWS CloudFormation Hook validates that MFA is required on all IAM polices, both standalone and inline in IAM Role definitions. This hook validates that the `aws:MultiFactorAuthPresent` property of the `Bool` Condition is not set to `true`.
+This AWS CloudFormation Hook validates that MFA is required on all IAM policies, both standalone and inline in IAM Role definitions. This hook validates that the `aws:MultiFactorAuthPresent` 
+property of the `Bool` Condition is not set to `true`.
 
-Below is sample CloudFormation template that will successfully validate by the hook.
+Below is a sample CloudFormation template that will successfully validate by the hook.
 ```
 Description: Sample template for the AWSSamples::IamPoliciesRequireMfa::Hook resource type that shoud pass
 
@@ -65,7 +66,7 @@ Resources:
       Roles:
         - !Ref RootRole
 ```
-Below is sample CloudFromation template that will fail to validate by the hook.
+Below is a sample CloudFormation template that will fail to validate by the hook.
 ```
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Sample template for the AWSSamples::IamPoliciesRequireMfa::Hook resource type that shoud fail (no MFA conditions)

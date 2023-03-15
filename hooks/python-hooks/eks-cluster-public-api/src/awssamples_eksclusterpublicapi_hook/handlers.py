@@ -47,11 +47,14 @@ def pre_handler(_s, request: HookHandlerRequest, _c, type_configuration: TypeCon
             message=f"This hook only supports {supported_types}"
         )
 
-    # If EndpointPublicAccess is not defined is default's to True
+    # If EndpointPublicAccess is not defined is defaults to True
     is_public = cfn_model.get("ResourcesVpcConfig", {}).get("EndpointPublicAccess", "true")
 
     # cloudformation casts bools to strings, so we've got to cast it back
-    is_public = True if is_public.lower() == "true" else False
+    if isinstance(is_public, str):
+        is_public = True if is_public.lower() == "true" else False
+    elif isinstance(is_public, bool):
+        is_public = True if is_public else False
 
     # Fail if an open ingress rule is found
     if is_public:

@@ -31,6 +31,14 @@ def _isBucketExcluded(bucketName: str, excludedBucketSuffixes: str):
             return True
     return False
 
+def _to_bool(input_value: Any) -> bool:
+    if isinstance(input_value, bool):
+        return input_value
+    elif isinstance(input_value, str):
+        if input_value.lower() == 'true':
+            return True
+    return False
+
 def _validate_block_public_access(targetTypeName: str, s3Bucket: MutableMapping[str, Any], excludedBucketSuffixes: str) -> ProgressEvent:
     status = None
     message = ""
@@ -41,7 +49,7 @@ def _validate_block_public_access(targetTypeName: str, s3Bucket: MutableMapping[
     if s3Bucket:
 
         s3BucketName = s3Bucket.get("BucketName")
-        
+
         if not s3BucketName:
             LOG.info('**Bucket Name not specified on template.')
         else:
@@ -54,12 +62,12 @@ def _validate_block_public_access(targetTypeName: str, s3Bucket: MutableMapping[
             LOG.info(f"**The bucket name {s3BucketName} is not excluded from the block public access check.")
 
             publicAccessBlockConfiguration = s3Bucket.get("PublicAccessBlockConfiguration")
-            
+
             if publicAccessBlockConfiguration:
-                blockPublicAcls = publicAccessBlockConfiguration.get('BlockPublicAcls')
-                blockPublicPolicy = publicAccessBlockConfiguration.get('BlockPublicPolicy')
-                ignorePublicAcls = publicAccessBlockConfiguration.get('IgnorePublicAcls')
-                restrictPublicBuckets = publicAccessBlockConfiguration.get('RestrictPublicBuckets')
+                blockPublicAcls = _to_bool(publicAccessBlockConfiguration.get('BlockPublicAcls'))
+                blockPublicPolicy = _to_bool(publicAccessBlockConfiguration.get('BlockPublicPolicy'))
+                ignorePublicAcls = _to_bool(publicAccessBlockConfiguration.get('IgnorePublicAcls'))
+                restrictPublicBuckets = _to_bool(publicAccessBlockConfiguration.get('RestrictPublicBuckets'))
 
                 if blockPublicAcls and blockPublicPolicy and ignorePublicAcls and restrictPublicBuckets:
                     status = OperationStatus.SUCCESS
@@ -105,8 +113,8 @@ def pre_create_handler(
         LOG.debug(request.hookContext)
 
         if "AWS::S3::Bucket" == target_name:
-            progress = _validate_block_public_access(target_name, 
-                request.hookContext.targetModel.get("resourceProperties"), 
+            progress = _validate_block_public_access(target_name,
+                request.hookContext.targetModel.get("resourceProperties"),
                 type_configuration.excludedBucketSuffixes)
         else:
             raise exceptions.InvalidRequest(f"Unknown target type: {target_name}")
@@ -130,7 +138,7 @@ def pre_update_handler(
     progress: ProgressEvent = ProgressEvent(
         status=OperationStatus.IN_PROGRESS
     )
-    
+
     target_name = request.hookContext.targetName
 
     try:
@@ -144,7 +152,7 @@ def pre_update_handler(
         # Only need to check if the new resource properties match the required TypeConfiguration.
         # This will block automatically if they are trying to remove a permission boundary.
         if "AWS::S3::Bucket" == target_name:
-            progress = _validate_block_public_access(target_name, 
+            progress = _validate_block_public_access(target_name,
                         resource_properties,
                         type_configuration.excludedBucketSuffixes)
         else:
@@ -165,7 +173,7 @@ def pre_delete_handler(
         callback_context: MutableMapping[str, Any],
         type_configuration: TypeConfigurationModel
 ) -> ProgressEvent:
-    
+
     # If deleting a bucket - no additional checks are needed.
     return ProgressEvent(
         status=OperationStatus.SUCCESS
