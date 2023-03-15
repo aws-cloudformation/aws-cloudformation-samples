@@ -1,0 +1,54 @@
+# AWSSamples::S3BucketLoggingEnabled::Hook
+
+## Activation
+
+To activate a hook in your account, use the following JSON as the `Configuration` request parameter for [`SetTypeConfiguration`](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html) API request.
+
+### Configuration
+
+<pre>
+{
+    "CloudFormationConfiguration": {
+        "<a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-hook-configuration" title="HookConfiguration">HookConfiguration</a>": {
+            "<a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-targetstacks" title="TargetStacks">TargetStacks</a>":  <a href="#footnote-1">"ALL" | "NONE"</a>,
+            "<a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-failuremode" title="FailureMode">FailureMode</a>": <a href="#footnote-1">"FAIL" | "WARN"</a> ,
+            "<a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-properties" title="Properties">Properties</a>" : {
+                "<a href="#destinationbucketname" title="DestinationBucketName">DestinationBucketName</a>" : <i>String</i>,
+                "<a href="#logfileprefix" title="LogFilePrefix">LogFilePrefix</a>" : <i>String</i>
+            }
+        }
+    }
+}
+</pre>
+
+## Properties
+
+#### DestinationBucketName
+
+The name of the bucket where Amazon S3 should store server access log files.
+
+_Required_: No
+
+_Type_: String
+
+#### LogFilePrefix
+
+A prefix for all log object keys. Use "%BUCKET_NAME%" to represent the source bucket name, using "%BUCKET_NAME%" will require the resource's BucketName property is defined.
+
+_Required_: No
+
+_Type_: String
+
+
+---
+
+## Targets
+
+* `AWS::S3::Bucket`
+
+---
+
+<p id="footnote-1"><i> Please note that the enum values for <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-targetstacks" title="TargetStacks">
+TargetStacks</a> and <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks-structure.html#hooks-failuremode" title="FailureMode">FailureMode</a>
+might go out of date, please refer to their official documentation page for up-to-date values. </i></p>
+
