@@ -1,6 +1,6 @@
 {
     "typeName": "AWSSamples::SQSNonPublic::Hook",
-    "description": "Validates that SQS queues are not publicly accessible.",
+    "description": "Example hook to validate that SQS queues are not publicly accessible.",
         "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/sqs-policy-non-public",
     "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/sqs-policy-non-public/README.md",
     "typeConfiguration": {
