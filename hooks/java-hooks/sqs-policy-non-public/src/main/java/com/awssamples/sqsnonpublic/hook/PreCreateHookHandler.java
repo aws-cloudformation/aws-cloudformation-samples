@@ -78,7 +78,6 @@ public class PreCreateHookHandler extends BaseHookHandler<CallbackContext, TypeC
 
                 // If the a principal is equal to "*" or "" return failure
                 for (Principal principal:statement.getPrincipals()) {
-                    
                     if (principal.getProvider().equals("*") || principal.getProvider().equals("")) {
                         return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED)
                                 .message("Policy contains wildcard (*)").errorCode(HandlerErrorCode.NonCompliant)

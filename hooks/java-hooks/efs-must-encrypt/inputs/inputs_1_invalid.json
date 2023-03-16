@@ -1,0 +1,6 @@
+{
+    "AWS::EFS::FileSystem": {
+        "resourceProperties": {
+        }
+    }
+}

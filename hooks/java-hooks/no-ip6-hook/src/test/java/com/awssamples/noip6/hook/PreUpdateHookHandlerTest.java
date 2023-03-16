@@ -37,7 +37,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
 
     @Test
     public void handleRequest_SimpleSuccess() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final Map<String, Object> subnet = buildSubnet(false);
         final HookTargetModel targetModel = createHookTargetModel(subnet);
@@ -49,12 +49,12 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
         final ProgressEvent<HookTargetModel, CallbackContext> response = handler.handleRequest(proxy, request, null,
                 logger, null);
         assertResponse(response, OperationStatus.SUCCESS,
-                "Successfully invoked PreCreateHookHandler for target: AWS::EC2::Subnet");
+                "Successfully invoked PreUpdateHookHandler for target: AWS::EC2::Subnet");
     }
 
     @Test
     public void handleRequest_awsEC2SubnetFail_AssignIpv6AddressOnCreation_True() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final Map<String, Object> subnet = buildSubnet(true);
         final HookTargetModel targetModel = createHookTargetModel(subnet);

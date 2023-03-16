@@ -78,7 +78,6 @@ public class PreUpdateHookHandler extends BaseHookHandler<CallbackContext, TypeC
 
                 // If the a principal is equal to "*" or "" return failure
                 for (Principal principal:statement.getPrincipals()) {
-                    
                     if (principal.getProvider().equals("*") || principal.getProvider().equals("")) {
                         return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED)
                                 .message("Policy contains wildcard (*)").errorCode(HandlerErrorCode.NonCompliant)
@@ -89,6 +88,6 @@ public class PreUpdateHookHandler extends BaseHookHandler<CallbackContext, TypeC
         }
 
         return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.SUCCESS)
-                .message("Successfully invoked PreCreateHookHandler for target: AWS::SQS::QueuePolicy").build();
+                .message("Successfully invoked PreUpdateHookHandler for target: AWS::SQS::QueuePolicy").build();
     }
 }

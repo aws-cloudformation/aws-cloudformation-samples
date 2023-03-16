@@ -37,7 +37,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
 
     @Test
     public void handleRequest_SimpleSuccess() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final Map<String, Object> fileSystem = buildFileSystem(true);
         final HookTargetModel targetModel = createHookTargetModel(fileSystem);
@@ -49,12 +49,12 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
         final ProgressEvent<HookTargetModel, CallbackContext> response = handler.handleRequest(proxy, request, null,
                 logger, null);
         assertResponse(response, OperationStatus.SUCCESS,
-                "Successfully invoked PreCreateHookHandler for target: AWS::EFS::FileSystem");
+                "Successfully invoked PreUpdateHookHandler for target: AWS::EFS::FileSystem");
     }
 
     @Test
     public void handleRequest_AWS_EFS_FileSystem_Encrypted_False() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final Map<String, Object> fileSystem = buildFileSystem(false);
         final HookTargetModel targetModel = createHookTargetModel(fileSystem);

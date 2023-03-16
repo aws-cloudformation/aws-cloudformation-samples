@@ -1,6 +1,6 @@
-This AWS CloudFormation Hook validates that encryption is enabled when creating or updating a an AWS EFS filesystem. This hook validates that the  `Encrypted` property of the`AWSSamples::EFSEncrypt::Hook` resource is not set or is not`True`.
+This AWS CloudFormation Hook validates that encryption is enabled when creating or updating an AWS EFS filesystem. This hook checks if the `Encrypted` property of the `AWS::EFS::FileSystem` resource is not set, or if it is set to `false`.
 
-Below is sample CloudFromation template that will trigger the hook.
+Below is a sample CloudFormation template that will trigger the hook.
 ```
 {
     "AWSTemplateFormatVersion": "2010-09-09",
@@ -49,7 +49,7 @@ Below is sample CloudFromation template that will trigger the hook.
                     {
                         "TransitionToIA" : "AFTER_30_DAYS"
                     }
-                ],    
+                ],
                 "Encrypted": false,
                 "FileSystemTags": [
                     {
@@ -78,7 +78,7 @@ Below is sample CloudFromation template that will trigger the hook.
                         "Arn"
                     ]
                 }
-            } 
+            }
         },
         "key": {
             "Type": "AWS::KMS::Key",

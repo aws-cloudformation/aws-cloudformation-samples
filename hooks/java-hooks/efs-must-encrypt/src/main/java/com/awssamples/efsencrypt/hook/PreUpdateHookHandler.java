@@ -56,13 +56,13 @@ public class PreUpdateHookHandler extends BaseHookHandler<CallbackContext, TypeC
             return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED)
                     .message("Encryption must be enabled").errorCode(HandlerErrorCode.NonCompliant).build();
         }
-                                                                                                                                                                                                                                          
+
         if (StringUtils.equals(IsEncrypted, "false")) {
             return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED)
                     .message("Encryption must be enabled").errorCode(HandlerErrorCode.NonCompliant).build();
         }
 
         return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.SUCCESS)
-                .message("Successfully invoked PreCreateHookHandler for target: AWS::EFS::FileSystem").build();
+                .message("Successfully invoked PreUpdateHookHandler for target: AWS::EFS::FileSystem").build();
     }
 }

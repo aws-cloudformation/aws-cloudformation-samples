@@ -72,8 +72,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
     @SuppressWarnings("SameParameterValue")
     private Map<String, Object> buildFileSystem(final String fileType) {
         final Map<String, Object> subnet = new LinkedHashMap<>();
-        subnet.put("FileSystemType", fileType); 
-                                                            
+        subnet.put("FileSystemType", fileType);
         return subnet;
     }
 }

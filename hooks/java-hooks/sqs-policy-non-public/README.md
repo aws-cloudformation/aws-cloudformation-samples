@@ -6,7 +6,7 @@ This AWS CloudFormation Hook validates that queues aren't publicly accessible. U
 
 - Avoid using a wildcard (*). Instead, name a specific user or users.
 
-Below is sample CloudFromation template that will trigger the hook.
+Below is a sample CloudFormation template that will trigger the hook.
 ```
 {
     "Resources": {
