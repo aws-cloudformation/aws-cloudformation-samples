@@ -71,9 +71,8 @@ public class PreUpdateHookHandler extends BaseHookHandler<CallbackContext, TypeC
 
             return ProgressEvent.<HookTargetModel, CallbackContext>builder()
                     .status(OperationStatus.SUCCESS)
-                    .message("Successfully invoked PreCreateHookHandler for target: AWS::EC2::Volume")
+                    .message("Successfully invoked PreUpdateHookHandler for target: AWS::EC2::Volume")
                     .build();
-            
         }
 
         final String failureMessage = String.format("Failed to verify volume for target %s, expecting volume KmsKeyId to be %s and Encrypted to be %s",

@@ -24,7 +24,7 @@
         <dependency>
             <groupId>software.amazon.cloudformation</groupId>
             <artifactId>aws-cloudformation-rpdk-java-plugin</artifactId>
-            <version>2.0.8</version>
+            <version>[2.0.0,3.0.0)</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.13.3</version>
+            <version>2.17.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
@@ -172,10 +172,10 @@
                 <version>0.8.4</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/BaseConfiguration*</exclude>
-                        <exclude>**/BaseHandler*</exclude>
-                        <exclude>**/HandlerWrapper*</exclude>
-                        <exclude>**/ResourceModel*</exclude>
+                        <exclude>**/hook/model/**</exclude>
+                        <exclude>**/BaseHookConfiguration*</exclude>
+                        <exclude>**/HookHandlerWrapper*</exclude>
+                        <exclude>**/Configuration*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

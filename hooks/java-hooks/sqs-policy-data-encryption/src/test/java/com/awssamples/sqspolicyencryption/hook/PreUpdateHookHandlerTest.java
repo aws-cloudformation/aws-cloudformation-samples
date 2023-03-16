@@ -61,7 +61,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
       AwsSqsQueuepolicy policy = AwsSqsQueuepolicy.builder().policyDocument(doc).build();
 
 
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final HookTargetModel targetModel = createHookTargetModel(policy);
 
@@ -98,7 +98,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
       AwsSqsQueuepolicy policy = AwsSqsQueuepolicy.builder().policyDocument(doc).build();
 
 
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final HookTargetModel targetModel = createHookTargetModel(policy);
 

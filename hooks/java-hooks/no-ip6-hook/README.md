@@ -1,8 +1,8 @@
 # AWSSamples::NoIP6::Hook
 
-This AWS CloudFormation Hook validates that IPv6 is not enabled when creating or updating a VPC Subnet. This hook validates that the  `AssignIpv6AddressOnCreation` property of the`AWS::EC2::Subnet` resource is not set to `True`.
+This AWS CloudFormation Hook validates that IPv6 is not enabled when creating or updating a VPC Subnet. This hook validates that the `AssignIpv6AddressOnCreation` property of the`AWS::EC2::Subnet` resource is not set to `True`.
 
-Below is sample CloudFromation template that will trigger the hook.
+Below is a sample CloudFormation template that will trigger the hook.
 ```
 {
     "Resources": {

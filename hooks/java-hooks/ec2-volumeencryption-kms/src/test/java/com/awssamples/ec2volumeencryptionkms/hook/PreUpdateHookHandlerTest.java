@@ -37,7 +37,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
 
     @Test
     public void handleRequest_SimpleSuccess() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final TypeConfigurationModel typeConfiguration = TypeConfigurationModel.builder().kmsKeyId("kms:key:id").build();
 
@@ -64,7 +64,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
 
     @Test
     public void handleRequest_NoPropertiesFailure() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final TypeConfigurationModel typeConfiguration = TypeConfigurationModel.builder().kmsKeyId("kms:key:id").build();
 
@@ -86,7 +86,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
 
     @Test
     public void handleRequest_NoEncryptionFailure() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final TypeConfigurationModel typeConfiguration = TypeConfigurationModel.builder().kmsKeyId("kms:key:id").build();
 
@@ -111,7 +111,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
 
     @Test
     public void handleRequest_NoKmsKeyIdFailure() {
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final TypeConfigurationModel typeConfiguration = TypeConfigurationModel.builder().kmsKeyId("kms:key:id").build();
 

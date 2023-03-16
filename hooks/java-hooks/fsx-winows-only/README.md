@@ -2,7 +2,7 @@
 
 This AWS CloudFormation Hook checks that the type of Amazon FSx file system is WINDOWS. This hook validates that the  `FileSystemType` property of the`AWS::FSx::FileSystem` resource is `WINDOWS`.
 
-Below is sample CloudFromation template that will trigger the hook.
+Below is a sample CloudFormation template that will trigger the hook.
 ```
 {
     "Resources": {

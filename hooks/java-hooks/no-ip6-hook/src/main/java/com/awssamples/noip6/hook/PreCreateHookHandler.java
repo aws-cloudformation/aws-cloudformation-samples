@@ -46,9 +46,8 @@ public class PreCreateHookHandler extends BaseHookHandler<CallbackContext, TypeC
                     .message("Resource properties for EC2 Subnet model are empty")
                     .errorCode(HandlerErrorCode.NonCompliant).build();
         }
-        final String IsAssignIpv6AddressOnCreation = Objects.toString(subnet.get("AssignIpv6AddressOnCreation"), null); 
-                                                                                                                        
-                                                                                                                        
+        final String IsAssignIpv6AddressOnCreation = Objects.toString(subnet.get("AssignIpv6AddressOnCreation"), null);
+
         if (StringUtils.equals(IsAssignIpv6AddressOnCreation, "true")) {
             return ProgressEvent.<HookTargetModel, CallbackContext>builder().status(OperationStatus.FAILED)
                     .message("This Subnet is trying to enable IPv6").errorCode(HandlerErrorCode.NonCompliant).build();

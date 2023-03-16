@@ -1,0 +1,7 @@
+{
+    "AWS::EFS::FileSystem": {
+        "resourceProperties": {
+            "Encrypted": true
+        }
+    }
+}

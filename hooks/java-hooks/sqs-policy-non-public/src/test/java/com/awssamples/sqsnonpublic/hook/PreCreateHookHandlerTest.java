@@ -71,10 +71,8 @@ public class PreCreateHookHandlerTest extends AbstractTestBase {
 
         final ProgressEvent<HookTargetModel, CallbackContext> response = handler.handleRequest(proxy, request, null,
                 logger, null);        assertResponse(response, OperationStatus.SUCCESS, "Successfully invoked PreCreateHookHandler for target: AWS::SQS::QueuePolicy");
-
-        
     }
-   
+
     @Test
     public void handleRequest_AWSSQSQueuePolicyFail_SecureTransport_False() {
         Map<String, Object> bool = new LinkedHashMap<>();

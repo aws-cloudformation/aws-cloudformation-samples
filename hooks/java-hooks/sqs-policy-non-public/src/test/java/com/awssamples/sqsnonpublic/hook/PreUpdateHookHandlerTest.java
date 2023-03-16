@@ -61,7 +61,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
       AwsSqsQueuepolicy policy = AwsSqsQueuepolicy.builder().policyDocument(doc).build();
 
 
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final HookTargetModel targetModel = createHookTargetModel(policy);
 
@@ -70,11 +70,9 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
                 .build();
 
         final ProgressEvent<HookTargetModel, CallbackContext> response = handler.handleRequest(proxy, request, null,
-                logger, null);        assertResponse(response, OperationStatus.SUCCESS, "Successfully invoked PreCreateHookHandler for target: AWS::SQS::QueuePolicy");
-
-        
+                logger, null);        assertResponse(response, OperationStatus.SUCCESS, "Successfully invoked PreUpdateHookHandler for target: AWS::SQS::QueuePolicy");
     }
-   
+
     @Test
     public void handleRequest_AWSSQSQueuePolicyFail_SecureTransport_False() {
         Map<String, Object> bool = new LinkedHashMap<>();
@@ -98,7 +96,7 @@ public class PreUpdateHookHandlerTest extends AbstractTestBase {
       AwsSqsQueuepolicy policy = AwsSqsQueuepolicy.builder().policyDocument(doc).build();
 
 
-        final PreCreateHookHandler handler = new PreCreateHookHandler();
+        final PreUpdateHookHandler handler = new PreUpdateHookHandler();
 
         final HookTargetModel targetModel = createHookTargetModel(policy);
 
