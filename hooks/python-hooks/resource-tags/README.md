@@ -157,21 +157,23 @@ cfn generate && cfn submit --dry-run
 
 - From the navigation pane in the console, choose **StackSets**, and then **Create StackSet**.
 
+- In the next page, choose to use **Self-service permissions** and, where indicated, specify the names of the roles you created previously (`AWSCloudFormationStackSetAdministrationRole`, and `AWSCloudFormationStackSetExecutionRole` respectively).
+
 - In the **Prerequisite - Prepare template** section, specify the Amazon S3 URL of the `hook-deployment-stack.yaml` template you uploaded to your bucket earlier.  Alternatively, choose to upload the `hook-deployment-stack.yaml` template file.
 
-- Specify a name for your StackSet, for example: `AWSSamples-ResourceTags-Hook-deployment`.
+- Specify a name for your StackSet.
 
 - Specify parameter values you require for the hook configuration.  For the `SchemaHandlerPackage` parameter, specify the URL of the ZIP file you uploaded to your bucket earlier.  Choose **Next** when done specifying parameter values.
 
 - In **Execution configuration**, choose `Active` for **Managed execution**.  Choose **Next**.
 
-- Specify your account number in the **Account numbers** section for **Accounts**.
+- Specify your account ID number in the **Account numbers** section for **Accounts**.
 
 - In the **Regions** section, specify regions where you wish to deploy this hook.
 
 - In **Deployment options**, choose `Parallel` for **Region Concurrency**.  Choose **Next**.
 
-- In the **Review** page, review your selections.  Choose **I acknowledge that AWS CloudFormation might create IAM resources** at the bottom of the page, and choose **Next**.
+- In the **Review** page, review your selections.  Choose **I acknowledge that AWS CloudFormation might create IAM resources** at the bottom of the page, and choose **Submit**.
 
 - Your StackSet creation process should start shortly; you can review the status in the **Operations** pane in **StackSet details**.
 
