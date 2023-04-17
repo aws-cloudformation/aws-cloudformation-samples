@@ -2,7 +2,7 @@
     "artifact_type": "RESOURCE",
     "typeName": "Example::Monitoring::Website",
     "language": "typescript",
-    "runtime": "nodejs12.x",
+    "runtime": "nodejs14.x",
     "entrypoint": "dist/handlers.entrypoint",
     "testEntrypoint": "dist/handlers.testEntrypoint",
     "settings": {
