@@ -613,22 +613,6 @@ def _get_tags_from_desired_resource_tags(
     return tags
 
 
-def _get_tags_from_previous_resource_tags(
-    previous_resource_tags: Mapping[str, Any],
-) -> List[Dict[str, Any]]:
-    """Create and return a list of tags from request.previousResourceTags."""
-    LOG.debug("_get_tags_from_previous_resource_tags()")
-
-    tags = [
-        {
-            "Key": previous_resource_tag,
-            "Value": previous_resource_tags[previous_resource_tag],
-        }
-        for previous_resource_tag in previous_resource_tags
-    ]
-    return tags
-
-
 def _get_tags_from_model_tags(
     model_tags: Sequence[Tag],
 ) -> List[Dict[str, Any]]:
@@ -687,6 +671,33 @@ def _build_tag_list(
     return tags
 
 
+def _build_previous_tag_list(
+    previous_model: Optional[ResourceModel],
+    request: ResourceHandlerRequest,
+) -> List[Dict[str, Any]]:
+    """Build and return a list of previous resource tags."""
+    LOG.debug("_build_previous_tag_list()")
+
+    previous_tags = []
+
+    # Determine if previous stack-level tags are present.
+    if request.previousResourceTags:
+        previous_resource_tags = _get_tags_from_desired_resource_tags(
+            request.previousResourceTags,
+        )
+        previous_tags += previous_resource_tags
+
+    # Retrieve previous tags if specified in the previous model.
+    previous_model = request.previousResourceState
+    if previous_model and previous_model.Tags:
+        previous_model_tags = _get_tags_from_model_tags(
+            previous_model.Tags,
+        )
+        previous_tags += previous_model_tags
+
+    return previous_tags
+
+
 def _get_tag_lists_diff(
     list_a: List[Any],
     list_b: List[Any],
@@ -705,14 +716,6 @@ def _update_tags_helper(
     """Update tags on stack update."""
     LOG.debug("_update_tags_helper()")
 
-    previous_resource_tags = []
-
-    # Retrieve existing tags, if any, from the request.
-    if request.previousResourceTags:
-        previous_resource_tags = _get_tags_from_previous_resource_tags(
-            request.previousResourceTags,
-        )
-
     # Retrieve current tags specified in the model and/or at the stack
     # level.
     tags = _build_tag_list(
@@ -720,10 +723,17 @@ def _update_tags_helper(
         request,
     )
 
+    # Retrieve previous tags specified in the model and/or at the stack
+    # level.
+    previous_tags = _build_previous_tag_list(
+        model,
+        request,
+    )
+
     # Retrieve a list containing differences, if any, between previous
     # resource tags and current tags.
     tag_lists_diff = _get_tag_lists_diff(
-        previous_resource_tags,
+        previous_tags,
         tags,
     )
 

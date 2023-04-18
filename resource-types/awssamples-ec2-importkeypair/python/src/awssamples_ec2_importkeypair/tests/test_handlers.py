@@ -783,19 +783,6 @@ def test__get_session_client_session_not_instance_of_session_proxy() -> None:
     )
 
 
-def test__get_tags_from_previous_resource_tags() -> None:
-    """Run this test."""
-    tags_dict = _get_mock_tags_dict()
-    return_value = handlers._get_tags_from_previous_resource_tags(
-        tags_dict,
-    )
-    expected_value = [
-        {"Key": "mock-key-a", "Value": "mock-value-a"},
-        {"Key": "mock-key-b", "Value": "mock-value-b"},
-    ]
-    assert return_value == expected_value
-
-
 def test__get_tag_lists_diff() -> None:
     """Run this test."""
     list_a = [

@@ -40,9 +40,9 @@ _Required_: Yes
 
 _Type_: String
 
-_Minimum_: <code>1</code>
+_Minimum Length_: <code>1</code>
 
-_Maximum_: <code>255</code>
+_Maximum Length_: <code>255</code>
 
 _Pattern_: <code>^[\x00-\x7F]{1,255}$</code>
 
@@ -56,7 +56,7 @@ _Required_: Yes
 
 _Type_: String
 
-_Minimum_: <code>1</code>
+_Minimum Length_: <code>1</code>
 
 _Pattern_: <code>^ssh-[a-z0-9-]+ AAAA[a-zA-Z0-9\+\/]+=*( .*)?$</code>
 
@@ -95,3 +95,4 @@ The MD5 public key fingerprint of the imported key.
 #### KeyType
 
 The type of the key pair.
+
