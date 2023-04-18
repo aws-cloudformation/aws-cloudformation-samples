@@ -102,6 +102,9 @@
         "/properties/Status",
         "/properties/SlaThreshold"
     ],
+    "writeOnlyProperties": [
+        "/properties/ApiKey"
+    ],
     "primaryIdentifier": [
         "/properties/Id"
     ],
