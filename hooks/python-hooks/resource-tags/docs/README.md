@@ -73,6 +73,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::AppConfig::Deployment`
 * `AWS::AppConfig::DeploymentStrategy`
 * `AWS::AppConfig::Environment`
+* `AWS::AppConfig::Extension`
+* `AWS::AppConfig::ExtensionAssociation`
 * `AWS::AppFlow::Flow`
 * `AWS::AppIntegrations::DataIntegration`
 * `AWS::AppIntegrations::EventIntegration`
@@ -102,6 +104,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Backup::BackupVault`
 * `AWS::Backup::Framework`
 * `AWS::Backup::ReportPlan`
+* `AWS::BackupGateway::Hypervisor`
 * `AWS::Batch::ComputeEnvironment`
 * `AWS::Batch::JobDefinition`
 * `AWS::Batch::JobQueue`
@@ -139,11 +142,13 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::CodeStarConnections::Connection`
 * `AWS::CodeStarNotifications::NotificationRule`
 * `AWS::Cognito::UserPool`
+* `AWS::Comprehend::Flywheel`
 * `AWS::Config::AggregationAuthorization`
 * `AWS::Config::ConfigurationAggregator`
 * `AWS::Config::StoredQuery`
 * `AWS::Connect::ContactFlow`
 * `AWS::Connect::ContactFlowModule`
+* `AWS::Connect::EvaluationForm`
 * `AWS::Connect::HoursOfOperation`
 * `AWS::Connect::PhoneNumber`
 * `AWS::Connect::QuickConnect`
@@ -179,6 +184,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::DataSync::LocationObjectStorage`
 * `AWS::DataSync::LocationS3`
 * `AWS::DataSync::LocationSMB`
+* `AWS::DataSync::StorageSystem`
 * `AWS::DataSync::Task`
 * `AWS::Detective::Graph`
 * `AWS::DocDB::DBCluster`
@@ -234,6 +240,10 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EC2::VPCPeeringConnection`
 * `AWS::EC2::VPNConnection`
 * `AWS::EC2::VPNGateway`
+* `AWS::EC2::VerifiedAccessEndpoint`
+* `AWS::EC2::VerifiedAccessGroup`
+* `AWS::EC2::VerifiedAccessInstance`
+* `AWS::EC2::VerifiedAccessTrustProvider`
 * `AWS::EC2::Volume`
 * `AWS::ECR::PublicRepository`
 * `AWS::ECR::Repository`
@@ -280,12 +290,14 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::FSx::Snapshot`
 * `AWS::FSx::StorageVirtualMachine`
 * `AWS::FSx::Volume`
+* `AWS::FinSpace::Environment`
 * `AWS::Forecast::Dataset`
 * `AWS::Forecast::DatasetGroup`
 * `AWS::FraudDetector::Detector`
 * `AWS::FraudDetector::EntityType`
 * `AWS::FraudDetector::EventType`
 * `AWS::FraudDetector::Label`
+* `AWS::FraudDetector::List`
 * `AWS::FraudDetector::Outcome`
 * `AWS::FraudDetector::Variable`
 * `AWS::GameLift::GameServerGroup`
@@ -343,6 +355,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Inspector::ResourceGroup`
 * `AWS::InternetMonitor::Monitor`
 * `AWS::IoT::Authorizer`
+* `AWS::IoT::BillingGroup`
 * `AWS::IoT::CACertificate`
 * `AWS::IoT::CustomMetric`
 * `AWS::IoT::Dimension`
@@ -354,6 +367,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IoT::RoleAlias`
 * `AWS::IoT::ScheduledAudit`
 * `AWS::IoT::SecurityProfile`
+* `AWS::IoT::ThingGroup`
+* `AWS::IoT::ThingType`
 * `AWS::IoT::TopicRule`
 * `AWS::IoTAnalytics::Channel`
 * `AWS::IoTAnalytics::Dataset`
@@ -390,6 +405,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IoTWireless::ServiceProfile`
 * `AWS::IoTWireless::TaskDefinition`
 * `AWS::IoTWireless::WirelessDevice`
+* `AWS::IoTWireless::WirelessDeviceImportTask`
 * `AWS::IoTWireless::WirelessGateway`
 * `AWS::KMS::Key`
 * `AWS::KMS::ReplicaKey`
@@ -419,6 +435,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::M2::Environment`
 * `AWS::MSK::Cluster`
 * `AWS::MSK::ServerlessCluster`
+* `AWS::MSK::VpcConnection`
 * `AWS::MWAA::Environment`
 * `AWS::Macie::AllowList`
 * `AWS::ManagedBlockchain::Accessor`
@@ -463,6 +480,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::NimbleStudio::StreamingImage`
 * `AWS::NimbleStudio::Studio`
 * `AWS::NimbleStudio::StudioComponent`
+* `AWS::OSIS::Pipeline`
 * `AWS::Oam::Link`
 * `AWS::Oam::Sink`
 * `AWS::Omics::AnnotationStore`
@@ -493,6 +511,9 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::PinpointEmail::DedicatedIpPool`
 * `AWS::PinpointEmail::Identity`
 * `AWS::Pipes::Pipe`
+* `AWS::Proton::EnvironmentAccountConnection`
+* `AWS::Proton::EnvironmentTemplate`
+* `AWS::Proton::ServiceTemplate`
 * `AWS::QLDB::Ledger`
 * `AWS::QLDB::Stream`
 * `AWS::QuickSight::Analysis`
@@ -501,6 +522,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::QuickSight::DataSource`
 * `AWS::QuickSight::Template`
 * `AWS::QuickSight::Theme`
+* `AWS::QuickSight::VPCConnection`
+* `AWS::RAM::Permission`
 * `AWS::RAM::ResourceShare`
 * `AWS::RDS::DBCluster`
 * `AWS::RDS::DBClusterParameterGroup`
@@ -562,6 +585,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SSM::MaintenanceWindow`
 * `AWS::SSM::Parameter`
 * `AWS::SSM::PatchBaseline`
+* `AWS::SSMContacts::Rotation`
 * `AWS::SSMIncidents::ReplicationSet`
 * `AWS::SSMIncidents::ResponsePlan`
 * `AWS::SSO::PermissionSet`
@@ -576,6 +600,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SageMaker::EndpointConfig`
 * `AWS::SageMaker::FeatureGroup`
 * `AWS::SageMaker::Image`
+* `AWS::SageMaker::InferenceExperiment`
 * `AWS::SageMaker::Model`
 * `AWS::SageMaker::ModelBiasJobDefinition`
 * `AWS::SageMaker::ModelCard`
@@ -619,6 +644,14 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Transfer::User`
 * `AWS::Transfer::Workflow`
 * `AWS::VoiceID::Domain`
+* `AWS::VpcLattice::AccessLogSubscription`
+* `AWS::VpcLattice::Listener`
+* `AWS::VpcLattice::Rule`
+* `AWS::VpcLattice::Service`
+* `AWS::VpcLattice::ServiceNetwork`
+* `AWS::VpcLattice::ServiceNetworkServiceAssociation`
+* `AWS::VpcLattice::ServiceNetworkVpcAssociation`
+* `AWS::VpcLattice::TargetGroup`
 * `AWS::WAFv2::IPSet`
 * `AWS::WAFv2::RegexPatternSet`
 * `AWS::WAFv2::RuleGroup`

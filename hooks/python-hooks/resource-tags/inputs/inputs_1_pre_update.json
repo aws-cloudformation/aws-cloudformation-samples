@@ -248,6 +248,26 @@
             ]
         }
     },
+    "AWS::AppConfig::Extension": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::AppConfig::ExtensionAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::AppFlow::Flow": {
         "resourceProperties": {
             "Tags": [
@@ -526,6 +546,16 @@
     "AWS::Backup::ReportPlan": {
         "resourceProperties": {
             "ReportPlanTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::BackupGateway::Hypervisor": {
+        "resourceProperties": {
+            "Tags": [
                 {
                     "Key": "Name",
                     "Value": "Test1"
@@ -883,6 +913,16 @@
             }
         }
     },
+    "AWS::Comprehend::Flywheel": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::Config::AggregationAuthorization": {
         "resourceProperties": {
             "Tags": [
@@ -924,6 +964,16 @@
         }
     },
     "AWS::Connect::ContactFlowModule": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Connect::EvaluationForm": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1271,6 +1321,16 @@
         }
     },
     "AWS::DataSync::LocationSMB": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::DataSync::StorageSystem": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1862,6 +1922,46 @@
             ]
         }
     },
+    "AWS::EC2::VerifiedAccessEndpoint": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::VerifiedAccessGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::VerifiedAccessInstance": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::VerifiedAccessTrustProvider": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::EC2::Volume": {
         "resourceProperties": {
             "Tags": [
@@ -2323,6 +2423,16 @@
             ]
         }
     },
+    "AWS::FinSpace::Environment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::Forecast::Dataset": {
         "resourceProperties": {
             "Tags": [
@@ -2374,6 +2484,16 @@
         }
     },
     "AWS::FraudDetector::Label": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::FraudDetector::List": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2887,6 +3007,16 @@
             ]
         }
     },
+    "AWS::IoT::BillingGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::IoT::CACertificate": {
         "resourceProperties": {
             "Tags": [
@@ -2988,6 +3118,26 @@
         }
     },
     "AWS::IoT::SecurityProfile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IoT::ThingGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::IoT::ThingType": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3342,6 +3492,16 @@
             ]
         }
     },
+    "AWS::IoTWireless::WirelessDeviceImportTask": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::IoTWireless::WirelessGateway": {
         "resourceProperties": {
             "Tags": [
@@ -3620,6 +3780,13 @@
         }
     },
     "AWS::MSK::ServerlessCluster": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::MSK::VpcConnection": {
         "resourceProperties": {
             "Tags": {
                 "Name": "Test1"
@@ -4033,6 +4200,16 @@
             }
         }
     },
+    "AWS::OSIS::Pipeline": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::Oam::Link": {
         "resourceProperties": {
             "Tags": {
@@ -4285,6 +4462,36 @@
             }
         }
     },
+    "AWS::Proton::EnvironmentAccountConnection": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Proton::EnvironmentTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Proton::ServiceTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::QLDB::Ledger": {
         "resourceProperties": {
             "Tags": [
@@ -4356,6 +4563,26 @@
         }
     },
     "AWS::QuickSight::Theme": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::QuickSight::VPCConnection": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::RAM::Permission": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4948,6 +5175,16 @@
             ]
         }
     },
+    "AWS::SSMContacts::Rotation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::SSMIncidents::ReplicationSet": {
         "resourceProperties": {
             "Tags": [
@@ -5079,6 +5316,16 @@
         }
     },
     "AWS::SageMaker::Image": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::SageMaker::InferenceExperiment": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5500,6 +5747,86 @@
         }
     },
     "AWS::VoiceID::Domain": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::AccessLogSubscription": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::Listener": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::Rule": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::Service": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::ServiceNetwork": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::ServiceNetworkServiceAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::ServiceNetworkVpcAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::TargetGroup": {
         "resourceProperties": {
             "Tags": [
                 {
