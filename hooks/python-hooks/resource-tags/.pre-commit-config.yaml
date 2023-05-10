@@ -29,7 +29,7 @@ repos:
         files: ^hooks\/python-hooks\/resource-tags\/.*
       - id: end-of-file-fixer
         files: ^hooks\/python-hooks\/resource-tags\/.*
-        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$|^hooks\/python-hooks\/resource-tags\/.*docs/.*\.md$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$|^hooks\/python-hooks\/resource-tags\/.*docs/.*\.md$|^hooks\/python-hooks\/resource-tags\/.*\/target_models\/.*\.py$
       - id: mixed-line-ending
         args:
           - --fix=lf
@@ -62,7 +62,7 @@ repos:
           - --max-complexity=10
           - --max-line-length=79
         files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
-        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$|^hooks\/python-hooks\/resource-tags\/.*\/target_models\/.*\.py$
 
   - repo: local
     hooks:
@@ -82,7 +82,7 @@ repos:
           - --follow-imports=silent
           - --strict
         files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
-        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$|^hooks\/python-hooks\/resource-tags\/.*\/target_models\/.*\.py$
 
   # Using a custom isort configuration for Black, but with a line
   # length of 79.  References:
@@ -100,14 +100,14 @@ repos:
           - -m3
           - -n
         files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
-        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$|^hooks\/python-hooks\/resource-tags\/.*\/target_models\/.*\.py$
 
   - repo: https://github.com/pycqa/pydocstyle
     rev: 6.1.1
     hooks:
       - id: pydocstyle
         files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
-        exclude: ^hooks\/python-hooks\/resource-tags\/.*(__init__|models)\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*(__init__|models)\.py$|^hooks\/python-hooks\/resource-tags\/.*\/target_models\/.*\.py$
 
   - repo: https://github.com/psf/black
     rev: 22.12.0
@@ -116,7 +116,7 @@ repos:
         args:
           - -l 79
         files: ^hooks\/python-hooks\/resource-tags\/.*\.py$
-        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$
+        exclude: ^hooks\/python-hooks\/resource-tags\/.*models\.py$|^hooks\/python-hooks\/resource-tags\/.*\/target_models\/.*\.py$
 
   - repo: https://github.com/pycqa/bandit
     rev: 1.7.4

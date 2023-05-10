@@ -28,10 +28,18 @@
         ]
     },
     {
-        "name": "AWS::SageMaker::ModelPackage",
+        "name": "AWS::FSx::DataRepositoryAssociation",
         "ignored_target_properties": [
             {
-                "property_name": "Tag"
+                "property_name": "Tags"
+            }
+        ]
+    },
+    {
+        "name": "AWS::LakeFormation::DataLakeSettings",
+        "ignored_target_properties": [
+            {
+                "property_name": "AuthorizedSessionTagValueList"
             }
         ]
     },
@@ -52,10 +60,10 @@
         ]
     },
     {
-        "name": "AWS::FSx::DataRepositoryAssociation",
+        "name": "AWS::SageMaker::ModelPackage",
         "ignored_target_properties": [
             {
-                "property_name": "Tags"
+                "property_name": "Tag"
             }
         ]
     }

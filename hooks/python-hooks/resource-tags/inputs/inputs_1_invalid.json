@@ -248,6 +248,26 @@
             ]
         }
     },
+    "AWS::AppConfig::Extension": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::AppConfig::ExtensionAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::AppFlow::Flow": {
         "resourceProperties": {
             "Tags": [
@@ -526,6 +546,16 @@
     "AWS::Backup::ReportPlan": {
         "resourceProperties": {
             "ReportPlanTags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::BackupGateway::Hypervisor": {
+        "resourceProperties": {
+            "Tags": [
                 {
                     "Key": "invalid",
                     "Value": ""
@@ -883,6 +913,16 @@
             }
         }
     },
+    "AWS::Comprehend::Flywheel": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Config::AggregationAuthorization": {
         "resourceProperties": {
             "Tags": [
@@ -924,6 +964,16 @@
         }
     },
     "AWS::Connect::ContactFlowModule": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Connect::EvaluationForm": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1271,6 +1321,16 @@
         }
     },
     "AWS::DataSync::LocationSMB": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::DataSync::StorageSystem": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1862,6 +1922,46 @@
             ]
         }
     },
+    "AWS::EC2::VerifiedAccessEndpoint": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::EC2::VerifiedAccessGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::EC2::VerifiedAccessInstance": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::EC2::VerifiedAccessTrustProvider": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::EC2::Volume": {
         "resourceProperties": {
             "Tags": [
@@ -2323,6 +2423,16 @@
             ]
         }
     },
+    "AWS::FinSpace::Environment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Forecast::Dataset": {
         "resourceProperties": {
             "Tags": [
@@ -2374,6 +2484,16 @@
         }
     },
     "AWS::FraudDetector::Label": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::FraudDetector::List": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2887,6 +3007,16 @@
             ]
         }
     },
+    "AWS::IoT::BillingGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::IoT::CACertificate": {
         "resourceProperties": {
             "Tags": [
@@ -2988,6 +3118,26 @@
         }
     },
     "AWS::IoT::SecurityProfile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoT::ThingGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoT::ThingType": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3342,6 +3492,16 @@
             ]
         }
     },
+    "AWS::IoTWireless::WirelessDeviceImportTask": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::IoTWireless::WirelessGateway": {
         "resourceProperties": {
             "Tags": [
@@ -3620,6 +3780,13 @@
         }
     },
     "AWS::MSK::ServerlessCluster": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
+    "AWS::MSK::VpcConnection": {
         "resourceProperties": {
             "Tags": {
                 "invalid": ""
@@ -4033,6 +4200,16 @@
             }
         }
     },
+    "AWS::OSIS::Pipeline": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Oam::Link": {
         "resourceProperties": {
             "Tags": {
@@ -4285,6 +4462,36 @@
             }
         }
     },
+    "AWS::Proton::EnvironmentAccountConnection": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Proton::EnvironmentTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Proton::ServiceTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::QLDB::Ledger": {
         "resourceProperties": {
             "Tags": [
@@ -4356,6 +4563,26 @@
         }
     },
     "AWS::QuickSight::Theme": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::QuickSight::VPCConnection": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::RAM::Permission": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4948,6 +5175,16 @@
             ]
         }
     },
+    "AWS::SSMContacts::Rotation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::SSMIncidents::ReplicationSet": {
         "resourceProperties": {
             "Tags": [
@@ -5079,6 +5316,16 @@
         }
     },
     "AWS::SageMaker::Image": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::SageMaker::InferenceExperiment": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5500,6 +5747,86 @@
         }
     },
     "AWS::VoiceID::Domain": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::AccessLogSubscription": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::Listener": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::Rule": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::Service": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::ServiceNetwork": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::ServiceNetworkServiceAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::ServiceNetworkVpcAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::VpcLattice::TargetGroup": {
         "resourceProperties": {
             "Tags": [
                 {

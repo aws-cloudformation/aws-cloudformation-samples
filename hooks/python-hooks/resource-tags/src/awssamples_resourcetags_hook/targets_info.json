@@ -243,6 +243,24 @@
         ]
     },
     {
+        "name": "AWS::AppConfig::Extension",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::AppConfig::ExtensionAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::AppFlow::Flow",
         "tags_info": [
             {
@@ -499,6 +517,15 @@
         "tags_info": [
             {
                 "property_name": "ReportPlanTags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::BackupGateway::Hypervisor",
+        "tags_info": [
+            {
+                "property_name": "Tags",
                 "property_type": "array"
             }
         ]
@@ -843,6 +870,15 @@
         ]
     },
     {
+        "name": "AWS::Comprehend::Flywheel",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Config::AggregationAuthorization",
         "tags_info": [
             {
@@ -880,6 +916,15 @@
     },
     {
         "name": "AWS::Connect::ContactFlowModule",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Connect::EvaluationForm",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1195,6 +1240,15 @@
     },
     {
         "name": "AWS::DataSync::LocationSMB",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::DataSync::StorageSystem",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1708,6 +1762,42 @@
         ]
     },
     {
+        "name": "AWS::EC2::VerifiedAccessEndpoint",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::VerifiedAccessGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::VerifiedAccessInstance",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::VerifiedAccessTrustProvider",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::EC2::Volume",
         "tags_info": [
             {
@@ -2136,6 +2226,15 @@
         ]
     },
     {
+        "name": "AWS::FinSpace::Environment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Forecast::Dataset",
         "tags_info": [
             {
@@ -2182,6 +2281,15 @@
     },
     {
         "name": "AWS::FraudDetector::Label",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::FraudDetector::List",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2707,6 +2815,15 @@
         ]
     },
     {
+        "name": "AWS::IoT::BillingGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IoT::CACertificate",
         "tags_info": [
             {
@@ -2798,6 +2915,24 @@
     },
     {
         "name": "AWS::IoT::SecurityProfile",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoT::ThingGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoT::ThingType",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3130,6 +3265,15 @@
         ]
     },
     {
+        "name": "AWS::IoTWireless::WirelessDeviceImportTask",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IoTWireless::WirelessGateway",
         "tags_info": [
             {
@@ -3387,6 +3531,15 @@
     },
     {
         "name": "AWS::MSK::ServerlessCluster",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MSK::VpcConnection",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3791,6 +3944,15 @@
         ]
     },
     {
+        "name": "AWS::OSIS::Pipeline",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Oam::Link",
         "tags_info": [
             {
@@ -4061,6 +4223,33 @@
         ]
     },
     {
+        "name": "AWS::Proton::EnvironmentAccountConnection",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Proton::EnvironmentTemplate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Proton::ServiceTemplate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::QLDB::Ledger",
         "tags_info": [
             {
@@ -4125,6 +4314,24 @@
     },
     {
         "name": "AWS::QuickSight::Theme",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QuickSight::VPCConnection",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::RAM::Permission",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4682,6 +4889,15 @@
         ]
     },
     {
+        "name": "AWS::SSMContacts::Rotation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::SSMIncidents::ReplicationSet",
         "tags_info": [
             {
@@ -4800,6 +5016,15 @@
     },
     {
         "name": "AWS::SageMaker::Image",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SageMaker::InferenceExperiment",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -5187,6 +5412,78 @@
     },
     {
         "name": "AWS::VoiceID::Domain",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::AccessLogSubscription",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::Listener",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::Rule",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::Service",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::ServiceNetwork",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::ServiceNetworkServiceAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::ServiceNetworkVpcAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::VpcLattice::TargetGroup",
         "tags_info": [
             {
                 "property_name": "Tags",
