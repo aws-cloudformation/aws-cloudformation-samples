@@ -318,9 +318,9 @@ cfn generate && cfn submit --dry-run
 
 - Specify a name for your StackSet.
 
-- For the `ModulePackage` parameter, specify the URL of the ZIP file
-  you uploaded to your bucket earlier.  Choose **Next** when you're
-  done specifying parameter values.
+- For the `ModulePackage` parameter, specify the Amazon S3 URL of the
+  ZIP file you uploaded to your bucket earlier.  Choose **Next** when
+  you're done specifying parameter values.
 
 - In **Execution configuration**, choose `Active` for **Managed
   execution**.  Choose **Next**.
