@@ -16,6 +16,12 @@
 - [Default values used and choices made in the
   module](#Default-values-used-and-choices-made-in-the-module)
 
+- [Module submission to the CloudFormation private registry](#Module-submission-to-the-CloudFormation-private-registry)
+
+  - [Using the CloudFormation CLI](#Using-the-CloudFormation-CLI)
+
+  - [Using StackSets](#Using-StackSets)
+
 
 ## Overview
 _EC2 Image Builder GoldenAMI_ is a module for [AWS
@@ -224,3 +230,115 @@ The _EC2 Image Builder GoldenAMI_ example module, by default:
 
 - the module distributes the golden image, that it creates with EC2
   Image Builder, to the current account and region only
+
+
+## Module submission to the CloudFormation private registry
+
+To get started, install the [CloudFormation
+CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html).
+
+Next, you can choose how to submit this module to the CloudFormation
+registry:
+
+- either use the CloudFormation CLI's `submit` command to submit the
+  module to the registry, for a given AWS region and for the AWS
+  account you use, or
+
+- use CloudFormation
+  [StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html)
+  to make this module available in AWS regions for the account you
+  use.  This method will allow you to perform the registry submission
+  with a single operation across regions.
+
+
+### Using the CloudFormation CLI
+Run following commands to submit the module to the private registry in
+your account and region (the example uses the `us-east-1` region):
+
+```shell
+cfn generate && cfn submit --set-default --region us-east-1
+```
+
+
+### Using StackSets
+You'll use, in this example, the
+`example/module-deployment-stack.template` sample CloudFormation
+template that describes deployment-related resources for this module
+with code; you'll use StackSets to deploy the module across AWS
+regions you need.  Steps:
+
+- Use the CloudFormation CLI to create a ZIP archive for this module's
+  content:
+
+```shell
+cfn generate && cfn submit --dry-run
+```
+
+- The dry-run above should have created the
+  `awssamples-ec2imagebuilder-goldenami-module.zip` archive in the
+  same directory as this `README.md` file.  Upload the ZIP archive to
+  an S3 bucket you own.  Use a method of your choice, such as the S3
+  console or the AWS CLI; for more information, see [Uploading
+  objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).
+
+- Next, upload the `example/module-deployment-stack.template` template
+  file to your bucket as well.
+
+- Prepare your account for it to work with StackSets, by referring to
+  [Prerequisites for stack set
+  operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html).
+  For example, if you choose to use [Self-managed
+  permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html#prereqs-self-managed-permissions),
+  refer to [Set up basic permissions for stack set
+  operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html#stacksets-prereqs-accountsetup)
+  to create `AWSCloudFormationStackSetAdministrationRole` and
+  `AWSCloudFormationStackSetExecutionRole` roles with provided
+  templates.
+
+- Next,
+  [create](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-getting-started-create.html)
+  your StackSet.  As an example, the following process describes next
+  steps if you choose to use the AWS CloudFormation
+  [console](https://console.aws.amazon.com/cloudformation/) and
+  [self-managed
+  permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-getting-started-create.html).
+
+- From the navigation pane in the console, choose **StackSets**, and
+  then **Create StackSet**.
+
+- In the next page, choose to use **Self-service permissions** and,
+  where indicated, specify the names of the roles you created
+  previously (`AWSCloudFormationStackSetAdministrationRole`, and
+  `AWSCloudFormationStackSetExecutionRole` respectively).
+
+- In the **Prerequisite - Prepare template** section, specify the
+  Amazon S3 URL of the `module-deployment-stack.template` template you
+  uploaded to your bucket earlier.  Alternatively, choose to upload
+  the `module-deployment-stack.template` template file.
+
+- Specify a name for your StackSet.
+
+- For the `ModulePackage` parameter, specify the URL of the ZIP file
+  you uploaded to your bucket earlier.  Choose **Next** when you're
+  done specifying parameter values.
+
+- In **Execution configuration**, choose `Active` for **Managed
+  execution**.  Choose **Next**.
+
+- Specify your account ID number in the **Account numbers** section
+  for **Accounts**.
+
+- In the **Regions** section, specify regions where you wish to deploy
+  this module.
+
+- In **Deployment options**, choose `Parallel` for **Region
+  Concurrency**.  Choose **Next**.
+
+- In the **Review** page, review your selections.  Choose the
+  acknowledgements at the bottom of the page, and choose **Submit**.
+
+- Your StackSet creation process should start shortly; you can review
+  the status in the **Operations** pane in **StackSet details**.
+
+At the end of the process, your module should have been deployed into
+target regions you chose earlier.

@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Registers the AWSSamples::EC2ImageBuilder::GoldenAMI::MODULE sample AWS CloudFormation module in the AWS CloudFormation Private Registry.
+
+Parameters:
+  ModuleName:
+    Description: 'Name of the CloudFormation module.  For example: My::Example::Test::MODULE.'
+    Type: String
+    Default: AWSSamples::EC2ImageBuilder::GoldenAMI::MODULE
+    AllowedPattern: '[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}'
+
+  ModulePackage:
+    Description: URL of the object, that you stored in your Amazon S3 bucket, that contains the module package ZIP file.
+    Type: String
+
+Resources:
+  ModuleDefaultVersion:
+    Type: AWS::CloudFormation::ModuleDefaultVersion
+    Properties:
+      Arn: !Ref 'ModuleVersion'
+
+  ModuleVersion:
+    Type: AWS::CloudFormation::ModuleVersion
+    Properties:
+      ModuleName: !Ref 'ModuleName'
+      ModulePackage: !Ref 'ModulePackage'
+
+Outputs:
+  VersionId:
+    Description: The ID of the module version.
+    Value: !GetAtt ModuleVersion.VersionId
