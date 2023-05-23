@@ -12,12 +12,12 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: awssamples_ec2_importkeypair.handlers.resource
-      Runtime: python3.7
+      Runtime: python3.9
       CodeUri: build/
 
   TestEntrypoint:
     Type: AWS::Serverless::Function
     Properties:
       Handler: awssamples_ec2_importkeypair.handlers.test_entrypoint
-      Runtime: python3.7
+      Runtime: python3.9
       CodeUri: build/
