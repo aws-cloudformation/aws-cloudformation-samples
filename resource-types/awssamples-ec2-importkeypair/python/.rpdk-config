@@ -1,8 +1,8 @@
 {
     "artifact_type": "RESOURCE",
     "typeName": "AWSSamples::EC2::ImportKeyPair",
-    "language": "python37",
-    "runtime": "python3.7",
+    "language": "python39",
+    "runtime": "python3.9",
     "entrypoint": "awssamples_ec2_importkeypair.handlers.resource",
     "testEntrypoint": "awssamples_ec2_importkeypair.handlers.test_entrypoint",
     "settings": {
