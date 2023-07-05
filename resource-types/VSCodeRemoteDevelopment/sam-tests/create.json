@@ -1,0 +1,19 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "CREATE",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+            "InstanceType":"m4.xlarge",
+            "DiskSize":200,
+            "Keypair": "dev"
+        },
+        "previousResourceState": null,
+        "logicalResourceIdentifier": null
+    },
+    "callbackContext": null
+}
