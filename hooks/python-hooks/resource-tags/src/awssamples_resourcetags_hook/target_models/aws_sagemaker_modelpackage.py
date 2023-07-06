@@ -32,7 +32,6 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 class AwsSagemakerModelpackage(BaseModel):
     Tags: Optional[Any]
     AdditionalInferenceSpecifications: Optional[Sequence["_AdditionalInferenceSpecificationDefinition"]]
-    AdditionalInferenceSpecificationDefinition: Optional["_AdditionalInferenceSpecificationDefinition"]
     CertifyForMarketplace: Optional[bool]
     ClientToken: Optional[str]
     CustomerMetadataProperties: Optional[MutableMapping[str, Any]]
@@ -52,15 +51,11 @@ class AwsSagemakerModelpackage(BaseModel):
     ModelPackageArn: Optional[str]
     ApprovalDescription: Optional[str]
     CreationTime: Optional[str]
-    LastModifiedBy: Optional["_UserContext"]
     LastModifiedTime: Optional[str]
     ModelPackageStatus: Optional[str]
     ModelPackageVersion: Optional[int]
     AdditionalInferenceSpecificationsToAdd: Optional[Sequence["_AdditionalInferenceSpecificationDefinition"]]
     ModelPackageStatusDetails: Optional["_ModelPackageStatusDetails"]
-    ModelPackageStatusItem: Optional["_ModelPackageStatusItem"]
-    CreatedBy: Optional["_UserContext"]
-    Environment: Optional[MutableMapping[str, Any]]
 
     @classmethod
     def _deserialize(
@@ -74,7 +69,6 @@ class AwsSagemakerModelpackage(BaseModel):
         return cls(
             Tags=json_data.get("Tags"),
             AdditionalInferenceSpecifications=deserialize_list(json_data.get("AdditionalInferenceSpecifications"), AdditionalInferenceSpecificationDefinition),
-            AdditionalInferenceSpecificationDefinition=AdditionalInferenceSpecificationDefinition._deserialize(json_data.get("AdditionalInferenceSpecificationDefinition")),
             CertifyForMarketplace=json_data.get("CertifyForMarketplace"),
             ClientToken=json_data.get("ClientToken"),
             CustomerMetadataProperties=json_data.get("CustomerMetadataProperties"),
@@ -94,15 +88,11 @@ class AwsSagemakerModelpackage(BaseModel):
             ModelPackageArn=json_data.get("ModelPackageArn"),
             ApprovalDescription=json_data.get("ApprovalDescription"),
             CreationTime=json_data.get("CreationTime"),
-            LastModifiedBy=UserContext._deserialize(json_data.get("LastModifiedBy")),
             LastModifiedTime=json_data.get("LastModifiedTime"),
             ModelPackageStatus=json_data.get("ModelPackageStatus"),
             ModelPackageVersion=json_data.get("ModelPackageVersion"),
             AdditionalInferenceSpecificationsToAdd=deserialize_list(json_data.get("AdditionalInferenceSpecificationsToAdd"), AdditionalInferenceSpecificationDefinition),
             ModelPackageStatusDetails=ModelPackageStatusDetails._deserialize(json_data.get("ModelPackageStatusDetails")),
-            ModelPackageStatusItem=ModelPackageStatusItem._deserialize(json_data.get("ModelPackageStatusItem")),
-            CreatedBy=UserContext._deserialize(json_data.get("CreatedBy")),
-            Environment=json_data.get("Environment"),
         )
 
 
@@ -172,7 +162,6 @@ class ModelPackageContainerDefinition(BaseModel):
     Image: Optional[str]
     ImageDigest: Optional[str]
     ModelDataUrl: Optional[str]
-    ProductId: Optional[str]
     Framework: Optional[str]
     FrameworkVersion: Optional[str]
     NearestModelName: Optional[str]
@@ -191,7 +180,6 @@ class ModelPackageContainerDefinition(BaseModel):
             Image=json_data.get("Image"),
             ImageDigest=json_data.get("ImageDigest"),
             ModelDataUrl=json_data.get("ModelDataUrl"),
-            ProductId=json_data.get("ProductId"),
             Framework=json_data.get("Framework"),
             FrameworkVersion=json_data.get("FrameworkVersion"),
             NearestModelName=json_data.get("NearestModelName"),
@@ -791,32 +779,7 @@ _TransformResources = TransformResources
 
 
 @dataclass
-class UserContext(BaseModel):
-    DomainId: Optional[str]
-    UserProfileArn: Optional[str]
-    UserProfileName: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_UserContext"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_UserContext"]:
-        if not json_data:
-            return None
-        return cls(
-            DomainId=json_data.get("DomainId"),
-            UserProfileArn=json_data.get("UserProfileArn"),
-            UserProfileName=json_data.get("UserProfileName"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_UserContext = UserContext
-
-
-@dataclass
 class ModelPackageStatusDetails(BaseModel):
-    ImageScanStatuses: Optional[Sequence["_ModelPackageStatusItem"]]
     ValidationStatuses: Optional[Sequence["_ModelPackageStatusItem"]]
 
     @classmethod
@@ -827,7 +790,6 @@ class ModelPackageStatusDetails(BaseModel):
         if not json_data:
             return None
         return cls(
-            ImageScanStatuses=deserialize_list(json_data.get("ImageScanStatuses"), ModelPackageStatusItem),
             ValidationStatuses=deserialize_list(json_data.get("ValidationStatuses"), ModelPackageStatusItem),
         )
 

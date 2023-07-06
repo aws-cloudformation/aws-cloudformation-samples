@@ -351,6 +351,15 @@
         ]
     },
     {
+        "name": "AWS::AppRunner::AutoScalingConfiguration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::AppRunner::ObservabilityConfiguration",
         "tags_info": [
             {
@@ -388,6 +397,15 @@
     },
     {
         "name": "AWS::AppStream::AppBlock",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::AppStream::AppBlockBuilder",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -442,6 +460,15 @@
     },
     {
         "name": "AWS::ApplicationInsights::Application",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Athena::CapacityReservation",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -646,6 +673,42 @@
     },
     {
         "name": "AWS::CertificateManager::Certificate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CleanRooms::Collaboration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CleanRooms::ConfiguredTable",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CleanRooms::ConfiguredTableAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CleanRooms::Membership",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -870,6 +933,15 @@
         ]
     },
     {
+        "name": "AWS::Comprehend::DocumentClassifier",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Comprehend::Flywheel",
         "tags_info": [
             {
@@ -951,6 +1023,15 @@
         ]
     },
     {
+        "name": "AWS::Connect::Prompt",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Connect::QuickConnect",
         "tags_info": [
             {
@@ -996,7 +1077,25 @@
         ]
     },
     {
+        "name": "AWS::CustomerProfiles::CalculatedAttributeDefinition",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CustomerProfiles::Domain",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CustomerProfiles::EventStream",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2380,6 +2479,15 @@
     },
     {
         "name": "AWS::Glue::Crawler",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Glue::DataQualityRuleset",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4349,6 +4457,15 @@
         ]
     },
     {
+        "name": "AWS::RDS::CustomDBEngineVersion",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::RDS::DBCluster",
         "tags_info": [
             {
@@ -5177,6 +5294,15 @@
         ]
     },
     {
+        "name": "AWS::SecurityHub::AutomationRule",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::SecurityHub::Hub",
         "tags_info": [
             {
@@ -5259,6 +5385,24 @@
     },
     {
         "name": "AWS::ServiceDiscovery::Service",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Shield::Protection",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Shield::ProtectionGroup",
         "tags_info": [
             {
                 "property_name": "Tags",

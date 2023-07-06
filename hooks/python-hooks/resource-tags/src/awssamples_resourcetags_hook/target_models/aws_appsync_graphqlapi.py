@@ -31,12 +31,15 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsAppsyncGraphqlapi(BaseModel):
     OpenIDConnectConfig: Optional["_OpenIDConnectConfig"]
+    MergedApiExecutionRoleArn: Optional[str]
     RealtimeDns: Optional[str]
+    OwnerContact: Optional[str]
     Name: Optional[str]
     AdditionalAuthenticationProviders: Optional[Sequence["_AdditionalAuthenticationProvider"]]
     RealtimeUrl: Optional[str]
     GraphQLUrl: Optional[str]
     GraphQLDns: Optional[str]
+    ApiType: Optional[str]
     LambdaAuthorizerConfig: Optional["_LambdaAuthorizerConfig"]
     XrayEnabled: Optional[bool]
     Visibility: Optional[str]
@@ -59,12 +62,15 @@ class AwsAppsyncGraphqlapi(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             OpenIDConnectConfig=OpenIDConnectConfig._deserialize(json_data.get("OpenIDConnectConfig")),
+            MergedApiExecutionRoleArn=json_data.get("MergedApiExecutionRoleArn"),
             RealtimeDns=json_data.get("RealtimeDns"),
+            OwnerContact=json_data.get("OwnerContact"),
             Name=json_data.get("Name"),
             AdditionalAuthenticationProviders=deserialize_list(json_data.get("AdditionalAuthenticationProviders"), AdditionalAuthenticationProvider),
             RealtimeUrl=json_data.get("RealtimeUrl"),
             GraphQLUrl=json_data.get("GraphQLUrl"),
             GraphQLDns=json_data.get("GraphQLDns"),
+            ApiType=json_data.get("ApiType"),
             LambdaAuthorizerConfig=LambdaAuthorizerConfig._deserialize(json_data.get("LambdaAuthorizerConfig")),
             XrayEnabled=json_data.get("XrayEnabled"),
             Visibility=json_data.get("Visibility"),

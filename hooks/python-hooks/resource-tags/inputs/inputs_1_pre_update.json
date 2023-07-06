@@ -368,6 +368,16 @@
             ]
         }
     },
+    "AWS::AppRunner::AutoScalingConfiguration": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::AppRunner::ObservabilityConfiguration": {
         "resourceProperties": {
             "Tags": [
@@ -409,6 +419,16 @@
         }
     },
     "AWS::AppStream::AppBlock": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::AppStream::AppBlockBuilder": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -469,6 +489,16 @@
         }
     },
     "AWS::ApplicationInsights::Application": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Athena::CapacityReservation": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -673,6 +703,46 @@
         }
     },
     "AWS::CertificateManager::Certificate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::CleanRooms::Collaboration": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::CleanRooms::ConfiguredTable": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::CleanRooms::ConfiguredTableAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::CleanRooms::Membership": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -913,6 +983,16 @@
             }
         }
     },
+    "AWS::Comprehend::DocumentClassifier": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::Comprehend::Flywheel": {
         "resourceProperties": {
             "Tags": [
@@ -1003,6 +1083,16 @@
             ]
         }
     },
+    "AWS::Connect::Prompt": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::Connect::QuickConnect": {
         "resourceProperties": {
             "Tags": [
@@ -1053,7 +1143,27 @@
             ]
         }
     },
+    "AWS::CustomerProfiles::CalculatedAttributeDefinition": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::CustomerProfiles::Domain": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::CustomerProfiles::EventStream": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2594,6 +2704,13 @@
         }
     },
     "AWS::Glue::Crawler": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
+    "AWS::Glue::DataQualityRuleset": {
         "resourceProperties": {
             "Tags": {
                 "Name": "Test1"
@@ -4602,6 +4719,16 @@
             ]
         }
     },
+    "AWS::RDS::CustomDBEngineVersion": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
     "AWS::RDS::DBCluster": {
         "resourceProperties": {
             "Tags": [
@@ -5495,6 +5622,13 @@
             ]
         }
     },
+    "AWS::SecurityHub::AutomationRule": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test1"
+            }
+        }
+    },
     "AWS::SecurityHub::Hub": {
         "resourceProperties": {
             "Tags": {
@@ -5577,6 +5711,26 @@
         }
     },
     "AWS::ServiceDiscovery::Service": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Shield::Protection": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test1"
+                }
+            ]
+        }
+    },
+    "AWS::Shield::ProtectionGroup": {
         "resourceProperties": {
             "Tags": [
                 {

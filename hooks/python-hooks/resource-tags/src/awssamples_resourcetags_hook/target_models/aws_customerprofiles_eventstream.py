@@ -29,37 +29,39 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEc2Keypair(BaseModel):
-    KeyName: Optional[str]
-    KeyType: Optional[str]
-    KeyFormat: Optional[str]
-    PublicKeyMaterial: Optional[str]
-    KeyFingerprint: Optional[str]
-    KeyPairId: Optional[str]
+class AwsCustomerprofilesEventstream(BaseModel):
+    DomainName: Optional[str]
+    EventStreamName: Optional[str]
+    Uri: Optional[str]
+    EventStreamArn: Optional[str]
     Tags: Optional[Any]
+    CreatedAt: Optional[str]
+    State: Optional[str]
+    DestinationDetails: Optional["_DestinationDetails"]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEc2Keypair"],
+        cls: Type["_AwsCustomerprofilesEventstream"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEc2Keypair"]:
+    ) -> Optional["_AwsCustomerprofilesEventstream"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            KeyName=json_data.get("KeyName"),
-            KeyType=json_data.get("KeyType"),
-            KeyFormat=json_data.get("KeyFormat"),
-            PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
-            KeyFingerprint=json_data.get("KeyFingerprint"),
-            KeyPairId=json_data.get("KeyPairId"),
+            DomainName=json_data.get("DomainName"),
+            EventStreamName=json_data.get("EventStreamName"),
+            Uri=json_data.get("Uri"),
+            EventStreamArn=json_data.get("EventStreamArn"),
             Tags=json_data.get("Tags"),
+            CreatedAt=json_data.get("CreatedAt"),
+            State=json_data.get("State"),
+            DestinationDetails=DestinationDetails._deserialize(json_data.get("DestinationDetails")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEc2Keypair = AwsEc2Keypair
+_AwsCustomerprofilesEventstream = AwsCustomerprofilesEventstream
 
 
 @dataclass
@@ -82,5 +84,27 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class DestinationDetails(BaseModel):
+    Uri: Optional[str]
+    Status: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DestinationDetails"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DestinationDetails"]:
+        if not json_data:
+            return None
+        return cls(
+            Uri=json_data.get("Uri"),
+            Status=json_data.get("Status"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DestinationDetails = DestinationDetails
 
 

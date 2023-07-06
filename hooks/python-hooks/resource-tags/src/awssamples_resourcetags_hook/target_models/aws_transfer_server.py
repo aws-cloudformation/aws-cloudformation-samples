@@ -34,6 +34,7 @@ class AwsTransferServer(BaseModel):
     Protocols: Optional[Sequence[MutableMapping[str, Any]]]
     IdentityProviderDetails: Optional["_IdentityProviderDetails"]
     EndpointDetails: Optional["_EndpointDetails"]
+    StructuredLogDestinations: Optional[Sequence[MutableMapping[str, Any]]]
     PreAuthenticationLoginBanner: Optional[str]
     ServerId: Optional[str]
     PostAuthenticationLoginBanner: Optional[str]
@@ -61,6 +62,7 @@ class AwsTransferServer(BaseModel):
             Protocols=json_data.get("Protocols"),
             IdentityProviderDetails=IdentityProviderDetails._deserialize(json_data.get("IdentityProviderDetails")),
             EndpointDetails=EndpointDetails._deserialize(json_data.get("EndpointDetails")),
+            StructuredLogDestinations=json_data.get("StructuredLogDestinations"),
             PreAuthenticationLoginBanner=json_data.get("PreAuthenticationLoginBanner"),
             ServerId=json_data.get("ServerId"),
             PostAuthenticationLoginBanner=json_data.get("PostAuthenticationLoginBanner"),
@@ -86,6 +88,7 @@ class IdentityProviderDetails(BaseModel):
     DirectoryId: Optional[str]
     Url: Optional[str]
     InvocationRole: Optional[str]
+    SftpAuthenticationMethods: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -99,6 +102,7 @@ class IdentityProviderDetails(BaseModel):
             DirectoryId=json_data.get("DirectoryId"),
             Url=json_data.get("Url"),
             InvocationRole=json_data.get("InvocationRole"),
+            SftpAuthenticationMethods=json_data.get("SftpAuthenticationMethods"),
         )
 
 

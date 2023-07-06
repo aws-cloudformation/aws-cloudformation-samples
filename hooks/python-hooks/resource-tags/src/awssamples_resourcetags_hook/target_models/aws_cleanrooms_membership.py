@@ -29,37 +29,37 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEc2Keypair(BaseModel):
-    KeyName: Optional[str]
-    KeyType: Optional[str]
-    KeyFormat: Optional[str]
-    PublicKeyMaterial: Optional[str]
-    KeyFingerprint: Optional[str]
-    KeyPairId: Optional[str]
+class AwsCleanroomsMembership(BaseModel):
+    Arn: Optional[str]
     Tags: Optional[Any]
+    CollaborationArn: Optional[str]
+    CollaborationCreatorAccountId: Optional[str]
+    CollaborationIdentifier: Optional[str]
+    MembershipIdentifier: Optional[str]
+    QueryLogStatus: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEc2Keypair"],
+        cls: Type["_AwsCleanroomsMembership"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEc2Keypair"]:
+    ) -> Optional["_AwsCleanroomsMembership"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            KeyName=json_data.get("KeyName"),
-            KeyType=json_data.get("KeyType"),
-            KeyFormat=json_data.get("KeyFormat"),
-            PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
-            KeyFingerprint=json_data.get("KeyFingerprint"),
-            KeyPairId=json_data.get("KeyPairId"),
+            Arn=json_data.get("Arn"),
             Tags=json_data.get("Tags"),
+            CollaborationArn=json_data.get("CollaborationArn"),
+            CollaborationCreatorAccountId=json_data.get("CollaborationCreatorAccountId"),
+            CollaborationIdentifier=json_data.get("CollaborationIdentifier"),
+            MembershipIdentifier=json_data.get("MembershipIdentifier"),
+            QueryLogStatus=json_data.get("QueryLogStatus"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEc2Keypair = AwsEc2Keypair
+_AwsCleanroomsMembership = AwsCleanroomsMembership
 
 
 @dataclass

@@ -30,6 +30,9 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsSecurityhubHub(BaseModel):
+    ControlFindingGenerator: Optional[str]
+    EnableDefaultStandards: Optional[bool]
+    AutoEnableControls: Optional[bool]
     Id: Optional[str]
     Tags: Optional[Any]
 
@@ -43,6 +46,9 @@ class AwsSecurityhubHub(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            ControlFindingGenerator=json_data.get("ControlFindingGenerator"),
+            EnableDefaultStandards=json_data.get("EnableDefaultStandards"),
+            AutoEnableControls=json_data.get("AutoEnableControls"),
             Id=json_data.get("Id"),
             Tags=json_data.get("Tags"),
         )

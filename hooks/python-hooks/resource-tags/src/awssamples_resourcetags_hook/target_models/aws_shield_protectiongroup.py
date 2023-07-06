@@ -29,37 +29,37 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEc2Keypair(BaseModel):
-    KeyName: Optional[str]
-    KeyType: Optional[str]
-    KeyFormat: Optional[str]
-    PublicKeyMaterial: Optional[str]
-    KeyFingerprint: Optional[str]
-    KeyPairId: Optional[str]
+class AwsShieldProtectiongroup(BaseModel):
+    ProtectionGroupId: Optional[str]
+    ProtectionGroupArn: Optional[str]
+    Aggregation: Optional[str]
+    Pattern: Optional[str]
+    Members: Optional[Sequence[str]]
+    ResourceType: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEc2Keypair"],
+        cls: Type["_AwsShieldProtectiongroup"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEc2Keypair"]:
+    ) -> Optional["_AwsShieldProtectiongroup"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            KeyName=json_data.get("KeyName"),
-            KeyType=json_data.get("KeyType"),
-            KeyFormat=json_data.get("KeyFormat"),
-            PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
-            KeyFingerprint=json_data.get("KeyFingerprint"),
-            KeyPairId=json_data.get("KeyPairId"),
+            ProtectionGroupId=json_data.get("ProtectionGroupId"),
+            ProtectionGroupArn=json_data.get("ProtectionGroupArn"),
+            Aggregation=json_data.get("Aggregation"),
+            Pattern=json_data.get("Pattern"),
+            Members=json_data.get("Members"),
+            ResourceType=json_data.get("ResourceType"),
             Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEc2Keypair = AwsEc2Keypair
+_AwsShieldProtectiongroup = AwsShieldProtectiongroup
 
 
 @dataclass

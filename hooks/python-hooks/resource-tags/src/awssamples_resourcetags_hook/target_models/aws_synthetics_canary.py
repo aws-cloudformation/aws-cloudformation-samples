@@ -89,6 +89,7 @@ class Code(BaseModel):
     S3ObjectVersion: Optional[str]
     Script: Optional[str]
     Handler: Optional[str]
+    SourceLocationArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -103,6 +104,7 @@ class Code(BaseModel):
             S3ObjectVersion=json_data.get("S3ObjectVersion"),
             Script=json_data.get("Script"),
             Handler=json_data.get("Handler"),
+            SourceLocationArn=json_data.get("SourceLocationArn"),
         )
 
 

@@ -35,6 +35,7 @@ class AwsEc2Networkinterface(BaseModel):
     PrivateIpAddresses: Optional[Sequence["_PrivateIpAddressSpecification"]]
     SecondaryPrivateIpAddressCount: Optional[int]
     PrimaryPrivateIpAddress: Optional[str]
+    EnablePrimaryIpv6: Optional[bool]
     GroupSet: Optional[Sequence[str]]
     Ipv6Addresses: Optional[AbstractSet["_InstanceIpv6Address"]]
     SubnetId: Optional[str]
@@ -60,6 +61,7 @@ class AwsEc2Networkinterface(BaseModel):
             PrivateIpAddresses=deserialize_list(json_data.get("PrivateIpAddresses"), PrivateIpAddressSpecification),
             SecondaryPrivateIpAddressCount=json_data.get("SecondaryPrivateIpAddressCount"),
             PrimaryPrivateIpAddress=json_data.get("PrimaryPrivateIpAddress"),
+            EnablePrimaryIpv6=json_data.get("EnablePrimaryIpv6"),
             GroupSet=json_data.get("GroupSet"),
             Ipv6Addresses=set_or_none(json_data.get("Ipv6Addresses")),
             SubnetId=json_data.get("SubnetId"),

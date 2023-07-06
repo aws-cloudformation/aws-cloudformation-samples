@@ -29,58 +29,58 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEc2Keypair(BaseModel):
-    KeyName: Optional[str]
-    KeyType: Optional[str]
-    KeyFormat: Optional[str]
-    PublicKeyMaterial: Optional[str]
-    KeyFingerprint: Optional[str]
-    KeyPairId: Optional[str]
+class AwsGlueDataqualityruleset(BaseModel):
+    Ruleset: Optional[str]
+    Description: Optional[str]
+    TargetTable: Optional["_DataQualityTargetTable"]
+    Id: Optional[str]
+    ClientToken: Optional[str]
     Tags: Optional[Any]
+    Name: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEc2Keypair"],
+        cls: Type["_AwsGlueDataqualityruleset"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEc2Keypair"]:
+    ) -> Optional["_AwsGlueDataqualityruleset"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            KeyName=json_data.get("KeyName"),
-            KeyType=json_data.get("KeyType"),
-            KeyFormat=json_data.get("KeyFormat"),
-            PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
-            KeyFingerprint=json_data.get("KeyFingerprint"),
-            KeyPairId=json_data.get("KeyPairId"),
+            Ruleset=json_data.get("Ruleset"),
+            Description=json_data.get("Description"),
+            TargetTable=DataQualityTargetTable._deserialize(json_data.get("TargetTable")),
+            Id=json_data.get("Id"),
+            ClientToken=json_data.get("ClientToken"),
             Tags=json_data.get("Tags"),
+            Name=json_data.get("Name"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEc2Keypair = AwsEc2Keypair
+_AwsGlueDataqualityruleset = AwsGlueDataqualityruleset
 
 
 @dataclass
-class Tag(BaseModel):
-    Key: Optional[str]
-    Value: Optional[str]
+class DataQualityTargetTable(BaseModel):
+    DatabaseName: Optional[str]
+    TableName: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_Tag"],
+        cls: Type["_DataQualityTargetTable"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Tag"]:
+    ) -> Optional["_DataQualityTargetTable"]:
         if not json_data:
             return None
         return cls(
-            Key=json_data.get("Key"),
-            Value=json_data.get("Value"),
+            DatabaseName=json_data.get("DatabaseName"),
+            TableName=json_data.get("TableName"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_Tag = Tag
+_DataQualityTargetTable = DataQualityTargetTable
 
 

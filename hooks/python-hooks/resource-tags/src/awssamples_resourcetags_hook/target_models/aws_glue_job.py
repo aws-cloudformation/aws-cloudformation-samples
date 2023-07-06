@@ -132,6 +132,7 @@ _NotificationProperty = NotificationProperty
 
 @dataclass
 class JobCommand(BaseModel):
+    Runtime: Optional[str]
     ScriptLocation: Optional[str]
     PythonVersion: Optional[str]
     Name: Optional[str]
@@ -144,6 +145,7 @@ class JobCommand(BaseModel):
         if not json_data:
             return None
         return cls(
+            Runtime=json_data.get("Runtime"),
             ScriptLocation=json_data.get("ScriptLocation"),
             PythonVersion=json_data.get("PythonVersion"),
             Name=json_data.get("Name"),

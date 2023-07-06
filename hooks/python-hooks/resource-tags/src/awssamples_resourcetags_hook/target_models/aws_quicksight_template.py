@@ -2996,6 +2996,7 @@ _CustomActionFilterOperation = CustomActionFilterOperation
 class FilterOperationSelectedFieldsConfiguration(BaseModel):
     SelectedFields: Optional[Sequence[str]]
     SelectedFieldOptions: Optional[str]
+    SelectedColumns: Optional[Sequence["_ColumnIdentifier"]]
 
     @classmethod
     def _deserialize(
@@ -3007,6 +3008,7 @@ class FilterOperationSelectedFieldsConfiguration(BaseModel):
         return cls(
             SelectedFields=json_data.get("SelectedFields"),
             SelectedFieldOptions=json_data.get("SelectedFieldOptions"),
+            SelectedColumns=deserialize_list(json_data.get("SelectedColumns"), ColumnIdentifier),
         )
 
 
@@ -3166,6 +3168,7 @@ class DestinationParameterValueConfiguration(BaseModel):
     SelectAllValueOptions: Optional[str]
     SourceParameterName: Optional[str]
     SourceField: Optional[str]
+    SourceColumn: Optional["_ColumnIdentifier"]
 
     @classmethod
     def _deserialize(
@@ -3179,6 +3182,7 @@ class DestinationParameterValueConfiguration(BaseModel):
             SelectAllValueOptions=json_data.get("SelectAllValueOptions"),
             SourceParameterName=json_data.get("SourceParameterName"),
             SourceField=json_data.get("SourceField"),
+            SourceColumn=ColumnIdentifier._deserialize(json_data.get("SourceColumn")),
         )
 
 
@@ -3459,6 +3463,7 @@ class PivotTableOptions(BaseModel):
     CellStyle: Optional["_TableCellStyle"]
     RowFieldNamesStyle: Optional["_TableCellStyle"]
     RowAlternateColorOptions: Optional["_RowAlternateColorOptions"]
+    CollapsedRowDimensionsVisibility: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -3477,6 +3482,7 @@ class PivotTableOptions(BaseModel):
             CellStyle=TableCellStyle._deserialize(json_data.get("CellStyle")),
             RowFieldNamesStyle=TableCellStyle._deserialize(json_data.get("RowFieldNamesStyle")),
             RowAlternateColorOptions=RowAlternateColorOptions._deserialize(json_data.get("RowAlternateColorOptions")),
+            CollapsedRowDimensionsVisibility=json_data.get("CollapsedRowDimensionsVisibility"),
         )
 
 
@@ -3598,6 +3604,7 @@ _PivotTotalOptions = PivotTotalOptions
 class PivotTableFieldOptions(BaseModel):
     SelectedFieldOptions: Optional[Sequence["_PivotTableFieldOption"]]
     DataPathOptions: Optional[Sequence["_PivotTableDataPathOption"]]
+    CollapseStateOptions: Optional[Sequence["_PivotTableFieldCollapseStateOption"]]
 
     @classmethod
     def _deserialize(
@@ -3609,6 +3616,7 @@ class PivotTableFieldOptions(BaseModel):
         return cls(
             SelectedFieldOptions=deserialize_list(json_data.get("SelectedFieldOptions"), PivotTableFieldOption),
             DataPathOptions=deserialize_list(json_data.get("DataPathOptions"), PivotTableDataPathOption),
+            CollapseStateOptions=deserialize_list(json_data.get("CollapseStateOptions"), PivotTableFieldCollapseStateOption),
         )
 
 
@@ -3660,6 +3668,50 @@ class PivotTableDataPathOption(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _PivotTableDataPathOption = PivotTableDataPathOption
+
+
+@dataclass
+class PivotTableFieldCollapseStateOption(BaseModel):
+    Target: Optional["_PivotTableFieldCollapseStateTarget"]
+    State: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PivotTableFieldCollapseStateOption"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PivotTableFieldCollapseStateOption"]:
+        if not json_data:
+            return None
+        return cls(
+            Target=PivotTableFieldCollapseStateTarget._deserialize(json_data.get("Target")),
+            State=json_data.get("State"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PivotTableFieldCollapseStateOption = PivotTableFieldCollapseStateOption
+
+
+@dataclass
+class PivotTableFieldCollapseStateTarget(BaseModel):
+    FieldId: Optional[str]
+    FieldDataPathValues: Optional[Sequence["_DataPathValue"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PivotTableFieldCollapseStateTarget"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PivotTableFieldCollapseStateTarget"]:
+        if not json_data:
+            return None
+        return cls(
+            FieldId=json_data.get("FieldId"),
+            FieldDataPathValues=deserialize_list(json_data.get("FieldDataPathValues"), DataPathValue),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PivotTableFieldCollapseStateTarget = PivotTableFieldCollapseStateTarget
 
 
 @dataclass
@@ -3729,6 +3781,7 @@ class PivotTableCellConditionalFormatting(BaseModel):
     FieldId: Optional[str]
     TextFormat: Optional["_TextConditionalFormat"]
     Scope: Optional["_PivotTableConditionalFormattingScope"]
+    Scopes: Optional[Sequence["_PivotTableConditionalFormattingScope"]]
 
     @classmethod
     def _deserialize(
@@ -3741,6 +3794,7 @@ class PivotTableCellConditionalFormatting(BaseModel):
             FieldId=json_data.get("FieldId"),
             TextFormat=TextConditionalFormat._deserialize(json_data.get("TextFormat")),
             Scope=PivotTableConditionalFormattingScope._deserialize(json_data.get("Scope")),
+            Scopes=deserialize_list(json_data.get("Scopes"), PivotTableConditionalFormattingScope),
         )
 
 
@@ -4473,6 +4527,7 @@ class DataLabelOptions(BaseModel):
     LabelFontConfiguration: Optional["_FontConfiguration"]
     LabelColor: Optional[str]
     Overlap: Optional[str]
+    TotalsVisibility: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -4491,6 +4546,7 @@ class DataLabelOptions(BaseModel):
             LabelFontConfiguration=FontConfiguration._deserialize(json_data.get("LabelFontConfiguration")),
             LabelColor=json_data.get("LabelColor"),
             Overlap=json_data.get("Overlap"),
+            TotalsVisibility=json_data.get("TotalsVisibility"),
         )
 
 
@@ -6912,6 +6968,7 @@ _GeospatialMapStyleOptions = GeospatialMapStyleOptions
 class GeospatialPointStyleOptions(BaseModel):
     SelectedPointStyle: Optional[str]
     ClusterMarkerConfiguration: Optional["_ClusterMarkerConfiguration"]
+    HeatmapConfiguration: Optional["_GeospatialHeatmapConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -6923,6 +6980,7 @@ class GeospatialPointStyleOptions(BaseModel):
         return cls(
             SelectedPointStyle=json_data.get("SelectedPointStyle"),
             ClusterMarkerConfiguration=ClusterMarkerConfiguration._deserialize(json_data.get("ClusterMarkerConfiguration")),
+            HeatmapConfiguration=GeospatialHeatmapConfiguration._deserialize(json_data.get("HeatmapConfiguration")),
         )
 
 
@@ -6988,6 +7046,66 @@ class SimpleClusterMarker(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _SimpleClusterMarker = SimpleClusterMarker
+
+
+@dataclass
+class GeospatialHeatmapConfiguration(BaseModel):
+    HeatmapColor: Optional["_GeospatialHeatmapColorScale"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_GeospatialHeatmapConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_GeospatialHeatmapConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            HeatmapColor=GeospatialHeatmapColorScale._deserialize(json_data.get("HeatmapColor")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_GeospatialHeatmapConfiguration = GeospatialHeatmapConfiguration
+
+
+@dataclass
+class GeospatialHeatmapColorScale(BaseModel):
+    Colors: Optional[Sequence["_GeospatialHeatmapDataColor"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_GeospatialHeatmapColorScale"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_GeospatialHeatmapColorScale"]:
+        if not json_data:
+            return None
+        return cls(
+            Colors=deserialize_list(json_data.get("Colors"), GeospatialHeatmapDataColor),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_GeospatialHeatmapColorScale = GeospatialHeatmapColorScale
+
+
+@dataclass
+class GeospatialHeatmapDataColor(BaseModel):
+    Color: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_GeospatialHeatmapDataColor"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_GeospatialHeatmapDataColor"]:
+        if not json_data:
+            return None
+        return cls(
+            Color=json_data.get("Color"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_GeospatialHeatmapDataColor = GeospatialHeatmapDataColor
 
 
 @dataclass
@@ -7448,6 +7566,7 @@ class ScatterPlotCategoricallyAggregatedFieldWells(BaseModel):
     YAxis: Optional[Sequence["_MeasureField"]]
     Category: Optional[Sequence["_DimensionField"]]
     Size: Optional[Sequence["_MeasureField"]]
+    Label: Optional[Sequence["_DimensionField"]]
 
     @classmethod
     def _deserialize(
@@ -7461,6 +7580,7 @@ class ScatterPlotCategoricallyAggregatedFieldWells(BaseModel):
             YAxis=deserialize_list(json_data.get("YAxis"), MeasureField),
             Category=deserialize_list(json_data.get("Category"), DimensionField),
             Size=deserialize_list(json_data.get("Size"), MeasureField),
+            Label=deserialize_list(json_data.get("Label"), DimensionField),
         )
 
 
@@ -7473,6 +7593,8 @@ class ScatterPlotUnaggregatedFieldWells(BaseModel):
     XAxis: Optional[Sequence["_DimensionField"]]
     YAxis: Optional[Sequence["_DimensionField"]]
     Size: Optional[Sequence["_MeasureField"]]
+    Category: Optional[Sequence["_DimensionField"]]
+    Label: Optional[Sequence["_DimensionField"]]
 
     @classmethod
     def _deserialize(
@@ -7485,6 +7607,8 @@ class ScatterPlotUnaggregatedFieldWells(BaseModel):
             XAxis=deserialize_list(json_data.get("XAxis"), DimensionField),
             YAxis=deserialize_list(json_data.get("YAxis"), DimensionField),
             Size=deserialize_list(json_data.get("Size"), MeasureField),
+            Category=deserialize_list(json_data.get("Category"), DimensionField),
+            Label=deserialize_list(json_data.get("Label"), DimensionField),
         )
 
 
@@ -8940,6 +9064,7 @@ class RadarChartConfiguration(BaseModel):
     ColorAxis: Optional["_AxisDisplayOptions"]
     ColorLabelOptions: Optional["_ChartAxisLabelOptions"]
     Legend: Optional["_LegendOptions"]
+    AxesRangeScale: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -8963,6 +9088,7 @@ class RadarChartConfiguration(BaseModel):
             ColorAxis=AxisDisplayOptions._deserialize(json_data.get("ColorAxis")),
             ColorLabelOptions=ChartAxisLabelOptions._deserialize(json_data.get("ColorLabelOptions")),
             Legend=LegendOptions._deserialize(json_data.get("Legend")),
+            AxesRangeScale=json_data.get("AxesRangeScale"),
         )
 
 
@@ -10739,7 +10865,6 @@ class ColumnConfiguration(BaseModel):
     Column: Optional["_ColumnIdentifier"]
     FormatConfiguration: Optional["_FormatConfiguration"]
     Role: Optional[str]
-    ColorsConfiguration: Optional["_ColorsConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -10752,56 +10877,11 @@ class ColumnConfiguration(BaseModel):
             Column=ColumnIdentifier._deserialize(json_data.get("Column")),
             FormatConfiguration=FormatConfiguration._deserialize(json_data.get("FormatConfiguration")),
             Role=json_data.get("Role"),
-            ColorsConfiguration=ColorsConfiguration._deserialize(json_data.get("ColorsConfiguration")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _ColumnConfiguration = ColumnConfiguration
-
-
-@dataclass
-class ColorsConfiguration(BaseModel):
-    CustomColors: Optional[Sequence["_CustomColor"]]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ColorsConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ColorsConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            CustomColors=deserialize_list(json_data.get("CustomColors"), CustomColor),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ColorsConfiguration = ColorsConfiguration
-
-
-@dataclass
-class CustomColor(BaseModel):
-    FieldValue: Optional[str]
-    Color: Optional[str]
-    SpecialValue: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_CustomColor"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_CustomColor"]:
-        if not json_data:
-            return None
-        return cls(
-            FieldValue=json_data.get("FieldValue"),
-            Color=json_data.get("Color"),
-            SpecialValue=json_data.get("SpecialValue"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_CustomColor = CustomColor
 
 
 @dataclass

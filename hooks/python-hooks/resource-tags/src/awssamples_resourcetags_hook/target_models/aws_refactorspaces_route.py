@@ -94,6 +94,7 @@ class UriPathRouteInput(BaseModel):
     ActivationState: Optional[str]
     Methods: Optional[Sequence[str]]
     IncludeChildPaths: Optional[bool]
+    AppendSourcePath: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -107,6 +108,7 @@ class UriPathRouteInput(BaseModel):
             ActivationState=json_data.get("ActivationState"),
             Methods=json_data.get("Methods"),
             IncludeChildPaths=json_data.get("IncludeChildPaths"),
+            AppendSourcePath=json_data.get("AppendSourcePath"),
         )
 
 

@@ -45,6 +45,7 @@ class AwsWafv2Webacl(BaseModel):
     CaptchaConfig: Optional["_CaptchaConfig"]
     ChallengeConfig: Optional["_ChallengeConfig"]
     TokenDomains: Optional[Sequence[str]]
+    AssociationConfig: Optional["_AssociationConfig"]
 
     @classmethod
     def _deserialize(
@@ -71,6 +72,7 @@ class AwsWafv2Webacl(BaseModel):
             CaptchaConfig=CaptchaConfig._deserialize(json_data.get("CaptchaConfig")),
             ChallengeConfig=ChallengeConfig._deserialize(json_data.get("ChallengeConfig")),
             TokenDomains=json_data.get("TokenDomains"),
+            AssociationConfig=AssociationConfig._deserialize(json_data.get("AssociationConfig")),
         )
 
 
@@ -1490,5 +1492,45 @@ class CustomResponseBody(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _CustomResponseBody = CustomResponseBody
+
+
+@dataclass
+class AssociationConfig(BaseModel):
+    RequestBody: Optional[MutableMapping[str, "_RequestBodyAssociatedResourceTypeConfig"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AssociationConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AssociationConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            RequestBody=json_data.get("RequestBody"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AssociationConfig = AssociationConfig
+
+
+@dataclass
+class RequestBodyAssociatedResourceTypeConfig(BaseModel):
+    DefaultSizeInspectionLimit: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RequestBodyAssociatedResourceTypeConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RequestBodyAssociatedResourceTypeConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            DefaultSizeInspectionLimit=json_data.get("DefaultSizeInspectionLimit"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RequestBodyAssociatedResourceTypeConfig = RequestBodyAssociatedResourceTypeConfig
 
 

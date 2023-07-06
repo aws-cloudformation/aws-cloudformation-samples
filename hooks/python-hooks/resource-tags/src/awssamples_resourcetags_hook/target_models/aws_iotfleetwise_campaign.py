@@ -37,6 +37,7 @@ class AwsIotfleetwiseCampaign(BaseModel):
     Description: Optional[str]
     Priority: Optional[int]
     SignalsToCollect: Optional[Sequence["_SignalInformation"]]
+    DataDestinationConfigs: Optional[Sequence["_DataDestinationConfig"]]
     StartTime: Optional[str]
     Name: Optional[str]
     ExpiryTime: Optional[str]
@@ -68,6 +69,7 @@ class AwsIotfleetwiseCampaign(BaseModel):
             Description=json_data.get("Description"),
             Priority=json_data.get("Priority"),
             SignalsToCollect=deserialize_list(json_data.get("SignalsToCollect"), SignalInformation),
+            DataDestinationConfigs=deserialize_list(json_data.get("DataDestinationConfigs"), DataDestinationConfig),
             StartTime=json_data.get("StartTime"),
             Name=json_data.get("Name"),
             ExpiryTime=json_data.get("ExpiryTime"),
@@ -110,6 +112,76 @@ class SignalInformation(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _SignalInformation = SignalInformation
+
+
+@dataclass
+class DataDestinationConfig(BaseModel):
+    S3Config: Optional["_S3Config"]
+    TimestreamConfig: Optional["_TimestreamConfig"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DataDestinationConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DataDestinationConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            S3Config=S3Config._deserialize(json_data.get("S3Config")),
+            TimestreamConfig=TimestreamConfig._deserialize(json_data.get("TimestreamConfig")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DataDestinationConfig = DataDestinationConfig
+
+
+@dataclass
+class S3Config(BaseModel):
+    BucketArn: Optional[str]
+    DataFormat: Optional[str]
+    StorageCompressionFormat: Optional[str]
+    Prefix: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_S3Config"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_S3Config"]:
+        if not json_data:
+            return None
+        return cls(
+            BucketArn=json_data.get("BucketArn"),
+            DataFormat=json_data.get("DataFormat"),
+            StorageCompressionFormat=json_data.get("StorageCompressionFormat"),
+            Prefix=json_data.get("Prefix"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_S3Config = S3Config
+
+
+@dataclass
+class TimestreamConfig(BaseModel):
+    TimestreamTableArn: Optional[str]
+    ExecutionRoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TimestreamConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TimestreamConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            TimestreamTableArn=json_data.get("TimestreamTableArn"),
+            ExecutionRoleArn=json_data.get("ExecutionRoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TimestreamConfig = TimestreamConfig
 
 
 @dataclass

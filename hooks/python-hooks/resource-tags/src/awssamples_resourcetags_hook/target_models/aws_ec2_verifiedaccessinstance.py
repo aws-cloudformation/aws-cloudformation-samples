@@ -94,6 +94,8 @@ _VerifiedAccessTrustProvider = VerifiedAccessTrustProvider
 
 @dataclass
 class VerifiedAccessLogs(BaseModel):
+    LogVersion: Optional[str]
+    IncludeTrustContext: Optional[bool]
     CloudWatchLogs: Optional["_CloudWatchLogs"]
     KinesisDataFirehose: Optional["_KinesisDataFirehose"]
     S3: Optional["_S3"]
@@ -106,6 +108,8 @@ class VerifiedAccessLogs(BaseModel):
         if not json_data:
             return None
         return cls(
+            LogVersion=json_data.get("LogVersion"),
+            IncludeTrustContext=json_data.get("IncludeTrustContext"),
             CloudWatchLogs=CloudWatchLogs._deserialize(json_data.get("CloudWatchLogs")),
             KinesisDataFirehose=KinesisDataFirehose._deserialize(json_data.get("KinesisDataFirehose")),
             S3=S3._deserialize(json_data.get("S3")),

@@ -17,6 +17,14 @@
         ]
     },
     {
+        "name": "AWS::Cognito::IdentityPoolPrincipalTag",
+        "ignored_target_properties": [
+            {
+                "property_name": "PrincipalTags"
+            }
+        ]
+    },
+    {
         "name": "AWS::EC2::TransitGateway",
         "ignored_target_properties": [
             {
@@ -48,6 +56,14 @@
         "ignored_target_properties": [
             {
                 "property_name": "TagValues"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QuickSight::DataSet",
+        "ignored_target_properties": [
+            {
+                "property_name": "RowLevelPermissionTagConfiguration"
             }
         ]
     },

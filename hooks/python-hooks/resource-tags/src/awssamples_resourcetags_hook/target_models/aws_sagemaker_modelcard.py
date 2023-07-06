@@ -95,6 +95,7 @@ _SecurityConfig = SecurityConfig
 @dataclass
 class Content(BaseModel):
     ModelOverview: Optional["_ModelOverview"]
+    ModelPackageDetails: Optional["_ModelPackageDetails"]
     IntendedUses: Optional["_IntendedUses"]
     BusinessDetails: Optional["_BusinessDetails"]
     TrainingDetails: Optional["_TrainingDetails"]
@@ -110,6 +111,7 @@ class Content(BaseModel):
             return None
         return cls(
             ModelOverview=ModelOverview._deserialize(json_data.get("ModelOverview")),
+            ModelPackageDetails=ModelPackageDetails._deserialize(json_data.get("ModelPackageDetails")),
             IntendedUses=IntendedUses._deserialize(json_data.get("IntendedUses")),
             BusinessDetails=BusinessDetails._deserialize(json_data.get("BusinessDetails")),
             TrainingDetails=TrainingDetails._deserialize(json_data.get("TrainingDetails")),
@@ -178,6 +180,136 @@ class InferenceEnvironment(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _InferenceEnvironment = InferenceEnvironment
+
+
+@dataclass
+class ModelPackageDetails(BaseModel):
+    ModelPackageDescription: Optional[str]
+    ModelPackageArn: Optional[str]
+    CreatedBy: Optional["_ModelPackageCreator"]
+    ModelPackageStatus: Optional[str]
+    ModelApprovalStatus: Optional[str]
+    ApprovalDescription: Optional[str]
+    ModelPackageGroupName: Optional[str]
+    ModelPackageName: Optional[str]
+    ModelPackageVersion: Optional[float]
+    Domain: Optional[str]
+    Task: Optional[str]
+    SourceAlgorithms: Optional[Sequence["_SourceAlgorithm"]]
+    InferenceSpecification: Optional["_InferenceSpecification"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ModelPackageDetails"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ModelPackageDetails"]:
+        if not json_data:
+            return None
+        return cls(
+            ModelPackageDescription=json_data.get("ModelPackageDescription"),
+            ModelPackageArn=json_data.get("ModelPackageArn"),
+            CreatedBy=ModelPackageCreator._deserialize(json_data.get("CreatedBy")),
+            ModelPackageStatus=json_data.get("ModelPackageStatus"),
+            ModelApprovalStatus=json_data.get("ModelApprovalStatus"),
+            ApprovalDescription=json_data.get("ApprovalDescription"),
+            ModelPackageGroupName=json_data.get("ModelPackageGroupName"),
+            ModelPackageName=json_data.get("ModelPackageName"),
+            ModelPackageVersion=json_data.get("ModelPackageVersion"),
+            Domain=json_data.get("Domain"),
+            Task=json_data.get("Task"),
+            SourceAlgorithms=deserialize_list(json_data.get("SourceAlgorithms"), SourceAlgorithm),
+            InferenceSpecification=InferenceSpecification._deserialize(json_data.get("InferenceSpecification")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ModelPackageDetails = ModelPackageDetails
+
+
+@dataclass
+class ModelPackageCreator(BaseModel):
+    UserProfileName: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ModelPackageCreator"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ModelPackageCreator"]:
+        if not json_data:
+            return None
+        return cls(
+            UserProfileName=json_data.get("UserProfileName"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ModelPackageCreator = ModelPackageCreator
+
+
+@dataclass
+class SourceAlgorithm(BaseModel):
+    AlgorithmName: Optional[str]
+    ModelDataUrl: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SourceAlgorithm"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SourceAlgorithm"]:
+        if not json_data:
+            return None
+        return cls(
+            AlgorithmName=json_data.get("AlgorithmName"),
+            ModelDataUrl=json_data.get("ModelDataUrl"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SourceAlgorithm = SourceAlgorithm
+
+
+@dataclass
+class InferenceSpecification(BaseModel):
+    Containers: Optional[Sequence["_Container"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_InferenceSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_InferenceSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            Containers=deserialize_list(json_data.get("Containers"), Container),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_InferenceSpecification = InferenceSpecification
+
+
+@dataclass
+class Container(BaseModel):
+    ModelDataUrl: Optional[str]
+    Image: Optional[str]
+    NearestModelName: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Container"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Container"]:
+        if not json_data:
+            return None
+        return cls(
+            ModelDataUrl=json_data.get("ModelDataUrl"),
+            Image=json_data.get("Image"),
+            NearestModelName=json_data.get("NearestModelName"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Container = Container
 
 
 @dataclass

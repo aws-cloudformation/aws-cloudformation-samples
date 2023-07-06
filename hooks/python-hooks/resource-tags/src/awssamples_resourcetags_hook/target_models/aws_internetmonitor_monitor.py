@@ -44,6 +44,7 @@ class AwsInternetmonitorMonitor(BaseModel):
     MaxCityNetworksToMonitor: Optional[int]
     TrafficPercentageToMonitor: Optional[int]
     InternetMeasurementsLogDelivery: Optional["_InternetMeasurementsLogDelivery"]
+    HealthEventsConfig: Optional["_HealthEventsConfig"]
 
     @classmethod
     def _deserialize(
@@ -69,6 +70,7 @@ class AwsInternetmonitorMonitor(BaseModel):
             MaxCityNetworksToMonitor=json_data.get("MaxCityNetworksToMonitor"),
             TrafficPercentageToMonitor=json_data.get("TrafficPercentageToMonitor"),
             InternetMeasurementsLogDelivery=InternetMeasurementsLogDelivery._deserialize(json_data.get("InternetMeasurementsLogDelivery")),
+            HealthEventsConfig=HealthEventsConfig._deserialize(json_data.get("HealthEventsConfig")),
         )
 
 
@@ -140,5 +142,27 @@ class S3Config(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _S3Config = S3Config
+
+
+@dataclass
+class HealthEventsConfig(BaseModel):
+    AvailabilityScoreThreshold: Optional[float]
+    PerformanceScoreThreshold: Optional[float]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_HealthEventsConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_HealthEventsConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            AvailabilityScoreThreshold=json_data.get("AvailabilityScoreThreshold"),
+            PerformanceScoreThreshold=json_data.get("PerformanceScoreThreshold"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_HealthEventsConfig = HealthEventsConfig
 
 

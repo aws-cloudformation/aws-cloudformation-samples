@@ -35,12 +35,14 @@ class AwsNetworkmanagerDevice(BaseModel):
     Description: Optional[str]
     Tags: Optional[Any]
     GlobalNetworkId: Optional[str]
+    AWSLocation: Optional["_AWSLocation"]
     Location: Optional["_Location"]
     Model: Optional[str]
     SerialNumber: Optional[str]
     SiteId: Optional[str]
     Type: Optional[str]
     Vendor: Optional[str]
+    CreatedAt: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -57,12 +59,14 @@ class AwsNetworkmanagerDevice(BaseModel):
             Description=json_data.get("Description"),
             Tags=json_data.get("Tags"),
             GlobalNetworkId=json_data.get("GlobalNetworkId"),
+            AWSLocation=AWSLocation._deserialize(json_data.get("AWSLocation")),
             Location=Location._deserialize(json_data.get("Location")),
             Model=json_data.get("Model"),
             SerialNumber=json_data.get("SerialNumber"),
             SiteId=json_data.get("SiteId"),
             Type=json_data.get("Type"),
             Vendor=json_data.get("Vendor"),
+            CreatedAt=json_data.get("CreatedAt"),
         )
 
 
@@ -90,6 +94,28 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class AWSLocation(BaseModel):
+    Zone: Optional[str]
+    SubnetArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AWSLocation"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AWSLocation"]:
+        if not json_data:
+            return None
+        return cls(
+            Zone=json_data.get("Zone"),
+            SubnetArn=json_data.get("SubnetArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AWSLocation = AWSLocation
 
 
 @dataclass
