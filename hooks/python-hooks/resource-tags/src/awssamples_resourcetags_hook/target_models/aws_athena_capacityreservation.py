@@ -29,99 +29,87 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsAppstreamAppblock(BaseModel):
-    Name: Optional[str]
+class AwsAthenaCapacityreservation(BaseModel):
     Arn: Optional[str]
-    Description: Optional[str]
-    DisplayName: Optional[str]
-    SourceS3Location: Optional["_S3Location"]
-    SetupScriptDetails: Optional["_ScriptDetails"]
+    Name: Optional[str]
+    Status: Optional[str]
+    TargetDpus: Optional[int]
+    AllocatedDpus: Optional[int]
+    CapacityAssignmentConfiguration: Optional["_CapacityAssignmentConfiguration"]
+    CreationTime: Optional[str]
+    LastSuccessfulAllocationTime: Optional[str]
     Tags: Optional[Any]
-    CreatedTime: Optional[str]
-    PackagingType: Optional[str]
-    PostSetupScriptDetails: Optional["_ScriptDetails"]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsAppstreamAppblock"],
+        cls: Type["_AwsAthenaCapacityreservation"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsAppstreamAppblock"]:
+    ) -> Optional["_AwsAthenaCapacityreservation"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Name=json_data.get("Name"),
             Arn=json_data.get("Arn"),
-            Description=json_data.get("Description"),
-            DisplayName=json_data.get("DisplayName"),
-            SourceS3Location=S3Location._deserialize(json_data.get("SourceS3Location")),
-            SetupScriptDetails=ScriptDetails._deserialize(json_data.get("SetupScriptDetails")),
+            Name=json_data.get("Name"),
+            Status=json_data.get("Status"),
+            TargetDpus=json_data.get("TargetDpus"),
+            AllocatedDpus=json_data.get("AllocatedDpus"),
+            CapacityAssignmentConfiguration=CapacityAssignmentConfiguration._deserialize(json_data.get("CapacityAssignmentConfiguration")),
+            CreationTime=json_data.get("CreationTime"),
+            LastSuccessfulAllocationTime=json_data.get("LastSuccessfulAllocationTime"),
             Tags=json_data.get("Tags"),
-            CreatedTime=json_data.get("CreatedTime"),
-            PackagingType=json_data.get("PackagingType"),
-            PostSetupScriptDetails=ScriptDetails._deserialize(json_data.get("PostSetupScriptDetails")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsAppstreamAppblock = AwsAppstreamAppblock
+_AwsAthenaCapacityreservation = AwsAthenaCapacityreservation
 
 
 @dataclass
-class S3Location(BaseModel):
-    S3Bucket: Optional[str]
-    S3Key: Optional[str]
+class CapacityAssignmentConfiguration(BaseModel):
+    CapacityAssignments: Optional[Sequence["_CapacityAssignment"]]
 
     @classmethod
     def _deserialize(
-        cls: Type["_S3Location"],
+        cls: Type["_CapacityAssignmentConfiguration"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_S3Location"]:
+    ) -> Optional["_CapacityAssignmentConfiguration"]:
         if not json_data:
             return None
         return cls(
-            S3Bucket=json_data.get("S3Bucket"),
-            S3Key=json_data.get("S3Key"),
+            CapacityAssignments=deserialize_list(json_data.get("CapacityAssignments"), CapacityAssignment),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_S3Location = S3Location
+_CapacityAssignmentConfiguration = CapacityAssignmentConfiguration
 
 
 @dataclass
-class ScriptDetails(BaseModel):
-    ScriptS3Location: Optional["_S3Location"]
-    ExecutablePath: Optional[str]
-    ExecutableParameters: Optional[str]
-    TimeoutInSeconds: Optional[int]
+class CapacityAssignment(BaseModel):
+    WorkgroupNames: Optional[Sequence[str]]
 
     @classmethod
     def _deserialize(
-        cls: Type["_ScriptDetails"],
+        cls: Type["_CapacityAssignment"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ScriptDetails"]:
+    ) -> Optional["_CapacityAssignment"]:
         if not json_data:
             return None
         return cls(
-            ScriptS3Location=S3Location._deserialize(json_data.get("ScriptS3Location")),
-            ExecutablePath=json_data.get("ExecutablePath"),
-            ExecutableParameters=json_data.get("ExecutableParameters"),
-            TimeoutInSeconds=json_data.get("TimeoutInSeconds"),
+            WorkgroupNames=json_data.get("WorkgroupNames"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_ScriptDetails = ScriptDetails
+_CapacityAssignment = CapacityAssignment
 
 
 @dataclass
 class Tag(BaseModel):
     Key: Optional[str]
     Value: Optional[str]
-    TagKey: Optional[str]
-    TagValue: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -133,8 +121,6 @@ class Tag(BaseModel):
         return cls(
             Key=json_data.get("Key"),
             Value=json_data.get("Value"),
-            TagKey=json_data.get("TagKey"),
-            TagValue=json_data.get("TagValue"),
         )
 
 

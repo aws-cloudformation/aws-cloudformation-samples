@@ -82,7 +82,7 @@ _AwsNetworkmanagerConnectattachment = AwsNetworkmanagerConnectattachment
 
 @dataclass
 class ProposedSegmentChange(BaseModel):
-    Tags: Optional[Sequence["_Tag"]]
+    Tags: Optional[AbstractSet["_Tag"]]
     AttachmentPolicyRuleNumber: Optional[int]
     SegmentName: Optional[str]
 
@@ -94,7 +94,7 @@ class ProposedSegmentChange(BaseModel):
         if not json_data:
             return None
         return cls(
-            Tags=deserialize_list(json_data.get("Tags"), Tag),
+            Tags=set_or_none(json_data.get("Tags")),
             AttachmentPolicyRuleNumber=json_data.get("AttachmentPolicyRuleNumber"),
             SegmentName=json_data.get("SegmentName"),
         )

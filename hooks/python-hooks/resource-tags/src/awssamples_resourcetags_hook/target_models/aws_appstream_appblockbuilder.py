@@ -29,23 +29,26 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsAppstreamAppblock(BaseModel):
+class AwsAppstreamAppblockbuilder(BaseModel):
     Name: Optional[str]
     Arn: Optional[str]
     Description: Optional[str]
     DisplayName: Optional[str]
-    SourceS3Location: Optional["_S3Location"]
-    SetupScriptDetails: Optional["_ScriptDetails"]
+    Platform: Optional[str]
+    AccessEndpoints: Optional[AbstractSet["_AccessEndpoint"]]
     Tags: Optional[Any]
+    VpcConfig: Optional["_VpcConfig"]
+    EnableDefaultInternetAccess: Optional[bool]
+    IamRoleArn: Optional[str]
     CreatedTime: Optional[str]
-    PackagingType: Optional[str]
-    PostSetupScriptDetails: Optional["_ScriptDetails"]
+    InstanceType: Optional[str]
+    AppBlockArns: Optional[AbstractSet[str]]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsAppstreamAppblock"],
+        cls: Type["_AwsAppstreamAppblockbuilder"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsAppstreamAppblock"]:
+    ) -> Optional["_AwsAppstreamAppblockbuilder"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
@@ -55,73 +58,48 @@ class AwsAppstreamAppblock(BaseModel):
             Arn=json_data.get("Arn"),
             Description=json_data.get("Description"),
             DisplayName=json_data.get("DisplayName"),
-            SourceS3Location=S3Location._deserialize(json_data.get("SourceS3Location")),
-            SetupScriptDetails=ScriptDetails._deserialize(json_data.get("SetupScriptDetails")),
+            Platform=json_data.get("Platform"),
+            AccessEndpoints=set_or_none(json_data.get("AccessEndpoints")),
             Tags=json_data.get("Tags"),
+            VpcConfig=VpcConfig._deserialize(json_data.get("VpcConfig")),
+            EnableDefaultInternetAccess=json_data.get("EnableDefaultInternetAccess"),
+            IamRoleArn=json_data.get("IamRoleArn"),
             CreatedTime=json_data.get("CreatedTime"),
-            PackagingType=json_data.get("PackagingType"),
-            PostSetupScriptDetails=ScriptDetails._deserialize(json_data.get("PostSetupScriptDetails")),
+            InstanceType=json_data.get("InstanceType"),
+            AppBlockArns=set_or_none(json_data.get("AppBlockArns")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsAppstreamAppblock = AwsAppstreamAppblock
+_AwsAppstreamAppblockbuilder = AwsAppstreamAppblockbuilder
 
 
 @dataclass
-class S3Location(BaseModel):
-    S3Bucket: Optional[str]
-    S3Key: Optional[str]
+class AccessEndpoint(BaseModel):
+    EndpointType: Optional[str]
+    VpceId: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_S3Location"],
+        cls: Type["_AccessEndpoint"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_S3Location"]:
+    ) -> Optional["_AccessEndpoint"]:
         if not json_data:
             return None
         return cls(
-            S3Bucket=json_data.get("S3Bucket"),
-            S3Key=json_data.get("S3Key"),
+            EndpointType=json_data.get("EndpointType"),
+            VpceId=json_data.get("VpceId"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_S3Location = S3Location
-
-
-@dataclass
-class ScriptDetails(BaseModel):
-    ScriptS3Location: Optional["_S3Location"]
-    ExecutablePath: Optional[str]
-    ExecutableParameters: Optional[str]
-    TimeoutInSeconds: Optional[int]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ScriptDetails"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ScriptDetails"]:
-        if not json_data:
-            return None
-        return cls(
-            ScriptS3Location=S3Location._deserialize(json_data.get("ScriptS3Location")),
-            ExecutablePath=json_data.get("ExecutablePath"),
-            ExecutableParameters=json_data.get("ExecutableParameters"),
-            TimeoutInSeconds=json_data.get("TimeoutInSeconds"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ScriptDetails = ScriptDetails
+_AccessEndpoint = AccessEndpoint
 
 
 @dataclass
 class Tag(BaseModel):
     Key: Optional[str]
     Value: Optional[str]
-    TagKey: Optional[str]
-    TagValue: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -133,12 +111,32 @@ class Tag(BaseModel):
         return cls(
             Key=json_data.get("Key"),
             Value=json_data.get("Value"),
-            TagKey=json_data.get("TagKey"),
-            TagValue=json_data.get("TagValue"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class VpcConfig(BaseModel):
+    SecurityGroupIds: Optional[Sequence[str]]
+    SubnetIds: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_VpcConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_VpcConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            SecurityGroupIds=json_data.get("SecurityGroupIds"),
+            SubnetIds=json_data.get("SubnetIds"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_VpcConfig = VpcConfig
 
 

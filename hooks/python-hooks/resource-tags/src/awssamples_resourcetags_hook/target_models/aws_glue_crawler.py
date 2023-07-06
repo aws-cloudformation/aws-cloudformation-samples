@@ -180,8 +180,11 @@ _S3Target = S3Target
 
 @dataclass
 class CatalogTarget(BaseModel):
+    ConnectionName: Optional[str]
     DatabaseName: Optional[str]
+    DlqEventQueueArn: Optional[str]
     Tables: Optional[Sequence[str]]
+    EventQueueArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -191,8 +194,11 @@ class CatalogTarget(BaseModel):
         if not json_data:
             return None
         return cls(
+            ConnectionName=json_data.get("ConnectionName"),
             DatabaseName=json_data.get("DatabaseName"),
+            DlqEventQueueArn=json_data.get("DlqEventQueueArn"),
             Tables=json_data.get("Tables"),
+            EventQueueArn=json_data.get("EventQueueArn"),
         )
 
 

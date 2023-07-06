@@ -40,6 +40,7 @@ class AwsIvsChannel(BaseModel):
     PlaybackUrl: Optional[str]
     IngestEndpoint: Optional[str]
     RecordingConfigurationArn: Optional[str]
+    Preset: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -61,6 +62,7 @@ class AwsIvsChannel(BaseModel):
             PlaybackUrl=json_data.get("PlaybackUrl"),
             IngestEndpoint=json_data.get("IngestEndpoint"),
             RecordingConfigurationArn=json_data.get("RecordingConfigurationArn"),
+            Preset=json_data.get("Preset"),
         )
 
 

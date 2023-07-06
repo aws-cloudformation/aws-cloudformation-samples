@@ -35,7 +35,7 @@ class AwsEc2Launchtemplate(BaseModel):
     VersionDescription: Optional[str]
     TagSpecifications: Optional[Sequence["_LaunchTemplateTagSpecification"]]
     LatestVersionNumber: Optional[str]
-    Id: Optional[str]
+    LaunchTemplateId: Optional[str]
     DefaultVersionNumber: Optional[str]
 
     @classmethod
@@ -53,7 +53,7 @@ class AwsEc2Launchtemplate(BaseModel):
             VersionDescription=json_data.get("VersionDescription"),
             TagSpecifications=deserialize_list(json_data.get("TagSpecifications"), LaunchTemplateTagSpecification),
             LatestVersionNumber=json_data.get("LatestVersionNumber"),
-            Id=json_data.get("Id"),
+            LaunchTemplateId=json_data.get("LaunchTemplateId"),
             DefaultVersionNumber=json_data.get("DefaultVersionNumber"),
         )
 

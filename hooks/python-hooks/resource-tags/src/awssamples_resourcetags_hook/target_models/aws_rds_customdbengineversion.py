@@ -29,37 +29,43 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEc2Keypair(BaseModel):
-    KeyName: Optional[str]
-    KeyType: Optional[str]
-    KeyFormat: Optional[str]
-    PublicKeyMaterial: Optional[str]
-    KeyFingerprint: Optional[str]
-    KeyPairId: Optional[str]
+class AwsRdsCustomdbengineversion(BaseModel):
+    DatabaseInstallationFilesS3BucketName: Optional[str]
+    DatabaseInstallationFilesS3Prefix: Optional[str]
+    Description: Optional[str]
+    Engine: Optional[str]
+    EngineVersion: Optional[str]
+    KMSKeyId: Optional[str]
+    Manifest: Optional[str]
+    DBEngineVersionArn: Optional[str]
+    Status: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEc2Keypair"],
+        cls: Type["_AwsRdsCustomdbengineversion"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEc2Keypair"]:
+    ) -> Optional["_AwsRdsCustomdbengineversion"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            KeyName=json_data.get("KeyName"),
-            KeyType=json_data.get("KeyType"),
-            KeyFormat=json_data.get("KeyFormat"),
-            PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
-            KeyFingerprint=json_data.get("KeyFingerprint"),
-            KeyPairId=json_data.get("KeyPairId"),
+            DatabaseInstallationFilesS3BucketName=json_data.get("DatabaseInstallationFilesS3BucketName"),
+            DatabaseInstallationFilesS3Prefix=json_data.get("DatabaseInstallationFilesS3Prefix"),
+            Description=json_data.get("Description"),
+            Engine=json_data.get("Engine"),
+            EngineVersion=json_data.get("EngineVersion"),
+            KMSKeyId=json_data.get("KMSKeyId"),
+            Manifest=json_data.get("Manifest"),
+            DBEngineVersionArn=json_data.get("DBEngineVersionArn"),
+            Status=json_data.get("Status"),
             Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEc2Keypair = AwsEc2Keypair
+_AwsRdsCustomdbengineversion = AwsRdsCustomdbengineversion
 
 
 @dataclass

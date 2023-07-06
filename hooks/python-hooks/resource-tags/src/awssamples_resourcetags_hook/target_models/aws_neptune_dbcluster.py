@@ -36,8 +36,10 @@ class AwsNeptuneDbcluster(BaseModel):
     AssociatedRoles: Optional[Sequence["_DBClusterRole"]]
     AvailabilityZones: Optional[Sequence[str]]
     BackupRetentionPeriod: Optional[int]
+    CopyTagsToSnapshot: Optional[bool]
     DBClusterIdentifier: Optional[str]
     DBClusterParameterGroupName: Optional[str]
+    DBInstanceParameterGroupName: Optional[str]
     DBSubnetGroupName: Optional[str]
     DeletionProtection: Optional[bool]
     EnableCloudwatchLogsExports: Optional[Sequence[str]]
@@ -49,6 +51,7 @@ class AwsNeptuneDbcluster(BaseModel):
     PreferredMaintenanceWindow: Optional[str]
     RestoreToTime: Optional[str]
     RestoreType: Optional[str]
+    ServerlessScalingConfiguration: Optional["_ServerlessScalingConfiguration"]
     SnapshotIdentifier: Optional[str]
     SourceDBClusterIdentifier: Optional[str]
     StorageEncrypted: Optional[bool]
@@ -72,8 +75,10 @@ class AwsNeptuneDbcluster(BaseModel):
             AssociatedRoles=deserialize_list(json_data.get("AssociatedRoles"), DBClusterRole),
             AvailabilityZones=json_data.get("AvailabilityZones"),
             BackupRetentionPeriod=json_data.get("BackupRetentionPeriod"),
+            CopyTagsToSnapshot=json_data.get("CopyTagsToSnapshot"),
             DBClusterIdentifier=json_data.get("DBClusterIdentifier"),
             DBClusterParameterGroupName=json_data.get("DBClusterParameterGroupName"),
+            DBInstanceParameterGroupName=json_data.get("DBInstanceParameterGroupName"),
             DBSubnetGroupName=json_data.get("DBSubnetGroupName"),
             DeletionProtection=json_data.get("DeletionProtection"),
             EnableCloudwatchLogsExports=json_data.get("EnableCloudwatchLogsExports"),
@@ -85,6 +90,7 @@ class AwsNeptuneDbcluster(BaseModel):
             PreferredMaintenanceWindow=json_data.get("PreferredMaintenanceWindow"),
             RestoreToTime=json_data.get("RestoreToTime"),
             RestoreType=json_data.get("RestoreType"),
+            ServerlessScalingConfiguration=ServerlessScalingConfiguration._deserialize(json_data.get("ServerlessScalingConfiguration")),
             SnapshotIdentifier=json_data.get("SnapshotIdentifier"),
             SourceDBClusterIdentifier=json_data.get("SourceDBClusterIdentifier"),
             StorageEncrypted=json_data.get("StorageEncrypted"),
@@ -118,6 +124,28 @@ class DBClusterRole(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _DBClusterRole = DBClusterRole
+
+
+@dataclass
+class ServerlessScalingConfiguration(BaseModel):
+    MinCapacity: Optional[float]
+    MaxCapacity: Optional[float]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ServerlessScalingConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ServerlessScalingConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            MinCapacity=json_data.get("MinCapacity"),
+            MaxCapacity=json_data.get("MaxCapacity"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ServerlessScalingConfiguration = ServerlessScalingConfiguration
 
 
 @dataclass

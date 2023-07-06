@@ -29,37 +29,39 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEc2Keypair(BaseModel):
-    KeyName: Optional[str]
-    KeyType: Optional[str]
-    KeyFormat: Optional[str]
-    PublicKeyMaterial: Optional[str]
-    KeyFingerprint: Optional[str]
-    KeyPairId: Optional[str]
+class AwsApprunnerAutoscalingconfiguration(BaseModel):
+    AutoScalingConfigurationArn: Optional[str]
+    AutoScalingConfigurationName: Optional[str]
+    AutoScalingConfigurationRevision: Optional[int]
+    MaxConcurrency: Optional[int]
+    MaxSize: Optional[int]
+    MinSize: Optional[int]
+    Latest: Optional[bool]
     Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEc2Keypair"],
+        cls: Type["_AwsApprunnerAutoscalingconfiguration"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEc2Keypair"]:
+    ) -> Optional["_AwsApprunnerAutoscalingconfiguration"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            KeyName=json_data.get("KeyName"),
-            KeyType=json_data.get("KeyType"),
-            KeyFormat=json_data.get("KeyFormat"),
-            PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
-            KeyFingerprint=json_data.get("KeyFingerprint"),
-            KeyPairId=json_data.get("KeyPairId"),
+            AutoScalingConfigurationArn=json_data.get("AutoScalingConfigurationArn"),
+            AutoScalingConfigurationName=json_data.get("AutoScalingConfigurationName"),
+            AutoScalingConfigurationRevision=json_data.get("AutoScalingConfigurationRevision"),
+            MaxConcurrency=json_data.get("MaxConcurrency"),
+            MaxSize=json_data.get("MaxSize"),
+            MinSize=json_data.get("MinSize"),
+            Latest=json_data.get("Latest"),
             Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEc2Keypair = AwsEc2Keypair
+_AwsApprunnerAutoscalingconfiguration = AwsApprunnerAutoscalingconfiguration
 
 
 @dataclass

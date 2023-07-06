@@ -70,6 +70,7 @@ class ResourceMapping(BaseModel):
     MappingType: Optional[str]
     ResourceName: Optional[str]
     TerraformSourceName: Optional[str]
+    EksSourceName: Optional[str]
     PhysicalResourceId: Optional["_PhysicalResourceId"]
 
     @classmethod
@@ -84,6 +85,7 @@ class ResourceMapping(BaseModel):
             MappingType=json_data.get("MappingType"),
             ResourceName=json_data.get("ResourceName"),
             TerraformSourceName=json_data.get("TerraformSourceName"),
+            EksSourceName=json_data.get("EksSourceName"),
             PhysicalResourceId=PhysicalResourceId._deserialize(json_data.get("PhysicalResourceId")),
         )
 

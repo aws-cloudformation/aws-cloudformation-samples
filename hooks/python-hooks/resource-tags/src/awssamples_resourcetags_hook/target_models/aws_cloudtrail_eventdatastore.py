@@ -42,6 +42,7 @@ class AwsCloudtrailEventdatastore(BaseModel):
     UpdatedTimestamp: Optional[str]
     KmsKeyId: Optional[str]
     Tags: Optional[Any]
+    IngestionEnabled: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -65,6 +66,7 @@ class AwsCloudtrailEventdatastore(BaseModel):
             UpdatedTimestamp=json_data.get("UpdatedTimestamp"),
             KmsKeyId=json_data.get("KmsKeyId"),
             Tags=json_data.get("Tags"),
+            IngestionEnabled=json_data.get("IngestionEnabled"),
         )
 
 

@@ -106,6 +106,7 @@ class ClusterConfig(BaseModel):
     WarmType: Optional[str]
     ZoneAwarenessEnabled: Optional[bool]
     DedicatedMasterType: Optional[str]
+    MultiAZWithStandbyEnabled: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -125,6 +126,7 @@ class ClusterConfig(BaseModel):
             WarmType=json_data.get("WarmType"),
             ZoneAwarenessEnabled=json_data.get("ZoneAwarenessEnabled"),
             DedicatedMasterType=json_data.get("DedicatedMasterType"),
+            MultiAZWithStandbyEnabled=json_data.get("MultiAZWithStandbyEnabled"),
         )
 
 

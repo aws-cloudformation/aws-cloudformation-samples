@@ -35,6 +35,7 @@ class AwsAppflowFlow(BaseModel):
     Description: Optional[str]
     KMSArn: Optional[str]
     TriggerConfig: Optional["_TriggerConfig"]
+    FlowStatus: Optional[str]
     SourceFlowConfig: Optional["_SourceFlowConfig"]
     DestinationFlowConfigList: Optional[Sequence["_DestinationFlowConfig"]]
     Tasks: Optional[Sequence["_Task"]]
@@ -56,6 +57,7 @@ class AwsAppflowFlow(BaseModel):
             Description=json_data.get("Description"),
             KMSArn=json_data.get("KMSArn"),
             TriggerConfig=TriggerConfig._deserialize(json_data.get("TriggerConfig")),
+            FlowStatus=json_data.get("FlowStatus"),
             SourceFlowConfig=SourceFlowConfig._deserialize(json_data.get("SourceFlowConfig")),
             DestinationFlowConfigList=deserialize_list(json_data.get("DestinationFlowConfigList"), DestinationFlowConfig),
             Tasks=deserialize_list(json_data.get("Tasks"), Task),
@@ -72,7 +74,6 @@ _AwsAppflowFlow = AwsAppflowFlow
 class TriggerConfig(BaseModel):
     TriggerType: Optional[str]
     TriggerProperties: Optional["_ScheduledTriggerProperties"]
-    ActivateFlowOnCreate: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -84,7 +85,6 @@ class TriggerConfig(BaseModel):
         return cls(
             TriggerType=json_data.get("TriggerType"),
             TriggerProperties=ScheduledTriggerProperties._deserialize(json_data.get("TriggerProperties")),
-            ActivateFlowOnCreate=json_data.get("ActivateFlowOnCreate"),
         )
 
 
@@ -568,6 +568,7 @@ _ZendeskSourceProperties = ZendeskSourceProperties
 class CustomConnectorSourceProperties(BaseModel):
     EntityName: Optional[str]
     CustomProperties: Optional[MutableMapping[str, str]]
+    DataTransferApi: Optional["_DataTransferApi"]
 
     @classmethod
     def _deserialize(
@@ -579,11 +580,34 @@ class CustomConnectorSourceProperties(BaseModel):
         return cls(
             EntityName=json_data.get("EntityName"),
             CustomProperties=json_data.get("CustomProperties"),
+            DataTransferApi=DataTransferApi._deserialize(json_data.get("DataTransferApi")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _CustomConnectorSourceProperties = CustomConnectorSourceProperties
+
+
+@dataclass
+class DataTransferApi(BaseModel):
+    Name: Optional[str]
+    Type: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DataTransferApi"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DataTransferApi"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            Type=json_data.get("Type"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DataTransferApi = DataTransferApi
 
 
 @dataclass

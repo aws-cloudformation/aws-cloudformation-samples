@@ -34,6 +34,7 @@ class AwsOmicsSequencestore(BaseModel):
     CreationTime: Optional[str]
     Description: Optional[str]
     Name: Optional[str]
+    FallbackLocation: Optional[str]
     SequenceStoreId: Optional[str]
     SseConfig: Optional["_SseConfig"]
     Tags: Optional[Any]
@@ -52,6 +53,7 @@ class AwsOmicsSequencestore(BaseModel):
             CreationTime=json_data.get("CreationTime"),
             Description=json_data.get("Description"),
             Name=json_data.get("Name"),
+            FallbackLocation=json_data.get("FallbackLocation"),
             SequenceStoreId=json_data.get("SequenceStoreId"),
             SseConfig=SseConfig._deserialize(json_data.get("SseConfig")),
             Tags=json_data.get("Tags"),

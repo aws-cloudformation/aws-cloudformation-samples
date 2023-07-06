@@ -37,6 +37,7 @@ class AwsM2Application(BaseModel):
     EngineType: Optional[str]
     KmsKeyId: Optional[str]
     Name: Optional[str]
+    RoleArn: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -56,6 +57,7 @@ class AwsM2Application(BaseModel):
             EngineType=json_data.get("EngineType"),
             KmsKeyId=json_data.get("KmsKeyId"),
             Name=json_data.get("Name"),
+            RoleArn=json_data.get("RoleArn"),
             Tags=json_data.get("Tags"),
         )
 

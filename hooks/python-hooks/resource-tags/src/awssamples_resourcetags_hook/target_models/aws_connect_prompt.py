@@ -29,37 +29,35 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEc2Keypair(BaseModel):
-    KeyName: Optional[str]
-    KeyType: Optional[str]
-    KeyFormat: Optional[str]
-    PublicKeyMaterial: Optional[str]
-    KeyFingerprint: Optional[str]
-    KeyPairId: Optional[str]
+class AwsConnectPrompt(BaseModel):
+    InstanceArn: Optional[str]
+    Name: Optional[str]
+    Description: Optional[str]
+    S3Uri: Optional[str]
+    PromptArn: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEc2Keypair"],
+        cls: Type["_AwsConnectPrompt"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEc2Keypair"]:
+    ) -> Optional["_AwsConnectPrompt"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            KeyName=json_data.get("KeyName"),
-            KeyType=json_data.get("KeyType"),
-            KeyFormat=json_data.get("KeyFormat"),
-            PublicKeyMaterial=json_data.get("PublicKeyMaterial"),
-            KeyFingerprint=json_data.get("KeyFingerprint"),
-            KeyPairId=json_data.get("KeyPairId"),
+            InstanceArn=json_data.get("InstanceArn"),
+            Name=json_data.get("Name"),
+            Description=json_data.get("Description"),
+            S3Uri=json_data.get("S3Uri"),
+            PromptArn=json_data.get("PromptArn"),
             Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEc2Keypair = AwsEc2Keypair
+_AwsConnectPrompt = AwsConnectPrompt
 
 
 @dataclass

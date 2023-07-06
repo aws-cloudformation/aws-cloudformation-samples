@@ -100,6 +100,8 @@ _S3Location = S3Location
 
 @dataclass
 class Tag(BaseModel):
+    Key: Optional[str]
+    Value: Optional[str]
     TagKey: Optional[str]
     TagValue: Optional[str]
 
@@ -111,6 +113,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
+            Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
             TagKey=json_data.get("TagKey"),
             TagValue=json_data.get("TagValue"),
         )

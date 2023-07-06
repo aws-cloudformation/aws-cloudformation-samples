@@ -207,6 +207,7 @@ _RdsParameters = RdsParameters
 @dataclass
 class AthenaParameters(BaseModel):
     WorkGroup: Optional[str]
+    RoleArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -217,6 +218,7 @@ class AthenaParameters(BaseModel):
             return None
         return cls(
             WorkGroup=json_data.get("WorkGroup"),
+            RoleArn=json_data.get("RoleArn"),
         )
 
 
@@ -507,6 +509,7 @@ _AuroraParameters = AuroraParameters
 @dataclass
 class S3Parameters(BaseModel):
     ManifestFileLocation: Optional["_ManifestFileLocation"]
+    RoleArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -517,6 +520,7 @@ class S3Parameters(BaseModel):
             return None
         return cls(
             ManifestFileLocation=ManifestFileLocation._deserialize(json_data.get("ManifestFileLocation")),
+            RoleArn=json_data.get("RoleArn"),
         )
 
 

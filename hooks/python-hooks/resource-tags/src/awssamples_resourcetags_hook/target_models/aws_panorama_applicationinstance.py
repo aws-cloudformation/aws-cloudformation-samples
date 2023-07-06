@@ -30,22 +30,20 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsPanoramaApplicationinstance(BaseModel):
-    Name: Optional[str]
-    Description: Optional[str]
-    ManifestPayload: Optional["_ManifestPayload"]
-    ManifestOverridesPayload: Optional["_ManifestOverridesPayload"]
-    RuntimeRoleArn: Optional[str]
-    DefaultRuntimeContextDevice: Optional[str]
     DefaultRuntimeContextDeviceName: Optional[str]
-    ApplicationInstanceId: Optional[str]
-    ApplicationInstanceIdToReplace: Optional[str]
-    DeviceId: Optional[str]
-    StatusFilter: Optional[str]
     Status: Optional[str]
-    HealthStatus: Optional[str]
-    StatusDescription: Optional[str]
+    DefaultRuntimeContextDevice: Optional[str]
+    Description: Optional[str]
+    ApplicationInstanceIdToReplace: Optional[str]
     CreatedTime: Optional[int]
+    HealthStatus: Optional[str]
+    ManifestOverridesPayload: Optional["_ManifestOverridesPayload"]
     LastUpdatedTime: Optional[int]
+    RuntimeRoleArn: Optional[str]
+    Name: Optional[str]
+    ApplicationInstanceId: Optional[str]
+    StatusDescription: Optional[str]
+    ManifestPayload: Optional["_ManifestPayload"]
     Arn: Optional[str]
     Tags: Optional[Any]
 
@@ -59,22 +57,20 @@ class AwsPanoramaApplicationinstance(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Name=json_data.get("Name"),
-            Description=json_data.get("Description"),
-            ManifestPayload=ManifestPayload._deserialize(json_data.get("ManifestPayload")),
-            ManifestOverridesPayload=ManifestOverridesPayload._deserialize(json_data.get("ManifestOverridesPayload")),
-            RuntimeRoleArn=json_data.get("RuntimeRoleArn"),
-            DefaultRuntimeContextDevice=json_data.get("DefaultRuntimeContextDevice"),
             DefaultRuntimeContextDeviceName=json_data.get("DefaultRuntimeContextDeviceName"),
-            ApplicationInstanceId=json_data.get("ApplicationInstanceId"),
-            ApplicationInstanceIdToReplace=json_data.get("ApplicationInstanceIdToReplace"),
-            DeviceId=json_data.get("DeviceId"),
-            StatusFilter=json_data.get("StatusFilter"),
             Status=json_data.get("Status"),
-            HealthStatus=json_data.get("HealthStatus"),
-            StatusDescription=json_data.get("StatusDescription"),
+            DefaultRuntimeContextDevice=json_data.get("DefaultRuntimeContextDevice"),
+            Description=json_data.get("Description"),
+            ApplicationInstanceIdToReplace=json_data.get("ApplicationInstanceIdToReplace"),
             CreatedTime=json_data.get("CreatedTime"),
+            HealthStatus=json_data.get("HealthStatus"),
+            ManifestOverridesPayload=ManifestOverridesPayload._deserialize(json_data.get("ManifestOverridesPayload")),
             LastUpdatedTime=json_data.get("LastUpdatedTime"),
+            RuntimeRoleArn=json_data.get("RuntimeRoleArn"),
+            Name=json_data.get("Name"),
+            ApplicationInstanceId=json_data.get("ApplicationInstanceId"),
+            StatusDescription=json_data.get("StatusDescription"),
+            ManifestPayload=ManifestPayload._deserialize(json_data.get("ManifestPayload")),
             Arn=json_data.get("Arn"),
             Tags=json_data.get("Tags"),
         )
@@ -82,26 +78,6 @@ class AwsPanoramaApplicationinstance(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _AwsPanoramaApplicationinstance = AwsPanoramaApplicationinstance
-
-
-@dataclass
-class ManifestPayload(BaseModel):
-    PayloadData: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ManifestPayload"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ManifestPayload"]:
-        if not json_data:
-            return None
-        return cls(
-            PayloadData=json_data.get("PayloadData"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ManifestPayload = ManifestPayload
 
 
 @dataclass
@@ -125,9 +101,29 @@ _ManifestOverridesPayload = ManifestOverridesPayload
 
 
 @dataclass
+class ManifestPayload(BaseModel):
+    PayloadData: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ManifestPayload"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ManifestPayload"]:
+        if not json_data:
+            return None
+        return cls(
+            PayloadData=json_data.get("PayloadData"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ManifestPayload = ManifestPayload
+
+
+@dataclass
 class Tag(BaseModel):
-    Key: Optional[str]
     Value: Optional[str]
+    Key: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -137,8 +133,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Key=json_data.get("Key"),
             Value=json_data.get("Value"),
+            Key=json_data.get("Key"),
         )
 
 

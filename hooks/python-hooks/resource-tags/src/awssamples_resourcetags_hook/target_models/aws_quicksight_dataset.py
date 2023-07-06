@@ -37,6 +37,7 @@ class AwsQuicksightDataset(BaseModel):
     ConsumedSpiceCapacityInBytes: Optional[float]
     CreatedTime: Optional[str]
     DataSetId: Optional[str]
+    DatasetParameters: Optional[Sequence["_DatasetParameter"]]
     FieldFolders: Optional[MutableMapping[str, "_FieldFolder"]]
     ImportMode: Optional[str]
     LastUpdatedTime: Optional[str]
@@ -46,9 +47,11 @@ class AwsQuicksightDataset(BaseModel):
     Permissions: Optional[Sequence["_ResourcePermission"]]
     PhysicalTableMap: Optional[MutableMapping[str, "_PhysicalTable"]]
     RowLevelPermissionDataSet: Optional["_RowLevelPermissionDataSet"]
+    RowLevelPermissionTagConfiguration: Optional["_RowLevelPermissionTagConfiguration"]
     Tags: Optional[Any]
     IngestionWaitPolicy: Optional["_IngestionWaitPolicy"]
     DataSetUsageConfiguration: Optional["_DataSetUsageConfiguration"]
+    DataSetRefreshProperties: Optional["_DataSetRefreshProperties"]
 
     @classmethod
     def _deserialize(
@@ -67,6 +70,7 @@ class AwsQuicksightDataset(BaseModel):
             ConsumedSpiceCapacityInBytes=json_data.get("ConsumedSpiceCapacityInBytes"),
             CreatedTime=json_data.get("CreatedTime"),
             DataSetId=json_data.get("DataSetId"),
+            DatasetParameters=deserialize_list(json_data.get("DatasetParameters"), DatasetParameter),
             FieldFolders=json_data.get("FieldFolders"),
             ImportMode=json_data.get("ImportMode"),
             LastUpdatedTime=json_data.get("LastUpdatedTime"),
@@ -76,9 +80,11 @@ class AwsQuicksightDataset(BaseModel):
             Permissions=deserialize_list(json_data.get("Permissions"), ResourcePermission),
             PhysicalTableMap=json_data.get("PhysicalTableMap"),
             RowLevelPermissionDataSet=RowLevelPermissionDataSet._deserialize(json_data.get("RowLevelPermissionDataSet")),
+            RowLevelPermissionTagConfiguration=RowLevelPermissionTagConfiguration._deserialize(json_data.get("RowLevelPermissionTagConfiguration")),
             Tags=json_data.get("Tags"),
             IngestionWaitPolicy=IngestionWaitPolicy._deserialize(json_data.get("IngestionWaitPolicy")),
             DataSetUsageConfiguration=DataSetUsageConfiguration._deserialize(json_data.get("DataSetUsageConfiguration")),
+            DataSetRefreshProperties=DataSetRefreshProperties._deserialize(json_data.get("DataSetRefreshProperties")),
         )
 
 
@@ -153,6 +159,218 @@ _ColumnLevelPermissionRule = ColumnLevelPermissionRule
 
 
 @dataclass
+class DatasetParameter(BaseModel):
+    StringDatasetParameter: Optional["_StringDatasetParameter"]
+    DecimalDatasetParameter: Optional["_DecimalDatasetParameter"]
+    IntegerDatasetParameter: Optional["_IntegerDatasetParameter"]
+    DateTimeDatasetParameter: Optional["_DateTimeDatasetParameter"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DatasetParameter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DatasetParameter"]:
+        if not json_data:
+            return None
+        return cls(
+            StringDatasetParameter=StringDatasetParameter._deserialize(json_data.get("StringDatasetParameter")),
+            DecimalDatasetParameter=DecimalDatasetParameter._deserialize(json_data.get("DecimalDatasetParameter")),
+            IntegerDatasetParameter=IntegerDatasetParameter._deserialize(json_data.get("IntegerDatasetParameter")),
+            DateTimeDatasetParameter=DateTimeDatasetParameter._deserialize(json_data.get("DateTimeDatasetParameter")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DatasetParameter = DatasetParameter
+
+
+@dataclass
+class StringDatasetParameter(BaseModel):
+    Id: Optional[str]
+    Name: Optional[str]
+    ValueType: Optional[str]
+    DefaultValues: Optional["_StringDatasetParameterDefaultValues"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_StringDatasetParameter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_StringDatasetParameter"]:
+        if not json_data:
+            return None
+        return cls(
+            Id=json_data.get("Id"),
+            Name=json_data.get("Name"),
+            ValueType=json_data.get("ValueType"),
+            DefaultValues=StringDatasetParameterDefaultValues._deserialize(json_data.get("DefaultValues")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_StringDatasetParameter = StringDatasetParameter
+
+
+@dataclass
+class StringDatasetParameterDefaultValues(BaseModel):
+    StaticValues: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_StringDatasetParameterDefaultValues"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_StringDatasetParameterDefaultValues"]:
+        if not json_data:
+            return None
+        return cls(
+            StaticValues=json_data.get("StaticValues"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_StringDatasetParameterDefaultValues = StringDatasetParameterDefaultValues
+
+
+@dataclass
+class DecimalDatasetParameter(BaseModel):
+    Id: Optional[str]
+    Name: Optional[str]
+    ValueType: Optional[str]
+    DefaultValues: Optional["_DecimalDatasetParameterDefaultValues"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DecimalDatasetParameter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DecimalDatasetParameter"]:
+        if not json_data:
+            return None
+        return cls(
+            Id=json_data.get("Id"),
+            Name=json_data.get("Name"),
+            ValueType=json_data.get("ValueType"),
+            DefaultValues=DecimalDatasetParameterDefaultValues._deserialize(json_data.get("DefaultValues")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DecimalDatasetParameter = DecimalDatasetParameter
+
+
+@dataclass
+class DecimalDatasetParameterDefaultValues(BaseModel):
+    StaticValues: Optional[Sequence[float]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DecimalDatasetParameterDefaultValues"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DecimalDatasetParameterDefaultValues"]:
+        if not json_data:
+            return None
+        return cls(
+            StaticValues=json_data.get("StaticValues"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DecimalDatasetParameterDefaultValues = DecimalDatasetParameterDefaultValues
+
+
+@dataclass
+class IntegerDatasetParameter(BaseModel):
+    Id: Optional[str]
+    Name: Optional[str]
+    ValueType: Optional[str]
+    DefaultValues: Optional["_IntegerDatasetParameterDefaultValues"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_IntegerDatasetParameter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_IntegerDatasetParameter"]:
+        if not json_data:
+            return None
+        return cls(
+            Id=json_data.get("Id"),
+            Name=json_data.get("Name"),
+            ValueType=json_data.get("ValueType"),
+            DefaultValues=IntegerDatasetParameterDefaultValues._deserialize(json_data.get("DefaultValues")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_IntegerDatasetParameter = IntegerDatasetParameter
+
+
+@dataclass
+class IntegerDatasetParameterDefaultValues(BaseModel):
+    StaticValues: Optional[Sequence[float]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_IntegerDatasetParameterDefaultValues"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_IntegerDatasetParameterDefaultValues"]:
+        if not json_data:
+            return None
+        return cls(
+            StaticValues=json_data.get("StaticValues"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_IntegerDatasetParameterDefaultValues = IntegerDatasetParameterDefaultValues
+
+
+@dataclass
+class DateTimeDatasetParameter(BaseModel):
+    Id: Optional[str]
+    Name: Optional[str]
+    ValueType: Optional[str]
+    TimeGranularity: Optional[str]
+    DefaultValues: Optional["_DateTimeDatasetParameterDefaultValues"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DateTimeDatasetParameter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DateTimeDatasetParameter"]:
+        if not json_data:
+            return None
+        return cls(
+            Id=json_data.get("Id"),
+            Name=json_data.get("Name"),
+            ValueType=json_data.get("ValueType"),
+            TimeGranularity=json_data.get("TimeGranularity"),
+            DefaultValues=DateTimeDatasetParameterDefaultValues._deserialize(json_data.get("DefaultValues")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DateTimeDatasetParameter = DateTimeDatasetParameter
+
+
+@dataclass
+class DateTimeDatasetParameterDefaultValues(BaseModel):
+    StaticValues: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DateTimeDatasetParameterDefaultValues"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DateTimeDatasetParameterDefaultValues"]:
+        if not json_data:
+            return None
+        return cls(
+            StaticValues=json_data.get("StaticValues"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DateTimeDatasetParameterDefaultValues = DateTimeDatasetParameterDefaultValues
+
+
+@dataclass
 class FieldFolder(BaseModel):
     Description: Optional[str]
     Columns: Optional[Sequence[str]]
@@ -206,6 +424,7 @@ class TransformOperation(BaseModel):
     CreateColumnsOperation: Optional["_CreateColumnsOperation"]
     RenameColumnOperation: Optional["_RenameColumnOperation"]
     ProjectOperation: Optional["_ProjectOperation"]
+    OverrideDatasetParameterOperation: Optional["_OverrideDatasetParameterOperation"]
 
     @classmethod
     def _deserialize(
@@ -221,6 +440,7 @@ class TransformOperation(BaseModel):
             CreateColumnsOperation=CreateColumnsOperation._deserialize(json_data.get("CreateColumnsOperation")),
             RenameColumnOperation=RenameColumnOperation._deserialize(json_data.get("RenameColumnOperation")),
             ProjectOperation=ProjectOperation._deserialize(json_data.get("ProjectOperation")),
+            OverrideDatasetParameterOperation=OverrideDatasetParameterOperation._deserialize(json_data.get("OverrideDatasetParameterOperation")),
         )
 
 
@@ -420,6 +640,56 @@ class ProjectOperation(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _ProjectOperation = ProjectOperation
+
+
+@dataclass
+class OverrideDatasetParameterOperation(BaseModel):
+    ParameterName: Optional[str]
+    NewParameterName: Optional[str]
+    NewDefaultValues: Optional["_NewDefaultValues"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_OverrideDatasetParameterOperation"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_OverrideDatasetParameterOperation"]:
+        if not json_data:
+            return None
+        return cls(
+            ParameterName=json_data.get("ParameterName"),
+            NewParameterName=json_data.get("NewParameterName"),
+            NewDefaultValues=NewDefaultValues._deserialize(json_data.get("NewDefaultValues")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_OverrideDatasetParameterOperation = OverrideDatasetParameterOperation
+
+
+@dataclass
+class NewDefaultValues(BaseModel):
+    StringStaticValues: Optional[Sequence[str]]
+    DecimalStaticValues: Optional[Sequence[float]]
+    DateTimeStaticValues: Optional[Sequence[str]]
+    IntegerStaticValues: Optional[Sequence[float]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_NewDefaultValues"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_NewDefaultValues"]:
+        if not json_data:
+            return None
+        return cls(
+            StringStaticValues=json_data.get("StringStaticValues"),
+            DecimalStaticValues=json_data.get("DecimalStaticValues"),
+            DateTimeStaticValues=json_data.get("DateTimeStaticValues"),
+            IntegerStaticValues=json_data.get("IntegerStaticValues"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_NewDefaultValues = NewDefaultValues
 
 
 @dataclass
@@ -700,6 +970,7 @@ class RowLevelPermissionDataSet(BaseModel):
     Namespace: Optional[str]
     PermissionPolicy: Optional[str]
     FormatVersion: Optional[str]
+    Status: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -713,11 +984,62 @@ class RowLevelPermissionDataSet(BaseModel):
             Namespace=json_data.get("Namespace"),
             PermissionPolicy=json_data.get("PermissionPolicy"),
             FormatVersion=json_data.get("FormatVersion"),
+            Status=json_data.get("Status"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _RowLevelPermissionDataSet = RowLevelPermissionDataSet
+
+
+@dataclass
+class RowLevelPermissionTagConfiguration(BaseModel):
+    Status: Optional[str]
+    TagRules: Optional[Sequence["_RowLevelPermissionTagRule"]]
+    TagRuleConfigurations: Optional[Sequence[Sequence[str]]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RowLevelPermissionTagConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RowLevelPermissionTagConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Status=json_data.get("Status"),
+            TagRules=deserialize_list(json_data.get("TagRules"), RowLevelPermissionTagRule),
+            TagRuleConfigurations=json_data.get("TagRuleConfigurations"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RowLevelPermissionTagConfiguration = RowLevelPermissionTagConfiguration
+
+
+@dataclass
+class RowLevelPermissionTagRule(BaseModel):
+    ColumnName: Optional[str]
+    TagKey: Optional[str]
+    MatchAllValue: Optional[str]
+    TagMultiValueDelimiter: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RowLevelPermissionTagRule"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RowLevelPermissionTagRule"]:
+        if not json_data:
+            return None
+        return cls(
+            ColumnName=json_data.get("ColumnName"),
+            TagKey=json_data.get("TagKey"),
+            MatchAllValue=json_data.get("MatchAllValue"),
+            TagMultiValueDelimiter=json_data.get("TagMultiValueDelimiter"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RowLevelPermissionTagRule = RowLevelPermissionTagRule
 
 
 @dataclass
@@ -784,5 +1106,89 @@ class DataSetUsageConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _DataSetUsageConfiguration = DataSetUsageConfiguration
+
+
+@dataclass
+class DataSetRefreshProperties(BaseModel):
+    RefreshConfiguration: Optional["_RefreshConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DataSetRefreshProperties"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DataSetRefreshProperties"]:
+        if not json_data:
+            return None
+        return cls(
+            RefreshConfiguration=RefreshConfiguration._deserialize(json_data.get("RefreshConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DataSetRefreshProperties = DataSetRefreshProperties
+
+
+@dataclass
+class RefreshConfiguration(BaseModel):
+    IncrementalRefresh: Optional["_IncrementalRefresh"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RefreshConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RefreshConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            IncrementalRefresh=IncrementalRefresh._deserialize(json_data.get("IncrementalRefresh")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RefreshConfiguration = RefreshConfiguration
+
+
+@dataclass
+class IncrementalRefresh(BaseModel):
+    LookbackWindow: Optional["_LookbackWindow"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_IncrementalRefresh"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_IncrementalRefresh"]:
+        if not json_data:
+            return None
+        return cls(
+            LookbackWindow=LookbackWindow._deserialize(json_data.get("LookbackWindow")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_IncrementalRefresh = IncrementalRefresh
+
+
+@dataclass
+class LookbackWindow(BaseModel):
+    ColumnName: Optional[str]
+    Size: Optional[float]
+    SizeUnit: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LookbackWindow"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LookbackWindow"]:
+        if not json_data:
+            return None
+        return cls(
+            ColumnName=json_data.get("ColumnName"),
+            Size=json_data.get("Size"),
+            SizeUnit=json_data.get("SizeUnit"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LookbackWindow = LookbackWindow
 
 

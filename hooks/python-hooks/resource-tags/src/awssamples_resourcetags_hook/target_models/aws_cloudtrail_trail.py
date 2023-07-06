@@ -33,6 +33,7 @@ class AwsCloudtrailTrail(BaseModel):
     CloudWatchLogsLogGroupArn: Optional[str]
     CloudWatchLogsRoleArn: Optional[str]
     EnableLogFileValidation: Optional[bool]
+    AdvancedEventSelectors: Optional[AbstractSet["_AdvancedEventSelector"]]
     EventSelectors: Optional[AbstractSet["_EventSelector"]]
     IncludeGlobalServiceEvents: Optional[bool]
     IsLogging: Optional[bool]
@@ -61,6 +62,7 @@ class AwsCloudtrailTrail(BaseModel):
             CloudWatchLogsLogGroupArn=json_data.get("CloudWatchLogsLogGroupArn"),
             CloudWatchLogsRoleArn=json_data.get("CloudWatchLogsRoleArn"),
             EnableLogFileValidation=json_data.get("EnableLogFileValidation"),
+            AdvancedEventSelectors=set_or_none(json_data.get("AdvancedEventSelectors")),
             EventSelectors=set_or_none(json_data.get("EventSelectors")),
             IncludeGlobalServiceEvents=json_data.get("IncludeGlobalServiceEvents"),
             IsLogging=json_data.get("IsLogging"),
@@ -80,6 +82,60 @@ class AwsCloudtrailTrail(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _AwsCloudtrailTrail = AwsCloudtrailTrail
+
+
+@dataclass
+class AdvancedEventSelector(BaseModel):
+    Name: Optional[str]
+    FieldSelectors: Optional[AbstractSet["_AdvancedFieldSelector"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AdvancedEventSelector"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AdvancedEventSelector"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            FieldSelectors=set_or_none(json_data.get("FieldSelectors")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AdvancedEventSelector = AdvancedEventSelector
+
+
+@dataclass
+class AdvancedFieldSelector(BaseModel):
+    Field: Optional[str]
+    Equals: Optional[AbstractSet[str]]
+    StartsWith: Optional[AbstractSet[str]]
+    EndsWith: Optional[AbstractSet[str]]
+    NotEquals: Optional[AbstractSet[str]]
+    NotStartsWith: Optional[AbstractSet[str]]
+    NotEndsWith: Optional[AbstractSet[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AdvancedFieldSelector"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AdvancedFieldSelector"]:
+        if not json_data:
+            return None
+        return cls(
+            Field=json_data.get("Field"),
+            Equals=set_or_none(json_data.get("Equals")),
+            StartsWith=set_or_none(json_data.get("StartsWith")),
+            EndsWith=set_or_none(json_data.get("EndsWith")),
+            NotEquals=set_or_none(json_data.get("NotEquals")),
+            NotStartsWith=set_or_none(json_data.get("NotStartsWith")),
+            NotEndsWith=set_or_none(json_data.get("NotEndsWith")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AdvancedFieldSelector = AdvancedFieldSelector
 
 
 @dataclass

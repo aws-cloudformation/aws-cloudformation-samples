@@ -102,9 +102,9 @@ _ThemeConfiguration = ThemeConfiguration
 
 @dataclass
 class DataColorPalette(BaseModel):
-    EmptyFillColor: Optional[str]
     Colors: Optional[Sequence[str]]
     MinMaxGradient: Optional[Sequence[str]]
+    EmptyFillColor: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -114,9 +114,9 @@ class DataColorPalette(BaseModel):
         if not json_data:
             return None
         return cls(
-            EmptyFillColor=json_data.get("EmptyFillColor"),
             Colors=json_data.get("Colors"),
             MinMaxGradient=json_data.get("MinMaxGradient"),
+            EmptyFillColor=json_data.get("EmptyFillColor"),
         )
 
 
@@ -126,20 +126,20 @@ _DataColorPalette = DataColorPalette
 
 @dataclass
 class UIColorPalette(BaseModel):
-    Warning: Optional[str]
+    PrimaryForeground: Optional[str]
+    PrimaryBackground: Optional[str]
+    SecondaryForeground: Optional[str]
+    SecondaryBackground: Optional[str]
     Accent: Optional[str]
     AccentForeground: Optional[str]
-    SecondaryBackground: Optional[str]
-    DangerForeground: Optional[str]
-    PrimaryBackground: Optional[str]
-    Dimension: Optional[str]
-    SecondaryForeground: Optional[str]
-    WarningForeground: Optional[str]
-    DimensionForeground: Optional[str]
-    PrimaryForeground: Optional[str]
-    Success: Optional[str]
     Danger: Optional[str]
+    DangerForeground: Optional[str]
+    Warning: Optional[str]
+    WarningForeground: Optional[str]
+    Success: Optional[str]
     SuccessForeground: Optional[str]
+    Dimension: Optional[str]
+    DimensionForeground: Optional[str]
     Measure: Optional[str]
     MeasureForeground: Optional[str]
 
@@ -151,20 +151,20 @@ class UIColorPalette(BaseModel):
         if not json_data:
             return None
         return cls(
-            Warning=json_data.get("Warning"),
+            PrimaryForeground=json_data.get("PrimaryForeground"),
+            PrimaryBackground=json_data.get("PrimaryBackground"),
+            SecondaryForeground=json_data.get("SecondaryForeground"),
+            SecondaryBackground=json_data.get("SecondaryBackground"),
             Accent=json_data.get("Accent"),
             AccentForeground=json_data.get("AccentForeground"),
-            SecondaryBackground=json_data.get("SecondaryBackground"),
-            DangerForeground=json_data.get("DangerForeground"),
-            PrimaryBackground=json_data.get("PrimaryBackground"),
-            Dimension=json_data.get("Dimension"),
-            SecondaryForeground=json_data.get("SecondaryForeground"),
-            WarningForeground=json_data.get("WarningForeground"),
-            DimensionForeground=json_data.get("DimensionForeground"),
-            PrimaryForeground=json_data.get("PrimaryForeground"),
-            Success=json_data.get("Success"),
             Danger=json_data.get("Danger"),
+            DangerForeground=json_data.get("DangerForeground"),
+            Warning=json_data.get("Warning"),
+            WarningForeground=json_data.get("WarningForeground"),
+            Success=json_data.get("Success"),
             SuccessForeground=json_data.get("SuccessForeground"),
+            Dimension=json_data.get("Dimension"),
+            DimensionForeground=json_data.get("DimensionForeground"),
             Measure=json_data.get("Measure"),
             MeasureForeground=json_data.get("MeasureForeground"),
         )
@@ -176,8 +176,8 @@ _UIColorPalette = UIColorPalette
 
 @dataclass
 class SheetStyle(BaseModel):
-    TileLayout: Optional["_TileLayoutStyle"]
     Tile: Optional["_TileStyle"]
+    TileLayout: Optional["_TileLayoutStyle"]
 
     @classmethod
     def _deserialize(
@@ -187,13 +187,53 @@ class SheetStyle(BaseModel):
         if not json_data:
             return None
         return cls(
-            TileLayout=TileLayoutStyle._deserialize(json_data.get("TileLayout")),
             Tile=TileStyle._deserialize(json_data.get("Tile")),
+            TileLayout=TileLayoutStyle._deserialize(json_data.get("TileLayout")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _SheetStyle = SheetStyle
+
+
+@dataclass
+class TileStyle(BaseModel):
+    Border: Optional["_BorderStyle"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TileStyle"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TileStyle"]:
+        if not json_data:
+            return None
+        return cls(
+            Border=BorderStyle._deserialize(json_data.get("Border")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TileStyle = TileStyle
+
+
+@dataclass
+class BorderStyle(BaseModel):
+    Show: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_BorderStyle"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_BorderStyle"]:
+        if not json_data:
+            return None
+        return cls(
+            Show=json_data.get("Show"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_BorderStyle = BorderStyle
 
 
 @dataclass
@@ -259,46 +299,6 @@ _MarginStyle = MarginStyle
 
 
 @dataclass
-class TileStyle(BaseModel):
-    Border: Optional["_BorderStyle"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_TileStyle"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_TileStyle"]:
-        if not json_data:
-            return None
-        return cls(
-            Border=BorderStyle._deserialize(json_data.get("Border")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_TileStyle = TileStyle
-
-
-@dataclass
-class BorderStyle(BaseModel):
-    Show: Optional[bool]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_BorderStyle"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_BorderStyle"]:
-        if not json_data:
-            return None
-        return cls(
-            Show=json_data.get("Show"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_BorderStyle = BorderStyle
-
-
-@dataclass
 class Typography(BaseModel):
     FontFamilies: Optional[Sequence["_Font"]]
 
@@ -340,8 +340,9 @@ _Font = Font
 
 @dataclass
 class ResourcePermission(BaseModel):
-    Actions: Optional[Sequence[str]]
     Principal: Optional[str]
+    Resource: Optional[str]
+    Actions: Optional[Sequence[str]]
 
     @classmethod
     def _deserialize(
@@ -351,8 +352,9 @@ class ResourcePermission(BaseModel):
         if not json_data:
             return None
         return cls(
-            Actions=json_data.get("Actions"),
             Principal=json_data.get("Principal"),
+            Resource=json_data.get("Resource"),
+            Actions=json_data.get("Actions"),
         )
 
 
@@ -362,8 +364,8 @@ _ResourcePermission = ResourcePermission
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -373,8 +375,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 
@@ -384,14 +386,14 @@ _Tag = Tag
 
 @dataclass
 class ThemeVersion(BaseModel):
-    Status: Optional[str]
-    Errors: Optional[Sequence["_ThemeError"]]
+    VersionNumber: Optional[float]
+    Arn: Optional[str]
     Description: Optional[str]
+    BaseThemeId: Optional[str]
     CreatedTime: Optional[str]
     Configuration: Optional["_ThemeConfiguration"]
-    BaseThemeId: Optional[str]
-    Arn: Optional[str]
-    VersionNumber: Optional[float]
+    Errors: Optional[Sequence["_ThemeError"]]
+    Status: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -401,14 +403,14 @@ class ThemeVersion(BaseModel):
         if not json_data:
             return None
         return cls(
-            Status=json_data.get("Status"),
-            Errors=deserialize_list(json_data.get("Errors"), ThemeError),
+            VersionNumber=json_data.get("VersionNumber"),
+            Arn=json_data.get("Arn"),
             Description=json_data.get("Description"),
+            BaseThemeId=json_data.get("BaseThemeId"),
             CreatedTime=json_data.get("CreatedTime"),
             Configuration=ThemeConfiguration._deserialize(json_data.get("Configuration")),
-            BaseThemeId=json_data.get("BaseThemeId"),
-            Arn=json_data.get("Arn"),
-            VersionNumber=json_data.get("VersionNumber"),
+            Errors=deserialize_list(json_data.get("Errors"), ThemeError),
+            Status=json_data.get("Status"),
         )
 
 

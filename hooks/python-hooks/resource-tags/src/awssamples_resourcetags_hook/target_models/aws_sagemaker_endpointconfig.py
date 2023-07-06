@@ -110,6 +110,7 @@ _ProductionVariant = ProductionVariant
 class ServerlessConfig(BaseModel):
     MaxConcurrency: Optional[int]
     MemorySizeInMB: Optional[int]
+    ProvisionedConcurrency: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -121,6 +122,7 @@ class ServerlessConfig(BaseModel):
         return cls(
             MaxConcurrency=json_data.get("MaxConcurrency"),
             MemorySizeInMB=json_data.get("MemorySizeInMB"),
+            ProvisionedConcurrency=json_data.get("ProvisionedConcurrency"),
         )
 
 

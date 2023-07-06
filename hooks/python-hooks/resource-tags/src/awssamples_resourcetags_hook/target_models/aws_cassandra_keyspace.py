@@ -32,6 +32,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 class AwsCassandraKeyspace(BaseModel):
     KeyspaceName: Optional[str]
     Tags: Optional[Any]
+    ReplicationSpecification: Optional["_ReplicationSpecification"]
 
     @classmethod
     def _deserialize(
@@ -45,6 +46,7 @@ class AwsCassandraKeyspace(BaseModel):
         return cls(
             KeyspaceName=json_data.get("KeyspaceName"),
             Tags=json_data.get("Tags"),
+            ReplicationSpecification=ReplicationSpecification._deserialize(json_data.get("ReplicationSpecification")),
         )
 
 
@@ -72,5 +74,27 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class ReplicationSpecification(BaseModel):
+    ReplicationStrategy: Optional[str]
+    RegionList: Optional[AbstractSet[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ReplicationSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ReplicationSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            ReplicationStrategy=json_data.get("ReplicationStrategy"),
+            RegionList=set_or_none(json_data.get("RegionList")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ReplicationSpecification = ReplicationSpecification
 
 
