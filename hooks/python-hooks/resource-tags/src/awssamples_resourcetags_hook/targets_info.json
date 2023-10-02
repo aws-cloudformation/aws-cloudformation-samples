@@ -681,6 +681,15 @@
         ]
     },
     {
+        "name": "AWS::CleanRooms::AnalysisTemplate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CleanRooms::Collaboration",
         "tags_info": [
             {
@@ -1032,7 +1041,25 @@
         ]
     },
     {
+        "name": "AWS::Connect::Queue",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Connect::QuickConnect",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Connect::RoutingProfile",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1050,6 +1077,23 @@
         ]
     },
     {
+        "name": "AWS::Connect::SecurityProfile",
+        "tags_info": [
+            {
+                "property_name": "AllowedAccessControlTags",
+                "property_type": "array"
+            },
+            {
+                "property_name": "TagRestrictedResources",
+                "property_type": "array"
+            },
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Connect::TaskTemplate",
         "tags_info": [
             {
@@ -1059,7 +1103,25 @@
         ]
     },
     {
+        "name": "AWS::Connect::TrafficDistributionGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Connect::User",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Connect::View",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1150,6 +1212,15 @@
     },
     {
         "name": "AWS::DMS::EventSubscription",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::DMS::ReplicationConfig",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1249,6 +1320,15 @@
     },
     {
         "name": "AWS::DataSync::Agent",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::DataSync::LocationAzureBlob",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1569,6 +1649,15 @@
             {
                 "property_name": "PropagateTagsToVolumeOnCreation",
                 "property_type": "boolean"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::InstanceConnectEndpoint",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
             }
         ]
     },
@@ -2051,6 +2140,15 @@
         ]
     },
     {
+        "name": "AWS::EMR::WALWorkspace",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::EMRContainers::VirtualCluster",
         "tags_info": [
             {
@@ -2169,6 +2267,24 @@
     },
     {
         "name": "AWS::Elasticsearch::Domain",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EntityResolution::MatchingWorkflow",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EntityResolution::SchemaMapping",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2708,6 +2824,15 @@
             {
                 "property_name": "Tags",
                 "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::HealthImaging::Datastore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
             }
         ]
     },
@@ -3674,6 +3799,24 @@
         ]
     },
     {
+        "name": "AWS::Macie::CustomDataIdentifier",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Macie::FindingsFilter",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ManagedBlockchain::Accessor",
         "tags_info": [
             {
@@ -3782,6 +3925,33 @@
         ]
     },
     {
+        "name": "AWS::MediaPackageV2::Channel",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MediaPackageV2::ChannelGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MediaPackageV2::OriginEndpoint",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::MediaStore::Container",
         "tags_info": [
             {
@@ -3791,7 +3961,43 @@
         ]
     },
     {
+        "name": "AWS::MediaTailor::Channel",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MediaTailor::LiveSource",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::MediaTailor::PlaybackConfiguration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MediaTailor::SourceLocation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MediaTailor::VodSource",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4210,6 +4416,33 @@
             {
                 "property_name": "Tags",
                 "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::PCAConnectorAD::Connector",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::PCAConnectorAD::DirectoryRegistration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::PCAConnectorAD::Template",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
             }
         ]
     },
@@ -4890,6 +5123,15 @@
     },
     {
         "name": "AWS::Route53Resolver::FirewallRuleGroupAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Route53Resolver::OutpostResolver",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -5709,6 +5951,69 @@
     },
     {
         "name": "AWS::WorkSpaces::Workspace",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesWeb::BrowserSettings",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesWeb::IpAccessSettings",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesWeb::NetworkSettings",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesWeb::Portal",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesWeb::TrustStore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesWeb::UserAccessLoggingSettings",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesWeb::UserSettings",
         "tags_info": [
             {
                 "property_name": "Tags",

@@ -126,6 +126,7 @@ class Targets(BaseModel):
     MongoDBTargets: Optional[Sequence["_MongoDBTarget"]]
     JdbcTargets: Optional[Sequence["_JdbcTarget"]]
     DynamoDBTargets: Optional[Sequence["_DynamoDBTarget"]]
+    IcebergTargets: Optional[Sequence["_IcebergTarget"]]
 
     @classmethod
     def _deserialize(
@@ -141,6 +142,7 @@ class Targets(BaseModel):
             MongoDBTargets=deserialize_list(json_data.get("MongoDBTargets"), MongoDBTarget),
             JdbcTargets=deserialize_list(json_data.get("JdbcTargets"), JdbcTarget),
             DynamoDBTargets=deserialize_list(json_data.get("DynamoDBTargets"), DynamoDBTarget),
+            IcebergTargets=deserialize_list(json_data.get("IcebergTargets"), IcebergTarget),
         )
 
 
@@ -296,6 +298,32 @@ class DynamoDBTarget(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _DynamoDBTarget = DynamoDBTarget
+
+
+@dataclass
+class IcebergTarget(BaseModel):
+    ConnectionName: Optional[str]
+    Paths: Optional[Sequence[str]]
+    Exclusions: Optional[Sequence[str]]
+    MaximumTraversalDepth: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_IcebergTarget"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_IcebergTarget"]:
+        if not json_data:
+            return None
+        return cls(
+            ConnectionName=json_data.get("ConnectionName"),
+            Paths=json_data.get("Paths"),
+            Exclusions=json_data.get("Exclusions"),
+            MaximumTraversalDepth=json_data.get("MaximumTraversalDepth"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_IcebergTarget = IcebergTarget
 
 
 @dataclass

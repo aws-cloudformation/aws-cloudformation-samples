@@ -37,7 +37,9 @@ class AwsLightsailContainer(BaseModel):
     PublicDomainNames: Optional[AbstractSet["_PublicDomainName"]]
     ContainerServiceDeployment: Optional["_ContainerServiceDeployment"]
     IsDisabled: Optional[bool]
+    PrivateRegistryAccess: Optional["_PrivateRegistryAccess"]
     Url: Optional[str]
+    PrincipalArn: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -57,7 +59,9 @@ class AwsLightsailContainer(BaseModel):
             PublicDomainNames=set_or_none(json_data.get("PublicDomainNames")),
             ContainerServiceDeployment=ContainerServiceDeployment._deserialize(json_data.get("ContainerServiceDeployment")),
             IsDisabled=json_data.get("IsDisabled"),
+            PrivateRegistryAccess=PrivateRegistryAccess._deserialize(json_data.get("PrivateRegistryAccess")),
             Url=json_data.get("Url"),
+            PrincipalArn=json_data.get("PrincipalArn"),
             Tags=json_data.get("Tags"),
         )
 
@@ -234,6 +238,48 @@ class HealthCheckConfig(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _HealthCheckConfig = HealthCheckConfig
+
+
+@dataclass
+class PrivateRegistryAccess(BaseModel):
+    EcrImagePullerRole: Optional["_EcrImagePullerRole"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PrivateRegistryAccess"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PrivateRegistryAccess"]:
+        if not json_data:
+            return None
+        return cls(
+            EcrImagePullerRole=EcrImagePullerRole._deserialize(json_data.get("EcrImagePullerRole")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PrivateRegistryAccess = PrivateRegistryAccess
+
+
+@dataclass
+class EcrImagePullerRole(BaseModel):
+    IsActive: Optional[bool]
+    PrincipalArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EcrImagePullerRole"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EcrImagePullerRole"]:
+        if not json_data:
+            return None
+        return cls(
+            IsActive=json_data.get("IsActive"),
+            PrincipalArn=json_data.get("PrincipalArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EcrImagePullerRole = EcrImagePullerRole
 
 
 @dataclass

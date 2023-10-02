@@ -34,6 +34,7 @@ class AwsOmicsRungroup(BaseModel):
     CreationTime: Optional[str]
     Id: Optional[str]
     MaxCpus: Optional[float]
+    MaxGpus: Optional[float]
     MaxDuration: Optional[float]
     MaxRuns: Optional[float]
     Name: Optional[str]
@@ -53,6 +54,7 @@ class AwsOmicsRungroup(BaseModel):
             CreationTime=json_data.get("CreationTime"),
             Id=json_data.get("Id"),
             MaxCpus=json_data.get("MaxCpus"),
+            MaxGpus=json_data.get("MaxGpus"),
             MaxDuration=json_data.get("MaxDuration"),
             MaxRuns=json_data.get("MaxRuns"),
             Name=json_data.get("Name"),

@@ -31,6 +31,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsEc2Flowlog(BaseModel):
     Id: Optional[str]
+    DeliverCrossAccountRole: Optional[str]
     DeliverLogsPermissionArn: Optional[str]
     LogDestination: Optional[str]
     LogDestinationType: Optional[str]
@@ -54,6 +55,7 @@ class AwsEc2Flowlog(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             Id=json_data.get("Id"),
+            DeliverCrossAccountRole=json_data.get("DeliverCrossAccountRole"),
             DeliverLogsPermissionArn=json_data.get("DeliverLogsPermissionArn"),
             LogDestination=json_data.get("LogDestination"),
             LogDestinationType=json_data.get("LogDestinationType"),

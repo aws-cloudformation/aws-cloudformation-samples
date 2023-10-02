@@ -35,12 +35,14 @@ class AwsKmsKey(BaseModel):
     EnableKeyRotation: Optional[bool]
     KeyPolicy: Optional[Any]
     KeyUsage: Optional[str]
+    Origin: Optional[str]
     KeySpec: Optional[str]
     MultiRegion: Optional[bool]
     PendingWindowInDays: Optional[int]
     Tags: Optional[Any]
     Arn: Optional[str]
     KeyId: Optional[str]
+    BypassPolicyLockoutSafetyCheck: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -57,12 +59,14 @@ class AwsKmsKey(BaseModel):
             EnableKeyRotation=json_data.get("EnableKeyRotation"),
             KeyPolicy=json_data.get("KeyPolicy"),
             KeyUsage=json_data.get("KeyUsage"),
+            Origin=json_data.get("Origin"),
             KeySpec=json_data.get("KeySpec"),
             MultiRegion=json_data.get("MultiRegion"),
             PendingWindowInDays=json_data.get("PendingWindowInDays"),
             Tags=json_data.get("Tags"),
             Arn=json_data.get("Arn"),
             KeyId=json_data.get("KeyId"),
+            BypassPolicyLockoutSafetyCheck=json_data.get("BypassPolicyLockoutSafetyCheck"),
         )
 
 

@@ -40,6 +40,7 @@ class AwsNeptuneDbcluster(BaseModel):
     DBClusterIdentifier: Optional[str]
     DBClusterParameterGroupName: Optional[str]
     DBInstanceParameterGroupName: Optional[str]
+    DBPort: Optional[int]
     DBSubnetGroupName: Optional[str]
     DeletionProtection: Optional[bool]
     EnableCloudwatchLogsExports: Optional[Sequence[str]]
@@ -79,6 +80,7 @@ class AwsNeptuneDbcluster(BaseModel):
             DBClusterIdentifier=json_data.get("DBClusterIdentifier"),
             DBClusterParameterGroupName=json_data.get("DBClusterParameterGroupName"),
             DBInstanceParameterGroupName=json_data.get("DBInstanceParameterGroupName"),
+            DBPort=json_data.get("DBPort"),
             DBSubnetGroupName=json_data.get("DBSubnetGroupName"),
             DeletionProtection=json_data.get("DeletionProtection"),
             EnableCloudwatchLogsExports=json_data.get("EnableCloudwatchLogsExports"),

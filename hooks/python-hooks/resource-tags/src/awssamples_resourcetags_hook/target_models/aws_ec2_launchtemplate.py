@@ -188,9 +188,9 @@ _Tag = Tag
 
 @dataclass
 class BlockDeviceMapping(BaseModel):
+    Ebs: Optional["_Ebs"]
     NoDevice: Optional[str]
     VirtualName: Optional[str]
-    Ebs: Optional["_Ebs"]
     DeviceName: Optional[str]
 
     @classmethod
@@ -201,9 +201,9 @@ class BlockDeviceMapping(BaseModel):
         if not json_data:
             return None
         return cls(
+            Ebs=Ebs._deserialize(json_data.get("Ebs")),
             NoDevice=json_data.get("NoDevice"),
             VirtualName=json_data.get("VirtualName"),
-            Ebs=Ebs._deserialize(json_data.get("Ebs")),
             DeviceName=json_data.get("DeviceName"),
         )
 
@@ -375,6 +375,7 @@ class NetworkInterface(BaseModel):
     Ipv6PrefixCount: Optional[int]
     Ipv4Prefixes: Optional[Sequence["_Ipv4PrefixSpecification"]]
     DeviceIndex: Optional[int]
+    PrimaryIpv6: Optional[bool]
     Ipv4PrefixCount: Optional[int]
     Ipv6Prefixes: Optional[Sequence["_Ipv6PrefixSpecification"]]
     SubnetId: Optional[str]
@@ -403,6 +404,7 @@ class NetworkInterface(BaseModel):
             Ipv6PrefixCount=json_data.get("Ipv6PrefixCount"),
             Ipv4Prefixes=deserialize_list(json_data.get("Ipv4Prefixes"), Ipv4PrefixSpecification),
             DeviceIndex=json_data.get("DeviceIndex"),
+            PrimaryIpv6=json_data.get("PrimaryIpv6"),
             Ipv4PrefixCount=json_data.get("Ipv4PrefixCount"),
             Ipv6Prefixes=deserialize_list(json_data.get("Ipv6Prefixes"), Ipv6PrefixSpecification),
             SubnetId=json_data.get("SubnetId"),
@@ -638,9 +640,9 @@ _CpuOptions = CpuOptions
 
 @dataclass
 class PrivateDnsNameOptions(BaseModel):
+    EnableResourceNameDnsARecord: Optional[bool]
     HostnameType: Optional[str]
     EnableResourceNameDnsAAAARecord: Optional[bool]
-    EnableResourceNameDnsARecord: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -650,9 +652,9 @@ class PrivateDnsNameOptions(BaseModel):
         if not json_data:
             return None
         return cls(
+            EnableResourceNameDnsARecord=json_data.get("EnableResourceNameDnsARecord"),
             HostnameType=json_data.get("HostnameType"),
             EnableResourceNameDnsAAAARecord=json_data.get("EnableResourceNameDnsAAAARecord"),
-            EnableResourceNameDnsARecord=json_data.get("EnableResourceNameDnsARecord"),
         )
 
 
@@ -684,9 +686,9 @@ _InstanceMarketOptions = InstanceMarketOptions
 
 @dataclass
 class SpotOptions(BaseModel):
+    SpotInstanceType: Optional[str]
     InstanceInterruptionBehavior: Optional[str]
     MaxPrice: Optional[str]
-    SpotInstanceType: Optional[str]
     BlockDurationMinutes: Optional[int]
     ValidUntil: Optional[str]
 
@@ -698,9 +700,9 @@ class SpotOptions(BaseModel):
         if not json_data:
             return None
         return cls(
+            SpotInstanceType=json_data.get("SpotInstanceType"),
             InstanceInterruptionBehavior=json_data.get("InstanceInterruptionBehavior"),
             MaxPrice=json_data.get("MaxPrice"),
-            SpotInstanceType=json_data.get("SpotInstanceType"),
             BlockDurationMinutes=json_data.get("BlockDurationMinutes"),
             ValidUntil=json_data.get("ValidUntil"),
         )
@@ -776,8 +778,8 @@ _InstanceRequirements = InstanceRequirements
 
 @dataclass
 class NetworkInterfaceCount(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -787,8 +789,8 @@ class NetworkInterfaceCount(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -798,8 +800,8 @@ _NetworkInterfaceCount = NetworkInterfaceCount
 
 @dataclass
 class MemoryGiBPerVCpu(BaseModel):
-    Max: Optional[float]
     Min: Optional[float]
+    Max: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -809,8 +811,8 @@ class MemoryGiBPerVCpu(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -820,8 +822,8 @@ _MemoryGiBPerVCpu = MemoryGiBPerVCpu
 
 @dataclass
 class VCpuCount(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -831,8 +833,8 @@ class VCpuCount(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -842,8 +844,8 @@ _VCpuCount = VCpuCount
 
 @dataclass
 class AcceleratorCount(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -853,8 +855,8 @@ class AcceleratorCount(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -864,8 +866,8 @@ _AcceleratorCount = AcceleratorCount
 
 @dataclass
 class NetworkBandwidthGbps(BaseModel):
-    Max: Optional[float]
     Min: Optional[float]
+    Max: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -875,8 +877,8 @@ class NetworkBandwidthGbps(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -886,8 +888,8 @@ _NetworkBandwidthGbps = NetworkBandwidthGbps
 
 @dataclass
 class BaselineEbsBandwidthMbps(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -897,8 +899,8 @@ class BaselineEbsBandwidthMbps(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -908,8 +910,8 @@ _BaselineEbsBandwidthMbps = BaselineEbsBandwidthMbps
 
 @dataclass
 class AcceleratorTotalMemoryMiB(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -919,8 +921,8 @@ class AcceleratorTotalMemoryMiB(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -930,8 +932,8 @@ _AcceleratorTotalMemoryMiB = AcceleratorTotalMemoryMiB
 
 @dataclass
 class MemoryMiB(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -941,8 +943,8 @@ class MemoryMiB(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -952,8 +954,8 @@ _MemoryMiB = MemoryMiB
 
 @dataclass
 class TotalLocalStorageGB(BaseModel):
-    Max: Optional[float]
     Min: Optional[float]
+    Max: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -963,8 +965,8 @@ class TotalLocalStorageGB(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -974,8 +976,8 @@ _TotalLocalStorageGB = TotalLocalStorageGB
 
 @dataclass
 class CapacityReservationSpecification(BaseModel):
-    CapacityReservationTarget: Optional["_CapacityReservationTarget"]
     CapacityReservationPreference: Optional[str]
+    CapacityReservationTarget: Optional["_CapacityReservationTarget"]
 
     @classmethod
     def _deserialize(
@@ -985,8 +987,8 @@ class CapacityReservationSpecification(BaseModel):
         if not json_data:
             return None
         return cls(
-            CapacityReservationTarget=CapacityReservationTarget._deserialize(json_data.get("CapacityReservationTarget")),
             CapacityReservationPreference=json_data.get("CapacityReservationPreference"),
+            CapacityReservationTarget=CapacityReservationTarget._deserialize(json_data.get("CapacityReservationTarget")),
         )
 
 

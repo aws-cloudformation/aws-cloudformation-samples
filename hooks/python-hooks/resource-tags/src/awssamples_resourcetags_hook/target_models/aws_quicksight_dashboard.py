@@ -514,6 +514,7 @@ _ParameterDateTimePickerControl = ParameterDateTimePickerControl
 class DateTimePickerControlDisplayOptions(BaseModel):
     TitleOptions: Optional["_LabelOptions"]
     DateTimeFormat: Optional[str]
+    InfoIconLabelOptions: Optional["_SheetControlInfoIconLabelOptions"]
 
     @classmethod
     def _deserialize(
@@ -525,6 +526,7 @@ class DateTimePickerControlDisplayOptions(BaseModel):
         return cls(
             TitleOptions=LabelOptions._deserialize(json_data.get("TitleOptions")),
             DateTimeFormat=json_data.get("DateTimeFormat"),
+            InfoIconLabelOptions=SheetControlInfoIconLabelOptions._deserialize(json_data.get("InfoIconLabelOptions")),
         )
 
 
@@ -625,6 +627,28 @@ _FontWeight = FontWeight
 
 
 @dataclass
+class SheetControlInfoIconLabelOptions(BaseModel):
+    Visibility: Optional[str]
+    InfoIconText: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SheetControlInfoIconLabelOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SheetControlInfoIconLabelOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            Visibility=json_data.get("Visibility"),
+            InfoIconText=json_data.get("InfoIconText"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SheetControlInfoIconLabelOptions = SheetControlInfoIconLabelOptions
+
+
+@dataclass
 class ParameterListControl(BaseModel):
     ParameterControlId: Optional[str]
     Title: Optional[str]
@@ -661,6 +685,7 @@ class ListControlDisplayOptions(BaseModel):
     SearchOptions: Optional["_ListControlSearchOptions"]
     SelectAllOptions: Optional["_ListControlSelectAllOptions"]
     TitleOptions: Optional["_LabelOptions"]
+    InfoIconLabelOptions: Optional["_SheetControlInfoIconLabelOptions"]
 
     @classmethod
     def _deserialize(
@@ -673,6 +698,7 @@ class ListControlDisplayOptions(BaseModel):
             SearchOptions=ListControlSearchOptions._deserialize(json_data.get("SearchOptions")),
             SelectAllOptions=ListControlSelectAllOptions._deserialize(json_data.get("SelectAllOptions")),
             TitleOptions=LabelOptions._deserialize(json_data.get("TitleOptions")),
+            InfoIconLabelOptions=SheetControlInfoIconLabelOptions._deserialize(json_data.get("InfoIconLabelOptions")),
         )
 
 
@@ -842,6 +868,7 @@ _ParameterDropDownControl = ParameterDropDownControl
 class DropDownControlDisplayOptions(BaseModel):
     SelectAllOptions: Optional["_ListControlSelectAllOptions"]
     TitleOptions: Optional["_LabelOptions"]
+    InfoIconLabelOptions: Optional["_SheetControlInfoIconLabelOptions"]
 
     @classmethod
     def _deserialize(
@@ -853,6 +880,7 @@ class DropDownControlDisplayOptions(BaseModel):
         return cls(
             SelectAllOptions=ListControlSelectAllOptions._deserialize(json_data.get("SelectAllOptions")),
             TitleOptions=LabelOptions._deserialize(json_data.get("TitleOptions")),
+            InfoIconLabelOptions=SheetControlInfoIconLabelOptions._deserialize(json_data.get("InfoIconLabelOptions")),
         )
 
 
@@ -890,6 +918,7 @@ _ParameterTextFieldControl = ParameterTextFieldControl
 class TextFieldControlDisplayOptions(BaseModel):
     TitleOptions: Optional["_LabelOptions"]
     PlaceholderOptions: Optional["_TextControlPlaceholderOptions"]
+    InfoIconLabelOptions: Optional["_SheetControlInfoIconLabelOptions"]
 
     @classmethod
     def _deserialize(
@@ -901,6 +930,7 @@ class TextFieldControlDisplayOptions(BaseModel):
         return cls(
             TitleOptions=LabelOptions._deserialize(json_data.get("TitleOptions")),
             PlaceholderOptions=TextControlPlaceholderOptions._deserialize(json_data.get("PlaceholderOptions")),
+            InfoIconLabelOptions=SheetControlInfoIconLabelOptions._deserialize(json_data.get("InfoIconLabelOptions")),
         )
 
 
@@ -960,6 +990,7 @@ _ParameterTextAreaControl = ParameterTextAreaControl
 class TextAreaControlDisplayOptions(BaseModel):
     TitleOptions: Optional["_LabelOptions"]
     PlaceholderOptions: Optional["_TextControlPlaceholderOptions"]
+    InfoIconLabelOptions: Optional["_SheetControlInfoIconLabelOptions"]
 
     @classmethod
     def _deserialize(
@@ -971,6 +1002,7 @@ class TextAreaControlDisplayOptions(BaseModel):
         return cls(
             TitleOptions=LabelOptions._deserialize(json_data.get("TitleOptions")),
             PlaceholderOptions=TextControlPlaceholderOptions._deserialize(json_data.get("PlaceholderOptions")),
+            InfoIconLabelOptions=SheetControlInfoIconLabelOptions._deserialize(json_data.get("InfoIconLabelOptions")),
         )
 
 
@@ -1013,6 +1045,7 @@ _ParameterSliderControl = ParameterSliderControl
 @dataclass
 class SliderControlDisplayOptions(BaseModel):
     TitleOptions: Optional["_LabelOptions"]
+    InfoIconLabelOptions: Optional["_SheetControlInfoIconLabelOptions"]
 
     @classmethod
     def _deserialize(
@@ -1023,6 +1056,7 @@ class SliderControlDisplayOptions(BaseModel):
             return None
         return cls(
             TitleOptions=LabelOptions._deserialize(json_data.get("TitleOptions")),
+            InfoIconLabelOptions=SheetControlInfoIconLabelOptions._deserialize(json_data.get("InfoIconLabelOptions")),
         )
 
 
@@ -1292,6 +1326,7 @@ _FilterRelativeDateTimeControl = FilterRelativeDateTimeControl
 class RelativeDateTimeControlDisplayOptions(BaseModel):
     TitleOptions: Optional["_LabelOptions"]
     DateTimeFormat: Optional[str]
+    InfoIconLabelOptions: Optional["_SheetControlInfoIconLabelOptions"]
 
     @classmethod
     def _deserialize(
@@ -1303,6 +1338,7 @@ class RelativeDateTimeControlDisplayOptions(BaseModel):
         return cls(
             TitleOptions=LabelOptions._deserialize(json_data.get("TitleOptions")),
             DateTimeFormat=json_data.get("DateTimeFormat"),
+            InfoIconLabelOptions=SheetControlInfoIconLabelOptions._deserialize(json_data.get("InfoIconLabelOptions")),
         )
 
 
@@ -2293,6 +2329,7 @@ class AggregationFunction(BaseModel):
     NumericalAggregationFunction: Optional["_NumericalAggregationFunction"]
     CategoricalAggregationFunction: Optional[str]
     DateAggregationFunction: Optional[str]
+    AttributeAggregationFunction: Optional["_AttributeAggregationFunction"]
 
     @classmethod
     def _deserialize(
@@ -2305,11 +2342,34 @@ class AggregationFunction(BaseModel):
             NumericalAggregationFunction=NumericalAggregationFunction._deserialize(json_data.get("NumericalAggregationFunction")),
             CategoricalAggregationFunction=json_data.get("CategoricalAggregationFunction"),
             DateAggregationFunction=json_data.get("DateAggregationFunction"),
+            AttributeAggregationFunction=AttributeAggregationFunction._deserialize(json_data.get("AttributeAggregationFunction")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _AggregationFunction = AggregationFunction
+
+
+@dataclass
+class AttributeAggregationFunction(BaseModel):
+    SimpleAttributeAggregation: Optional[str]
+    ValueForMultipleValues: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AttributeAggregationFunction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AttributeAggregationFunction"]:
+        if not json_data:
+            return None
+        return cls(
+            SimpleAttributeAggregation=json_data.get("SimpleAttributeAggregation"),
+            ValueForMultipleValues=json_data.get("ValueForMultipleValues"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AttributeAggregationFunction = AttributeAggregationFunction
 
 
 @dataclass
@@ -2474,6 +2534,7 @@ _TableSideBorderOptions = TableSideBorderOptions
 class RowAlternateColorOptions(BaseModel):
     Status: Optional[str]
     RowAlternateColors: Optional[Sequence[str]]
+    UsePrimaryBackgroundColor: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -2485,6 +2546,7 @@ class RowAlternateColorOptions(BaseModel):
         return cls(
             Status=json_data.get("Status"),
             RowAlternateColors=json_data.get("RowAlternateColors"),
+            UsePrimaryBackgroundColor=json_data.get("UsePrimaryBackgroundColor"),
         )
 
 
@@ -3664,6 +3726,9 @@ class PivotTableOptions(BaseModel):
     RowFieldNamesStyle: Optional["_TableCellStyle"]
     RowAlternateColorOptions: Optional["_RowAlternateColorOptions"]
     CollapsedRowDimensionsVisibility: Optional[str]
+    RowsLayout: Optional[str]
+    RowsLabelOptions: Optional["_PivotTableRowsLabelOptions"]
+    DefaultCellWidth: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -3683,11 +3748,36 @@ class PivotTableOptions(BaseModel):
             RowFieldNamesStyle=TableCellStyle._deserialize(json_data.get("RowFieldNamesStyle")),
             RowAlternateColorOptions=RowAlternateColorOptions._deserialize(json_data.get("RowAlternateColorOptions")),
             CollapsedRowDimensionsVisibility=json_data.get("CollapsedRowDimensionsVisibility"),
+            RowsLayout=json_data.get("RowsLayout"),
+            RowsLabelOptions=PivotTableRowsLabelOptions._deserialize(json_data.get("RowsLabelOptions")),
+            DefaultCellWidth=json_data.get("DefaultCellWidth"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _PivotTableOptions = PivotTableOptions
+
+
+@dataclass
+class PivotTableRowsLabelOptions(BaseModel):
+    Visibility: Optional[str]
+    CustomLabel: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PivotTableRowsLabelOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PivotTableRowsLabelOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            Visibility=json_data.get("Visibility"),
+            CustomLabel=json_data.get("CustomLabel"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PivotTableRowsLabelOptions = PivotTableRowsLabelOptions
 
 
 @dataclass
@@ -3725,6 +3815,7 @@ class SubtotalOptions(BaseModel):
     TotalCellStyle: Optional["_TableCellStyle"]
     ValueCellStyle: Optional["_TableCellStyle"]
     MetricHeaderCellStyle: Optional["_TableCellStyle"]
+    StyleTargets: Optional[Sequence["_TableStyleTarget"]]
 
     @classmethod
     def _deserialize(
@@ -3741,6 +3832,7 @@ class SubtotalOptions(BaseModel):
             TotalCellStyle=TableCellStyle._deserialize(json_data.get("TotalCellStyle")),
             ValueCellStyle=TableCellStyle._deserialize(json_data.get("ValueCellStyle")),
             MetricHeaderCellStyle=TableCellStyle._deserialize(json_data.get("MetricHeaderCellStyle")),
+            StyleTargets=deserialize_list(json_data.get("StyleTargets"), TableStyleTarget),
         )
 
 
@@ -3766,6 +3858,26 @@ class PivotTableFieldSubtotalOptions(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _PivotTableFieldSubtotalOptions = PivotTableFieldSubtotalOptions
+
+
+@dataclass
+class TableStyleTarget(BaseModel):
+    CellType: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TableStyleTarget"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TableStyleTarget"]:
+        if not json_data:
+            return None
+        return cls(
+            CellType=json_data.get("CellType"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TableStyleTarget = TableStyleTarget
 
 
 @dataclass
@@ -4251,6 +4363,8 @@ class SmallMultiplesOptions(BaseModel):
     MaxVisibleRows: Optional[float]
     MaxVisibleColumns: Optional[float]
     PanelConfiguration: Optional["_PanelConfiguration"]
+    XAxis: Optional["_SmallMultiplesAxisProperties"]
+    YAxis: Optional["_SmallMultiplesAxisProperties"]
 
     @classmethod
     def _deserialize(
@@ -4263,6 +4377,8 @@ class SmallMultiplesOptions(BaseModel):
             MaxVisibleRows=json_data.get("MaxVisibleRows"),
             MaxVisibleColumns=json_data.get("MaxVisibleColumns"),
             PanelConfiguration=PanelConfiguration._deserialize(json_data.get("PanelConfiguration")),
+            XAxis=SmallMultiplesAxisProperties._deserialize(json_data.get("XAxis")),
+            YAxis=SmallMultiplesAxisProperties._deserialize(json_data.get("YAxis")),
         )
 
 
@@ -4328,6 +4444,28 @@ class PanelTitleOptions(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _PanelTitleOptions = PanelTitleOptions
+
+
+@dataclass
+class SmallMultiplesAxisProperties(BaseModel):
+    Scale: Optional[str]
+    Placement: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SmallMultiplesAxisProperties"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SmallMultiplesAxisProperties"]:
+        if not json_data:
+            return None
+        return cls(
+            Scale=json_data.get("Scale"),
+            Placement=json_data.get("Placement"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SmallMultiplesAxisProperties = SmallMultiplesAxisProperties
 
 
 @dataclass
@@ -10999,6 +11137,7 @@ _AggregationSortConfiguration = AggregationSortConfiguration
 @dataclass
 class FilterScopeConfiguration(BaseModel):
     SelectedSheets: Optional["_SelectedSheetsFilterScopeConfiguration"]
+    AllSheets: Optional[MutableMapping[str, Any]]
 
     @classmethod
     def _deserialize(
@@ -11009,6 +11148,7 @@ class FilterScopeConfiguration(BaseModel):
             return None
         return cls(
             SelectedSheets=SelectedSheetsFilterScopeConfiguration._deserialize(json_data.get("SelectedSheets")),
+            AllSheets=json_data.get("AllSheets"),
         )
 
 
@@ -11065,6 +11205,7 @@ class ColumnConfiguration(BaseModel):
     Column: Optional["_ColumnIdentifier"]
     FormatConfiguration: Optional["_FormatConfiguration"]
     Role: Optional[str]
+    ColorsConfiguration: Optional["_ColorsConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -11077,11 +11218,56 @@ class ColumnConfiguration(BaseModel):
             Column=ColumnIdentifier._deserialize(json_data.get("Column")),
             FormatConfiguration=FormatConfiguration._deserialize(json_data.get("FormatConfiguration")),
             Role=json_data.get("Role"),
+            ColorsConfiguration=ColorsConfiguration._deserialize(json_data.get("ColorsConfiguration")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _ColumnConfiguration = ColumnConfiguration
+
+
+@dataclass
+class ColorsConfiguration(BaseModel):
+    CustomColors: Optional[Sequence["_CustomColor"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ColorsConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ColorsConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            CustomColors=deserialize_list(json_data.get("CustomColors"), CustomColor),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ColorsConfiguration = ColorsConfiguration
+
+
+@dataclass
+class CustomColor(BaseModel):
+    FieldValue: Optional[str]
+    Color: Optional[str]
+    SpecialValue: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CustomColor"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CustomColor"]:
+        if not json_data:
+            return None
+        return cls(
+            FieldValue=json_data.get("FieldValue"),
+            Color=json_data.get("Color"),
+            SpecialValue=json_data.get("SpecialValue"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CustomColor = CustomColor
 
 
 @dataclass

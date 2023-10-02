@@ -37,6 +37,7 @@ class AwsCleanroomsMembership(BaseModel):
     CollaborationIdentifier: Optional[str]
     MembershipIdentifier: Optional[str]
     QueryLogStatus: Optional[str]
+    DefaultResultConfiguration: Optional["_MembershipProtectedQueryResultConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -55,6 +56,7 @@ class AwsCleanroomsMembership(BaseModel):
             CollaborationIdentifier=json_data.get("CollaborationIdentifier"),
             MembershipIdentifier=json_data.get("MembershipIdentifier"),
             QueryLogStatus=json_data.get("QueryLogStatus"),
+            DefaultResultConfiguration=MembershipProtectedQueryResultConfiguration._deserialize(json_data.get("DefaultResultConfiguration")),
         )
 
 
@@ -82,5 +84,71 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class MembershipProtectedQueryResultConfiguration(BaseModel):
+    OutputConfiguration: Optional["_MembershipProtectedQueryOutputConfiguration"]
+    RoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MembershipProtectedQueryResultConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MembershipProtectedQueryResultConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            OutputConfiguration=MembershipProtectedQueryOutputConfiguration._deserialize(json_data.get("OutputConfiguration")),
+            RoleArn=json_data.get("RoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MembershipProtectedQueryResultConfiguration = MembershipProtectedQueryResultConfiguration
+
+
+@dataclass
+class MembershipProtectedQueryOutputConfiguration(BaseModel):
+    S3: Optional["_ProtectedQueryS3OutputConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MembershipProtectedQueryOutputConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MembershipProtectedQueryOutputConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            S3=ProtectedQueryS3OutputConfiguration._deserialize(json_data.get("S3")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MembershipProtectedQueryOutputConfiguration = MembershipProtectedQueryOutputConfiguration
+
+
+@dataclass
+class ProtectedQueryS3OutputConfiguration(BaseModel):
+    ResultFormat: Optional[str]
+    Bucket: Optional[str]
+    KeyPrefix: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ProtectedQueryS3OutputConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ProtectedQueryS3OutputConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            ResultFormat=json_data.get("ResultFormat"),
+            Bucket=json_data.get("Bucket"),
+            KeyPrefix=json_data.get("KeyPrefix"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ProtectedQueryS3OutputConfiguration = ProtectedQueryS3OutputConfiguration
 
 

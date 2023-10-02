@@ -964,6 +964,7 @@ class ManagedRuleGroupConfig(BaseModel):
     PasswordField: Optional["_FieldIdentifier"]
     AWSManagedRulesBotControlRuleSet: Optional["_AWSManagedRulesBotControlRuleSet"]
     AWSManagedRulesATPRuleSet: Optional["_AWSManagedRulesATPRuleSet"]
+    AWSManagedRulesACFPRuleSet: Optional["_AWSManagedRulesACFPRuleSet"]
 
     @classmethod
     def _deserialize(
@@ -979,6 +980,7 @@ class ManagedRuleGroupConfig(BaseModel):
             PasswordField=FieldIdentifier._deserialize(json_data.get("PasswordField")),
             AWSManagedRulesBotControlRuleSet=AWSManagedRulesBotControlRuleSet._deserialize(json_data.get("AWSManagedRulesBotControlRuleSet")),
             AWSManagedRulesATPRuleSet=AWSManagedRulesATPRuleSet._deserialize(json_data.get("AWSManagedRulesATPRuleSet")),
+            AWSManagedRulesACFPRuleSet=AWSManagedRulesACFPRuleSet._deserialize(json_data.get("AWSManagedRulesACFPRuleSet")),
         )
 
 
@@ -1029,6 +1031,7 @@ _AWSManagedRulesBotControlRuleSet = AWSManagedRulesBotControlRuleSet
 @dataclass
 class AWSManagedRulesATPRuleSet(BaseModel):
     LoginPath: Optional[str]
+    EnableRegexInPath: Optional[bool]
     RequestInspection: Optional["_RequestInspection"]
     ResponseInspection: Optional["_ResponseInspection"]
 
@@ -1041,6 +1044,7 @@ class AWSManagedRulesATPRuleSet(BaseModel):
             return None
         return cls(
             LoginPath=json_data.get("LoginPath"),
+            EnableRegexInPath=json_data.get("EnableRegexInPath"),
             RequestInspection=RequestInspection._deserialize(json_data.get("RequestInspection")),
             ResponseInspection=ResponseInspection._deserialize(json_data.get("ResponseInspection")),
         )
@@ -1193,9 +1197,68 @@ _ResponseInspectionJson = ResponseInspectionJson
 
 
 @dataclass
+class AWSManagedRulesACFPRuleSet(BaseModel):
+    CreationPath: Optional[str]
+    RegistrationPagePath: Optional[str]
+    RequestInspection: Optional["_RequestInspectionACFP"]
+    ResponseInspection: Optional["_ResponseInspection"]
+    EnableRegexInPath: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AWSManagedRulesACFPRuleSet"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AWSManagedRulesACFPRuleSet"]:
+        if not json_data:
+            return None
+        return cls(
+            CreationPath=json_data.get("CreationPath"),
+            RegistrationPagePath=json_data.get("RegistrationPagePath"),
+            RequestInspection=RequestInspectionACFP._deserialize(json_data.get("RequestInspection")),
+            ResponseInspection=ResponseInspection._deserialize(json_data.get("ResponseInspection")),
+            EnableRegexInPath=json_data.get("EnableRegexInPath"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AWSManagedRulesACFPRuleSet = AWSManagedRulesACFPRuleSet
+
+
+@dataclass
+class RequestInspectionACFP(BaseModel):
+    PayloadType: Optional[str]
+    UsernameField: Optional["_FieldIdentifier"]
+    PasswordField: Optional["_FieldIdentifier"]
+    EmailField: Optional["_FieldIdentifier"]
+    PhoneNumberFields: Optional[Sequence["_FieldIdentifier"]]
+    AddressFields: Optional[Sequence["_FieldIdentifier"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RequestInspectionACFP"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RequestInspectionACFP"]:
+        if not json_data:
+            return None
+        return cls(
+            PayloadType=json_data.get("PayloadType"),
+            UsernameField=FieldIdentifier._deserialize(json_data.get("UsernameField")),
+            PasswordField=FieldIdentifier._deserialize(json_data.get("PasswordField")),
+            EmailField=FieldIdentifier._deserialize(json_data.get("EmailField")),
+            PhoneNumberFields=deserialize_list(json_data.get("PhoneNumberFields"), FieldIdentifier),
+            AddressFields=deserialize_list(json_data.get("AddressFields"), FieldIdentifier),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RequestInspectionACFP = RequestInspectionACFP
+
+
+@dataclass
 class RateBasedStatement(BaseModel):
     Limit: Optional[int]
     AggregateKeyType: Optional[str]
+    CustomKeys: Optional[Sequence["_RateBasedStatementCustomKey"]]
     ScopeDownStatement: Optional["_Statement"]
     ForwardedIPConfig: Optional["_ForwardedIPConfiguration"]
 
@@ -1209,6 +1272,7 @@ class RateBasedStatement(BaseModel):
         return cls(
             Limit=json_data.get("Limit"),
             AggregateKeyType=json_data.get("AggregateKeyType"),
+            CustomKeys=deserialize_list(json_data.get("CustomKeys"), RateBasedStatementCustomKey),
             ScopeDownStatement=Statement._deserialize(json_data.get("ScopeDownStatement")),
             ForwardedIPConfig=ForwardedIPConfiguration._deserialize(json_data.get("ForwardedIPConfig")),
         )
@@ -1216,6 +1280,168 @@ class RateBasedStatement(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _RateBasedStatement = RateBasedStatement
+
+
+@dataclass
+class RateBasedStatementCustomKey(BaseModel):
+    Cookie: Optional["_RateLimitCookie"]
+    ForwardedIP: Optional[MutableMapping[str, Any]]
+    Header: Optional["_RateLimitHeader"]
+    HTTPMethod: Optional[MutableMapping[str, Any]]
+    IP: Optional[MutableMapping[str, Any]]
+    LabelNamespace: Optional["_RateLimitLabelNamespace"]
+    QueryArgument: Optional["_RateLimitQueryArgument"]
+    QueryString: Optional["_RateLimitQueryString"]
+    UriPath: Optional["_RateLimitUriPath"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateBasedStatementCustomKey"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateBasedStatementCustomKey"]:
+        if not json_data:
+            return None
+        return cls(
+            Cookie=RateLimitCookie._deserialize(json_data.get("Cookie")),
+            ForwardedIP=json_data.get("ForwardedIP"),
+            Header=RateLimitHeader._deserialize(json_data.get("Header")),
+            HTTPMethod=json_data.get("HTTPMethod"),
+            IP=json_data.get("IP"),
+            LabelNamespace=RateLimitLabelNamespace._deserialize(json_data.get("LabelNamespace")),
+            QueryArgument=RateLimitQueryArgument._deserialize(json_data.get("QueryArgument")),
+            QueryString=RateLimitQueryString._deserialize(json_data.get("QueryString")),
+            UriPath=RateLimitUriPath._deserialize(json_data.get("UriPath")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateBasedStatementCustomKey = RateBasedStatementCustomKey
+
+
+@dataclass
+class RateLimitCookie(BaseModel):
+    Name: Optional[str]
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitCookie"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitCookie"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitCookie = RateLimitCookie
+
+
+@dataclass
+class RateLimitHeader(BaseModel):
+    Name: Optional[str]
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitHeader"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitHeader"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitHeader = RateLimitHeader
+
+
+@dataclass
+class RateLimitLabelNamespace(BaseModel):
+    Namespace: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitLabelNamespace"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitLabelNamespace"]:
+        if not json_data:
+            return None
+        return cls(
+            Namespace=json_data.get("Namespace"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitLabelNamespace = RateLimitLabelNamespace
+
+
+@dataclass
+class RateLimitQueryArgument(BaseModel):
+    Name: Optional[str]
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitQueryArgument"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitQueryArgument"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitQueryArgument = RateLimitQueryArgument
+
+
+@dataclass
+class RateLimitQueryString(BaseModel):
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitQueryString"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitQueryString"]:
+        if not json_data:
+            return None
+        return cls(
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitQueryString = RateLimitQueryString
+
+
+@dataclass
+class RateLimitUriPath(BaseModel):
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitUriPath"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitUriPath"]:
+        if not json_data:
+            return None
+        return cls(
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitUriPath = RateLimitUriPath
 
 
 @dataclass

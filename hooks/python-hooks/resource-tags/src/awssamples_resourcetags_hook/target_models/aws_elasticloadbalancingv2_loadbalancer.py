@@ -40,6 +40,7 @@ class AwsElasticloadbalancingv2Loadbalancer(BaseModel):
     Subnets: Optional[Sequence[str]]
     Type: Optional[str]
     CanonicalHostedZoneID: Optional[str]
+    LoadBalancerArn: Optional[str]
     Id: Optional[str]
     Tags: Optional[Any]
     LoadBalancerFullName: Optional[str]
@@ -65,6 +66,7 @@ class AwsElasticloadbalancingv2Loadbalancer(BaseModel):
             Subnets=json_data.get("Subnets"),
             Type=json_data.get("Type"),
             CanonicalHostedZoneID=json_data.get("CanonicalHostedZoneID"),
+            LoadBalancerArn=json_data.get("LoadBalancerArn"),
             Id=json_data.get("Id"),
             Tags=json_data.get("Tags"),
             LoadBalancerFullName=json_data.get("LoadBalancerFullName"),

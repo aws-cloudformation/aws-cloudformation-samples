@@ -38,6 +38,9 @@ class AwsResiliencehubApp(BaseModel):
     AppTemplateBody: Optional[str]
     ResourceMappings: Optional[Sequence["_ResourceMapping"]]
     AppAssessmentSchedule: Optional[str]
+    PermissionModel: Optional["_PermissionModel"]
+    EventSubscriptions: Optional[Sequence["_EventSubscription"]]
+    DriftStatus: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -57,6 +60,9 @@ class AwsResiliencehubApp(BaseModel):
             AppTemplateBody=json_data.get("AppTemplateBody"),
             ResourceMappings=deserialize_list(json_data.get("ResourceMappings"), ResourceMapping),
             AppAssessmentSchedule=json_data.get("AppAssessmentSchedule"),
+            PermissionModel=PermissionModel._deserialize(json_data.get("PermissionModel")),
+            EventSubscriptions=deserialize_list(json_data.get("EventSubscriptions"), EventSubscription),
+            DriftStatus=json_data.get("DriftStatus"),
         )
 
 
@@ -118,5 +124,53 @@ class PhysicalResourceId(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _PhysicalResourceId = PhysicalResourceId
+
+
+@dataclass
+class PermissionModel(BaseModel):
+    Type: Optional[str]
+    InvokerRoleName: Optional[str]
+    CrossAccountRoleArns: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PermissionModel"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PermissionModel"]:
+        if not json_data:
+            return None
+        return cls(
+            Type=json_data.get("Type"),
+            InvokerRoleName=json_data.get("InvokerRoleName"),
+            CrossAccountRoleArns=json_data.get("CrossAccountRoleArns"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PermissionModel = PermissionModel
+
+
+@dataclass
+class EventSubscription(BaseModel):
+    Name: Optional[str]
+    EventType: Optional[str]
+    SnsTopicArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EventSubscription"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EventSubscription"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            EventType=json_data.get("EventType"),
+            SnsTopicArn=json_data.get("SnsTopicArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EventSubscription = EventSubscription
 
 

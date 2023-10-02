@@ -95,7 +95,7 @@ class ContainerDefinition(BaseModel):
     DockerLabels: Optional[MutableMapping[str, str]]
     DockerSecurityOptions: Optional[Sequence[str]]
     EntryPoint: Optional[Sequence[str]]
-    Environment: Optional[Sequence["_KeyValuePair"]]
+    Environment: Optional[AbstractSet["_KeyValuePair"]]
     EnvironmentFiles: Optional[Sequence["_EnvironmentFile"]]
     Essential: Optional[bool]
     ExtraHosts: Optional[Sequence["_HostEntry"]]
@@ -143,7 +143,7 @@ class ContainerDefinition(BaseModel):
             DockerLabels=json_data.get("DockerLabels"),
             DockerSecurityOptions=json_data.get("DockerSecurityOptions"),
             EntryPoint=json_data.get("EntryPoint"),
-            Environment=deserialize_list(json_data.get("Environment"), KeyValuePair),
+            Environment=set_or_none(json_data.get("Environment")),
             EnvironmentFiles=deserialize_list(json_data.get("EnvironmentFiles"), EnvironmentFile),
             Essential=json_data.get("Essential"),
             ExtraHosts=deserialize_list(json_data.get("ExtraHosts"), HostEntry),

@@ -1018,6 +1018,7 @@ class EncoderSettings(BaseModel):
     VideoDescriptions: Optional[Sequence["_VideoDescription"]]
     GlobalConfiguration: Optional["_GlobalConfiguration"]
     MotionGraphicsConfiguration: Optional["_MotionGraphicsConfiguration"]
+    ThumbnailConfiguration: Optional["_ThumbnailConfiguration"]
     FeatureActivations: Optional["_FeatureActivations"]
     CaptionDescriptions: Optional[Sequence["_CaptionDescription"]]
     AvailConfiguration: Optional["_AvailConfiguration"]
@@ -1039,6 +1040,7 @@ class EncoderSettings(BaseModel):
             VideoDescriptions=deserialize_list(json_data.get("VideoDescriptions"), VideoDescription),
             GlobalConfiguration=GlobalConfiguration._deserialize(json_data.get("GlobalConfiguration")),
             MotionGraphicsConfiguration=MotionGraphicsConfiguration._deserialize(json_data.get("MotionGraphicsConfiguration")),
+            ThumbnailConfiguration=ThumbnailConfiguration._deserialize(json_data.get("ThumbnailConfiguration")),
             FeatureActivations=FeatureActivations._deserialize(json_data.get("FeatureActivations")),
             CaptionDescriptions=deserialize_list(json_data.get("CaptionDescriptions"), CaptionDescription),
             AvailConfiguration=AvailConfiguration._deserialize(json_data.get("AvailConfiguration")),
@@ -1284,6 +1286,7 @@ class Ac3Settings(BaseModel):
     Dialnorm: Optional[int]
     LfeFilter: Optional[str]
     BitstreamMode: Optional[str]
+    AttenuationControl: Optional[str]
     Bitrate: Optional[float]
 
     @classmethod
@@ -1300,6 +1303,7 @@ class Ac3Settings(BaseModel):
             Dialnorm=json_data.get("Dialnorm"),
             LfeFilter=json_data.get("LfeFilter"),
             BitstreamMode=json_data.get("BitstreamMode"),
+            AttenuationControl=json_data.get("AttenuationControl"),
             Bitrate=json_data.get("Bitrate"),
         )
 
@@ -2113,6 +2117,26 @@ _MotionGraphicsSettings = MotionGraphicsSettings
 
 
 @dataclass
+class ThumbnailConfiguration(BaseModel):
+    State: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ThumbnailConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ThumbnailConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            State=json_data.get("State"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ThumbnailConfiguration = ThumbnailConfiguration
+
+
+@dataclass
 class FeatureActivations(BaseModel):
     InputPrepareScheduleActions: Optional[str]
 
@@ -2730,6 +2754,7 @@ class M3u8Settings(BaseModel):
     ProgramNum: Optional[int]
     PcrPeriod: Optional[int]
     PmtInterval: Optional[int]
+    KlvDataPids: Optional[str]
     NielsenId3Behavior: Optional[str]
     PcrPid: Optional[str]
     VideoPid: Optional[str]
@@ -2738,6 +2763,7 @@ class M3u8Settings(BaseModel):
     PmtPid: Optional[str]
     Scte35Pid: Optional[str]
     Scte35Behavior: Optional[str]
+    KlvBehavior: Optional[str]
     EcmPid: Optional[str]
     TimedMetadataPid: Optional[str]
     AudioPids: Optional[str]
@@ -2756,6 +2782,7 @@ class M3u8Settings(BaseModel):
             ProgramNum=json_data.get("ProgramNum"),
             PcrPeriod=json_data.get("PcrPeriod"),
             PmtInterval=json_data.get("PmtInterval"),
+            KlvDataPids=json_data.get("KlvDataPids"),
             NielsenId3Behavior=json_data.get("NielsenId3Behavior"),
             PcrPid=json_data.get("PcrPid"),
             VideoPid=json_data.get("VideoPid"),
@@ -2764,6 +2791,7 @@ class M3u8Settings(BaseModel):
             PmtPid=json_data.get("PmtPid"),
             Scte35Pid=json_data.get("Scte35Pid"),
             Scte35Behavior=json_data.get("Scte35Behavior"),
+            KlvBehavior=json_data.get("KlvBehavior"),
             EcmPid=json_data.get("EcmPid"),
             TimedMetadataPid=json_data.get("TimedMetadataPid"),
             AudioPids=json_data.get("AudioPids"),
@@ -3765,6 +3793,7 @@ class RtmpGroupSettings(BaseModel):
     AuthenticationScheme: Optional[str]
     CacheLength: Optional[int]
     AdMarkers: Optional[Sequence[str]]
+    IncludeFillerNalUnits: Optional[str]
     InputLossAction: Optional[str]
     RestartDelay: Optional[int]
     CaptionData: Optional[str]
@@ -3781,6 +3810,7 @@ class RtmpGroupSettings(BaseModel):
             AuthenticationScheme=json_data.get("AuthenticationScheme"),
             CacheLength=json_data.get("CacheLength"),
             AdMarkers=json_data.get("AdMarkers"),
+            IncludeFillerNalUnits=json_data.get("IncludeFillerNalUnits"),
             InputLossAction=json_data.get("InputLossAction"),
             RestartDelay=json_data.get("RestartDelay"),
             CaptionData=json_data.get("CaptionData"),

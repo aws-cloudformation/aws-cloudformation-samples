@@ -134,6 +134,7 @@ _ConfiguredTableAnalysisRulePolicy = ConfiguredTableAnalysisRulePolicy
 class ConfiguredTableAnalysisRulePolicyV1(BaseModel):
     List: Optional["_AnalysisRuleList"]
     Aggregation: Optional["_AnalysisRuleAggregation"]
+    Custom: Optional["_AnalysisRuleCustom"]
 
     @classmethod
     def _deserialize(
@@ -145,6 +146,7 @@ class ConfiguredTableAnalysisRulePolicyV1(BaseModel):
         return cls(
             List=AnalysisRuleList._deserialize(json_data.get("List")),
             Aggregation=AnalysisRuleAggregation._deserialize(json_data.get("Aggregation")),
+            Custom=AnalysisRuleCustom._deserialize(json_data.get("Custom")),
         )
 
 
@@ -155,6 +157,7 @@ _ConfiguredTableAnalysisRulePolicyV1 = ConfiguredTableAnalysisRulePolicyV1
 @dataclass
 class AnalysisRuleList(BaseModel):
     JoinColumns: Optional[Sequence[str]]
+    AllowedJoinOperators: Optional[Sequence[str]]
     ListColumns: Optional[Sequence[str]]
 
     @classmethod
@@ -166,6 +169,7 @@ class AnalysisRuleList(BaseModel):
             return None
         return cls(
             JoinColumns=json_data.get("JoinColumns"),
+            AllowedJoinOperators=json_data.get("AllowedJoinOperators"),
             ListColumns=json_data.get("ListColumns"),
         )
 
@@ -178,6 +182,7 @@ _AnalysisRuleList = AnalysisRuleList
 class AnalysisRuleAggregation(BaseModel):
     AggregateColumns: Optional[Sequence["_AggregateColumn"]]
     JoinColumns: Optional[Sequence[str]]
+    AllowedJoinOperators: Optional[Sequence[str]]
     JoinRequired: Optional[str]
     DimensionColumns: Optional[Sequence[str]]
     ScalarFunctions: Optional[Sequence[str]]
@@ -193,6 +198,7 @@ class AnalysisRuleAggregation(BaseModel):
         return cls(
             AggregateColumns=deserialize_list(json_data.get("AggregateColumns"), AggregateColumn),
             JoinColumns=json_data.get("JoinColumns"),
+            AllowedJoinOperators=json_data.get("AllowedJoinOperators"),
             JoinRequired=json_data.get("JoinRequired"),
             DimensionColumns=json_data.get("DimensionColumns"),
             ScalarFunctions=json_data.get("ScalarFunctions"),
@@ -248,6 +254,28 @@ class AggregationConstraint(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _AggregationConstraint = AggregationConstraint
+
+
+@dataclass
+class AnalysisRuleCustom(BaseModel):
+    AllowedAnalyses: Optional[Sequence[str]]
+    AllowedAnalysisProviders: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AnalysisRuleCustom"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AnalysisRuleCustom"]:
+        if not json_data:
+            return None
+        return cls(
+            AllowedAnalyses=json_data.get("AllowedAnalyses"),
+            AllowedAnalysisProviders=json_data.get("AllowedAnalysisProviders"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AnalysisRuleCustom = AnalysisRuleCustom
 
 
 @dataclass

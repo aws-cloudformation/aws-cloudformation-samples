@@ -36,6 +36,7 @@ class AwsRamResourceshare(BaseModel):
     Id: Optional[str]
     Arn: Optional[str]
     ResourceArns: Optional[Sequence[str]]
+    Sources: Optional[Sequence[str]]
     Tags: Optional[Any]
     Name: Optional[str]
 
@@ -55,6 +56,7 @@ class AwsRamResourceshare(BaseModel):
             Id=json_data.get("Id"),
             Arn=json_data.get("Arn"),
             ResourceArns=json_data.get("ResourceArns"),
+            Sources=json_data.get("Sources"),
             Tags=json_data.get("Tags"),
             Name=json_data.get("Name"),
         )

@@ -87,6 +87,7 @@ _VariantProperty = VariantProperty
 @dataclass
 class DeploymentConfig(BaseModel):
     AutoRollbackConfiguration: Optional["_AutoRollbackConfig"]
+    RollingUpdatePolicy: Optional["_RollingUpdatePolicy"]
     BlueGreenUpdatePolicy: Optional["_BlueGreenUpdatePolicy"]
 
     @classmethod
@@ -98,6 +99,7 @@ class DeploymentConfig(BaseModel):
             return None
         return cls(
             AutoRollbackConfiguration=AutoRollbackConfig._deserialize(json_data.get("AutoRollbackConfiguration")),
+            RollingUpdatePolicy=RollingUpdatePolicy._deserialize(json_data.get("RollingUpdatePolicy")),
             BlueGreenUpdatePolicy=BlueGreenUpdatePolicy._deserialize(json_data.get("BlueGreenUpdatePolicy")),
         )
 
@@ -144,6 +146,54 @@ class Alarm(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Alarm = Alarm
+
+
+@dataclass
+class RollingUpdatePolicy(BaseModel):
+    MaximumExecutionTimeoutInSeconds: Optional[int]
+    MaximumBatchSize: Optional["_CapacitySize"]
+    WaitIntervalInSeconds: Optional[int]
+    RollbackMaximumBatchSize: Optional["_CapacitySize"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RollingUpdatePolicy"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RollingUpdatePolicy"]:
+        if not json_data:
+            return None
+        return cls(
+            MaximumExecutionTimeoutInSeconds=json_data.get("MaximumExecutionTimeoutInSeconds"),
+            MaximumBatchSize=CapacitySize._deserialize(json_data.get("MaximumBatchSize")),
+            WaitIntervalInSeconds=json_data.get("WaitIntervalInSeconds"),
+            RollbackMaximumBatchSize=CapacitySize._deserialize(json_data.get("RollbackMaximumBatchSize")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RollingUpdatePolicy = RollingUpdatePolicy
+
+
+@dataclass
+class CapacitySize(BaseModel):
+    Value: Optional[int]
+    Type: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CapacitySize"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CapacitySize"]:
+        if not json_data:
+            return None
+        return cls(
+            Value=json_data.get("Value"),
+            Type=json_data.get("Type"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CapacitySize = CapacitySize
 
 
 @dataclass
@@ -194,28 +244,6 @@ class TrafficRoutingConfig(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _TrafficRoutingConfig = TrafficRoutingConfig
-
-
-@dataclass
-class CapacitySize(BaseModel):
-    Value: Optional[int]
-    Type: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_CapacitySize"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_CapacitySize"]:
-        if not json_data:
-            return None
-        return cls(
-            Value=json_data.get("Value"),
-            Type=json_data.get("Type"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_CapacitySize = CapacitySize
 
 
 @dataclass

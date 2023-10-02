@@ -38,6 +38,7 @@ class AwsCertificatemanagerCertificate(BaseModel):
     SubjectAlternativeNames: Optional[Sequence[str]]
     Id: Optional[str]
     Tags: Optional[Any]
+    KeyAlgorithm: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -57,6 +58,7 @@ class AwsCertificatemanagerCertificate(BaseModel):
             SubjectAlternativeNames=json_data.get("SubjectAlternativeNames"),
             Id=json_data.get("Id"),
             Tags=json_data.get("Tags"),
+            KeyAlgorithm=json_data.get("KeyAlgorithm"),
         )
 
 

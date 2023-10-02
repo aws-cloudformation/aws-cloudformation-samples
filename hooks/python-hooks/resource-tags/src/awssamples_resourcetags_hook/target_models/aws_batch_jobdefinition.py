@@ -448,6 +448,7 @@ class ContainerProperties(BaseModel):
     LogConfiguration: Optional["_LogConfiguration"]
     MountPoints: Optional[Sequence["_MountPoints"]]
     ExecutionRoleArn: Optional[str]
+    RuntimePlatform: Optional["_RuntimePlatform"]
     Volumes: Optional[Sequence["_Volumes"]]
     Command: Optional[Sequence[str]]
     Environment: Optional[Sequence["_Environment"]]
@@ -478,6 +479,7 @@ class ContainerProperties(BaseModel):
             LogConfiguration=LogConfiguration._deserialize(json_data.get("LogConfiguration")),
             MountPoints=deserialize_list(json_data.get("MountPoints"), MountPoints),
             ExecutionRoleArn=json_data.get("ExecutionRoleArn"),
+            RuntimePlatform=RuntimePlatform._deserialize(json_data.get("RuntimePlatform")),
             Volumes=deserialize_list(json_data.get("Volumes"), Volumes),
             Command=json_data.get("Command"),
             Environment=deserialize_list(json_data.get("Environment"), Environment),
@@ -680,6 +682,28 @@ class MountPoints(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _MountPoints = MountPoints
+
+
+@dataclass
+class RuntimePlatform(BaseModel):
+    OperatingSystemFamily: Optional[str]
+    CpuArchitecture: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RuntimePlatform"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RuntimePlatform"]:
+        if not json_data:
+            return None
+        return cls(
+            OperatingSystemFamily=json_data.get("OperatingSystemFamily"),
+            CpuArchitecture=json_data.get("CpuArchitecture"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RuntimePlatform = RuntimePlatform
 
 
 @dataclass

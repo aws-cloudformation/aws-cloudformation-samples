@@ -32,6 +32,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 class AwsTransferConnector(BaseModel):
     AccessRole: Optional[str]
     As2Config: Optional["_As2Config"]
+    SftpConfig: Optional["_SftpConfig"]
     Arn: Optional[str]
     ConnectorId: Optional[str]
     LoggingRole: Optional[str]
@@ -50,6 +51,7 @@ class AwsTransferConnector(BaseModel):
         return cls(
             AccessRole=json_data.get("AccessRole"),
             As2Config=As2Config._deserialize(json_data.get("As2Config")),
+            SftpConfig=SftpConfig._deserialize(json_data.get("SftpConfig")),
             Arn=json_data.get("Arn"),
             ConnectorId=json_data.get("ConnectorId"),
             LoggingRole=json_data.get("LoggingRole"),
@@ -72,6 +74,7 @@ class As2Config(BaseModel):
     SigningAlgorithm: Optional[str]
     MdnSigningAlgorithm: Optional[str]
     MdnResponse: Optional[str]
+    BasicAuthSecretId: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -89,11 +92,34 @@ class As2Config(BaseModel):
             SigningAlgorithm=json_data.get("SigningAlgorithm"),
             MdnSigningAlgorithm=json_data.get("MdnSigningAlgorithm"),
             MdnResponse=json_data.get("MdnResponse"),
+            BasicAuthSecretId=json_data.get("BasicAuthSecretId"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _As2Config = As2Config
+
+
+@dataclass
+class SftpConfig(BaseModel):
+    UserSecretId: Optional[str]
+    TrustedHostKeys: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SftpConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SftpConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            UserSecretId=json_data.get("UserSecretId"),
+            TrustedHostKeys=json_data.get("TrustedHostKeys"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SftpConfig = SftpConfig
 
 
 @dataclass

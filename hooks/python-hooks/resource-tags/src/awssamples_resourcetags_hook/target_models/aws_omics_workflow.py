@@ -40,6 +40,7 @@ class AwsOmicsWorkflow(BaseModel):
     Name: Optional[str]
     ParameterTemplate: Optional[MutableMapping[str, "_WorkflowParameter"]]
     Status: Optional[str]
+    Accelerators: Optional[str]
     StorageCapacity: Optional[float]
     Tags: Optional[Any]
     Type: Optional[str]
@@ -64,6 +65,7 @@ class AwsOmicsWorkflow(BaseModel):
             Name=json_data.get("Name"),
             ParameterTemplate=json_data.get("ParameterTemplate"),
             Status=json_data.get("Status"),
+            Accelerators=json_data.get("Accelerators"),
             StorageCapacity=json_data.get("StorageCapacity"),
             Tags=json_data.get("Tags"),
             Type=json_data.get("Type"),

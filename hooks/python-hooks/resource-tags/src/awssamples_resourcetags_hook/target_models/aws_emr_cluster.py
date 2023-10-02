@@ -545,6 +545,7 @@ _EbsBlockDeviceConfig = EbsBlockDeviceConfig
 @dataclass
 class VolumeSpecification(BaseModel):
     SizeInGB: Optional[int]
+    Throughput: Optional[int]
     VolumeType: Optional[str]
     Iops: Optional[int]
 
@@ -557,6 +558,7 @@ class VolumeSpecification(BaseModel):
             return None
         return cls(
             SizeInGB=json_data.get("SizeInGB"),
+            Throughput=json_data.get("Throughput"),
             VolumeType=json_data.get("VolumeType"),
             Iops=json_data.get("Iops"),
         )

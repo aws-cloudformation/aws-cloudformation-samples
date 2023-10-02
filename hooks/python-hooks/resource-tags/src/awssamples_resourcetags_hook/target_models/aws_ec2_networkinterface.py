@@ -34,10 +34,13 @@ class AwsEc2Networkinterface(BaseModel):
     PrivateIpAddress: Optional[str]
     PrivateIpAddresses: Optional[Sequence["_PrivateIpAddressSpecification"]]
     SecondaryPrivateIpAddressCount: Optional[int]
+    Ipv6PrefixCount: Optional[int]
     PrimaryPrivateIpAddress: Optional[str]
-    EnablePrimaryIpv6: Optional[bool]
+    Ipv4Prefixes: Optional[Sequence["_Ipv4PrefixSpecification"]]
+    Ipv4PrefixCount: Optional[int]
     GroupSet: Optional[Sequence[str]]
     Ipv6Addresses: Optional[AbstractSet["_InstanceIpv6Address"]]
+    Ipv6Prefixes: Optional[Sequence["_Ipv6PrefixSpecification"]]
     SubnetId: Optional[str]
     SourceDestCheck: Optional[bool]
     InterfaceType: Optional[str]
@@ -60,10 +63,13 @@ class AwsEc2Networkinterface(BaseModel):
             PrivateIpAddress=json_data.get("PrivateIpAddress"),
             PrivateIpAddresses=deserialize_list(json_data.get("PrivateIpAddresses"), PrivateIpAddressSpecification),
             SecondaryPrivateIpAddressCount=json_data.get("SecondaryPrivateIpAddressCount"),
+            Ipv6PrefixCount=json_data.get("Ipv6PrefixCount"),
             PrimaryPrivateIpAddress=json_data.get("PrimaryPrivateIpAddress"),
-            EnablePrimaryIpv6=json_data.get("EnablePrimaryIpv6"),
+            Ipv4Prefixes=deserialize_list(json_data.get("Ipv4Prefixes"), Ipv4PrefixSpecification),
+            Ipv4PrefixCount=json_data.get("Ipv4PrefixCount"),
             GroupSet=json_data.get("GroupSet"),
             Ipv6Addresses=set_or_none(json_data.get("Ipv6Addresses")),
+            Ipv6Prefixes=deserialize_list(json_data.get("Ipv6Prefixes"), Ipv6PrefixSpecification),
             SubnetId=json_data.get("SubnetId"),
             SourceDestCheck=json_data.get("SourceDestCheck"),
             InterfaceType=json_data.get("InterfaceType"),
@@ -101,6 +107,26 @@ _PrivateIpAddressSpecification = PrivateIpAddressSpecification
 
 
 @dataclass
+class Ipv4PrefixSpecification(BaseModel):
+    Ipv4Prefix: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Ipv4PrefixSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Ipv4PrefixSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            Ipv4Prefix=json_data.get("Ipv4Prefix"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Ipv4PrefixSpecification = Ipv4PrefixSpecification
+
+
+@dataclass
 class InstanceIpv6Address(BaseModel):
     Ipv6Address: Optional[str]
 
@@ -118,6 +144,26 @@ class InstanceIpv6Address(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _InstanceIpv6Address = InstanceIpv6Address
+
+
+@dataclass
+class Ipv6PrefixSpecification(BaseModel):
+    Ipv6Prefix: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Ipv6PrefixSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Ipv6PrefixSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            Ipv6Prefix=json_data.get("Ipv6Prefix"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Ipv6PrefixSpecification = Ipv6PrefixSpecification
 
 
 @dataclass

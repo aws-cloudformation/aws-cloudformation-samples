@@ -121,6 +121,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Cassandra::Keyspace`
 * `AWS::Cassandra::Table`
 * `AWS::CertificateManager::Certificate`
+* `AWS::CleanRooms::AnalysisTemplate`
 * `AWS::CleanRooms::Collaboration`
 * `AWS::CleanRooms::ConfiguredTable`
 * `AWS::CleanRooms::ConfiguredTableAssociation`
@@ -160,10 +161,15 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Connect::HoursOfOperation`
 * `AWS::Connect::PhoneNumber`
 * `AWS::Connect::Prompt`
+* `AWS::Connect::Queue`
 * `AWS::Connect::QuickConnect`
+* `AWS::Connect::RoutingProfile`
 * `AWS::Connect::Rule`
+* `AWS::Connect::SecurityProfile`
 * `AWS::Connect::TaskTemplate`
+* `AWS::Connect::TrafficDistributionGroup`
 * `AWS::Connect::User`
+* `AWS::Connect::View`
 * `AWS::ConnectCampaigns::Campaign`
 * `AWS::CustomerProfiles::CalculatedAttributeDefinition`
 * `AWS::CustomerProfiles::Domain`
@@ -174,6 +180,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::DLM::LifecyclePolicy`
 * `AWS::DMS::Endpoint`
 * `AWS::DMS::EventSubscription`
+* `AWS::DMS::ReplicationConfig`
 * `AWS::DMS::ReplicationInstance`
 * `AWS::DMS::ReplicationSubnetGroup`
 * `AWS::DMS::ReplicationTask`
@@ -185,6 +192,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::DataBrew::Schedule`
 * `AWS::DataPipeline::Pipeline`
 * `AWS::DataSync::Agent`
+* `AWS::DataSync::LocationAzureBlob`
 * `AWS::DataSync::LocationEFS`
 * `AWS::DataSync::LocationFSxLustre`
 * `AWS::DataSync::LocationFSxONTAP`
@@ -219,6 +227,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EC2::IPAMResourceDiscoveryAssociation`
 * `AWS::EC2::IPAMScope`
 * `AWS::EC2::Instance`
+* `AWS::EC2::InstanceConnectEndpoint`
 * `AWS::EC2::InternetGateway`
 * `AWS::EC2::KeyPair`
 * `AWS::EC2::LaunchTemplate`
@@ -271,6 +280,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EKS::Nodegroup`
 * `AWS::EMR::Cluster`
 * `AWS::EMR::Studio`
+* `AWS::EMR::WALWorkspace`
 * `AWS::EMRContainers::VirtualCluster`
 * `AWS::EMRServerless::Application`
 * `AWS::ElastiCache::CacheCluster`
@@ -285,6 +295,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ElasticLoadBalancingV2::LoadBalancer`
 * `AWS::ElasticLoadBalancingV2::TargetGroup`
 * `AWS::Elasticsearch::Domain`
+* `AWS::EntityResolution::MatchingWorkflow`
+* `AWS::EntityResolution::SchemaMapping`
 * `AWS::EventSchemas::Discoverer`
 * `AWS::EventSchemas::Registry`
 * `AWS::EventSchemas::Schema`
@@ -344,6 +356,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::GuardDuty::Filter`
 * `AWS::GuardDuty::IPSet`
 * `AWS::GuardDuty::ThreatIntelSet`
+* `AWS::HealthImaging::Datastore`
 * `AWS::HealthLake::FHIRDatastore`
 * `AWS::IAM::OIDCProvider`
 * `AWS::IAM::Role`
@@ -450,6 +463,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::MSK::VpcConnection`
 * `AWS::MWAA::Environment`
 * `AWS::Macie::AllowList`
+* `AWS::Macie::CustomDataIdentifier`
+* `AWS::Macie::FindingsFilter`
 * `AWS::ManagedBlockchain::Accessor`
 * `AWS::MediaConvert::JobTemplate`
 * `AWS::MediaConvert::Preset`
@@ -462,8 +477,15 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::MediaPackage::OriginEndpoint`
 * `AWS::MediaPackage::PackagingConfiguration`
 * `AWS::MediaPackage::PackagingGroup`
+* `AWS::MediaPackageV2::Channel`
+* `AWS::MediaPackageV2::ChannelGroup`
+* `AWS::MediaPackageV2::OriginEndpoint`
 * `AWS::MediaStore::Container`
+* `AWS::MediaTailor::Channel`
+* `AWS::MediaTailor::LiveSource`
 * `AWS::MediaTailor::PlaybackConfiguration`
+* `AWS::MediaTailor::SourceLocation`
+* `AWS::MediaTailor::VodSource`
 * `AWS::MemoryDB::ACL`
 * `AWS::MemoryDB::Cluster`
 * `AWS::MemoryDB::ParameterGroup`
@@ -510,6 +532,9 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Organizations::OrganizationalUnit`
 * `AWS::Organizations::Policy`
 * `AWS::Organizations::ResourcePolicy`
+* `AWS::PCAConnectorAD::Connector`
+* `AWS::PCAConnectorAD::DirectoryRegistration`
+* `AWS::PCAConnectorAD::Template`
 * `AWS::Panorama::ApplicationInstance`
 * `AWS::Panorama::Package`
 * `AWS::Pinpoint::App`
@@ -586,6 +611,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Route53Resolver::FirewallDomainList`
 * `AWS::Route53Resolver::FirewallRuleGroup`
 * `AWS::Route53Resolver::FirewallRuleGroupAssociation`
+* `AWS::Route53Resolver::OutpostResolver`
 * `AWS::Route53Resolver::ResolverEndpoint`
 * `AWS::Route53Resolver::ResolverRule`
 * `AWS::S3::Bucket`
@@ -677,6 +703,13 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Wisdom::KnowledgeBase`
 * `AWS::WorkSpaces::ConnectionAlias`
 * `AWS::WorkSpaces::Workspace`
+* `AWS::WorkSpacesWeb::BrowserSettings`
+* `AWS::WorkSpacesWeb::IpAccessSettings`
+* `AWS::WorkSpacesWeb::NetworkSettings`
+* `AWS::WorkSpacesWeb::Portal`
+* `AWS::WorkSpacesWeb::TrustStore`
+* `AWS::WorkSpacesWeb::UserAccessLoggingSettings`
+* `AWS::WorkSpacesWeb::UserSettings`
 * `AWS::XRay::Group`
 * `AWS::XRay::SamplingRule`
 

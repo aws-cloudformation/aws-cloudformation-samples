@@ -40,6 +40,7 @@ class AwsCustomerprofilesObjecttype(BaseModel):
     Keys: Optional[Sequence["_KeyMap"]]
     CreatedAt: Optional[str]
     LastUpdatedAt: Optional[str]
+    SourceLastUpdatedTimestampFormat: Optional[str]
     Tags: Optional[Any]
     TemplateId: Optional[str]
 
@@ -63,6 +64,7 @@ class AwsCustomerprofilesObjecttype(BaseModel):
             Keys=deserialize_list(json_data.get("Keys"), KeyMap),
             CreatedAt=json_data.get("CreatedAt"),
             LastUpdatedAt=json_data.get("LastUpdatedAt"),
+            SourceLastUpdatedTimestampFormat=json_data.get("SourceLastUpdatedTimestampFormat"),
             Tags=json_data.get("Tags"),
             TemplateId=json_data.get("TemplateId"),
         )

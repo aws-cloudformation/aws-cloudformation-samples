@@ -105,6 +105,7 @@ class CodeRepository(BaseModel):
     RepositoryUrl: Optional[str]
     SourceCodeVersion: Optional["_SourceCodeVersion"]
     CodeConfiguration: Optional["_CodeConfiguration"]
+    SourceDirectory: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -117,6 +118,7 @@ class CodeRepository(BaseModel):
             RepositoryUrl=json_data.get("RepositoryUrl"),
             SourceCodeVersion=SourceCodeVersion._deserialize(json_data.get("SourceCodeVersion")),
             CodeConfiguration=CodeConfiguration._deserialize(json_data.get("CodeConfiguration")),
+            SourceDirectory=json_data.get("SourceDirectory"),
         )
 
 

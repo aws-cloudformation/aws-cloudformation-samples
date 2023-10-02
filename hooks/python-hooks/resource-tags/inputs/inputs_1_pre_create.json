@@ -712,6 +712,16 @@
             ]
         }
     },
+    "AWS::CleanRooms::AnalysisTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::CleanRooms::Collaboration": {
         "resourceProperties": {
             "Tags": [
@@ -1093,7 +1103,27 @@
             ]
         }
     },
+    "AWS::Connect::Queue": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Connect::QuickConnect": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Connect::RoutingProfile": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1113,6 +1143,28 @@
             ]
         }
     },
+    "AWS::Connect::SecurityProfile": {
+        "resourceProperties": {
+            "AllowedAccessControlTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ],
+            "TagRestrictedResources": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Connect::TaskTemplate": {
         "resourceProperties": {
             "Tags": [
@@ -1123,7 +1175,27 @@
             ]
         }
     },
+    "AWS::Connect::TrafficDistributionGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Connect::User": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Connect::View": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1221,6 +1293,16 @@
         }
     },
     "AWS::DMS::EventSubscription": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::DMS::ReplicationConfig": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1331,6 +1413,16 @@
         }
     },
     "AWS::DataSync::Agent": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::DataSync::LocationAzureBlob": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1705,6 +1797,16 @@
                 }
             ],
             "PropagateTagsToVolumeOnCreation": true
+        }
+    },
+    "AWS::EC2::InstanceConnectEndpoint": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
         }
     },
     "AWS::EC2::InternetGateway": {
@@ -2230,6 +2332,16 @@
             ]
         }
     },
+    "AWS::EMR::WALWorkspace": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::EMRContainers::VirtualCluster": {
         "resourceProperties": {
             "Tags": [
@@ -2361,6 +2473,26 @@
         }
     },
     "AWS::Elasticsearch::Domain": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::EntityResolution::MatchingWorkflow": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::EntityResolution::SchemaMapping": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2910,6 +3042,13 @@
                     "Value": "Test"
                 }
             ]
+        }
+    },
+    "AWS::HealthImaging::Datastore": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
         }
     },
     "AWS::HealthLake::FHIRDatastore": {
@@ -3927,6 +4066,26 @@
             ]
         }
     },
+    "AWS::Macie::CustomDataIdentifier": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Macie::FindingsFilter": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::ManagedBlockchain::Accessor": {
         "resourceProperties": {
             "Tags": [
@@ -4029,6 +4188,36 @@
             ]
         }
     },
+    "AWS::MediaPackageV2::Channel": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::MediaPackageV2::ChannelGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::MediaPackageV2::OriginEndpoint": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::MediaStore::Container": {
         "resourceProperties": {
             "Tags": [
@@ -4039,7 +4228,47 @@
             ]
         }
     },
+    "AWS::MediaTailor::Channel": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::MediaTailor::LiveSource": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::MediaTailor::PlaybackConfiguration": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::MediaTailor::SourceLocation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::MediaTailor::VodSource": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4471,6 +4700,27 @@
                     "Value": "Test"
                 }
             ]
+        }
+    },
+    "AWS::PCAConnectorAD::Connector": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::PCAConnectorAD::DirectoryRegistration": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::PCAConnectorAD::Template": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
         }
     },
     "AWS::Panorama::ApplicationInstance": {
@@ -5176,6 +5426,16 @@
         }
     },
     "AWS::Route53Resolver::FirewallRuleGroupAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Route53Resolver::OutpostResolver": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -6071,6 +6331,76 @@
         }
     },
     "AWS::WorkSpaces::Workspace": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesWeb::BrowserSettings": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesWeb::IpAccessSettings": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesWeb::NetworkSettings": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesWeb::Portal": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesWeb::TrustStore": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesWeb::UserAccessLoggingSettings": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesWeb::UserSettings": {
         "resourceProperties": {
             "Tags": [
                 {

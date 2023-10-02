@@ -37,6 +37,7 @@ class AwsIvsRecordingconfiguration(BaseModel):
     DestinationConfiguration: Optional["_DestinationConfiguration"]
     Tags: Optional[Any]
     ThumbnailConfiguration: Optional["_ThumbnailConfiguration"]
+    RenditionConfiguration: Optional["_RenditionConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -55,6 +56,7 @@ class AwsIvsRecordingconfiguration(BaseModel):
             DestinationConfiguration=DestinationConfiguration._deserialize(json_data.get("DestinationConfiguration")),
             Tags=json_data.get("Tags"),
             ThumbnailConfiguration=ThumbnailConfiguration._deserialize(json_data.get("ThumbnailConfiguration")),
+            RenditionConfiguration=RenditionConfiguration._deserialize(json_data.get("RenditionConfiguration")),
         )
 
 
@@ -128,6 +130,8 @@ _Tag = Tag
 class ThumbnailConfiguration(BaseModel):
     RecordingMode: Optional[str]
     TargetIntervalSeconds: Optional[int]
+    Resolution: Optional[str]
+    Storage: Optional[AbstractSet[str]]
 
     @classmethod
     def _deserialize(
@@ -139,10 +143,34 @@ class ThumbnailConfiguration(BaseModel):
         return cls(
             RecordingMode=json_data.get("RecordingMode"),
             TargetIntervalSeconds=json_data.get("TargetIntervalSeconds"),
+            Resolution=json_data.get("Resolution"),
+            Storage=set_or_none(json_data.get("Storage")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _ThumbnailConfiguration = ThumbnailConfiguration
+
+
+@dataclass
+class RenditionConfiguration(BaseModel):
+    RenditionSelection: Optional[str]
+    Renditions: Optional[AbstractSet[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RenditionConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RenditionConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            RenditionSelection=json_data.get("RenditionSelection"),
+            Renditions=set_or_none(json_data.get("Renditions")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RenditionConfiguration = RenditionConfiguration
 
 

@@ -32,6 +32,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 class AwsRolesanywhereTrustanchor(BaseModel):
     Enabled: Optional[bool]
     Name: Optional[str]
+    NotificationSettings: Optional[Sequence["_NotificationSetting"]]
     Source: Optional["_Source"]
     Tags: Optional[Any]
     TrustAnchorId: Optional[str]
@@ -49,6 +50,7 @@ class AwsRolesanywhereTrustanchor(BaseModel):
         return cls(
             Enabled=json_data.get("Enabled"),
             Name=json_data.get("Name"),
+            NotificationSettings=deserialize_list(json_data.get("NotificationSettings"), NotificationSetting),
             Source=Source._deserialize(json_data.get("Source")),
             Tags=json_data.get("Tags"),
             TrustAnchorId=json_data.get("TrustAnchorId"),
@@ -58,6 +60,32 @@ class AwsRolesanywhereTrustanchor(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _AwsRolesanywhereTrustanchor = AwsRolesanywhereTrustanchor
+
+
+@dataclass
+class NotificationSetting(BaseModel):
+    Enabled: Optional[bool]
+    Event: Optional[str]
+    Threshold: Optional[float]
+    Channel: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_NotificationSetting"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_NotificationSetting"]:
+        if not json_data:
+            return None
+        return cls(
+            Enabled=json_data.get("Enabled"),
+            Event=json_data.get("Event"),
+            Threshold=json_data.get("Threshold"),
+            Channel=json_data.get("Channel"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_NotificationSetting = NotificationSetting
 
 
 @dataclass
