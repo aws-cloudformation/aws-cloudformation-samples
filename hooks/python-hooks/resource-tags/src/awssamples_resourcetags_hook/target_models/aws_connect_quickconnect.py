@@ -36,6 +36,7 @@ class AwsConnectQuickconnect(BaseModel):
     QuickConnectConfig: Optional["_QuickConnectConfig"]
     QuickConnectArn: Optional[str]
     Tags: Optional[Any]
+    QuickConnectType: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -53,6 +54,7 @@ class AwsConnectQuickconnect(BaseModel):
             QuickConnectConfig=QuickConnectConfig._deserialize(json_data.get("QuickConnectConfig")),
             QuickConnectArn=json_data.get("QuickConnectArn"),
             Tags=json_data.get("Tags"),
+            QuickConnectType=json_data.get("QuickConnectType"),
         )
 
 

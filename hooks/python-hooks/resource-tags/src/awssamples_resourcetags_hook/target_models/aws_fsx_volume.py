@@ -204,6 +204,7 @@ class OntapConfiguration(BaseModel):
     SizeInMegabytes: Optional[str]
     CopyTagsToBackups: Optional[str]
     SecurityStyle: Optional[str]
+    SnaplockConfiguration: Optional["_SnaplockConfiguration"]
     OntapVolumeType: Optional[str]
 
     @classmethod
@@ -222,6 +223,7 @@ class OntapConfiguration(BaseModel):
             SizeInMegabytes=json_data.get("SizeInMegabytes"),
             CopyTagsToBackups=json_data.get("CopyTagsToBackups"),
             SecurityStyle=json_data.get("SecurityStyle"),
+            SnaplockConfiguration=SnaplockConfiguration._deserialize(json_data.get("SnaplockConfiguration")),
             OntapVolumeType=json_data.get("OntapVolumeType"),
         )
 
@@ -250,6 +252,104 @@ class TieringPolicy(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _TieringPolicy = TieringPolicy
+
+
+@dataclass
+class SnaplockConfiguration(BaseModel):
+    AuditLogVolume: Optional[str]
+    VolumeAppendModeEnabled: Optional[str]
+    AutocommitPeriod: Optional["_AutocommitPeriod"]
+    RetentionPeriod: Optional["_SnaplockRetentionPeriod"]
+    PrivilegedDelete: Optional[str]
+    SnaplockType: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SnaplockConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SnaplockConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            AuditLogVolume=json_data.get("AuditLogVolume"),
+            VolumeAppendModeEnabled=json_data.get("VolumeAppendModeEnabled"),
+            AutocommitPeriod=AutocommitPeriod._deserialize(json_data.get("AutocommitPeriod")),
+            RetentionPeriod=SnaplockRetentionPeriod._deserialize(json_data.get("RetentionPeriod")),
+            PrivilegedDelete=json_data.get("PrivilegedDelete"),
+            SnaplockType=json_data.get("SnaplockType"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SnaplockConfiguration = SnaplockConfiguration
+
+
+@dataclass
+class AutocommitPeriod(BaseModel):
+    Value: Optional[int]
+    Type: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AutocommitPeriod"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AutocommitPeriod"]:
+        if not json_data:
+            return None
+        return cls(
+            Value=json_data.get("Value"),
+            Type=json_data.get("Type"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AutocommitPeriod = AutocommitPeriod
+
+
+@dataclass
+class SnaplockRetentionPeriod(BaseModel):
+    MinimumRetention: Optional["_RetentionPeriod"]
+    DefaultRetention: Optional["_RetentionPeriod"]
+    MaximumRetention: Optional["_RetentionPeriod"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SnaplockRetentionPeriod"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SnaplockRetentionPeriod"]:
+        if not json_data:
+            return None
+        return cls(
+            MinimumRetention=RetentionPeriod._deserialize(json_data.get("MinimumRetention")),
+            DefaultRetention=RetentionPeriod._deserialize(json_data.get("DefaultRetention")),
+            MaximumRetention=RetentionPeriod._deserialize(json_data.get("MaximumRetention")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SnaplockRetentionPeriod = SnaplockRetentionPeriod
+
+
+@dataclass
+class RetentionPeriod(BaseModel):
+    Value: Optional[int]
+    Type: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RetentionPeriod"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RetentionPeriod"]:
+        if not json_data:
+            return None
+        return cls(
+            Value=json_data.get("Value"),
+            Type=json_data.get("Type"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RetentionPeriod = RetentionPeriod
 
 
 @dataclass

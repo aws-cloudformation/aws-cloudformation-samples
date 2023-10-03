@@ -47,6 +47,7 @@ class AwsAppstreamFleet(BaseModel):
     DisplayName: Optional[str]
     StreamView: Optional[str]
     IamRoleArn: Optional[str]
+    MaxSessionsPerInstance: Optional[int]
     Id: Optional[str]
     InstanceType: Optional[str]
     MaxConcurrentSessions: Optional[int]
@@ -80,6 +81,7 @@ class AwsAppstreamFleet(BaseModel):
             DisplayName=json_data.get("DisplayName"),
             StreamView=json_data.get("StreamView"),
             IamRoleArn=json_data.get("IamRoleArn"),
+            MaxSessionsPerInstance=json_data.get("MaxSessionsPerInstance"),
             Id=json_data.get("Id"),
             InstanceType=json_data.get("InstanceType"),
             MaxConcurrentSessions=json_data.get("MaxConcurrentSessions"),
@@ -95,6 +97,7 @@ _AwsAppstreamFleet = AwsAppstreamFleet
 @dataclass
 class ComputeCapacity(BaseModel):
     DesiredInstances: Optional[int]
+    DesiredSessions: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -105,6 +108,7 @@ class ComputeCapacity(BaseModel):
             return None
         return cls(
             DesiredInstances=json_data.get("DesiredInstances"),
+            DesiredSessions=json_data.get("DesiredSessions"),
         )
 
 

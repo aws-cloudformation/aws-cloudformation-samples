@@ -751,14 +751,22 @@ _DynamoDbSettings = DynamoDbSettings
 @dataclass
 class MicrosoftSqlServerSettings(BaseModel):
     ReadBackupOnly: Optional[bool]
+    TlogAccessMode: Optional[str]
     BcpPacketSize: Optional[int]
-    QuerySingleAlwaysOnNode: Optional[bool]
+    Port: Optional[int]
     SafeguardPolicy: Optional[str]
     UseThirdPartyBackupDevice: Optional[bool]
+    DatabaseName: Optional[str]
+    UseBcpFullLoad: Optional[bool]
+    Username: Optional[str]
+    QuerySingleAlwaysOnNode: Optional[bool]
+    ServerName: Optional[str]
     SecretsManagerSecretId: Optional[str]
     ControlTablesFileGroup: Optional[str]
+    ForceLobLookup: Optional[bool]
     SecretsManagerAccessRoleArn: Optional[str]
-    UseBcpFullLoad: Optional[bool]
+    TrimSpaceInChar: Optional[bool]
+    Password: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -769,14 +777,22 @@ class MicrosoftSqlServerSettings(BaseModel):
             return None
         return cls(
             ReadBackupOnly=json_data.get("ReadBackupOnly"),
+            TlogAccessMode=json_data.get("TlogAccessMode"),
             BcpPacketSize=json_data.get("BcpPacketSize"),
-            QuerySingleAlwaysOnNode=json_data.get("QuerySingleAlwaysOnNode"),
+            Port=json_data.get("Port"),
             SafeguardPolicy=json_data.get("SafeguardPolicy"),
             UseThirdPartyBackupDevice=json_data.get("UseThirdPartyBackupDevice"),
+            DatabaseName=json_data.get("DatabaseName"),
+            UseBcpFullLoad=json_data.get("UseBcpFullLoad"),
+            Username=json_data.get("Username"),
+            QuerySingleAlwaysOnNode=json_data.get("QuerySingleAlwaysOnNode"),
+            ServerName=json_data.get("ServerName"),
             SecretsManagerSecretId=json_data.get("SecretsManagerSecretId"),
             ControlTablesFileGroup=json_data.get("ControlTablesFileGroup"),
+            ForceLobLookup=json_data.get("ForceLobLookup"),
             SecretsManagerAccessRoleArn=json_data.get("SecretsManagerAccessRoleArn"),
-            UseBcpFullLoad=json_data.get("UseBcpFullLoad"),
+            TrimSpaceInChar=json_data.get("TrimSpaceInChar"),
+            Password=json_data.get("Password"),
         )
 
 
@@ -837,6 +853,8 @@ class PostgreSqlSettings(BaseModel):
     DdlArtifactsSchema: Optional[str]
     FailTasksOnLobTruncation: Optional[bool]
     HeartbeatEnable: Optional[bool]
+    BabelfishDatabaseName: Optional[str]
+    DatabaseMode: Optional[str]
     CaptureDdls: Optional[bool]
     MaxFileSize: Optional[int]
     HeartbeatFrequency: Optional[int]
@@ -860,6 +878,8 @@ class PostgreSqlSettings(BaseModel):
             DdlArtifactsSchema=json_data.get("DdlArtifactsSchema"),
             FailTasksOnLobTruncation=json_data.get("FailTasksOnLobTruncation"),
             HeartbeatEnable=json_data.get("HeartbeatEnable"),
+            BabelfishDatabaseName=json_data.get("BabelfishDatabaseName"),
+            DatabaseMode=json_data.get("DatabaseMode"),
             CaptureDdls=json_data.get("CaptureDdls"),
             MaxFileSize=json_data.get("MaxFileSize"),
             HeartbeatFrequency=json_data.get("HeartbeatFrequency"),

@@ -38,6 +38,8 @@ class AwsSagemakerFeaturegroup(BaseModel):
     OfflineStoreConfig: Optional["_OfflineStoreConfig"]
     RoleArn: Optional[str]
     Description: Optional[str]
+    CreationTime: Optional[str]
+    FeatureGroupStatus: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -58,6 +60,8 @@ class AwsSagemakerFeaturegroup(BaseModel):
             OfflineStoreConfig=OfflineStoreConfig._deserialize(json_data.get("OfflineStoreConfig")),
             RoleArn=json_data.get("RoleArn"),
             Description=json_data.get("Description"),
+            CreationTime=json_data.get("CreationTime"),
+            FeatureGroupStatus=json_data.get("FeatureGroupStatus"),
             Tags=json_data.get("Tags"),
         )
 

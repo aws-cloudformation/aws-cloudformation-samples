@@ -159,6 +159,7 @@ _StackInstances = StackInstances
 @dataclass
 class DeploymentTargets(BaseModel):
     Accounts: Optional[AbstractSet[str]]
+    AccountsUrl: Optional[str]
     OrganizationalUnitIds: Optional[AbstractSet[str]]
     AccountFilterType: Optional[str]
 
@@ -171,6 +172,7 @@ class DeploymentTargets(BaseModel):
             return None
         return cls(
             Accounts=set_or_none(json_data.get("Accounts")),
+            AccountsUrl=json_data.get("AccountsUrl"),
             OrganizationalUnitIds=set_or_none(json_data.get("OrganizationalUnitIds")),
             AccountFilterType=json_data.get("AccountFilterType"),
         )

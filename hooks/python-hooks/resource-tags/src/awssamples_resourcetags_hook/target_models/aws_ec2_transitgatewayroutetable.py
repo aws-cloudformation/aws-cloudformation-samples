@@ -30,7 +30,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEc2Transitgatewayroutetable(BaseModel):
-    Id: Optional[str]
+    TransitGatewayRouteTableId: Optional[str]
     TransitGatewayId: Optional[str]
     Tags: Optional[Any]
 
@@ -44,7 +44,7 @@ class AwsEc2Transitgatewayroutetable(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Id=json_data.get("Id"),
+            TransitGatewayRouteTableId=json_data.get("TransitGatewayRouteTableId"),
             TransitGatewayId=json_data.get("TransitGatewayId"),
             Tags=json_data.get("Tags"),
         )

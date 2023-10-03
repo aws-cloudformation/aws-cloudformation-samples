@@ -148,6 +148,8 @@ _S3Config = S3Config
 class HealthEventsConfig(BaseModel):
     AvailabilityScoreThreshold: Optional[float]
     PerformanceScoreThreshold: Optional[float]
+    AvailabilityLocalHealthEventsConfig: Optional["_LocalHealthEventsConfig"]
+    PerformanceLocalHealthEventsConfig: Optional["_LocalHealthEventsConfig"]
 
     @classmethod
     def _deserialize(
@@ -159,10 +161,36 @@ class HealthEventsConfig(BaseModel):
         return cls(
             AvailabilityScoreThreshold=json_data.get("AvailabilityScoreThreshold"),
             PerformanceScoreThreshold=json_data.get("PerformanceScoreThreshold"),
+            AvailabilityLocalHealthEventsConfig=LocalHealthEventsConfig._deserialize(json_data.get("AvailabilityLocalHealthEventsConfig")),
+            PerformanceLocalHealthEventsConfig=LocalHealthEventsConfig._deserialize(json_data.get("PerformanceLocalHealthEventsConfig")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _HealthEventsConfig = HealthEventsConfig
+
+
+@dataclass
+class LocalHealthEventsConfig(BaseModel):
+    Status: Optional[str]
+    HealthScoreThreshold: Optional[float]
+    MinTrafficImpact: Optional[float]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LocalHealthEventsConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LocalHealthEventsConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            Status=json_data.get("Status"),
+            HealthScoreThreshold=json_data.get("HealthScoreThreshold"),
+            MinTrafficImpact=json_data.get("MinTrafficImpact"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LocalHealthEventsConfig = LocalHealthEventsConfig
 
 

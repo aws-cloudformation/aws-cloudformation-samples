@@ -39,6 +39,7 @@ class AwsHealthlakeFhirdatastore(BaseModel):
     DatastoreTypeVersion: Optional[str]
     PreloadDataConfig: Optional["_PreloadDataConfig"]
     SseConfiguration: Optional["_SseConfiguration"]
+    IdentityProviderConfiguration: Optional["_IdentityProviderConfiguration"]
     Tags: Optional[Any]
 
     @classmethod
@@ -60,6 +61,7 @@ class AwsHealthlakeFhirdatastore(BaseModel):
             DatastoreTypeVersion=json_data.get("DatastoreTypeVersion"),
             PreloadDataConfig=PreloadDataConfig._deserialize(json_data.get("PreloadDataConfig")),
             SseConfiguration=SseConfiguration._deserialize(json_data.get("SseConfiguration")),
+            IdentityProviderConfiguration=IdentityProviderConfiguration._deserialize(json_data.get("IdentityProviderConfiguration")),
             Tags=json_data.get("Tags"),
         )
 
@@ -150,6 +152,32 @@ class KmsEncryptionConfig(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _KmsEncryptionConfig = KmsEncryptionConfig
+
+
+@dataclass
+class IdentityProviderConfiguration(BaseModel):
+    AuthorizationStrategy: Optional[str]
+    FineGrainedAuthorizationEnabled: Optional[bool]
+    Metadata: Optional[str]
+    IdpLambdaArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_IdentityProviderConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_IdentityProviderConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            AuthorizationStrategy=json_data.get("AuthorizationStrategy"),
+            FineGrainedAuthorizationEnabled=json_data.get("FineGrainedAuthorizationEnabled"),
+            Metadata=json_data.get("Metadata"),
+            IdpLambdaArn=json_data.get("IdpLambdaArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_IdentityProviderConfiguration = IdentityProviderConfiguration
 
 
 @dataclass

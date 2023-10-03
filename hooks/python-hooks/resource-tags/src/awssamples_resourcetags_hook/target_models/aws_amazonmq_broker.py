@@ -31,6 +31,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsAmazonmqBroker(BaseModel):
     SecurityGroups: Optional[Sequence[str]]
+    DataReplicationPrimaryBrokerArn: Optional[str]
     Configuration: Optional["_ConfigurationId"]
     AuthenticationStrategy: Optional[str]
     Users: Optional[Sequence["_User"]]
@@ -50,6 +51,7 @@ class AwsAmazonmqBroker(BaseModel):
     AutoMinorVersionUpgrade: Optional[bool]
     Logs: Optional["_LogList"]
     ConfigurationId: Optional[str]
+    DataReplicationMode: Optional[str]
     BrokerName: Optional[str]
     WssEndpoints: Optional[Sequence[str]]
     IpAddresses: Optional[Sequence[str]]
@@ -70,6 +72,7 @@ class AwsAmazonmqBroker(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             SecurityGroups=json_data.get("SecurityGroups"),
+            DataReplicationPrimaryBrokerArn=json_data.get("DataReplicationPrimaryBrokerArn"),
             Configuration=ConfigurationId._deserialize(json_data.get("Configuration")),
             AuthenticationStrategy=json_data.get("AuthenticationStrategy"),
             Users=deserialize_list(json_data.get("Users"), User),
@@ -89,6 +92,7 @@ class AwsAmazonmqBroker(BaseModel):
             AutoMinorVersionUpgrade=json_data.get("AutoMinorVersionUpgrade"),
             Logs=LogList._deserialize(json_data.get("Logs")),
             ConfigurationId=json_data.get("ConfigurationId"),
+            DataReplicationMode=json_data.get("DataReplicationMode"),
             BrokerName=json_data.get("BrokerName"),
             WssEndpoints=json_data.get("WssEndpoints"),
             IpAddresses=json_data.get("IpAddresses"),

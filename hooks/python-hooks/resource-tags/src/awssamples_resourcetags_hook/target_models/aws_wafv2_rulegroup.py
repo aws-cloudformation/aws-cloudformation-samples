@@ -634,6 +634,7 @@ _RegexPatternSetReferenceStatement = RegexPatternSetReferenceStatement
 class RateBasedStatement(BaseModel):
     Limit: Optional[int]
     AggregateKeyType: Optional[str]
+    CustomKeys: Optional[Sequence["_RateBasedStatementCustomKey"]]
     ScopeDownStatement: Optional["_Statement"]
     ForwardedIPConfig: Optional["_ForwardedIPConfiguration"]
 
@@ -647,6 +648,7 @@ class RateBasedStatement(BaseModel):
         return cls(
             Limit=json_data.get("Limit"),
             AggregateKeyType=json_data.get("AggregateKeyType"),
+            CustomKeys=deserialize_list(json_data.get("CustomKeys"), RateBasedStatementCustomKey),
             ScopeDownStatement=Statement._deserialize(json_data.get("ScopeDownStatement")),
             ForwardedIPConfig=ForwardedIPConfiguration._deserialize(json_data.get("ForwardedIPConfig")),
         )
@@ -654,6 +656,168 @@ class RateBasedStatement(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _RateBasedStatement = RateBasedStatement
+
+
+@dataclass
+class RateBasedStatementCustomKey(BaseModel):
+    Cookie: Optional["_RateLimitCookie"]
+    ForwardedIP: Optional[MutableMapping[str, Any]]
+    Header: Optional["_RateLimitHeader"]
+    HTTPMethod: Optional[MutableMapping[str, Any]]
+    IP: Optional[MutableMapping[str, Any]]
+    LabelNamespace: Optional["_RateLimitLabelNamespace"]
+    QueryArgument: Optional["_RateLimitQueryArgument"]
+    QueryString: Optional["_RateLimitQueryString"]
+    UriPath: Optional["_RateLimitUriPath"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateBasedStatementCustomKey"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateBasedStatementCustomKey"]:
+        if not json_data:
+            return None
+        return cls(
+            Cookie=RateLimitCookie._deserialize(json_data.get("Cookie")),
+            ForwardedIP=json_data.get("ForwardedIP"),
+            Header=RateLimitHeader._deserialize(json_data.get("Header")),
+            HTTPMethod=json_data.get("HTTPMethod"),
+            IP=json_data.get("IP"),
+            LabelNamespace=RateLimitLabelNamespace._deserialize(json_data.get("LabelNamespace")),
+            QueryArgument=RateLimitQueryArgument._deserialize(json_data.get("QueryArgument")),
+            QueryString=RateLimitQueryString._deserialize(json_data.get("QueryString")),
+            UriPath=RateLimitUriPath._deserialize(json_data.get("UriPath")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateBasedStatementCustomKey = RateBasedStatementCustomKey
+
+
+@dataclass
+class RateLimitCookie(BaseModel):
+    Name: Optional[str]
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitCookie"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitCookie"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitCookie = RateLimitCookie
+
+
+@dataclass
+class RateLimitHeader(BaseModel):
+    Name: Optional[str]
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitHeader"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitHeader"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitHeader = RateLimitHeader
+
+
+@dataclass
+class RateLimitLabelNamespace(BaseModel):
+    Namespace: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitLabelNamespace"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitLabelNamespace"]:
+        if not json_data:
+            return None
+        return cls(
+            Namespace=json_data.get("Namespace"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitLabelNamespace = RateLimitLabelNamespace
+
+
+@dataclass
+class RateLimitQueryArgument(BaseModel):
+    Name: Optional[str]
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitQueryArgument"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitQueryArgument"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitQueryArgument = RateLimitQueryArgument
+
+
+@dataclass
+class RateLimitQueryString(BaseModel):
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitQueryString"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitQueryString"]:
+        if not json_data:
+            return None
+        return cls(
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitQueryString = RateLimitQueryString
+
+
+@dataclass
+class RateLimitUriPath(BaseModel):
+    TextTransformations: Optional[Sequence["_TextTransformation"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RateLimitUriPath"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RateLimitUriPath"]:
+        if not json_data:
+            return None
+        return cls(
+            TextTransformations=deserialize_list(json_data.get("TextTransformations"), TextTransformation),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RateLimitUriPath = RateLimitUriPath
 
 
 @dataclass

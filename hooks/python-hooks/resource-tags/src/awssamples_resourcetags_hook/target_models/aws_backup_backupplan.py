@@ -111,6 +111,7 @@ class BackupRuleResourceType(BaseModel):
     StartWindowMinutes: Optional[float]
     CompletionWindowMinutes: Optional[float]
     ScheduleExpression: Optional[str]
+    ScheduleExpressionTimezone: Optional[str]
     RecoveryPointTags: Optional[MutableMapping[str, str]]
     CopyActions: Optional[Sequence["_CopyActionResourceType"]]
     Lifecycle: Optional["_LifecycleResourceType"]
@@ -129,6 +130,7 @@ class BackupRuleResourceType(BaseModel):
             StartWindowMinutes=json_data.get("StartWindowMinutes"),
             CompletionWindowMinutes=json_data.get("CompletionWindowMinutes"),
             ScheduleExpression=json_data.get("ScheduleExpression"),
+            ScheduleExpressionTimezone=json_data.get("ScheduleExpressionTimezone"),
             RecoveryPointTags=json_data.get("RecoveryPointTags"),
             CopyActions=deserialize_list(json_data.get("CopyActions"), CopyActionResourceType),
             Lifecycle=LifecycleResourceType._deserialize(json_data.get("Lifecycle")),

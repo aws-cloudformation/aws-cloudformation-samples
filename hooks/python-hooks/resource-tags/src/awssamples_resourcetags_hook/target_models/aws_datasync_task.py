@@ -37,6 +37,7 @@ class AwsDatasyncTask(BaseModel):
     DestinationLocationArn: Optional[str]
     Name: Optional[str]
     Options: Optional["_Options"]
+    TaskReportConfig: Optional["_TaskReportConfig"]
     Schedule: Optional["_TaskSchedule"]
     SourceLocationArn: Optional[str]
     TaskArn: Optional[str]
@@ -61,6 +62,7 @@ class AwsDatasyncTask(BaseModel):
             DestinationLocationArn=json_data.get("DestinationLocationArn"),
             Name=json_data.get("Name"),
             Options=Options._deserialize(json_data.get("Options")),
+            TaskReportConfig=TaskReportConfig._deserialize(json_data.get("TaskReportConfig")),
             Schedule=TaskSchedule._deserialize(json_data.get("Schedule")),
             SourceLocationArn=json_data.get("SourceLocationArn"),
             TaskArn=json_data.get("TaskArn"),
@@ -164,6 +166,184 @@ class Options(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Options = Options
+
+
+@dataclass
+class TaskReportConfig(BaseModel):
+    Destination: Optional["_Destination"]
+    OutputType: Optional[str]
+    ReportLevel: Optional[str]
+    ObjectVersionIds: Optional[str]
+    Overrides: Optional["_Overrides"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TaskReportConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TaskReportConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            Destination=Destination._deserialize(json_data.get("Destination")),
+            OutputType=json_data.get("OutputType"),
+            ReportLevel=json_data.get("ReportLevel"),
+            ObjectVersionIds=json_data.get("ObjectVersionIds"),
+            Overrides=Overrides._deserialize(json_data.get("Overrides")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TaskReportConfig = TaskReportConfig
+
+
+@dataclass
+class Destination(BaseModel):
+    S3: Optional["_S3"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Destination"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Destination"]:
+        if not json_data:
+            return None
+        return cls(
+            S3=S3._deserialize(json_data.get("S3")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Destination = Destination
+
+
+@dataclass
+class S3(BaseModel):
+    Subdirectory: Optional[str]
+    BucketAccessRoleArn: Optional[str]
+    S3BucketArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_S3"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_S3"]:
+        if not json_data:
+            return None
+        return cls(
+            Subdirectory=json_data.get("Subdirectory"),
+            BucketAccessRoleArn=json_data.get("BucketAccessRoleArn"),
+            S3BucketArn=json_data.get("S3BucketArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_S3 = S3
+
+
+@dataclass
+class Overrides(BaseModel):
+    Transferred: Optional["_Transferred"]
+    Verified: Optional["_Verified"]
+    Deleted: Optional["_Deleted"]
+    Skipped: Optional["_Skipped"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Overrides"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Overrides"]:
+        if not json_data:
+            return None
+        return cls(
+            Transferred=Transferred._deserialize(json_data.get("Transferred")),
+            Verified=Verified._deserialize(json_data.get("Verified")),
+            Deleted=Deleted._deserialize(json_data.get("Deleted")),
+            Skipped=Skipped._deserialize(json_data.get("Skipped")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Overrides = Overrides
+
+
+@dataclass
+class Transferred(BaseModel):
+    ReportLevel: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Transferred"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Transferred"]:
+        if not json_data:
+            return None
+        return cls(
+            ReportLevel=json_data.get("ReportLevel"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Transferred = Transferred
+
+
+@dataclass
+class Verified(BaseModel):
+    ReportLevel: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Verified"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Verified"]:
+        if not json_data:
+            return None
+        return cls(
+            ReportLevel=json_data.get("ReportLevel"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Verified = Verified
+
+
+@dataclass
+class Deleted(BaseModel):
+    ReportLevel: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Deleted"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Deleted"]:
+        if not json_data:
+            return None
+        return cls(
+            ReportLevel=json_data.get("ReportLevel"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Deleted = Deleted
+
+
+@dataclass
+class Skipped(BaseModel):
+    ReportLevel: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Skipped"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Skipped"]:
+        if not json_data:
+            return None
+        return cls(
+            ReportLevel=json_data.get("ReportLevel"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Skipped = Skipped
 
 
 @dataclass

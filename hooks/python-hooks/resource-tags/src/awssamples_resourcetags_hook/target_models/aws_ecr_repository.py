@@ -30,6 +30,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEcrRepository(BaseModel):
+    EmptyOnDelete: Optional[bool]
     LifecyclePolicy: Optional["_LifecyclePolicy"]
     RepositoryName: Optional[str]
     RepositoryPolicyText: Optional[Any]
@@ -50,6 +51,7 @@ class AwsEcrRepository(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            EmptyOnDelete=json_data.get("EmptyOnDelete"),
             LifecyclePolicy=LifecyclePolicy._deserialize(json_data.get("LifecyclePolicy")),
             RepositoryName=json_data.get("RepositoryName"),
             RepositoryPolicyText=json_data.get("RepositoryPolicyText"),

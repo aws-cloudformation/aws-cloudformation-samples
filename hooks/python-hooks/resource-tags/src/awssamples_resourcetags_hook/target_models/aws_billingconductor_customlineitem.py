@@ -77,6 +77,7 @@ class CustomLineItemChargeDetails(BaseModel):
     Flat: Optional["_CustomLineItemFlatChargeDetails"]
     Percentage: Optional["_CustomLineItemPercentageChargeDetails"]
     Type: Optional[str]
+    LineItemFilters: Optional[AbstractSet["_LineItemFilter"]]
 
     @classmethod
     def _deserialize(
@@ -89,6 +90,7 @@ class CustomLineItemChargeDetails(BaseModel):
             Flat=CustomLineItemFlatChargeDetails._deserialize(json_data.get("Flat")),
             Percentage=CustomLineItemPercentageChargeDetails._deserialize(json_data.get("Percentage")),
             Type=json_data.get("Type"),
+            LineItemFilters=set_or_none(json_data.get("LineItemFilters")),
         )
 
 
@@ -136,6 +138,30 @@ class CustomLineItemPercentageChargeDetails(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _CustomLineItemPercentageChargeDetails = CustomLineItemPercentageChargeDetails
+
+
+@dataclass
+class LineItemFilter(BaseModel):
+    Attribute: Optional[str]
+    MatchOption: Optional[str]
+    Values: Optional[AbstractSet[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LineItemFilter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LineItemFilter"]:
+        if not json_data:
+            return None
+        return cls(
+            Attribute=json_data.get("Attribute"),
+            MatchOption=json_data.get("MatchOption"),
+            Values=set_or_none(json_data.get("Values")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LineItemFilter = LineItemFilter
 
 
 @dataclass

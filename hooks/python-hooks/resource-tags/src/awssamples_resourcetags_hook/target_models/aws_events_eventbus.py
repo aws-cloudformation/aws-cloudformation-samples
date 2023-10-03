@@ -30,12 +30,11 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEventsEventbus(BaseModel):
-    Policy: Optional[str]
-    Id: Optional[str]
-    Arn: Optional[str]
     EventSourceName: Optional[str]
-    Tags: Optional[Any]
     Name: Optional[str]
+    Tags: Optional[Any]
+    Policy: Optional[Any]
+    Arn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -47,12 +46,11 @@ class AwsEventsEventbus(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Policy=json_data.get("Policy"),
-            Id=json_data.get("Id"),
-            Arn=json_data.get("Arn"),
             EventSourceName=json_data.get("EventSourceName"),
-            Tags=json_data.get("Tags"),
             Name=json_data.get("Name"),
+            Tags=json_data.get("Tags"),
+            Policy=json_data.get("Policy"),
+            Arn=json_data.get("Arn"),
         )
 
 
@@ -61,24 +59,24 @@ _AwsEventsEventbus = AwsEventsEventbus
 
 
 @dataclass
-class TagEntry(BaseModel):
-    Value: Optional[str]
+class Tag(BaseModel):
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_TagEntry"],
+        cls: Type["_Tag"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_TagEntry"]:
+    ) -> Optional["_Tag"]:
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_TagEntry = TagEntry
+_Tag = Tag
 
 

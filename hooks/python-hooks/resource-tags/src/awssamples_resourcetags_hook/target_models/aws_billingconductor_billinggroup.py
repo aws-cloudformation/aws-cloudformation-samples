@@ -95,6 +95,7 @@ _ComputationPreference = ComputationPreference
 @dataclass
 class AccountGrouping(BaseModel):
     LinkedAccountIds: Optional[AbstractSet[str]]
+    AutoAssociate: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -105,6 +106,7 @@ class AccountGrouping(BaseModel):
             return None
         return cls(
             LinkedAccountIds=set_or_none(json_data.get("LinkedAccountIds")),
+            AutoAssociate=json_data.get("AutoAssociate"),
         )
 
 

@@ -57,7 +57,11 @@ class AwsRdsDbinstance(BaseModel):
     DeleteAutomatedBackups: Optional[bool]
     DeletionProtection: Optional[bool]
     Domain: Optional[str]
+    DomainAuthSecretArn: Optional[str]
+    DomainDnsIps: Optional[Sequence[str]]
+    DomainFqdn: Optional[str]
     DomainIAMRoleName: Optional[str]
+    DomainOu: Optional[str]
     EnableCloudwatchLogsExports: Optional[Sequence[str]]
     EnableIAMDatabaseAuthentication: Optional[bool]
     EnablePerformanceInsights: Optional[bool]
@@ -141,7 +145,11 @@ class AwsRdsDbinstance(BaseModel):
             DeleteAutomatedBackups=json_data.get("DeleteAutomatedBackups"),
             DeletionProtection=json_data.get("DeletionProtection"),
             Domain=json_data.get("Domain"),
+            DomainAuthSecretArn=json_data.get("DomainAuthSecretArn"),
+            DomainDnsIps=json_data.get("DomainDnsIps"),
+            DomainFqdn=json_data.get("DomainFqdn"),
             DomainIAMRoleName=json_data.get("DomainIAMRoleName"),
+            DomainOu=json_data.get("DomainOu"),
             EnableCloudwatchLogsExports=json_data.get("EnableCloudwatchLogsExports"),
             EnableIAMDatabaseAuthentication=json_data.get("EnableIAMDatabaseAuthentication"),
             EnablePerformanceInsights=json_data.get("EnablePerformanceInsights"),

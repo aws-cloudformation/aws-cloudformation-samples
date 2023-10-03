@@ -373,6 +373,8 @@ _S3InputFormatConfig = S3InputFormatConfig
 @dataclass
 class SAPODataSourceProperties(BaseModel):
     ObjectPath: Optional[str]
+    parallelismConfig: Optional["_SAPODataParallelismConfig"]
+    paginationConfig: Optional["_SAPODataPaginationConfig"]
 
     @classmethod
     def _deserialize(
@@ -383,11 +385,53 @@ class SAPODataSourceProperties(BaseModel):
             return None
         return cls(
             ObjectPath=json_data.get("ObjectPath"),
+            parallelismConfig=SAPODataParallelismConfig._deserialize(json_data.get("parallelismConfig")),
+            paginationConfig=SAPODataPaginationConfig._deserialize(json_data.get("paginationConfig")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _SAPODataSourceProperties = SAPODataSourceProperties
+
+
+@dataclass
+class SAPODataParallelismConfig(BaseModel):
+    maxParallelism: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SAPODataParallelismConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SAPODataParallelismConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            maxParallelism=json_data.get("maxParallelism"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SAPODataParallelismConfig = SAPODataParallelismConfig
+
+
+@dataclass
+class SAPODataPaginationConfig(BaseModel):
+    maxPageSize: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SAPODataPaginationConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SAPODataPaginationConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            maxPageSize=json_data.get("maxPageSize"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SAPODataPaginationConfig = SAPODataPaginationConfig
 
 
 @dataclass

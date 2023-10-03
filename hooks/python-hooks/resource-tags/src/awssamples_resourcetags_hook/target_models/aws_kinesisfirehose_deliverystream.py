@@ -39,6 +39,7 @@ class AwsKinesisfirehoseDeliverystream(BaseModel):
     AmazonOpenSearchServerlessDestinationConfiguration: Optional["_AmazonOpenSearchServerlessDestinationConfiguration"]
     ExtendedS3DestinationConfiguration: Optional["_ExtendedS3DestinationConfiguration"]
     KinesisStreamSourceConfiguration: Optional["_KinesisStreamSourceConfiguration"]
+    MSKSourceConfiguration: Optional["_MSKSourceConfiguration"]
     RedshiftDestinationConfiguration: Optional["_RedshiftDestinationConfiguration"]
     S3DestinationConfiguration: Optional["_S3DestinationConfiguration"]
     SplunkDestinationConfiguration: Optional["_SplunkDestinationConfiguration"]
@@ -64,6 +65,7 @@ class AwsKinesisfirehoseDeliverystream(BaseModel):
             AmazonOpenSearchServerlessDestinationConfiguration=AmazonOpenSearchServerlessDestinationConfiguration._deserialize(json_data.get("AmazonOpenSearchServerlessDestinationConfiguration")),
             ExtendedS3DestinationConfiguration=ExtendedS3DestinationConfiguration._deserialize(json_data.get("ExtendedS3DestinationConfiguration")),
             KinesisStreamSourceConfiguration=KinesisStreamSourceConfiguration._deserialize(json_data.get("KinesisStreamSourceConfiguration")),
+            MSKSourceConfiguration=MSKSourceConfiguration._deserialize(json_data.get("MSKSourceConfiguration")),
             RedshiftDestinationConfiguration=RedshiftDestinationConfiguration._deserialize(json_data.get("RedshiftDestinationConfiguration")),
             S3DestinationConfiguration=S3DestinationConfiguration._deserialize(json_data.get("S3DestinationConfiguration")),
             SplunkDestinationConfiguration=SplunkDestinationConfiguration._deserialize(json_data.get("SplunkDestinationConfiguration")),
@@ -944,6 +946,52 @@ class KinesisStreamSourceConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _KinesisStreamSourceConfiguration = KinesisStreamSourceConfiguration
+
+
+@dataclass
+class MSKSourceConfiguration(BaseModel):
+    MSKClusterARN: Optional[str]
+    TopicName: Optional[str]
+    AuthenticationConfiguration: Optional["_AuthenticationConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MSKSourceConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MSKSourceConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            MSKClusterARN=json_data.get("MSKClusterARN"),
+            TopicName=json_data.get("TopicName"),
+            AuthenticationConfiguration=AuthenticationConfiguration._deserialize(json_data.get("AuthenticationConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MSKSourceConfiguration = MSKSourceConfiguration
+
+
+@dataclass
+class AuthenticationConfiguration(BaseModel):
+    RoleARN: Optional[str]
+    Connectivity: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AuthenticationConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AuthenticationConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            RoleARN=json_data.get("RoleARN"),
+            Connectivity=json_data.get("Connectivity"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AuthenticationConfiguration = AuthenticationConfiguration
 
 
 @dataclass

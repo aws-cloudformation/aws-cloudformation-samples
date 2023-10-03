@@ -190,11 +190,12 @@ _DiskIopsConfiguration = DiskIopsConfiguration
 class WindowsConfiguration(BaseModel):
     SelfManagedActiveDirectoryConfiguration: Optional["_SelfManagedActiveDirectoryConfiguration"]
     AuditLogConfiguration: Optional["_AuditLogConfiguration"]
-    WeeklyMaintenanceStartTime: Optional[str]
     ActiveDirectoryId: Optional[str]
     DeploymentType: Optional[str]
     Aliases: Optional[Sequence[str]]
     ThroughputCapacity: Optional[int]
+    WeeklyMaintenanceStartTime: Optional[str]
+    DiskIopsConfiguration: Optional["_DiskIopsConfiguration"]
     CopyTagsToBackups: Optional[bool]
     DailyAutomaticBackupStartTime: Optional[str]
     AutomaticBackupRetentionDays: Optional[int]
@@ -210,11 +211,12 @@ class WindowsConfiguration(BaseModel):
         return cls(
             SelfManagedActiveDirectoryConfiguration=SelfManagedActiveDirectoryConfiguration._deserialize(json_data.get("SelfManagedActiveDirectoryConfiguration")),
             AuditLogConfiguration=AuditLogConfiguration._deserialize(json_data.get("AuditLogConfiguration")),
-            WeeklyMaintenanceStartTime=json_data.get("WeeklyMaintenanceStartTime"),
             ActiveDirectoryId=json_data.get("ActiveDirectoryId"),
             DeploymentType=json_data.get("DeploymentType"),
             Aliases=json_data.get("Aliases"),
             ThroughputCapacity=json_data.get("ThroughputCapacity"),
+            WeeklyMaintenanceStartTime=json_data.get("WeeklyMaintenanceStartTime"),
+            DiskIopsConfiguration=DiskIopsConfiguration._deserialize(json_data.get("DiskIopsConfiguration")),
             CopyTagsToBackups=json_data.get("CopyTagsToBackups"),
             DailyAutomaticBackupStartTime=json_data.get("DailyAutomaticBackupStartTime"),
             AutomaticBackupRetentionDays=json_data.get("AutomaticBackupRetentionDays"),
@@ -283,15 +285,18 @@ _AuditLogConfiguration = AuditLogConfiguration
 @dataclass
 class OpenZFSConfiguration(BaseModel):
     Options: Optional[Sequence[str]]
-    WeeklyMaintenanceStartTime: Optional[str]
-    DiskIopsConfiguration: Optional["_DiskIopsConfiguration"]
     CopyTagsToVolumes: Optional[bool]
     DeploymentType: Optional[str]
-    DailyAutomaticBackupStartTime: Optional[str]
-    CopyTagsToBackups: Optional[bool]
     ThroughputCapacity: Optional[int]
     RootVolumeConfiguration: Optional["_RootVolumeConfiguration"]
+    EndpointIpAddressRange: Optional[str]
+    RouteTableIds: Optional[Sequence[str]]
+    WeeklyMaintenanceStartTime: Optional[str]
+    DiskIopsConfiguration: Optional["_DiskIopsConfiguration"]
+    DailyAutomaticBackupStartTime: Optional[str]
+    CopyTagsToBackups: Optional[bool]
     AutomaticBackupRetentionDays: Optional[int]
+    PreferredSubnetId: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -302,15 +307,18 @@ class OpenZFSConfiguration(BaseModel):
             return None
         return cls(
             Options=json_data.get("Options"),
-            WeeklyMaintenanceStartTime=json_data.get("WeeklyMaintenanceStartTime"),
-            DiskIopsConfiguration=DiskIopsConfiguration._deserialize(json_data.get("DiskIopsConfiguration")),
             CopyTagsToVolumes=json_data.get("CopyTagsToVolumes"),
             DeploymentType=json_data.get("DeploymentType"),
-            DailyAutomaticBackupStartTime=json_data.get("DailyAutomaticBackupStartTime"),
-            CopyTagsToBackups=json_data.get("CopyTagsToBackups"),
             ThroughputCapacity=json_data.get("ThroughputCapacity"),
             RootVolumeConfiguration=RootVolumeConfiguration._deserialize(json_data.get("RootVolumeConfiguration")),
+            EndpointIpAddressRange=json_data.get("EndpointIpAddressRange"),
+            RouteTableIds=json_data.get("RouteTableIds"),
+            WeeklyMaintenanceStartTime=json_data.get("WeeklyMaintenanceStartTime"),
+            DiskIopsConfiguration=DiskIopsConfiguration._deserialize(json_data.get("DiskIopsConfiguration")),
+            DailyAutomaticBackupStartTime=json_data.get("DailyAutomaticBackupStartTime"),
+            CopyTagsToBackups=json_data.get("CopyTagsToBackups"),
             AutomaticBackupRetentionDays=json_data.get("AutomaticBackupRetentionDays"),
+            PreferredSubnetId=json_data.get("PreferredSubnetId"),
         )
 
 

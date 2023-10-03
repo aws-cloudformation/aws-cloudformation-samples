@@ -45,6 +45,7 @@ class AwsSagemakerModelpackage(BaseModel):
     ModelPackageGroupName: Optional[str]
     ModelPackageName: Optional[str]
     SamplePayloadUrl: Optional[str]
+    SkipModelValidation: Optional[str]
     SourceAlgorithmSpecification: Optional["_SourceAlgorithmSpecification"]
     Task: Optional[str]
     ValidationSpecification: Optional["_ValidationSpecification"]
@@ -82,6 +83,7 @@ class AwsSagemakerModelpackage(BaseModel):
             ModelPackageGroupName=json_data.get("ModelPackageGroupName"),
             ModelPackageName=json_data.get("ModelPackageName"),
             SamplePayloadUrl=json_data.get("SamplePayloadUrl"),
+            SkipModelValidation=json_data.get("SkipModelValidation"),
             SourceAlgorithmSpecification=SourceAlgorithmSpecification._deserialize(json_data.get("SourceAlgorithmSpecification")),
             Task=json_data.get("Task"),
             ValidationSpecification=ValidationSpecification._deserialize(json_data.get("ValidationSpecification")),

@@ -74,6 +74,7 @@ class TargetGroupConfig(BaseModel):
     Protocol: Optional[str]
     ProtocolVersion: Optional[str]
     IpAddressType: Optional[str]
+    LambdaEventStructureVersion: Optional[str]
     VpcIdentifier: Optional[str]
     HealthCheck: Optional["_HealthCheckConfig"]
 
@@ -89,6 +90,7 @@ class TargetGroupConfig(BaseModel):
             Protocol=json_data.get("Protocol"),
             ProtocolVersion=json_data.get("ProtocolVersion"),
             IpAddressType=json_data.get("IpAddressType"),
+            LambdaEventStructureVersion=json_data.get("LambdaEventStructureVersion"),
             VpcIdentifier=json_data.get("VpcIdentifier"),
             HealthCheck=HealthCheckConfig._deserialize(json_data.get("HealthCheck")),
         )

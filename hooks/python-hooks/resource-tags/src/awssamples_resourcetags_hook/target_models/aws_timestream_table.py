@@ -35,6 +35,7 @@ class AwsTimestreamTable(BaseModel):
     DatabaseName: Optional[str]
     TableName: Optional[str]
     RetentionProperties: Optional["_RetentionProperties"]
+    Schema: Optional["_Schema"]
     MagneticStoreWriteProperties: Optional["_MagneticStoreWriteProperties"]
     Tags: Optional[Any]
 
@@ -53,6 +54,7 @@ class AwsTimestreamTable(BaseModel):
             DatabaseName=json_data.get("DatabaseName"),
             TableName=json_data.get("TableName"),
             RetentionProperties=RetentionProperties._deserialize(json_data.get("RetentionProperties")),
+            Schema=Schema._deserialize(json_data.get("Schema")),
             MagneticStoreWriteProperties=MagneticStoreWriteProperties._deserialize(json_data.get("MagneticStoreWriteProperties")),
             Tags=json_data.get("Tags"),
         )
@@ -82,6 +84,50 @@ class RetentionProperties(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _RetentionProperties = RetentionProperties
+
+
+@dataclass
+class Schema(BaseModel):
+    CompositePartitionKey: Optional[Sequence["_PartitionKey"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Schema"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Schema"]:
+        if not json_data:
+            return None
+        return cls(
+            CompositePartitionKey=deserialize_list(json_data.get("CompositePartitionKey"), PartitionKey),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Schema = Schema
+
+
+@dataclass
+class PartitionKey(BaseModel):
+    Type: Optional[str]
+    Name: Optional[str]
+    EnforcementInRecord: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PartitionKey"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PartitionKey"]:
+        if not json_data:
+            return None
+        return cls(
+            Type=json_data.get("Type"),
+            Name=json_data.get("Name"),
+            EnforcementInRecord=json_data.get("EnforcementInRecord"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PartitionKey = PartitionKey
 
 
 @dataclass

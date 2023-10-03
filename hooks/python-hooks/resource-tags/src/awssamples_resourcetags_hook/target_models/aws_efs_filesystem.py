@@ -43,6 +43,7 @@ class AwsEfsFilesystem(BaseModel):
     BypassPolicyLockoutSafetyCheck: Optional[bool]
     BackupPolicy: Optional["_BackupPolicy"]
     AvailabilityZoneName: Optional[str]
+    ReplicationConfiguration: Optional["_ReplicationConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -67,6 +68,7 @@ class AwsEfsFilesystem(BaseModel):
             BypassPolicyLockoutSafetyCheck=json_data.get("BypassPolicyLockoutSafetyCheck"),
             BackupPolicy=BackupPolicy._deserialize(json_data.get("BackupPolicy")),
             AvailabilityZoneName=json_data.get("AvailabilityZoneName"),
+            ReplicationConfiguration=ReplicationConfiguration._deserialize(json_data.get("ReplicationConfiguration")),
         )
 
 
@@ -136,5 +138,51 @@ class BackupPolicy(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _BackupPolicy = BackupPolicy
+
+
+@dataclass
+class ReplicationConfiguration(BaseModel):
+    Destinations: Optional[Sequence["_ReplicationDestination"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ReplicationConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ReplicationConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Destinations=deserialize_list(json_data.get("Destinations"), ReplicationDestination),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ReplicationConfiguration = ReplicationConfiguration
+
+
+@dataclass
+class ReplicationDestination(BaseModel):
+    FileSystemId: Optional[str]
+    Region: Optional[str]
+    AvailabilityZoneName: Optional[str]
+    KmsKeyId: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ReplicationDestination"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ReplicationDestination"]:
+        if not json_data:
+            return None
+        return cls(
+            FileSystemId=json_data.get("FileSystemId"),
+            Region=json_data.get("Region"),
+            AvailabilityZoneName=json_data.get("AvailabilityZoneName"),
+            KmsKeyId=json_data.get("KmsKeyId"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ReplicationDestination = ReplicationDestination
 
 
