@@ -30,13 +30,13 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsGuarddutyIpset(BaseModel):
+    Id: Optional[str]
     Format: Optional[str]
     Activate: Optional[bool]
     DetectorId: Optional[str]
-    Id: Optional[str]
-    Tags: Optional[Any]
     Name: Optional[str]
     Location: Optional[str]
+    Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
@@ -48,13 +48,13 @@ class AwsGuarddutyIpset(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            Id=json_data.get("Id"),
             Format=json_data.get("Format"),
             Activate=json_data.get("Activate"),
             DetectorId=json_data.get("DetectorId"),
-            Id=json_data.get("Id"),
-            Tags=json_data.get("Tags"),
             Name=json_data.get("Name"),
             Location=json_data.get("Location"),
+            Tags=json_data.get("Tags"),
         )
 
 
@@ -63,24 +63,24 @@ _AwsGuarddutyIpset = AwsGuarddutyIpset
 
 
 @dataclass
-class Tag(BaseModel):
-    Value: Optional[str]
+class TagItem(BaseModel):
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_Tag"],
+        cls: Type["_TagItem"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Tag"]:
+    ) -> Optional["_TagItem"]:
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_Tag = Tag
+_TagItem = TagItem
 
 

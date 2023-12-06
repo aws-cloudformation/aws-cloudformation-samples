@@ -31,11 +31,10 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsIamUser(BaseModel):
     Path: Optional[str]
-    ManagedPolicyArns: Optional[Sequence[str]]
+    ManagedPolicyArns: Optional[AbstractSet[str]]
     Policies: Optional[Sequence["_Policy"]]
     UserName: Optional[str]
     Groups: Optional[Sequence[str]]
-    Id: Optional[str]
     Arn: Optional[str]
     LoginProfile: Optional["_LoginProfile"]
     Tags: Optional[Any]
@@ -52,11 +51,10 @@ class AwsIamUser(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             Path=json_data.get("Path"),
-            ManagedPolicyArns=json_data.get("ManagedPolicyArns"),
+            ManagedPolicyArns=set_or_none(json_data.get("ManagedPolicyArns")),
             Policies=deserialize_list(json_data.get("Policies"), Policy),
             UserName=json_data.get("UserName"),
             Groups=json_data.get("Groups"),
-            Id=json_data.get("Id"),
             Arn=json_data.get("Arn"),
             LoginProfile=LoginProfile._deserialize(json_data.get("LoginProfile")),
             Tags=json_data.get("Tags"),
@@ -70,7 +68,7 @@ _AwsIamUser = AwsIamUser
 
 @dataclass
 class Policy(BaseModel):
-    PolicyDocument: Optional[MutableMapping[str, Any]]
+    PolicyDocument: Optional[Any]
     PolicyName: Optional[str]
 
     @classmethod
@@ -114,8 +112,8 @@ _LoginProfile = LoginProfile
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -125,8 +123,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

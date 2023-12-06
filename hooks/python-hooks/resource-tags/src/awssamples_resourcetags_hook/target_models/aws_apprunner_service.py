@@ -416,6 +416,7 @@ _ServiceObservabilityConfiguration = ServiceObservabilityConfiguration
 class NetworkConfiguration(BaseModel):
     EgressConfiguration: Optional["_EgressConfiguration"]
     IngressConfiguration: Optional["_IngressConfiguration"]
+    IpAddressType: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -427,6 +428,7 @@ class NetworkConfiguration(BaseModel):
         return cls(
             EgressConfiguration=EgressConfiguration._deserialize(json_data.get("EgressConfiguration")),
             IngressConfiguration=IngressConfiguration._deserialize(json_data.get("IngressConfiguration")),
+            IpAddressType=json_data.get("IpAddressType"),
         )
 
 

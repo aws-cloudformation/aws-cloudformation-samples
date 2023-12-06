@@ -38,6 +38,7 @@ class AwsEc2Verifiedaccessinstance(BaseModel):
     Description: Optional[str]
     LoggingConfigurations: Optional["_VerifiedAccessLogs"]
     Tags: Optional[Any]
+    FipsEnabled: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -57,6 +58,7 @@ class AwsEc2Verifiedaccessinstance(BaseModel):
             Description=json_data.get("Description"),
             LoggingConfigurations=VerifiedAccessLogs._deserialize(json_data.get("LoggingConfigurations")),
             Tags=json_data.get("Tags"),
+            FipsEnabled=json_data.get("FipsEnabled"),
         )
 
 

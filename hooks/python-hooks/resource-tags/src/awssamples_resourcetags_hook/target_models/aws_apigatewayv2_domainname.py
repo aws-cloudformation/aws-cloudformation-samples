@@ -35,7 +35,6 @@ class AwsApigatewayv2Domainname(BaseModel):
     RegionalDomainName: Optional[str]
     DomainName: Optional[str]
     DomainNameConfigurations: Optional[Sequence["_DomainNameConfiguration"]]
-    Id: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -53,7 +52,6 @@ class AwsApigatewayv2Domainname(BaseModel):
             RegionalDomainName=json_data.get("RegionalDomainName"),
             DomainName=json_data.get("DomainName"),
             DomainNameConfigurations=deserialize_list(json_data.get("DomainNameConfigurations"), DomainNameConfiguration),
-            Id=json_data.get("Id"),
             Tags=json_data.get("Tags"),
         )
 

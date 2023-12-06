@@ -30,17 +30,16 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsGameliftGamesessionqueue(BaseModel):
+    Name: Optional[str]
     TimeoutInSeconds: Optional[int]
+    Destinations: Optional[Sequence["_GameSessionQueueDestination"]]
     PlayerLatencyPolicies: Optional[Sequence["_PlayerLatencyPolicy"]]
-    Destinations: Optional[Sequence["_Destination"]]
+    CustomEventData: Optional[str]
     NotificationTarget: Optional[str]
     FilterConfiguration: Optional["_FilterConfiguration"]
-    Id: Optional[str]
-    Arn: Optional[str]
-    CustomEventData: Optional[str]
-    Tags: Optional[Any]
-    Name: Optional[str]
     PriorityConfiguration: Optional["_PriorityConfiguration"]
+    Arn: Optional[str]
+    Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
@@ -52,17 +51,16 @@ class AwsGameliftGamesessionqueue(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            Name=json_data.get("Name"),
             TimeoutInSeconds=json_data.get("TimeoutInSeconds"),
+            Destinations=deserialize_list(json_data.get("Destinations"), GameSessionQueueDestination),
             PlayerLatencyPolicies=deserialize_list(json_data.get("PlayerLatencyPolicies"), PlayerLatencyPolicy),
-            Destinations=deserialize_list(json_data.get("Destinations"), Destination),
+            CustomEventData=json_data.get("CustomEventData"),
             NotificationTarget=json_data.get("NotificationTarget"),
             FilterConfiguration=FilterConfiguration._deserialize(json_data.get("FilterConfiguration")),
-            Id=json_data.get("Id"),
-            Arn=json_data.get("Arn"),
-            CustomEventData=json_data.get("CustomEventData"),
-            Tags=json_data.get("Tags"),
-            Name=json_data.get("Name"),
             PriorityConfiguration=PriorityConfiguration._deserialize(json_data.get("PriorityConfiguration")),
+            Arn=json_data.get("Arn"),
+            Tags=json_data.get("Tags"),
         )
 
 
@@ -71,9 +69,29 @@ _AwsGameliftGamesessionqueue = AwsGameliftGamesessionqueue
 
 
 @dataclass
+class GameSessionQueueDestination(BaseModel):
+    DestinationArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_GameSessionQueueDestination"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_GameSessionQueueDestination"]:
+        if not json_data:
+            return None
+        return cls(
+            DestinationArn=json_data.get("DestinationArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_GameSessionQueueDestination = GameSessionQueueDestination
+
+
+@dataclass
 class PlayerLatencyPolicy(BaseModel):
-    PolicyDurationSeconds: Optional[int]
     MaximumIndividualPlayerLatencyMilliseconds: Optional[int]
+    PolicyDurationSeconds: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -83,33 +101,13 @@ class PlayerLatencyPolicy(BaseModel):
         if not json_data:
             return None
         return cls(
-            PolicyDurationSeconds=json_data.get("PolicyDurationSeconds"),
             MaximumIndividualPlayerLatencyMilliseconds=json_data.get("MaximumIndividualPlayerLatencyMilliseconds"),
+            PolicyDurationSeconds=json_data.get("PolicyDurationSeconds"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _PlayerLatencyPolicy = PlayerLatencyPolicy
-
-
-@dataclass
-class Destination(BaseModel):
-    DestinationArn: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Destination"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Destination"]:
-        if not json_data:
-            return None
-        return cls(
-            DestinationArn=json_data.get("DestinationArn"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Destination = Destination
 
 
 @dataclass
@@ -133,31 +131,9 @@ _FilterConfiguration = FilterConfiguration
 
 
 @dataclass
-class Tag(BaseModel):
-    Value: Optional[str]
-    Key: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Tag"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Tag"]:
-        if not json_data:
-            return None
-        return cls(
-            Value=json_data.get("Value"),
-            Key=json_data.get("Key"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Tag = Tag
-
-
-@dataclass
 class PriorityConfiguration(BaseModel):
-    PriorityOrder: Optional[Sequence[str]]
     LocationOrder: Optional[Sequence[str]]
+    PriorityOrder: Optional[Sequence[str]]
 
     @classmethod
     def _deserialize(
@@ -167,12 +143,34 @@ class PriorityConfiguration(BaseModel):
         if not json_data:
             return None
         return cls(
-            PriorityOrder=json_data.get("PriorityOrder"),
             LocationOrder=json_data.get("LocationOrder"),
+            PriorityOrder=json_data.get("PriorityOrder"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _PriorityConfiguration = PriorityConfiguration
+
+
+@dataclass
+class Tag(BaseModel):
+    Key: Optional[str]
+    Value: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Tag"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Tag"]:
+        if not json_data:
+            return None
+        return cls(
+            Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Tag = Tag
 
 

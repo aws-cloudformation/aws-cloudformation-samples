@@ -36,6 +36,7 @@ class AwsManagedblockchainAccessor(BaseModel):
     Id: Optional[str]
     Status: Optional[str]
     AccessorType: Optional[str]
+    NetworkType: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -54,6 +55,7 @@ class AwsManagedblockchainAccessor(BaseModel):
             Id=json_data.get("Id"),
             Status=json_data.get("Status"),
             AccessorType=json_data.get("AccessorType"),
+            NetworkType=json_data.get("NetworkType"),
             Tags=json_data.get("Tags"),
         )
 

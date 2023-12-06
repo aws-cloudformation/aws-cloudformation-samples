@@ -351,14 +351,16 @@ class S3Settings(BaseModel):
     TimestampColumnName: Optional[str]
     EnableStatistics: Optional[bool]
     DatePartitionSequence: Optional[str]
-    IncludeOpForFullLoad: Optional[bool]
     CsvNullValue: Optional[str]
+    IncludeOpForFullLoad: Optional[bool]
     CdcInsertsAndUpdates: Optional[bool]
     BucketName: Optional[str]
     ServerSideEncryptionKmsKeyId: Optional[str]
     UseTaskStartTimeForFullLoadTimestamp: Optional[bool]
+    GlueCatalogGeneration: Optional[bool]
     DataFormat: Optional[str]
     CsvDelimiter: Optional[str]
+    AddTrailingPaddingCharacter: Optional[bool]
     IgnoreHeaderRows: Optional[int]
     CannedAclForObjects: Optional[str]
     Rfc4180: Optional[bool]
@@ -368,23 +370,24 @@ class S3Settings(BaseModel):
     BucketFolder: Optional[str]
     DatePartitionDelimiter: Optional[str]
     EncodingType: Optional[str]
-    ParquetVersion: Optional[str]
     AddColumnName: Optional[bool]
     CdcMinFileSize: Optional[int]
+    ParquetVersion: Optional[str]
     ExternalTableDefinition: Optional[str]
     UseCsvNoSupValue: Optional[bool]
     MaxFileSize: Optional[int]
-    CsvNoSupValue: Optional[str]
     CdcPath: Optional[str]
+    CsvNoSupValue: Optional[str]
+    CdcMaxBatchInterval: Optional[int]
     CsvRowDelimiter: Optional[str]
     RowGroupLength: Optional[int]
-    CdcMaxBatchInterval: Optional[int]
     DataPageSize: Optional[int]
-    DictPageSizeLimit: Optional[int]
     DatePartitionEnabled: Optional[bool]
+    DictPageSizeLimit: Optional[int]
     CompressionType: Optional[str]
     DatePartitionTimezone: Optional[str]
     CdcInsertsOnly: Optional[bool]
+    ExpectedBucketOwner: Optional[str]
     EncryptionMode: Optional[str]
 
     @classmethod
@@ -398,14 +401,16 @@ class S3Settings(BaseModel):
             TimestampColumnName=json_data.get("TimestampColumnName"),
             EnableStatistics=json_data.get("EnableStatistics"),
             DatePartitionSequence=json_data.get("DatePartitionSequence"),
-            IncludeOpForFullLoad=json_data.get("IncludeOpForFullLoad"),
             CsvNullValue=json_data.get("CsvNullValue"),
+            IncludeOpForFullLoad=json_data.get("IncludeOpForFullLoad"),
             CdcInsertsAndUpdates=json_data.get("CdcInsertsAndUpdates"),
             BucketName=json_data.get("BucketName"),
             ServerSideEncryptionKmsKeyId=json_data.get("ServerSideEncryptionKmsKeyId"),
             UseTaskStartTimeForFullLoadTimestamp=json_data.get("UseTaskStartTimeForFullLoadTimestamp"),
+            GlueCatalogGeneration=json_data.get("GlueCatalogGeneration"),
             DataFormat=json_data.get("DataFormat"),
             CsvDelimiter=json_data.get("CsvDelimiter"),
+            AddTrailingPaddingCharacter=json_data.get("AddTrailingPaddingCharacter"),
             IgnoreHeaderRows=json_data.get("IgnoreHeaderRows"),
             CannedAclForObjects=json_data.get("CannedAclForObjects"),
             Rfc4180=json_data.get("Rfc4180"),
@@ -415,23 +420,24 @@ class S3Settings(BaseModel):
             BucketFolder=json_data.get("BucketFolder"),
             DatePartitionDelimiter=json_data.get("DatePartitionDelimiter"),
             EncodingType=json_data.get("EncodingType"),
-            ParquetVersion=json_data.get("ParquetVersion"),
             AddColumnName=json_data.get("AddColumnName"),
             CdcMinFileSize=json_data.get("CdcMinFileSize"),
+            ParquetVersion=json_data.get("ParquetVersion"),
             ExternalTableDefinition=json_data.get("ExternalTableDefinition"),
             UseCsvNoSupValue=json_data.get("UseCsvNoSupValue"),
             MaxFileSize=json_data.get("MaxFileSize"),
-            CsvNoSupValue=json_data.get("CsvNoSupValue"),
             CdcPath=json_data.get("CdcPath"),
+            CsvNoSupValue=json_data.get("CsvNoSupValue"),
+            CdcMaxBatchInterval=json_data.get("CdcMaxBatchInterval"),
             CsvRowDelimiter=json_data.get("CsvRowDelimiter"),
             RowGroupLength=json_data.get("RowGroupLength"),
-            CdcMaxBatchInterval=json_data.get("CdcMaxBatchInterval"),
             DataPageSize=json_data.get("DataPageSize"),
-            DictPageSizeLimit=json_data.get("DictPageSizeLimit"),
             DatePartitionEnabled=json_data.get("DatePartitionEnabled"),
+            DictPageSizeLimit=json_data.get("DictPageSizeLimit"),
             CompressionType=json_data.get("CompressionType"),
             DatePartitionTimezone=json_data.get("DatePartitionTimezone"),
             CdcInsertsOnly=json_data.get("CdcInsertsOnly"),
+            ExpectedBucketOwner=json_data.get("ExpectedBucketOwner"),
             EncryptionMode=json_data.get("EncryptionMode"),
         )
 

@@ -30,12 +30,12 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEc2Dhcpoptions(BaseModel):
+    NetbiosNameServers: Optional[Sequence[str]]
+    NtpServers: Optional[Sequence[str]]
     DhcpOptionsId: Optional[str]
     DomainName: Optional[str]
-    DomainNameServers: Optional[Sequence[str]]
-    NetbiosNameServers: Optional[Sequence[str]]
     NetbiosNodeType: Optional[int]
-    NtpServers: Optional[Sequence[str]]
+    DomainNameServers: Optional[Sequence[str]]
     Tags: Optional[Any]
 
     @classmethod
@@ -48,12 +48,12 @@ class AwsEc2Dhcpoptions(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            NetbiosNameServers=json_data.get("NetbiosNameServers"),
+            NtpServers=json_data.get("NtpServers"),
             DhcpOptionsId=json_data.get("DhcpOptionsId"),
             DomainName=json_data.get("DomainName"),
-            DomainNameServers=json_data.get("DomainNameServers"),
-            NetbiosNameServers=json_data.get("NetbiosNameServers"),
             NetbiosNodeType=json_data.get("NetbiosNodeType"),
-            NtpServers=json_data.get("NtpServers"),
+            DomainNameServers=json_data.get("DomainNameServers"),
             Tags=json_data.get("Tags"),
         )
 
@@ -64,8 +64,8 @@ _AwsEc2Dhcpoptions = AwsEc2Dhcpoptions
 
 @dataclass
 class Tag(BaseModel):
-    Key: Optional[str]
     Value: Optional[str]
+    Key: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -75,8 +75,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Key=json_data.get("Key"),
             Value=json_data.get("Value"),
+            Key=json_data.get("Key"),
         )
 
 

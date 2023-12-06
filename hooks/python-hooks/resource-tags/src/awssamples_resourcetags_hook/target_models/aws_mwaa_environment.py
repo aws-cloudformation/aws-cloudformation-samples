@@ -54,6 +54,10 @@ class AwsMwaaEnvironment(BaseModel):
     WeeklyMaintenanceWindowStart: Optional[str]
     Tags: Optional[Any]
     WebserverAccessMode: Optional[str]
+    EndpointManagement: Optional[str]
+    CeleryExecutorQueue: Optional[str]
+    DatabaseVpcEndpointService: Optional[str]
+    WebserverVpcEndpointService: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -89,6 +93,10 @@ class AwsMwaaEnvironment(BaseModel):
             WeeklyMaintenanceWindowStart=json_data.get("WeeklyMaintenanceWindowStart"),
             Tags=json_data.get("Tags"),
             WebserverAccessMode=json_data.get("WebserverAccessMode"),
+            EndpointManagement=json_data.get("EndpointManagement"),
+            CeleryExecutorQueue=json_data.get("CeleryExecutorQueue"),
+            DatabaseVpcEndpointService=json_data.get("DatabaseVpcEndpointService"),
+            WebserverVpcEndpointService=json_data.get("WebserverVpcEndpointService"),
         )
 
 

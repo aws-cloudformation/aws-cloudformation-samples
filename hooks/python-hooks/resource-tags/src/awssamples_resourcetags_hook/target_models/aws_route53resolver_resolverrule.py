@@ -91,6 +91,7 @@ class TargetAddress(BaseModel):
     Ip: Optional[str]
     Ipv6: Optional[str]
     Port: Optional[str]
+    Protocol: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -103,6 +104,7 @@ class TargetAddress(BaseModel):
             Ip=json_data.get("Ip"),
             Ipv6=json_data.get("Ipv6"),
             Port=json_data.get("Port"),
+            Protocol=json_data.get("Protocol"),
         )
 
 

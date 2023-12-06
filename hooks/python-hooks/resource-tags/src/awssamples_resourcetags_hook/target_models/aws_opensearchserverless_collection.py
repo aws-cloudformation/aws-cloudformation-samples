@@ -38,6 +38,7 @@ class AwsOpensearchserverlessCollection(BaseModel):
     CollectionEndpoint: Optional[str]
     DashboardEndpoint: Optional[str]
     Type: Optional[str]
+    StandbyReplicas: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -57,6 +58,7 @@ class AwsOpensearchserverlessCollection(BaseModel):
             CollectionEndpoint=json_data.get("CollectionEndpoint"),
             DashboardEndpoint=json_data.get("DashboardEndpoint"),
             Type=json_data.get("Type"),
+            StandbyReplicas=json_data.get("StandbyReplicas"),
         )
 
 

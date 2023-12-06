@@ -41,6 +41,7 @@ class AwsBillingconductorCustomlineitem(BaseModel):
     AssociationSize: Optional[int]
     ProductCode: Optional[str]
     CurrencyCode: Optional[str]
+    AccountId: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -64,6 +65,7 @@ class AwsBillingconductorCustomlineitem(BaseModel):
             AssociationSize=json_data.get("AssociationSize"),
             ProductCode=json_data.get("ProductCode"),
             CurrencyCode=json_data.get("CurrencyCode"),
+            AccountId=json_data.get("AccountId"),
             Tags=json_data.get("Tags"),
         )
 

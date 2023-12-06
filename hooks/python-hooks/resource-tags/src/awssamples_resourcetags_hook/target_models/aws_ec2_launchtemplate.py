@@ -385,9 +385,11 @@ class NetworkInterface(BaseModel):
     NetworkCardIndex: Optional[int]
     InterfaceType: Optional[str]
     AssociateCarrierIpAddress: Optional[bool]
+    EnaSrdSpecification: Optional["_EnaSrdSpecification"]
     Ipv6AddressCount: Optional[int]
     Groups: Optional[Sequence[str]]
     DeleteOnTermination: Optional[bool]
+    ConnectionTrackingSpecification: Optional["_ConnectionTrackingSpecification"]
 
     @classmethod
     def _deserialize(
@@ -414,9 +416,11 @@ class NetworkInterface(BaseModel):
             NetworkCardIndex=json_data.get("NetworkCardIndex"),
             InterfaceType=json_data.get("InterfaceType"),
             AssociateCarrierIpAddress=json_data.get("AssociateCarrierIpAddress"),
+            EnaSrdSpecification=EnaSrdSpecification._deserialize(json_data.get("EnaSrdSpecification")),
             Ipv6AddressCount=json_data.get("Ipv6AddressCount"),
             Groups=json_data.get("Groups"),
             DeleteOnTermination=json_data.get("DeleteOnTermination"),
+            ConnectionTrackingSpecification=ConnectionTrackingSpecification._deserialize(json_data.get("ConnectionTrackingSpecification")),
         )
 
 
@@ -504,6 +508,72 @@ class Ipv6Add(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Ipv6Add = Ipv6Add
+
+
+@dataclass
+class EnaSrdSpecification(BaseModel):
+    EnaSrdEnabled: Optional[bool]
+    EnaSrdUdpSpecification: Optional["_EnaSrdUdpSpecification"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EnaSrdSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EnaSrdSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            EnaSrdEnabled=json_data.get("EnaSrdEnabled"),
+            EnaSrdUdpSpecification=EnaSrdUdpSpecification._deserialize(json_data.get("EnaSrdUdpSpecification")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EnaSrdSpecification = EnaSrdSpecification
+
+
+@dataclass
+class EnaSrdUdpSpecification(BaseModel):
+    EnaSrdUdpEnabled: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EnaSrdUdpSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EnaSrdUdpSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            EnaSrdUdpEnabled=json_data.get("EnaSrdUdpEnabled"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EnaSrdUdpSpecification = EnaSrdUdpSpecification
+
+
+@dataclass
+class ConnectionTrackingSpecification(BaseModel):
+    UdpTimeout: Optional[int]
+    TcpEstablishedTimeout: Optional[int]
+    UdpStreamTimeout: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ConnectionTrackingSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ConnectionTrackingSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            UdpTimeout=json_data.get("UdpTimeout"),
+            TcpEstablishedTimeout=json_data.get("TcpEstablishedTimeout"),
+            UdpStreamTimeout=json_data.get("UdpStreamTimeout"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ConnectionTrackingSpecification = ConnectionTrackingSpecification
 
 
 @dataclass

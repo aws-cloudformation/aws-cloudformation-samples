@@ -594,6 +594,7 @@ _Transition = Transition
 class LoggingConfiguration(BaseModel):
     DestinationBucketName: Optional[str]
     LogFilePrefix: Optional[str]
+    TargetObjectKeyFormat: Optional["_TargetObjectKeyFormat"]
 
     @classmethod
     def _deserialize(
@@ -605,11 +606,54 @@ class LoggingConfiguration(BaseModel):
         return cls(
             DestinationBucketName=json_data.get("DestinationBucketName"),
             LogFilePrefix=json_data.get("LogFilePrefix"),
+            TargetObjectKeyFormat=TargetObjectKeyFormat._deserialize(json_data.get("TargetObjectKeyFormat")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _LoggingConfiguration = LoggingConfiguration
+
+
+@dataclass
+class TargetObjectKeyFormat(BaseModel):
+    SimplePrefix: Optional[MutableMapping[str, Any]]
+    PartitionedPrefix: Optional["_PartitionedPrefix"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TargetObjectKeyFormat"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TargetObjectKeyFormat"]:
+        if not json_data:
+            return None
+        return cls(
+            SimplePrefix=json_data.get("SimplePrefix"),
+            PartitionedPrefix=PartitionedPrefix._deserialize(json_data.get("PartitionedPrefix")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TargetObjectKeyFormat = TargetObjectKeyFormat
+
+
+@dataclass
+class PartitionedPrefix(BaseModel):
+    PartitionDateSource: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PartitionedPrefix"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PartitionedPrefix"]:
+        if not json_data:
+            return None
+        return cls(
+            PartitionDateSource=json_data.get("PartitionDateSource"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PartitionedPrefix = PartitionedPrefix
 
 
 @dataclass

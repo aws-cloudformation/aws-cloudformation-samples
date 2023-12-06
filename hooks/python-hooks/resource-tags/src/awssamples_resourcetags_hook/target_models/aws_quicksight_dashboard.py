@@ -38,12 +38,14 @@ class AwsQuicksightDashboard(BaseModel):
     Definition: Optional["_DashboardVersionDefinition"]
     LastPublishedTime: Optional[str]
     LastUpdatedTime: Optional[str]
+    LinkSharingConfiguration: Optional["_LinkSharingConfiguration"]
     Name: Optional[str]
     Parameters: Optional["_Parameters"]
     Permissions: Optional[Sequence["_ResourcePermission"]]
     SourceEntity: Optional["_DashboardSourceEntity"]
     Tags: Optional[Any]
     ThemeArn: Optional[str]
+    ValidationStrategy: Optional["_ValidationStrategy"]
     Version: Optional["_DashboardVersion"]
     VersionDescription: Optional[str]
 
@@ -65,12 +67,14 @@ class AwsQuicksightDashboard(BaseModel):
             Definition=DashboardVersionDefinition._deserialize(json_data.get("Definition")),
             LastPublishedTime=json_data.get("LastPublishedTime"),
             LastUpdatedTime=json_data.get("LastUpdatedTime"),
+            LinkSharingConfiguration=LinkSharingConfiguration._deserialize(json_data.get("LinkSharingConfiguration")),
             Name=json_data.get("Name"),
             Parameters=Parameters._deserialize(json_data.get("Parameters")),
             Permissions=deserialize_list(json_data.get("Permissions"), ResourcePermission),
             SourceEntity=DashboardSourceEntity._deserialize(json_data.get("SourceEntity")),
             Tags=json_data.get("Tags"),
             ThemeArn=json_data.get("ThemeArn"),
+            ValidationStrategy=ValidationStrategy._deserialize(json_data.get("ValidationStrategy")),
             Version=DashboardVersion._deserialize(json_data.get("Version")),
             VersionDescription=json_data.get("VersionDescription"),
         )
@@ -369,6 +373,7 @@ class DashboardVersionDefinition(BaseModel):
     FilterGroups: Optional[Sequence["_FilterGroup"]]
     ColumnConfigurations: Optional[Sequence["_ColumnConfiguration"]]
     AnalysisDefaults: Optional["_AnalysisDefaults"]
+    Options: Optional["_AssetOptions"]
 
     @classmethod
     def _deserialize(
@@ -385,6 +390,7 @@ class DashboardVersionDefinition(BaseModel):
             FilterGroups=deserialize_list(json_data.get("FilterGroups"), FilterGroup),
             ColumnConfigurations=deserialize_list(json_data.get("ColumnConfigurations"), ColumnConfiguration),
             AnalysisDefaults=AnalysisDefaults._deserialize(json_data.get("AnalysisDefaults")),
+            Options=AssetOptions._deserialize(json_data.get("Options")),
         )
 
 
@@ -2561,6 +2567,7 @@ class TotalOptions(BaseModel):
     ScrollStatus: Optional[str]
     CustomLabel: Optional[str]
     TotalCellStyle: Optional["_TableCellStyle"]
+    TotalAggregationOptions: Optional[Sequence["_TotalAggregationOption"]]
 
     @classmethod
     def _deserialize(
@@ -2575,6 +2582,7 @@ class TotalOptions(BaseModel):
             ScrollStatus=json_data.get("ScrollStatus"),
             CustomLabel=json_data.get("CustomLabel"),
             TotalCellStyle=TableCellStyle._deserialize(json_data.get("TotalCellStyle")),
+            TotalAggregationOptions=deserialize_list(json_data.get("TotalAggregationOptions"), TotalAggregationOption),
         )
 
 
@@ -2583,9 +2591,52 @@ _TotalOptions = TotalOptions
 
 
 @dataclass
+class TotalAggregationOption(BaseModel):
+    FieldId: Optional[str]
+    TotalAggregationFunction: Optional["_TotalAggregationFunction"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TotalAggregationOption"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TotalAggregationOption"]:
+        if not json_data:
+            return None
+        return cls(
+            FieldId=json_data.get("FieldId"),
+            TotalAggregationFunction=TotalAggregationFunction._deserialize(json_data.get("TotalAggregationFunction")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TotalAggregationOption = TotalAggregationOption
+
+
+@dataclass
+class TotalAggregationFunction(BaseModel):
+    SimpleTotalAggregationFunction: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TotalAggregationFunction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TotalAggregationFunction"]:
+        if not json_data:
+            return None
+        return cls(
+            SimpleTotalAggregationFunction=json_data.get("SimpleTotalAggregationFunction"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TotalAggregationFunction = TotalAggregationFunction
+
+
+@dataclass
 class TableFieldOptions(BaseModel):
     SelectedFieldOptions: Optional[Sequence["_TableFieldOption"]]
     Order: Optional[Sequence[str]]
+    PinnedFieldOptions: Optional["_TablePinnedFieldOptions"]
 
     @classmethod
     def _deserialize(
@@ -2597,6 +2648,7 @@ class TableFieldOptions(BaseModel):
         return cls(
             SelectedFieldOptions=deserialize_list(json_data.get("SelectedFieldOptions"), TableFieldOption),
             Order=json_data.get("Order"),
+            PinnedFieldOptions=TablePinnedFieldOptions._deserialize(json_data.get("PinnedFieldOptions")),
         )
 
 
@@ -2778,6 +2830,26 @@ class TableCellImageSizingConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _TableCellImageSizingConfiguration = TableCellImageSizingConfiguration
+
+
+@dataclass
+class TablePinnedFieldOptions(BaseModel):
+    PinnedLeftFields: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TablePinnedFieldOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TablePinnedFieldOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            PinnedLeftFields=json_data.get("PinnedLeftFields"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TablePinnedFieldOptions = TablePinnedFieldOptions
 
 
 @dataclass
@@ -3696,6 +3768,7 @@ _DataPathSort = DataPathSort
 class DataPathValue(BaseModel):
     FieldId: Optional[str]
     FieldValue: Optional[str]
+    DataPathType: Optional["_DataPathType"]
 
     @classmethod
     def _deserialize(
@@ -3707,11 +3780,32 @@ class DataPathValue(BaseModel):
         return cls(
             FieldId=json_data.get("FieldId"),
             FieldValue=json_data.get("FieldValue"),
+            DataPathType=DataPathType._deserialize(json_data.get("DataPathType")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _DataPathValue = DataPathValue
+
+
+@dataclass
+class DataPathType(BaseModel):
+    PivotTableDataPathType: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DataPathType"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DataPathType"]:
+        if not json_data:
+            return None
+        return cls(
+            PivotTableDataPathType=json_data.get("PivotTableDataPathType"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DataPathType = DataPathType
 
 
 @dataclass
@@ -3889,6 +3983,7 @@ class PivotTotalOptions(BaseModel):
     TotalCellStyle: Optional["_TableCellStyle"]
     ValueCellStyle: Optional["_TableCellStyle"]
     MetricHeaderCellStyle: Optional["_TableCellStyle"]
+    TotalAggregationOptions: Optional[Sequence["_TotalAggregationOption"]]
 
     @classmethod
     def _deserialize(
@@ -3905,6 +4000,7 @@ class PivotTotalOptions(BaseModel):
             TotalCellStyle=TableCellStyle._deserialize(json_data.get("TotalCellStyle")),
             ValueCellStyle=TableCellStyle._deserialize(json_data.get("ValueCellStyle")),
             MetricHeaderCellStyle=TableCellStyle._deserialize(json_data.get("MetricHeaderCellStyle")),
+            TotalAggregationOptions=deserialize_list(json_data.get("TotalAggregationOptions"), TotalAggregationOption),
         )
 
 
@@ -5177,6 +5273,7 @@ class ReferenceLineDataConfiguration(BaseModel):
     StaticConfiguration: Optional["_ReferenceLineStaticDataConfiguration"]
     DynamicConfiguration: Optional["_ReferenceLineDynamicDataConfiguration"]
     AxisBinding: Optional[str]
+    SeriesType: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -5189,6 +5286,7 @@ class ReferenceLineDataConfiguration(BaseModel):
             StaticConfiguration=ReferenceLineStaticDataConfiguration._deserialize(json_data.get("StaticConfiguration")),
             DynamicConfiguration=ReferenceLineDynamicDataConfiguration._deserialize(json_data.get("DynamicConfiguration")),
             AxisBinding=json_data.get("AxisBinding"),
+            SeriesType=json_data.get("SeriesType"),
         )
 
 
@@ -5653,6 +5751,8 @@ class KPIOptions(BaseModel):
     PrimaryValueDisplayType: Optional[str]
     PrimaryValueFontConfiguration: Optional["_FontConfiguration"]
     SecondaryValueFontConfiguration: Optional["_FontConfiguration"]
+    Sparkline: Optional["_KPISparklineOptions"]
+    VisualLayoutOptions: Optional["_KPIVisualLayoutOptions"]
 
     @classmethod
     def _deserialize(
@@ -5669,6 +5769,8 @@ class KPIOptions(BaseModel):
             PrimaryValueDisplayType=json_data.get("PrimaryValueDisplayType"),
             PrimaryValueFontConfiguration=FontConfiguration._deserialize(json_data.get("PrimaryValueFontConfiguration")),
             SecondaryValueFontConfiguration=FontConfiguration._deserialize(json_data.get("SecondaryValueFontConfiguration")),
+            Sparkline=KPISparklineOptions._deserialize(json_data.get("Sparkline")),
+            VisualLayoutOptions=KPIVisualLayoutOptions._deserialize(json_data.get("VisualLayoutOptions")),
         )
 
 
@@ -5781,6 +5883,72 @@ _ComparisonFormatConfiguration = ComparisonFormatConfiguration
 
 
 @dataclass
+class KPISparklineOptions(BaseModel):
+    Visibility: Optional[str]
+    Type: Optional[str]
+    Color: Optional[str]
+    TooltipVisibility: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_KPISparklineOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_KPISparklineOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            Visibility=json_data.get("Visibility"),
+            Type=json_data.get("Type"),
+            Color=json_data.get("Color"),
+            TooltipVisibility=json_data.get("TooltipVisibility"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_KPISparklineOptions = KPISparklineOptions
+
+
+@dataclass
+class KPIVisualLayoutOptions(BaseModel):
+    StandardLayout: Optional["_KPIVisualStandardLayout"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_KPIVisualLayoutOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_KPIVisualLayoutOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            StandardLayout=KPIVisualStandardLayout._deserialize(json_data.get("StandardLayout")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_KPIVisualLayoutOptions = KPIVisualLayoutOptions
+
+
+@dataclass
+class KPIVisualStandardLayout(BaseModel):
+    Type: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_KPIVisualStandardLayout"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_KPIVisualStandardLayout"]:
+        if not json_data:
+            return None
+        return cls(
+            Type=json_data.get("Type"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_KPIVisualStandardLayout = KPIVisualStandardLayout
+
+
+@dataclass
 class KPIConditionalFormatting(BaseModel):
     ConditionalFormattingOptions: Optional[Sequence["_KPIConditionalFormattingOption"]]
 
@@ -5804,6 +5972,8 @@ _KPIConditionalFormatting = KPIConditionalFormatting
 class KPIConditionalFormattingOption(BaseModel):
     PrimaryValue: Optional["_KPIPrimaryValueConditionalFormatting"]
     ProgressBar: Optional["_KPIProgressBarConditionalFormatting"]
+    ActualValue: Optional["_KPIActualValueConditionalFormatting"]
+    ComparisonValue: Optional["_KPIComparisonValueConditionalFormatting"]
 
     @classmethod
     def _deserialize(
@@ -5815,6 +5985,8 @@ class KPIConditionalFormattingOption(BaseModel):
         return cls(
             PrimaryValue=KPIPrimaryValueConditionalFormatting._deserialize(json_data.get("PrimaryValue")),
             ProgressBar=KPIProgressBarConditionalFormatting._deserialize(json_data.get("ProgressBar")),
+            ActualValue=KPIActualValueConditionalFormatting._deserialize(json_data.get("ActualValue")),
+            ComparisonValue=KPIComparisonValueConditionalFormatting._deserialize(json_data.get("ComparisonValue")),
         )
 
 
@@ -5862,6 +6034,50 @@ class KPIProgressBarConditionalFormatting(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _KPIProgressBarConditionalFormatting = KPIProgressBarConditionalFormatting
+
+
+@dataclass
+class KPIActualValueConditionalFormatting(BaseModel):
+    TextColor: Optional["_ConditionalFormattingColor"]
+    Icon: Optional["_ConditionalFormattingIcon"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_KPIActualValueConditionalFormatting"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_KPIActualValueConditionalFormatting"]:
+        if not json_data:
+            return None
+        return cls(
+            TextColor=ConditionalFormattingColor._deserialize(json_data.get("TextColor")),
+            Icon=ConditionalFormattingIcon._deserialize(json_data.get("Icon")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_KPIActualValueConditionalFormatting = KPIActualValueConditionalFormatting
+
+
+@dataclass
+class KPIComparisonValueConditionalFormatting(BaseModel):
+    TextColor: Optional["_ConditionalFormattingColor"]
+    Icon: Optional["_ConditionalFormattingIcon"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_KPIComparisonValueConditionalFormatting"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_KPIComparisonValueConditionalFormatting"]:
+        if not json_data:
+            return None
+        return cls(
+            TextColor=ConditionalFormattingColor._deserialize(json_data.get("TextColor")),
+            Icon=ConditionalFormattingIcon._deserialize(json_data.get("Icon")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_KPIComparisonValueConditionalFormatting = KPIComparisonValueConditionalFormatting
 
 
 @dataclass
@@ -10743,6 +10959,7 @@ class FilterListConfiguration(BaseModel):
     MatchOperator: Optional[str]
     CategoryValues: Optional[Sequence[str]]
     SelectAllOptions: Optional[str]
+    NullOption: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -10755,6 +10972,7 @@ class FilterListConfiguration(BaseModel):
             MatchOperator=json_data.get("MatchOperator"),
             CategoryValues=json_data.get("CategoryValues"),
             SelectAllOptions=json_data.get("SelectAllOptions"),
+            NullOption=json_data.get("NullOption"),
         )
 
 
@@ -10915,6 +11133,7 @@ class TimeEqualityFilter(BaseModel):
     Value: Optional[str]
     ParameterName: Optional[str]
     TimeGranularity: Optional[str]
+    RollingDate: Optional["_RollingDateConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -10929,6 +11148,7 @@ class TimeEqualityFilter(BaseModel):
             Value=json_data.get("Value"),
             ParameterName=json_data.get("ParameterName"),
             TimeGranularity=json_data.get("TimeGranularity"),
+            RollingDate=RollingDateConfiguration._deserialize(json_data.get("RollingDate")),
         )
 
 
@@ -11417,6 +11637,72 @@ _DefaultSectionBasedLayoutConfiguration = DefaultSectionBasedLayoutConfiguration
 
 
 @dataclass
+class AssetOptions(BaseModel):
+    Timezone: Optional[str]
+    WeekStart: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AssetOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AssetOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            Timezone=json_data.get("Timezone"),
+            WeekStart=json_data.get("WeekStart"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AssetOptions = AssetOptions
+
+
+@dataclass
+class LinkSharingConfiguration(BaseModel):
+    Permissions: Optional[Sequence["_ResourcePermission"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LinkSharingConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LinkSharingConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Permissions=deserialize_list(json_data.get("Permissions"), ResourcePermission),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LinkSharingConfiguration = LinkSharingConfiguration
+
+
+@dataclass
+class ResourcePermission(BaseModel):
+    Principal: Optional[str]
+    Resource: Optional[str]
+    Actions: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ResourcePermission"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ResourcePermission"]:
+        if not json_data:
+            return None
+        return cls(
+            Principal=json_data.get("Principal"),
+            Resource=json_data.get("Resource"),
+            Actions=json_data.get("Actions"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ResourcePermission = ResourcePermission
+
+
+@dataclass
 class Parameters(BaseModel):
     StringParameters: Optional[Sequence["_StringParameter"]]
     IntegerParameters: Optional[Sequence["_IntegerParameter"]]
@@ -11531,30 +11817,6 @@ _DateTimeParameter = DateTimeParameter
 
 
 @dataclass
-class ResourcePermission(BaseModel):
-    Principal: Optional[str]
-    Resource: Optional[str]
-    Actions: Optional[Sequence[str]]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ResourcePermission"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ResourcePermission"]:
-        if not json_data:
-            return None
-        return cls(
-            Principal=json_data.get("Principal"),
-            Resource=json_data.get("Resource"),
-            Actions=json_data.get("Actions"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ResourcePermission = ResourcePermission
-
-
-@dataclass
 class DashboardSourceEntity(BaseModel):
     SourceTemplate: Optional["_DashboardSourceTemplate"]
 
@@ -11638,6 +11900,26 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class ValidationStrategy(BaseModel):
+    Mode: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ValidationStrategy"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ValidationStrategy"]:
+        if not json_data:
+            return None
+        return cls(
+            Mode=json_data.get("Mode"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ValidationStrategy = ValidationStrategy
 
 
 @dataclass

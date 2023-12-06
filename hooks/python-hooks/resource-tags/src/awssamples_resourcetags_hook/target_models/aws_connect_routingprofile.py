@@ -38,6 +38,7 @@ class AwsConnectRoutingprofile(BaseModel):
     RoutingProfileArn: Optional[str]
     QueueConfigs: Optional[Sequence["_RoutingProfileQueueConfig"]]
     Tags: Optional[Any]
+    AgentAvailabilityTimer: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -57,6 +58,7 @@ class AwsConnectRoutingprofile(BaseModel):
             RoutingProfileArn=json_data.get("RoutingProfileArn"),
             QueueConfigs=deserialize_list(json_data.get("QueueConfigs"), RoutingProfileQueueConfig),
             Tags=json_data.get("Tags"),
+            AgentAvailabilityTimer=json_data.get("AgentAvailabilityTimer"),
         )
 
 

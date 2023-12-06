@@ -32,9 +32,10 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 class AwsEventschemasDiscoverer(BaseModel):
     DiscovererArn: Optional[str]
     DiscovererId: Optional[str]
-    CrossAccount: Optional[bool]
     Description: Optional[str]
     SourceArn: Optional[str]
+    CrossAccount: Optional[bool]
+    State: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -49,9 +50,10 @@ class AwsEventschemasDiscoverer(BaseModel):
         return cls(
             DiscovererArn=json_data.get("DiscovererArn"),
             DiscovererId=json_data.get("DiscovererId"),
-            CrossAccount=json_data.get("CrossAccount"),
             Description=json_data.get("Description"),
             SourceArn=json_data.get("SourceArn"),
+            CrossAccount=json_data.get("CrossAccount"),
+            State=json_data.get("State"),
             Tags=json_data.get("Tags"),
         )
 

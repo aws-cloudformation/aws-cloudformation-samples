@@ -30,18 +30,19 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsRoute53resolverResolverendpoint(BaseModel):
-    IpAddresses: Optional[Sequence["_IpAddressRequest"]]
     ResolverEndpointId: Optional[str]
-    IpAddressCount: Optional[str]
+    Protocols: Optional[Sequence[str]]
     OutpostArn: Optional[str]
-    PreferredInstanceType: Optional[str]
     ResolverEndpointType: Optional[str]
-    Arn: Optional[str]
     Direction: Optional[str]
-    HostVPCId: Optional[str]
     SecurityGroupIds: Optional[Sequence[str]]
-    Tags: Optional[Any]
     Name: Optional[str]
+    IpAddresses: Optional[Sequence["_IpAddressRequest"]]
+    IpAddressCount: Optional[str]
+    PreferredInstanceType: Optional[str]
+    Arn: Optional[str]
+    HostVPCId: Optional[str]
+    Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
@@ -53,18 +54,19 @@ class AwsRoute53resolverResolverendpoint(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            IpAddresses=deserialize_list(json_data.get("IpAddresses"), IpAddressRequest),
             ResolverEndpointId=json_data.get("ResolverEndpointId"),
-            IpAddressCount=json_data.get("IpAddressCount"),
+            Protocols=json_data.get("Protocols"),
             OutpostArn=json_data.get("OutpostArn"),
-            PreferredInstanceType=json_data.get("PreferredInstanceType"),
             ResolverEndpointType=json_data.get("ResolverEndpointType"),
-            Arn=json_data.get("Arn"),
             Direction=json_data.get("Direction"),
-            HostVPCId=json_data.get("HostVPCId"),
             SecurityGroupIds=json_data.get("SecurityGroupIds"),
-            Tags=json_data.get("Tags"),
             Name=json_data.get("Name"),
+            IpAddresses=deserialize_list(json_data.get("IpAddresses"), IpAddressRequest),
+            IpAddressCount=json_data.get("IpAddressCount"),
+            PreferredInstanceType=json_data.get("PreferredInstanceType"),
+            Arn=json_data.get("Arn"),
+            HostVPCId=json_data.get("HostVPCId"),
+            Tags=json_data.get("Tags"),
         )
 
 

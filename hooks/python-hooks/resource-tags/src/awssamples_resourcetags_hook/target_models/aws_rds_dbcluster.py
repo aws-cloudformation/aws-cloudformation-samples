@@ -53,6 +53,7 @@ class AwsRdsDbcluster(BaseModel):
     Domain: Optional[str]
     DomainIAMRoleName: Optional[str]
     EnableCloudwatchLogsExports: Optional[Sequence[str]]
+    EnableGlobalWriteForwarding: Optional[bool]
     EnableHttpEndpoint: Optional[bool]
     EnableIAMDatabaseAuthentication: Optional[bool]
     Engine: Optional[str]
@@ -121,6 +122,7 @@ class AwsRdsDbcluster(BaseModel):
             Domain=json_data.get("Domain"),
             DomainIAMRoleName=json_data.get("DomainIAMRoleName"),
             EnableCloudwatchLogsExports=json_data.get("EnableCloudwatchLogsExports"),
+            EnableGlobalWriteForwarding=json_data.get("EnableGlobalWriteForwarding"),
             EnableHttpEndpoint=json_data.get("EnableHttpEndpoint"),
             EnableIAMDatabaseAuthentication=json_data.get("EnableIAMDatabaseAuthentication"),
             Engine=json_data.get("Engine"),

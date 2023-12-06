@@ -40,6 +40,7 @@ class AwsCleanroomsCollaboration(BaseModel):
     Members: Optional[Sequence["_MemberSpecification"]]
     Name: Optional[str]
     QueryLogStatus: Optional[str]
+    CreatorPaymentConfiguration: Optional["_PaymentConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -61,6 +62,7 @@ class AwsCleanroomsCollaboration(BaseModel):
             Members=deserialize_list(json_data.get("Members"), MemberSpecification),
             Name=json_data.get("Name"),
             QueryLogStatus=json_data.get("QueryLogStatus"),
+            CreatorPaymentConfiguration=PaymentConfiguration._deserialize(json_data.get("CreatorPaymentConfiguration")),
         )
 
 
@@ -121,6 +123,7 @@ class MemberSpecification(BaseModel):
     AccountId: Optional[str]
     MemberAbilities: Optional[AbstractSet[str]]
     DisplayName: Optional[str]
+    PaymentConfiguration: Optional["_PaymentConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -133,10 +136,51 @@ class MemberSpecification(BaseModel):
             AccountId=json_data.get("AccountId"),
             MemberAbilities=set_or_none(json_data.get("MemberAbilities")),
             DisplayName=json_data.get("DisplayName"),
+            PaymentConfiguration=PaymentConfiguration._deserialize(json_data.get("PaymentConfiguration")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _MemberSpecification = MemberSpecification
+
+
+@dataclass
+class PaymentConfiguration(BaseModel):
+    QueryCompute: Optional["_QueryComputePaymentConfig"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PaymentConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PaymentConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            QueryCompute=QueryComputePaymentConfig._deserialize(json_data.get("QueryCompute")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PaymentConfiguration = PaymentConfiguration
+
+
+@dataclass
+class QueryComputePaymentConfig(BaseModel):
+    IsResponsible: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_QueryComputePaymentConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_QueryComputePaymentConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            IsResponsible=json_data.get("IsResponsible"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_QueryComputePaymentConfig = QueryComputePaymentConfig
 
 

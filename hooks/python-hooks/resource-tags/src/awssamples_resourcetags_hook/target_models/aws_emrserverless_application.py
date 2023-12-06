@@ -40,6 +40,8 @@ class AwsEmrserverlessApplication(BaseModel):
     AutoStartConfiguration: Optional["_AutoStartConfiguration"]
     AutoStopConfiguration: Optional["_AutoStopConfiguration"]
     ImageConfiguration: Optional["_ImageConfigurationInput"]
+    MonitoringConfiguration: Optional["_MonitoringConfiguration"]
+    RuntimeConfiguration: Optional[AbstractSet["_ConfigurationObject"]]
     NetworkConfiguration: Optional["_NetworkConfiguration"]
     Arn: Optional[str]
     ApplicationId: Optional[str]
@@ -65,6 +67,8 @@ class AwsEmrserverlessApplication(BaseModel):
             AutoStartConfiguration=AutoStartConfiguration._deserialize(json_data.get("AutoStartConfiguration")),
             AutoStopConfiguration=AutoStopConfiguration._deserialize(json_data.get("AutoStopConfiguration")),
             ImageConfiguration=ImageConfigurationInput._deserialize(json_data.get("ImageConfiguration")),
+            MonitoringConfiguration=MonitoringConfiguration._deserialize(json_data.get("MonitoringConfiguration")),
+            RuntimeConfiguration=set_or_none(json_data.get("RuntimeConfiguration")),
             NetworkConfiguration=NetworkConfiguration._deserialize(json_data.get("NetworkConfiguration")),
             Arn=json_data.get("Arn"),
             ApplicationId=json_data.get("ApplicationId"),
@@ -250,6 +254,96 @@ class ImageConfigurationInput(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _ImageConfigurationInput = ImageConfigurationInput
+
+
+@dataclass
+class MonitoringConfiguration(BaseModel):
+    S3MonitoringConfiguration: Optional["_S3MonitoringConfiguration"]
+    ManagedPersistenceMonitoringConfiguration: Optional["_ManagedPersistenceMonitoringConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MonitoringConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MonitoringConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            S3MonitoringConfiguration=S3MonitoringConfiguration._deserialize(json_data.get("S3MonitoringConfiguration")),
+            ManagedPersistenceMonitoringConfiguration=ManagedPersistenceMonitoringConfiguration._deserialize(json_data.get("ManagedPersistenceMonitoringConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MonitoringConfiguration = MonitoringConfiguration
+
+
+@dataclass
+class S3MonitoringConfiguration(BaseModel):
+    LogUri: Optional[str]
+    EncryptionKeyArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_S3MonitoringConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_S3MonitoringConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            LogUri=json_data.get("LogUri"),
+            EncryptionKeyArn=json_data.get("EncryptionKeyArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_S3MonitoringConfiguration = S3MonitoringConfiguration
+
+
+@dataclass
+class ManagedPersistenceMonitoringConfiguration(BaseModel):
+    Enabled: Optional[bool]
+    EncryptionKeyArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ManagedPersistenceMonitoringConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ManagedPersistenceMonitoringConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Enabled=json_data.get("Enabled"),
+            EncryptionKeyArn=json_data.get("EncryptionKeyArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ManagedPersistenceMonitoringConfiguration = ManagedPersistenceMonitoringConfiguration
+
+
+@dataclass
+class ConfigurationObject(BaseModel):
+    Classification: Optional[str]
+    Properties: Optional[MutableMapping[str, str]]
+    Configurations: Optional[AbstractSet["_ConfigurationObject"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ConfigurationObject"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ConfigurationObject"]:
+        if not json_data:
+            return None
+        return cls(
+            Classification=json_data.get("Classification"),
+            Properties=json_data.get("Properties"),
+            Configurations=set_or_none(json_data.get("Configurations")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ConfigurationObject = ConfigurationObject
 
 
 @dataclass

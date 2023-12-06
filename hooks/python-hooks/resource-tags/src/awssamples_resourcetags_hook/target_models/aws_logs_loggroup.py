@@ -33,6 +33,7 @@ class AwsLogsLoggroup(BaseModel):
     LogGroupName: Optional[str]
     KmsKeyId: Optional[str]
     DataProtectionPolicy: Optional[MutableMapping[str, Any]]
+    LogGroupClass: Optional[str]
     RetentionInDays: Optional[int]
     Tags: Optional[Any]
     Arn: Optional[str]
@@ -50,6 +51,7 @@ class AwsLogsLoggroup(BaseModel):
             LogGroupName=json_data.get("LogGroupName"),
             KmsKeyId=json_data.get("KmsKeyId"),
             DataProtectionPolicy=json_data.get("DataProtectionPolicy"),
+            LogGroupClass=json_data.get("LogGroupClass"),
             RetentionInDays=json_data.get("RetentionInDays"),
             Tags=json_data.get("Tags"),
             Arn=json_data.get("Arn"),

@@ -33,6 +33,7 @@ class AwsAmplifyBranch(BaseModel):
     AppId: Optional[str]
     Arn: Optional[str]
     BasicAuthConfig: Optional["_BasicAuthConfig"]
+    Backend: Optional["_Backend"]
     BranchName: Optional[str]
     BuildSpec: Optional[str]
     Description: Optional[str]
@@ -58,6 +59,7 @@ class AwsAmplifyBranch(BaseModel):
             AppId=json_data.get("AppId"),
             Arn=json_data.get("Arn"),
             BasicAuthConfig=BasicAuthConfig._deserialize(json_data.get("BasicAuthConfig")),
+            Backend=Backend._deserialize(json_data.get("Backend")),
             BranchName=json_data.get("BranchName"),
             BuildSpec=json_data.get("BuildSpec"),
             Description=json_data.get("Description"),
@@ -98,6 +100,26 @@ class BasicAuthConfig(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _BasicAuthConfig = BasicAuthConfig
+
+
+@dataclass
+class Backend(BaseModel):
+    StackArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Backend"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Backend"]:
+        if not json_data:
+            return None
+        return cls(
+            StackArn=json_data.get("StackArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Backend = Backend
 
 
 @dataclass

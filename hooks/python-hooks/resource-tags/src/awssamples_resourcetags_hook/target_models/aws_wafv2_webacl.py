@@ -1011,6 +1011,7 @@ _FieldIdentifier = FieldIdentifier
 @dataclass
 class AWSManagedRulesBotControlRuleSet(BaseModel):
     InspectionLevel: Optional[str]
+    EnableMachineLearning: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -1021,6 +1022,7 @@ class AWSManagedRulesBotControlRuleSet(BaseModel):
             return None
         return cls(
             InspectionLevel=json_data.get("InspectionLevel"),
+            EnableMachineLearning=json_data.get("EnableMachineLearning"),
         )
 
 

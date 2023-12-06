@@ -87,6 +87,7 @@ class Options(BaseModel):
     DnsSupport: Optional[str]
     Ipv6Support: Optional[str]
     ApplianceModeSupport: Optional[str]
+    SecurityGroupReferencingSupport: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -99,6 +100,7 @@ class Options(BaseModel):
             DnsSupport=json_data.get("DnsSupport"),
             Ipv6Support=json_data.get("Ipv6Support"),
             ApplianceModeSupport=json_data.get("ApplianceModeSupport"),
+            SecurityGroupReferencingSupport=json_data.get("SecurityGroupReferencingSupport"),
         )
 
 

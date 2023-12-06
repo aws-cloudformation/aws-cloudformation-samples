@@ -583,6 +583,16 @@
             ]
         }
     },
+    "AWS::Backup::RestoreTestingPlan": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::BackupGateway::Hypervisor": {
         "resourceProperties": {
             "Tags": [
@@ -979,6 +989,16 @@
             ]
         }
     },
+    "AWS::CodeStarConnections::RepositoryLink": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::CodeStarNotifications::NotificationRule": {
         "resourceProperties": {
             "Tags": {
@@ -1195,6 +1215,16 @@
             ]
         }
     },
+    "AWS::Connect::UserHierarchyGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Connect::View": {
         "resourceProperties": {
             "Tags": [
@@ -1206,6 +1236,16 @@
         }
     },
     "AWS::ConnectCampaigns::Campaign": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::ControlTower::LandingZone": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2312,6 +2352,16 @@
             }
         }
     },
+    "AWS::EKS::PodIdentityAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::EMR::Cluster": {
         "resourceProperties": {
             "Tags": [
@@ -2402,6 +2452,16 @@
             ]
         }
     },
+    "AWS::ElastiCache::ServerlessCache": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::ElastiCache::SubnetGroup": {
         "resourceProperties": {
             "Tags": [
@@ -2472,7 +2532,27 @@
             ]
         }
     },
+    "AWS::ElasticLoadBalancingV2::TrustStore": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Elasticsearch::Domain": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::EntityResolution::IdMappingWorkflow": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3233,6 +3313,13 @@
             }
         }
     },
+    "AWS::ImageBuilder::LifecyclePolicy": {
+        "resourceProperties": {
+            "Tags": {
+                "invalid": ""
+            }
+        }
+    },
     "AWS::Inspector::ResourceGroup": {
         "resourceProperties": {
             "ResourceGroupTags": [
@@ -3343,6 +3430,16 @@
             ]
         }
     },
+    "AWS::IoT::Policy": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::IoT::ProvisioningTemplate": {
         "resourceProperties": {
             "Tags": [
@@ -3374,6 +3471,26 @@
         }
     },
     "AWS::IoT::SecurityProfile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoT::SoftwarePackage": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::IoT::SoftwarePackageVersion": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3994,6 +4111,36 @@
             ]
         }
     },
+    "AWS::Logs::Delivery": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Logs::DeliveryDestination": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::Logs::DeliverySource": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::Logs::LogGroup": {
         "resourceProperties": {
             "Tags": [
@@ -4033,6 +4180,16 @@
             "Tags": {
                 "invalid": ""
             }
+        }
+    },
+    "AWS::MSK::Replicator": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
         }
     },
     "AWS::MSK::ServerlessCluster": {
@@ -4136,6 +4293,16 @@
             "Tags": {
                 "invalid": ""
             }
+        }
+    },
+    "AWS::MediaLive::Multiplex": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
         }
     },
     "AWS::MediaPackage::Asset": {
@@ -5465,6 +5632,36 @@
             ]
         }
     },
+    "AWS::S3::AccessGrant": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::S3::AccessGrantsInstance": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::S3::AccessGrantsLocation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::S3::Bucket": {
         "resourceProperties": {
             "Tags": [
@@ -5476,6 +5673,16 @@
         }
     },
     "AWS::S3::StorageLens": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::S3::StorageLensGroup": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5703,6 +5910,16 @@
         }
     },
     "AWS::SageMaker::Image": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::SageMaker::InferenceComponent": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -6331,6 +6548,16 @@
         }
     },
     "AWS::WorkSpaces::Workspace": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::WorkSpacesThinClient::Environment": {
         "resourceProperties": {
             "Tags": [
                 {

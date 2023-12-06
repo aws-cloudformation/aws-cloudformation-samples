@@ -30,22 +30,23 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsGameliftMatchmakingconfiguration(BaseModel):
-    GameProperties: Optional[Sequence["_GameProperty"]]
-    GameSessionData: Optional[str]
-    Description: Optional[str]
+    AcceptanceRequired: Optional[bool]
     AcceptanceTimeoutSeconds: Optional[int]
-    NotificationTarget: Optional[str]
-    CustomEventData: Optional[str]
-    Name: Optional[str]
     AdditionalPlayerCount: Optional[int]
     BackfillMode: Optional[str]
-    RequestTimeoutSeconds: Optional[int]
-    AcceptanceRequired: Optional[bool]
-    FlexMatchMode: Optional[str]
-    Id: Optional[str]
     Arn: Optional[str]
-    RuleSetName: Optional[str]
+    CreationTime: Optional[str]
+    CustomEventData: Optional[str]
+    Description: Optional[str]
+    FlexMatchMode: Optional[str]
+    GameProperties: Optional[AbstractSet["_GameProperty"]]
+    GameSessionData: Optional[str]
     GameSessionQueueArns: Optional[Sequence[str]]
+    Name: Optional[str]
+    NotificationTarget: Optional[str]
+    RequestTimeoutSeconds: Optional[int]
+    RuleSetArn: Optional[str]
+    RuleSetName: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -58,22 +59,23 @@ class AwsGameliftMatchmakingconfiguration(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            GameProperties=deserialize_list(json_data.get("GameProperties"), GameProperty),
-            GameSessionData=json_data.get("GameSessionData"),
-            Description=json_data.get("Description"),
+            AcceptanceRequired=json_data.get("AcceptanceRequired"),
             AcceptanceTimeoutSeconds=json_data.get("AcceptanceTimeoutSeconds"),
-            NotificationTarget=json_data.get("NotificationTarget"),
-            CustomEventData=json_data.get("CustomEventData"),
-            Name=json_data.get("Name"),
             AdditionalPlayerCount=json_data.get("AdditionalPlayerCount"),
             BackfillMode=json_data.get("BackfillMode"),
-            RequestTimeoutSeconds=json_data.get("RequestTimeoutSeconds"),
-            AcceptanceRequired=json_data.get("AcceptanceRequired"),
-            FlexMatchMode=json_data.get("FlexMatchMode"),
-            Id=json_data.get("Id"),
             Arn=json_data.get("Arn"),
-            RuleSetName=json_data.get("RuleSetName"),
+            CreationTime=json_data.get("CreationTime"),
+            CustomEventData=json_data.get("CustomEventData"),
+            Description=json_data.get("Description"),
+            FlexMatchMode=json_data.get("FlexMatchMode"),
+            GameProperties=set_or_none(json_data.get("GameProperties")),
+            GameSessionData=json_data.get("GameSessionData"),
             GameSessionQueueArns=json_data.get("GameSessionQueueArns"),
+            Name=json_data.get("Name"),
+            NotificationTarget=json_data.get("NotificationTarget"),
+            RequestTimeoutSeconds=json_data.get("RequestTimeoutSeconds"),
+            RuleSetArn=json_data.get("RuleSetArn"),
+            RuleSetName=json_data.get("RuleSetName"),
             Tags=json_data.get("Tags"),
         )
 
@@ -84,8 +86,8 @@ _AwsGameliftMatchmakingconfiguration = AwsGameliftMatchmakingconfiguration
 
 @dataclass
 class GameProperty(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -95,8 +97,8 @@ class GameProperty(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 
@@ -106,8 +108,8 @@ _GameProperty = GameProperty
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -117,8 +119,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

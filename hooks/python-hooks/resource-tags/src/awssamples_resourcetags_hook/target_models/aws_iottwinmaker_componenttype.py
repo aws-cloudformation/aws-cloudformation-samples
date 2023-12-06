@@ -38,6 +38,7 @@ class AwsIottwinmakerComponenttype(BaseModel):
     IsSingleton: Optional[bool]
     PropertyDefinitions: Optional[MutableMapping[str, "_PropertyDefinition"]]
     PropertyGroups: Optional[MutableMapping[str, "_PropertyGroup"]]
+    CompositeComponentTypes: Optional[MutableMapping[str, "_CompositeComponentType"]]
     Arn: Optional[str]
     CreationDateTime: Optional[str]
     UpdateDateTime: Optional[str]
@@ -64,6 +65,7 @@ class AwsIottwinmakerComponenttype(BaseModel):
             IsSingleton=json_data.get("IsSingleton"),
             PropertyDefinitions=json_data.get("PropertyDefinitions"),
             PropertyGroups=json_data.get("PropertyGroups"),
+            CompositeComponentTypes=json_data.get("CompositeComponentTypes"),
             Arn=json_data.get("Arn"),
             CreationDateTime=json_data.get("CreationDateTime"),
             UpdateDateTime=json_data.get("UpdateDateTime"),
@@ -304,6 +306,26 @@ class PropertyGroup(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _PropertyGroup = PropertyGroup
+
+
+@dataclass
+class CompositeComponentType(BaseModel):
+    ComponentTypeId: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CompositeComponentType"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CompositeComponentType"]:
+        if not json_data:
+            return None
+        return cls(
+            ComponentTypeId=json_data.get("ComponentTypeId"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CompositeComponentType = CompositeComponentType
 
 
 @dataclass

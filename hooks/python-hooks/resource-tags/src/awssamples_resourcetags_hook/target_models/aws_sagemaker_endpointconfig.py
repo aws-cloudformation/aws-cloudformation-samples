@@ -32,9 +32,12 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 class AwsSagemakerEndpointconfig(BaseModel):
     ShadowProductionVariants: Optional[Sequence["_ProductionVariant"]]
     DataCaptureConfig: Optional["_DataCaptureConfig"]
+    ExecutionRoleArn: Optional[str]
+    EnableNetworkIsolation: Optional[bool]
     ProductionVariants: Optional[Sequence["_ProductionVariant"]]
     KmsKeyId: Optional[str]
     AsyncInferenceConfig: Optional["_AsyncInferenceConfig"]
+    VpcConfig: Optional["_VpcConfig"]
     EndpointConfigName: Optional[str]
     ExplainerConfig: Optional["_ExplainerConfig"]
     Id: Optional[str]
@@ -52,9 +55,12 @@ class AwsSagemakerEndpointconfig(BaseModel):
         return cls(
             ShadowProductionVariants=deserialize_list(json_data.get("ShadowProductionVariants"), ProductionVariant),
             DataCaptureConfig=DataCaptureConfig._deserialize(json_data.get("DataCaptureConfig")),
+            ExecutionRoleArn=json_data.get("ExecutionRoleArn"),
+            EnableNetworkIsolation=json_data.get("EnableNetworkIsolation"),
             ProductionVariants=deserialize_list(json_data.get("ProductionVariants"), ProductionVariant),
             KmsKeyId=json_data.get("KmsKeyId"),
             AsyncInferenceConfig=AsyncInferenceConfig._deserialize(json_data.get("AsyncInferenceConfig")),
+            VpcConfig=VpcConfig._deserialize(json_data.get("VpcConfig")),
             EndpointConfigName=json_data.get("EndpointConfigName"),
             ExplainerConfig=ExplainerConfig._deserialize(json_data.get("ExplainerConfig")),
             Id=json_data.get("Id"),
@@ -68,17 +74,19 @@ _AwsSagemakerEndpointconfig = AwsSagemakerEndpointconfig
 
 @dataclass
 class ProductionVariant(BaseModel):
-    ModelDataDownloadTimeoutInSeconds: Optional[int]
+    ManagedInstanceScaling: Optional["_ManagedInstanceScaling"]
     ModelName: Optional[str]
     VolumeSizeInGB: Optional[int]
     EnableSSMAccess: Optional[bool]
     VariantName: Optional[str]
-    ContainerStartupHealthCheckTimeoutInSeconds: Optional[int]
     InitialInstanceCount: Optional[int]
-    ServerlessConfig: Optional["_ServerlessConfig"]
-    InstanceType: Optional[str]
+    RoutingConfig: Optional["_RoutingConfig"]
     AcceleratorType: Optional[str]
     InitialVariantWeight: Optional[float]
+    ModelDataDownloadTimeoutInSeconds: Optional[int]
+    ContainerStartupHealthCheckTimeoutInSeconds: Optional[int]
+    ServerlessConfig: Optional["_ServerlessConfig"]
+    InstanceType: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -88,22 +96,68 @@ class ProductionVariant(BaseModel):
         if not json_data:
             return None
         return cls(
-            ModelDataDownloadTimeoutInSeconds=json_data.get("ModelDataDownloadTimeoutInSeconds"),
+            ManagedInstanceScaling=ManagedInstanceScaling._deserialize(json_data.get("ManagedInstanceScaling")),
             ModelName=json_data.get("ModelName"),
             VolumeSizeInGB=json_data.get("VolumeSizeInGB"),
             EnableSSMAccess=json_data.get("EnableSSMAccess"),
             VariantName=json_data.get("VariantName"),
-            ContainerStartupHealthCheckTimeoutInSeconds=json_data.get("ContainerStartupHealthCheckTimeoutInSeconds"),
             InitialInstanceCount=json_data.get("InitialInstanceCount"),
-            ServerlessConfig=ServerlessConfig._deserialize(json_data.get("ServerlessConfig")),
-            InstanceType=json_data.get("InstanceType"),
+            RoutingConfig=RoutingConfig._deserialize(json_data.get("RoutingConfig")),
             AcceleratorType=json_data.get("AcceleratorType"),
             InitialVariantWeight=json_data.get("InitialVariantWeight"),
+            ModelDataDownloadTimeoutInSeconds=json_data.get("ModelDataDownloadTimeoutInSeconds"),
+            ContainerStartupHealthCheckTimeoutInSeconds=json_data.get("ContainerStartupHealthCheckTimeoutInSeconds"),
+            ServerlessConfig=ServerlessConfig._deserialize(json_data.get("ServerlessConfig")),
+            InstanceType=json_data.get("InstanceType"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _ProductionVariant = ProductionVariant
+
+
+@dataclass
+class ManagedInstanceScaling(BaseModel):
+    Status: Optional[str]
+    MaxInstanceCount: Optional[int]
+    MinInstanceCount: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ManagedInstanceScaling"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ManagedInstanceScaling"]:
+        if not json_data:
+            return None
+        return cls(
+            Status=json_data.get("Status"),
+            MaxInstanceCount=json_data.get("MaxInstanceCount"),
+            MinInstanceCount=json_data.get("MinInstanceCount"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ManagedInstanceScaling = ManagedInstanceScaling
+
+
+@dataclass
+class RoutingConfig(BaseModel):
+    RoutingStrategy: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RoutingConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RoutingConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            RoutingStrategy=json_data.get("RoutingStrategy"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RoutingConfig = RoutingConfig
 
 
 @dataclass
@@ -292,6 +346,28 @@ class AsyncInferenceNotificationConfig(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _AsyncInferenceNotificationConfig = AsyncInferenceNotificationConfig
+
+
+@dataclass
+class VpcConfig(BaseModel):
+    SecurityGroupIds: Optional[Sequence[str]]
+    Subnets: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_VpcConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_VpcConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            SecurityGroupIds=json_data.get("SecurityGroupIds"),
+            Subnets=json_data.get("Subnets"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_VpcConfig = VpcConfig
 
 
 @dataclass

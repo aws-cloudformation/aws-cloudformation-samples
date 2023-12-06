@@ -80,6 +80,7 @@ class AwsRedshiftCluster(BaseModel):
     RevisionTarget: Optional[str]
     ResourceAction: Optional[str]
     RotateEncryptionKey: Optional[bool]
+    MultiAZ: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -141,6 +142,7 @@ class AwsRedshiftCluster(BaseModel):
             RevisionTarget=json_data.get("RevisionTarget"),
             ResourceAction=json_data.get("ResourceAction"),
             RotateEncryptionKey=json_data.get("RotateEncryptionKey"),
+            MultiAZ=json_data.get("MultiAZ"),
         )
 
 

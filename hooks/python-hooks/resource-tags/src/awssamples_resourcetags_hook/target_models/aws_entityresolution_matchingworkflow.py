@@ -144,6 +144,7 @@ _OutputAttribute = OutputAttribute
 class ResolutionTechniques(BaseModel):
     ResolutionType: Optional[str]
     RuleBasedProperties: Optional["_RuleBasedProperties"]
+    ProviderProperties: Optional["_ProviderProperties"]
 
     @classmethod
     def _deserialize(
@@ -155,6 +156,7 @@ class ResolutionTechniques(BaseModel):
         return cls(
             ResolutionType=json_data.get("ResolutionType"),
             RuleBasedProperties=RuleBasedProperties._deserialize(json_data.get("RuleBasedProperties")),
+            ProviderProperties=ProviderProperties._deserialize(json_data.get("ProviderProperties")),
         )
 
 
@@ -204,6 +206,50 @@ class Rule(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Rule = Rule
+
+
+@dataclass
+class ProviderProperties(BaseModel):
+    ProviderServiceArn: Optional[str]
+    ProviderConfiguration: Optional[MutableMapping[str, str]]
+    IntermediateSourceConfiguration: Optional["_IntermediateSourceConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ProviderProperties"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ProviderProperties"]:
+        if not json_data:
+            return None
+        return cls(
+            ProviderServiceArn=json_data.get("ProviderServiceArn"),
+            ProviderConfiguration=json_data.get("ProviderConfiguration"),
+            IntermediateSourceConfiguration=IntermediateSourceConfiguration._deserialize(json_data.get("IntermediateSourceConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ProviderProperties = ProviderProperties
+
+
+@dataclass
+class IntermediateSourceConfiguration(BaseModel):
+    IntermediateS3Path: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_IntermediateSourceConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_IntermediateSourceConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            IntermediateS3Path=json_data.get("IntermediateS3Path"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_IntermediateSourceConfiguration = IntermediateSourceConfiguration
 
 
 @dataclass

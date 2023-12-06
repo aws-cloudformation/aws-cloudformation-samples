@@ -35,6 +35,7 @@ class AwsIotSecurityprofile(BaseModel):
     Behaviors: Optional[AbstractSet["_Behavior"]]
     AlertTargets: Optional[MutableMapping[str, "_AlertTarget"]]
     AdditionalMetricsToRetainV2: Optional[AbstractSet["_MetricToRetain"]]
+    MetricsExportConfig: Optional["_MetricsExportConfig"]
     Tags: Optional[Any]
     TargetArns: Optional[AbstractSet[str]]
     SecurityProfileArn: Optional[str]
@@ -54,6 +55,7 @@ class AwsIotSecurityprofile(BaseModel):
             Behaviors=set_or_none(json_data.get("Behaviors")),
             AlertTargets=json_data.get("AlertTargets"),
             AdditionalMetricsToRetainV2=set_or_none(json_data.get("AdditionalMetricsToRetainV2")),
+            MetricsExportConfig=MetricsExportConfig._deserialize(json_data.get("MetricsExportConfig")),
             Tags=json_data.get("Tags"),
             TargetArns=set_or_none(json_data.get("TargetArns")),
             SecurityProfileArn=json_data.get("SecurityProfileArn"),
@@ -71,6 +73,7 @@ class Behavior(BaseModel):
     MetricDimension: Optional["_MetricDimension"]
     Criteria: Optional["_BehaviorCriteria"]
     SuppressAlerts: Optional[bool]
+    ExportMetric: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -85,6 +88,7 @@ class Behavior(BaseModel):
             MetricDimension=MetricDimension._deserialize(json_data.get("MetricDimension")),
             Criteria=BehaviorCriteria._deserialize(json_data.get("Criteria")),
             SuppressAlerts=json_data.get("SuppressAlerts"),
+            ExportMetric=json_data.get("ExportMetric"),
         )
 
 
@@ -242,6 +246,7 @@ _AlertTarget = AlertTarget
 class MetricToRetain(BaseModel):
     Metric: Optional[str]
     MetricDimension: Optional["_MetricDimension"]
+    ExportMetric: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -253,11 +258,34 @@ class MetricToRetain(BaseModel):
         return cls(
             Metric=json_data.get("Metric"),
             MetricDimension=MetricDimension._deserialize(json_data.get("MetricDimension")),
+            ExportMetric=json_data.get("ExportMetric"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _MetricToRetain = MetricToRetain
+
+
+@dataclass
+class MetricsExportConfig(BaseModel):
+    MqttTopic: Optional[str]
+    RoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MetricsExportConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MetricsExportConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            MqttTopic=json_data.get("MqttTopic"),
+            RoleArn=json_data.get("RoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MetricsExportConfig = MetricsExportConfig
 
 
 @dataclass

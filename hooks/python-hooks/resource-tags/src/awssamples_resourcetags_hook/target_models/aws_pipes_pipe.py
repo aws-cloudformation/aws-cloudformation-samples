@@ -38,6 +38,7 @@ class AwsPipesPipe(BaseModel):
     Enrichment: Optional[str]
     EnrichmentParameters: Optional["_PipeEnrichmentParameters"]
     LastModifiedTime: Optional[str]
+    LogConfiguration: Optional["_PipeLogConfiguration"]
     Name: Optional[str]
     RoleArn: Optional[str]
     Source: Optional[str]
@@ -65,6 +66,7 @@ class AwsPipesPipe(BaseModel):
             Enrichment=json_data.get("Enrichment"),
             EnrichmentParameters=PipeEnrichmentParameters._deserialize(json_data.get("EnrichmentParameters")),
             LastModifiedTime=json_data.get("LastModifiedTime"),
+            LogConfiguration=PipeLogConfiguration._deserialize(json_data.get("LogConfiguration")),
             Name=json_data.get("Name"),
             RoleArn=json_data.get("RoleArn"),
             Source=json_data.get("Source"),
@@ -124,6 +126,100 @@ class PipeEnrichmentHttpParameters(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _PipeEnrichmentHttpParameters = PipeEnrichmentHttpParameters
+
+
+@dataclass
+class PipeLogConfiguration(BaseModel):
+    S3LogDestination: Optional["_S3LogDestination"]
+    FirehoseLogDestination: Optional["_FirehoseLogDestination"]
+    CloudwatchLogsLogDestination: Optional["_CloudwatchLogsLogDestination"]
+    Level: Optional[str]
+    IncludeExecutionData: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PipeLogConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PipeLogConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            S3LogDestination=S3LogDestination._deserialize(json_data.get("S3LogDestination")),
+            FirehoseLogDestination=FirehoseLogDestination._deserialize(json_data.get("FirehoseLogDestination")),
+            CloudwatchLogsLogDestination=CloudwatchLogsLogDestination._deserialize(json_data.get("CloudwatchLogsLogDestination")),
+            Level=json_data.get("Level"),
+            IncludeExecutionData=json_data.get("IncludeExecutionData"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PipeLogConfiguration = PipeLogConfiguration
+
+
+@dataclass
+class S3LogDestination(BaseModel):
+    BucketName: Optional[str]
+    Prefix: Optional[str]
+    BucketOwner: Optional[str]
+    OutputFormat: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_S3LogDestination"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_S3LogDestination"]:
+        if not json_data:
+            return None
+        return cls(
+            BucketName=json_data.get("BucketName"),
+            Prefix=json_data.get("Prefix"),
+            BucketOwner=json_data.get("BucketOwner"),
+            OutputFormat=json_data.get("OutputFormat"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_S3LogDestination = S3LogDestination
+
+
+@dataclass
+class FirehoseLogDestination(BaseModel):
+    DeliveryStreamArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_FirehoseLogDestination"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_FirehoseLogDestination"]:
+        if not json_data:
+            return None
+        return cls(
+            DeliveryStreamArn=json_data.get("DeliveryStreamArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_FirehoseLogDestination = FirehoseLogDestination
+
+
+@dataclass
+class CloudwatchLogsLogDestination(BaseModel):
+    LogGroupArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CloudwatchLogsLogDestination"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CloudwatchLogsLogDestination"]:
+        if not json_data:
+            return None
+        return cls(
+            LogGroupArn=json_data.get("LogGroupArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CloudwatchLogsLogDestination = CloudwatchLogsLogDestination
 
 
 @dataclass

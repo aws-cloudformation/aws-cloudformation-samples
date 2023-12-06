@@ -549,6 +549,15 @@
         ]
     },
     {
+        "name": "AWS::Backup::RestoreTestingPlan",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::BackupGateway::Hypervisor",
         "tags_info": [
             {
@@ -924,6 +933,15 @@
         ]
     },
     {
+        "name": "AWS::CodeStarConnections::RepositoryLink",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CodeStarNotifications::NotificationRule",
         "tags_info": [
             {
@@ -1121,6 +1139,15 @@
         ]
     },
     {
+        "name": "AWS::Connect::UserHierarchyGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Connect::View",
         "tags_info": [
             {
@@ -1131,6 +1158,15 @@
     },
     {
         "name": "AWS::ConnectCampaigns::Campaign",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ControlTower::LandingZone",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2122,6 +2158,15 @@
         ]
     },
     {
+        "name": "AWS::EKS::PodIdentityAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::EMR::Cluster",
         "tags_info": [
             {
@@ -2203,6 +2248,15 @@
         ]
     },
     {
+        "name": "AWS::ElastiCache::ServerlessCache",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ElastiCache::SubnetGroup",
         "tags_info": [
             {
@@ -2266,7 +2320,25 @@
         ]
     },
     {
+        "name": "AWS::ElasticLoadBalancingV2::TrustStore",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Elasticsearch::Domain",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EntityResolution::IdMappingWorkflow",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3021,6 +3093,15 @@
         ]
     },
     {
+        "name": "AWS::ImageBuilder::LifecyclePolicy",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::Inspector::ResourceGroup",
         "tags_info": [
             {
@@ -3120,6 +3201,15 @@
         ]
     },
     {
+        "name": "AWS::IoT::Policy",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IoT::ProvisioningTemplate",
         "tags_info": [
             {
@@ -3148,6 +3238,24 @@
     },
     {
         "name": "AWS::IoT::SecurityProfile",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoT::SoftwarePackage",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IoT::SoftwarePackageVersion",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3718,6 +3826,33 @@
         ]
     },
     {
+        "name": "AWS::Logs::Delivery",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Logs::DeliveryDestination",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Logs::DeliverySource",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Logs::LogGroup",
         "tags_info": [
             {
@@ -3759,6 +3894,15 @@
             {
                 "property_name": "Tags",
                 "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MSK::Replicator",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
             }
         ]
     },
@@ -3876,6 +4020,15 @@
             {
                 "property_name": "Tags",
                 "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::MediaLive::Multiplex",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
             }
         ]
     },
@@ -5158,6 +5311,33 @@
         ]
     },
     {
+        "name": "AWS::S3::AccessGrant",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::S3::AccessGrantsInstance",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::S3::AccessGrantsLocation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::S3::Bucket",
         "tags_info": [
             {
@@ -5168,6 +5348,15 @@
     },
     {
         "name": "AWS::S3::StorageLens",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::S3::StorageLensGroup",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -5375,6 +5564,15 @@
     },
     {
         "name": "AWS::SageMaker::Image",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SageMaker::InferenceComponent",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -5951,6 +6149,15 @@
     },
     {
         "name": "AWS::WorkSpaces::Workspace",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::WorkSpacesThinClient::Environment",
         "tags_info": [
             {
                 "property_name": "Tags",

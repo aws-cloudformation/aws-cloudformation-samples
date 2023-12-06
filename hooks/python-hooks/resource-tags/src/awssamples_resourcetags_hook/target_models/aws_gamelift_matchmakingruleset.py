@@ -30,11 +30,11 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsGameliftMatchmakingruleset(BaseModel):
+    Name: Optional[str]
     RuleSetBody: Optional[str]
-    Id: Optional[str]
+    CreationTime: Optional[str]
     Arn: Optional[str]
     Tags: Optional[Any]
-    Name: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -46,11 +46,11 @@ class AwsGameliftMatchmakingruleset(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            Name=json_data.get("Name"),
             RuleSetBody=json_data.get("RuleSetBody"),
-            Id=json_data.get("Id"),
+            CreationTime=json_data.get("CreationTime"),
             Arn=json_data.get("Arn"),
             Tags=json_data.get("Tags"),
-            Name=json_data.get("Name"),
         )
 
 
@@ -60,8 +60,8 @@ _AwsGameliftMatchmakingruleset = AwsGameliftMatchmakingruleset
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -71,8 +71,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

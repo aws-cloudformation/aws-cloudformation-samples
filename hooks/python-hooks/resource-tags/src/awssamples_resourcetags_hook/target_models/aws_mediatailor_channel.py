@@ -161,6 +161,7 @@ _DashPlaylistSettings = DashPlaylistSettings
 @dataclass
 class HlsPlaylistSettings(BaseModel):
     ManifestWindowSeconds: Optional[float]
+    AdMarkupType: Optional[Sequence[str]]
 
     @classmethod
     def _deserialize(
@@ -171,6 +172,7 @@ class HlsPlaylistSettings(BaseModel):
             return None
         return cls(
             ManifestWindowSeconds=json_data.get("ManifestWindowSeconds"),
+            AdMarkupType=json_data.get("AdMarkupType"),
         )
 
 

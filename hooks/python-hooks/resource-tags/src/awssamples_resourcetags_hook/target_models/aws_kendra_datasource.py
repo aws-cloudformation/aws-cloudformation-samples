@@ -84,7 +84,6 @@ class DataSourceConfiguration(BaseModel):
     GoogleDriveConfiguration: Optional["_GoogleDriveConfiguration"]
     WebCrawlerConfiguration: Optional["_WebCrawlerConfiguration"]
     WorkDocsConfiguration: Optional["_WorkDocsConfiguration"]
-    TemplateConfiguration: Optional["_TemplateConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -104,7 +103,6 @@ class DataSourceConfiguration(BaseModel):
             GoogleDriveConfiguration=GoogleDriveConfiguration._deserialize(json_data.get("GoogleDriveConfiguration")),
             WebCrawlerConfiguration=WebCrawlerConfiguration._deserialize(json_data.get("WebCrawlerConfiguration")),
             WorkDocsConfiguration=WorkDocsConfiguration._deserialize(json_data.get("WorkDocsConfiguration")),
-            TemplateConfiguration=TemplateConfiguration._deserialize(json_data.get("TemplateConfiguration")),
         )
 
 
@@ -1200,26 +1198,6 @@ class WorkDocsConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _WorkDocsConfiguration = WorkDocsConfiguration
-
-
-@dataclass
-class TemplateConfiguration(BaseModel):
-    Template: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_TemplateConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_TemplateConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            Template=json_data.get("Template"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_TemplateConfiguration = TemplateConfiguration
 
 
 @dataclass

@@ -30,28 +30,28 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEc2Ipampool(BaseModel):
-    IpamPoolId: Optional[str]
-    AddressFamily: Optional[str]
-    AllocationMinNetmaskLength: Optional[int]
-    AllocationDefaultNetmaskLength: Optional[int]
-    AllocationMaxNetmaskLength: Optional[int]
-    AllocationResourceTags: Optional[AbstractSet["_Tag"]]
-    Arn: Optional[str]
-    AutoImport: Optional[bool]
     AwsService: Optional[str]
+    Locale: Optional[str]
+    PublicIpSource: Optional[str]
     Description: Optional[str]
-    IpamScopeId: Optional[str]
+    IpamPoolId: Optional[str]
+    IpamArn: Optional[str]
+    SourceIpamPoolId: Optional[str]
     IpamScopeArn: Optional[str]
     IpamScopeType: Optional[str]
-    IpamArn: Optional[str]
-    Locale: Optional[str]
-    PoolDepth: Optional[int]
+    AllocationMinNetmaskLength: Optional[int]
+    IpamScopeId: Optional[str]
     ProvisionedCidrs: Optional[AbstractSet["_ProvisionedCidr"]]
-    PublicIpSource: Optional[str]
-    PubliclyAdvertisable: Optional[bool]
-    SourceIpamPoolId: Optional[str]
+    AllocationMaxNetmaskLength: Optional[int]
+    PoolDepth: Optional[int]
     State: Optional[str]
+    AllocationDefaultNetmaskLength: Optional[int]
+    AutoImport: Optional[bool]
+    AddressFamily: Optional[str]
+    Arn: Optional[str]
     StateMessage: Optional[str]
+    AllocationResourceTags: Optional[AbstractSet["_Tag"]]
+    PubliclyAdvertisable: Optional[bool]
     Tags: Optional[Any]
 
     @classmethod
@@ -64,56 +64,34 @@ class AwsEc2Ipampool(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            IpamPoolId=json_data.get("IpamPoolId"),
-            AddressFamily=json_data.get("AddressFamily"),
-            AllocationMinNetmaskLength=json_data.get("AllocationMinNetmaskLength"),
-            AllocationDefaultNetmaskLength=json_data.get("AllocationDefaultNetmaskLength"),
-            AllocationMaxNetmaskLength=json_data.get("AllocationMaxNetmaskLength"),
-            AllocationResourceTags=set_or_none(json_data.get("AllocationResourceTags")),
-            Arn=json_data.get("Arn"),
-            AutoImport=json_data.get("AutoImport"),
             AwsService=json_data.get("AwsService"),
+            Locale=json_data.get("Locale"),
+            PublicIpSource=json_data.get("PublicIpSource"),
             Description=json_data.get("Description"),
-            IpamScopeId=json_data.get("IpamScopeId"),
+            IpamPoolId=json_data.get("IpamPoolId"),
+            IpamArn=json_data.get("IpamArn"),
+            SourceIpamPoolId=json_data.get("SourceIpamPoolId"),
             IpamScopeArn=json_data.get("IpamScopeArn"),
             IpamScopeType=json_data.get("IpamScopeType"),
-            IpamArn=json_data.get("IpamArn"),
-            Locale=json_data.get("Locale"),
-            PoolDepth=json_data.get("PoolDepth"),
+            AllocationMinNetmaskLength=json_data.get("AllocationMinNetmaskLength"),
+            IpamScopeId=json_data.get("IpamScopeId"),
             ProvisionedCidrs=set_or_none(json_data.get("ProvisionedCidrs")),
-            PublicIpSource=json_data.get("PublicIpSource"),
-            PubliclyAdvertisable=json_data.get("PubliclyAdvertisable"),
-            SourceIpamPoolId=json_data.get("SourceIpamPoolId"),
+            AllocationMaxNetmaskLength=json_data.get("AllocationMaxNetmaskLength"),
+            PoolDepth=json_data.get("PoolDepth"),
             State=json_data.get("State"),
+            AllocationDefaultNetmaskLength=json_data.get("AllocationDefaultNetmaskLength"),
+            AutoImport=json_data.get("AutoImport"),
+            AddressFamily=json_data.get("AddressFamily"),
+            Arn=json_data.get("Arn"),
             StateMessage=json_data.get("StateMessage"),
+            AllocationResourceTags=set_or_none(json_data.get("AllocationResourceTags")),
+            PubliclyAdvertisable=json_data.get("PubliclyAdvertisable"),
             Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _AwsEc2Ipampool = AwsEc2Ipampool
-
-
-@dataclass
-class Tag(BaseModel):
-    Key: Optional[str]
-    Value: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Tag"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Tag"]:
-        if not json_data:
-            return None
-        return cls(
-            Key=json_data.get("Key"),
-            Value=json_data.get("Value"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Tag = Tag
 
 
 @dataclass
@@ -134,5 +112,27 @@ class ProvisionedCidr(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _ProvisionedCidr = ProvisionedCidr
+
+
+@dataclass
+class Tag(BaseModel):
+    Value: Optional[str]
+    Key: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Tag"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Tag"]:
+        if not json_data:
+            return None
+        return cls(
+            Value=json_data.get("Value"),
+            Key=json_data.get("Key"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Tag = Tag
 
 

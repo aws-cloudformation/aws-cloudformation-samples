@@ -42,6 +42,7 @@ class AwsIotJobtemplate(BaseModel):
     PresignedUrlConfig: Optional["_PresignedUrlConfig"]
     JobExecutionsRetryConfig: Optional["_JobExecutionsRetryConfig"]
     MaintenanceWindows: Optional[Sequence["_MaintenanceWindow"]]
+    DestinationPackageVersions: Optional[Sequence[str]]
     Tags: Optional[Any]
 
     @classmethod
@@ -66,6 +67,7 @@ class AwsIotJobtemplate(BaseModel):
             PresignedUrlConfig=PresignedUrlConfig._deserialize(json_data.get("PresignedUrlConfig")),
             JobExecutionsRetryConfig=JobExecutionsRetryConfig._deserialize(json_data.get("JobExecutionsRetryConfig")),
             MaintenanceWindows=deserialize_list(json_data.get("MaintenanceWindows"), MaintenanceWindow),
+            DestinationPackageVersions=json_data.get("DestinationPackageVersions"),
             Tags=json_data.get("Tags"),
         )
 

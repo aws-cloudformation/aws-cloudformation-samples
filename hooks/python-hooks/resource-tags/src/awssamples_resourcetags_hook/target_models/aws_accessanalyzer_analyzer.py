@@ -35,6 +35,7 @@ class AwsAccessanalyzerAnalyzer(BaseModel):
     Arn: Optional[str]
     Tags: Optional[Any]
     Type: Optional[str]
+    AnalyzerConfiguration: Optional["_AnalyzerConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -51,6 +52,7 @@ class AwsAccessanalyzerAnalyzer(BaseModel):
             Arn=json_data.get("Arn"),
             Tags=json_data.get("Tags"),
             Type=json_data.get("Type"),
+            AnalyzerConfiguration=AnalyzerConfiguration._deserialize(json_data.get("AnalyzerConfiguration")),
         )
 
 
@@ -128,5 +130,45 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class AnalyzerConfiguration(BaseModel):
+    UnusedAccessConfiguration: Optional["_UnusedAccessConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AnalyzerConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AnalyzerConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            UnusedAccessConfiguration=UnusedAccessConfiguration._deserialize(json_data.get("UnusedAccessConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AnalyzerConfiguration = AnalyzerConfiguration
+
+
+@dataclass
+class UnusedAccessConfiguration(BaseModel):
+    UnusedAccessAge: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_UnusedAccessConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_UnusedAccessConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            UnusedAccessAge=json_data.get("UnusedAccessAge"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_UnusedAccessConfiguration = UnusedAccessConfiguration
 
 

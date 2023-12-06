@@ -135,6 +135,7 @@ class AccountLevel(BaseModel):
     AdvancedDataProtectionMetrics: Optional["_AdvancedDataProtectionMetrics"]
     DetailedStatusCodesMetrics: Optional["_DetailedStatusCodesMetrics"]
     BucketLevel: Optional["_BucketLevel"]
+    StorageLensGroupLevel: Optional["_StorageLensGroupLevel"]
 
     @classmethod
     def _deserialize(
@@ -149,6 +150,7 @@ class AccountLevel(BaseModel):
             AdvancedDataProtectionMetrics=AdvancedDataProtectionMetrics._deserialize(json_data.get("AdvancedDataProtectionMetrics")),
             DetailedStatusCodesMetrics=DetailedStatusCodesMetrics._deserialize(json_data.get("DetailedStatusCodesMetrics")),
             BucketLevel=BucketLevel._deserialize(json_data.get("BucketLevel")),
+            StorageLensGroupLevel=StorageLensGroupLevel._deserialize(json_data.get("StorageLensGroupLevel")),
         )
 
 
@@ -328,6 +330,48 @@ class SelectionCriteria(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _SelectionCriteria = SelectionCriteria
+
+
+@dataclass
+class StorageLensGroupLevel(BaseModel):
+    StorageLensGroupSelectionCriteria: Optional["_StorageLensGroupSelectionCriteria"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_StorageLensGroupLevel"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_StorageLensGroupLevel"]:
+        if not json_data:
+            return None
+        return cls(
+            StorageLensGroupSelectionCriteria=StorageLensGroupSelectionCriteria._deserialize(json_data.get("StorageLensGroupSelectionCriteria")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_StorageLensGroupLevel = StorageLensGroupLevel
+
+
+@dataclass
+class StorageLensGroupSelectionCriteria(BaseModel):
+    Include: Optional[AbstractSet[str]]
+    Exclude: Optional[AbstractSet[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_StorageLensGroupSelectionCriteria"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_StorageLensGroupSelectionCriteria"]:
+        if not json_data:
+            return None
+        return cls(
+            Include=set_or_none(json_data.get("Include")),
+            Exclude=set_or_none(json_data.get("Exclude")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_StorageLensGroupSelectionCriteria = StorageLensGroupSelectionCriteria
 
 
 @dataclass

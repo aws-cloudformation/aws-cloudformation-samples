@@ -40,6 +40,7 @@ class AwsEc2Verifiedaccessgroup(BaseModel):
     PolicyDocument: Optional[str]
     PolicyEnabled: Optional[bool]
     Tags: Optional[Any]
+    SseSpecification: Optional["_SseSpecification"]
 
     @classmethod
     def _deserialize(
@@ -61,6 +62,7 @@ class AwsEc2Verifiedaccessgroup(BaseModel):
             PolicyDocument=json_data.get("PolicyDocument"),
             PolicyEnabled=json_data.get("PolicyEnabled"),
             Tags=json_data.get("Tags"),
+            SseSpecification=SseSpecification._deserialize(json_data.get("SseSpecification")),
         )
 
 
@@ -88,5 +90,27 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class SseSpecification(BaseModel):
+    KmsKeyArn: Optional[str]
+    CustomerManagedKeyEnabled: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_SseSpecification"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_SseSpecification"]:
+        if not json_data:
+            return None
+        return cls(
+            KmsKeyArn=json_data.get("KmsKeyArn"),
+            CustomerManagedKeyEnabled=json_data.get("CustomerManagedKeyEnabled"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_SseSpecification = SseSpecification
 
 
