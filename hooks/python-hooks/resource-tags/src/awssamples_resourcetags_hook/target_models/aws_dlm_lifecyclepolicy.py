@@ -30,13 +30,20 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsDlmLifecyclepolicy(BaseModel):
-    ExecutionRoleArn: Optional[str]
+    CreateInterval: Optional[int]
     Description: Optional[str]
+    ExtendDeletion: Optional[bool]
+    Exclusions: Optional["_Exclusions"]
+    RetainInterval: Optional[int]
+    ExecutionRoleArn: Optional[str]
+    DefaultPolicy: Optional[str]
     State: Optional[str]
+    CrossRegionCopyTargets: Optional[MutableMapping[str, Any]]
     PolicyDetails: Optional["_PolicyDetails"]
     Id: Optional[str]
     Arn: Optional[str]
     Tags: Optional[Any]
+    CopyTags: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -48,13 +55,20 @@ class AwsDlmLifecyclepolicy(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            ExecutionRoleArn=json_data.get("ExecutionRoleArn"),
+            CreateInterval=json_data.get("CreateInterval"),
             Description=json_data.get("Description"),
+            ExtendDeletion=json_data.get("ExtendDeletion"),
+            Exclusions=Exclusions._deserialize(json_data.get("Exclusions")),
+            RetainInterval=json_data.get("RetainInterval"),
+            ExecutionRoleArn=json_data.get("ExecutionRoleArn"),
+            DefaultPolicy=json_data.get("DefaultPolicy"),
             State=json_data.get("State"),
+            CrossRegionCopyTargets=json_data.get("CrossRegionCopyTargets"),
             PolicyDetails=PolicyDetails._deserialize(json_data.get("PolicyDetails")),
             Id=json_data.get("Id"),
             Arn=json_data.get("Arn"),
             Tags=json_data.get("Tags"),
+            CopyTags=json_data.get("CopyTags"),
         )
 
 
@@ -63,15 +77,47 @@ _AwsDlmLifecyclepolicy = AwsDlmLifecyclepolicy
 
 
 @dataclass
+class Exclusions(BaseModel):
+    ExcludeTags: Optional[MutableMapping[str, Any]]
+    ExcludeVolumeTypes: Optional[MutableMapping[str, Any]]
+    ExcludeBootVolumes: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Exclusions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Exclusions"]:
+        if not json_data:
+            return None
+        return cls(
+            ExcludeTags=json_data.get("ExcludeTags"),
+            ExcludeVolumeTypes=json_data.get("ExcludeVolumeTypes"),
+            ExcludeBootVolumes=json_data.get("ExcludeBootVolumes"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Exclusions = Exclusions
+
+
+@dataclass
 class PolicyDetails(BaseModel):
+    PolicyLanguage: Optional[str]
     ResourceTypes: Optional[Sequence[str]]
     Schedules: Optional[Sequence["_Schedule"]]
     PolicyType: Optional[str]
-    EventSource: Optional["_EventSource"]
+    CreateInterval: Optional[int]
     Parameters: Optional["_Parameters"]
+    ExtendDeletion: Optional[bool]
+    Exclusions: Optional["_Exclusions"]
     Actions: Optional[Sequence["_Action"]]
+    ResourceType: Optional[str]
+    RetainInterval: Optional[int]
+    EventSource: Optional["_EventSource"]
+    CrossRegionCopyTargets: Optional[MutableMapping[str, Any]]
     TargetTags: Optional[Sequence["_Tag"]]
     ResourceLocations: Optional[Sequence[str]]
+    CopyTags: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -81,14 +127,22 @@ class PolicyDetails(BaseModel):
         if not json_data:
             return None
         return cls(
+            PolicyLanguage=json_data.get("PolicyLanguage"),
             ResourceTypes=json_data.get("ResourceTypes"),
             Schedules=deserialize_list(json_data.get("Schedules"), Schedule),
             PolicyType=json_data.get("PolicyType"),
-            EventSource=EventSource._deserialize(json_data.get("EventSource")),
+            CreateInterval=json_data.get("CreateInterval"),
             Parameters=Parameters._deserialize(json_data.get("Parameters")),
+            ExtendDeletion=json_data.get("ExtendDeletion"),
+            Exclusions=Exclusions._deserialize(json_data.get("Exclusions")),
             Actions=deserialize_list(json_data.get("Actions"), Action),
+            ResourceType=json_data.get("ResourceType"),
+            RetainInterval=json_data.get("RetainInterval"),
+            EventSource=EventSource._deserialize(json_data.get("EventSource")),
+            CrossRegionCopyTargets=json_data.get("CrossRegionCopyTargets"),
             TargetTags=deserialize_list(json_data.get("TargetTags"), Tag),
             ResourceLocations=json_data.get("ResourceLocations"),
+            CopyTags=json_data.get("CopyTags"),
         )
 
 
@@ -209,8 +263,9 @@ _Tag = Tag
 @dataclass
 class CreateRule(BaseModel):
     IntervalUnit: Optional[str]
-    CronExpression: Optional[str]
+    Scripts: Optional[Sequence["_Script"]]
     Times: Optional[Sequence[str]]
+    CronExpression: Optional[str]
     Interval: Optional[int]
     Location: Optional[str]
 
@@ -223,8 +278,9 @@ class CreateRule(BaseModel):
             return None
         return cls(
             IntervalUnit=json_data.get("IntervalUnit"),
-            CronExpression=json_data.get("CronExpression"),
+            Scripts=deserialize_list(json_data.get("Scripts"), Script),
             Times=json_data.get("Times"),
+            CronExpression=json_data.get("CronExpression"),
             Interval=json_data.get("Interval"),
             Location=json_data.get("Location"),
         )
@@ -232,6 +288,36 @@ class CreateRule(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _CreateRule = CreateRule
+
+
+@dataclass
+class Script(BaseModel):
+    ExecutionHandlerService: Optional[str]
+    ExecutionTimeout: Optional[int]
+    Stages: Optional[Sequence[str]]
+    ExecutionHandler: Optional[str]
+    MaximumRetryCount: Optional[int]
+    ExecuteOperationOnScriptFailure: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Script"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Script"]:
+        if not json_data:
+            return None
+        return cls(
+            ExecutionHandlerService=json_data.get("ExecutionHandlerService"),
+            ExecutionTimeout=json_data.get("ExecutionTimeout"),
+            Stages=json_data.get("Stages"),
+            ExecutionHandler=json_data.get("ExecutionHandler"),
+            MaximumRetryCount=json_data.get("MaximumRetryCount"),
+            ExecuteOperationOnScriptFailure=json_data.get("ExecuteOperationOnScriptFailure"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Script = Script
 
 
 @dataclass
@@ -425,52 +511,6 @@ _CrossRegionCopyRetainRule = CrossRegionCopyRetainRule
 
 
 @dataclass
-class EventSource(BaseModel):
-    Type: Optional[str]
-    Parameters: Optional["_EventParameters"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EventSource"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EventSource"]:
-        if not json_data:
-            return None
-        return cls(
-            Type=json_data.get("Type"),
-            Parameters=EventParameters._deserialize(json_data.get("Parameters")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EventSource = EventSource
-
-
-@dataclass
-class EventParameters(BaseModel):
-    DescriptionRegex: Optional[str]
-    EventType: Optional[str]
-    SnapshotOwner: Optional[Sequence[str]]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EventParameters"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EventParameters"]:
-        if not json_data:
-            return None
-        return cls(
-            DescriptionRegex=json_data.get("DescriptionRegex"),
-            EventType=json_data.get("EventType"),
-            SnapshotOwner=json_data.get("SnapshotOwner"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EventParameters = EventParameters
-
-
-@dataclass
 class Parameters(BaseModel):
     ExcludeBootVolume: Optional[bool]
     NoReboot: Optional[bool]
@@ -560,5 +600,51 @@ class EncryptionConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _EncryptionConfiguration = EncryptionConfiguration
+
+
+@dataclass
+class EventSource(BaseModel):
+    Type: Optional[str]
+    Parameters: Optional["_EventParameters"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EventSource"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EventSource"]:
+        if not json_data:
+            return None
+        return cls(
+            Type=json_data.get("Type"),
+            Parameters=EventParameters._deserialize(json_data.get("Parameters")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EventSource = EventSource
+
+
+@dataclass
+class EventParameters(BaseModel):
+    DescriptionRegex: Optional[str]
+    EventType: Optional[str]
+    SnapshotOwner: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EventParameters"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EventParameters"]:
+        if not json_data:
+            return None
+        return cls(
+            DescriptionRegex=json_data.get("DescriptionRegex"),
+            EventType=json_data.get("EventType"),
+            SnapshotOwner=json_data.get("SnapshotOwner"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EventParameters = EventParameters
 
 

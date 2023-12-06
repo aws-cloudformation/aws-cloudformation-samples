@@ -36,6 +36,7 @@ class AwsEfsFilesystem(BaseModel):
     FileSystemTags: Optional[Sequence["_ElasticFileSystemTag"]]
     KmsKeyId: Optional[str]
     LifecyclePolicies: Optional[Sequence["_LifecyclePolicy"]]
+    FileSystemProtection: Optional["_FileSystemProtection"]
     PerformanceMode: Optional[str]
     ProvisionedThroughputInMibps: Optional[float]
     ThroughputMode: Optional[str]
@@ -61,6 +62,7 @@ class AwsEfsFilesystem(BaseModel):
             FileSystemTags=deserialize_list(json_data.get("FileSystemTags"), ElasticFileSystemTag),
             KmsKeyId=json_data.get("KmsKeyId"),
             LifecyclePolicies=deserialize_list(json_data.get("LifecyclePolicies"), LifecyclePolicy),
+            FileSystemProtection=FileSystemProtection._deserialize(json_data.get("FileSystemProtection")),
             PerformanceMode=json_data.get("PerformanceMode"),
             ProvisionedThroughputInMibps=json_data.get("ProvisionedThroughputInMibps"),
             ThroughputMode=json_data.get("ThroughputMode"),
@@ -102,6 +104,7 @@ _ElasticFileSystemTag = ElasticFileSystemTag
 class LifecyclePolicy(BaseModel):
     TransitionToIA: Optional[str]
     TransitionToPrimaryStorageClass: Optional[str]
+    TransitionToArchive: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -113,11 +116,32 @@ class LifecyclePolicy(BaseModel):
         return cls(
             TransitionToIA=json_data.get("TransitionToIA"),
             TransitionToPrimaryStorageClass=json_data.get("TransitionToPrimaryStorageClass"),
+            TransitionToArchive=json_data.get("TransitionToArchive"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _LifecyclePolicy = LifecyclePolicy
+
+
+@dataclass
+class FileSystemProtection(BaseModel):
+    ReplicationOverwriteProtection: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_FileSystemProtection"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_FileSystemProtection"]:
+        if not json_data:
+            return None
+        return cls(
+            ReplicationOverwriteProtection=json_data.get("ReplicationOverwriteProtection"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_FileSystemProtection = FileSystemProtection
 
 
 @dataclass

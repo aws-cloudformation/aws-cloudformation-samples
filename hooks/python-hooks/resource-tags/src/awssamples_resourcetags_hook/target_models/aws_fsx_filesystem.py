@@ -128,15 +128,17 @@ _LustreConfiguration = LustreConfiguration
 
 @dataclass
 class OntapConfiguration(BaseModel):
+    HAPairs: Optional[int]
     FsxAdminPassword: Optional[str]
+    ThroughputCapacityPerHAPair: Optional[int]
+    DeploymentType: Optional[str]
+    ThroughputCapacity: Optional[int]
+    EndpointIpAddressRange: Optional[str]
     RouteTableIds: Optional[Sequence[str]]
     WeeklyMaintenanceStartTime: Optional[str]
     DiskIopsConfiguration: Optional["_DiskIopsConfiguration"]
-    DeploymentType: Optional[str]
     DailyAutomaticBackupStartTime: Optional[str]
-    ThroughputCapacity: Optional[int]
     AutomaticBackupRetentionDays: Optional[int]
-    EndpointIpAddressRange: Optional[str]
     PreferredSubnetId: Optional[str]
 
     @classmethod
@@ -147,15 +149,17 @@ class OntapConfiguration(BaseModel):
         if not json_data:
             return None
         return cls(
+            HAPairs=json_data.get("HAPairs"),
             FsxAdminPassword=json_data.get("FsxAdminPassword"),
+            ThroughputCapacityPerHAPair=json_data.get("ThroughputCapacityPerHAPair"),
+            DeploymentType=json_data.get("DeploymentType"),
+            ThroughputCapacity=json_data.get("ThroughputCapacity"),
+            EndpointIpAddressRange=json_data.get("EndpointIpAddressRange"),
             RouteTableIds=json_data.get("RouteTableIds"),
             WeeklyMaintenanceStartTime=json_data.get("WeeklyMaintenanceStartTime"),
             DiskIopsConfiguration=DiskIopsConfiguration._deserialize(json_data.get("DiskIopsConfiguration")),
-            DeploymentType=json_data.get("DeploymentType"),
             DailyAutomaticBackupStartTime=json_data.get("DailyAutomaticBackupStartTime"),
-            ThroughputCapacity=json_data.get("ThroughputCapacity"),
             AutomaticBackupRetentionDays=json_data.get("AutomaticBackupRetentionDays"),
-            EndpointIpAddressRange=json_data.get("EndpointIpAddressRange"),
             PreferredSubnetId=json_data.get("PreferredSubnetId"),
         )
 

@@ -37,6 +37,7 @@ class AwsEntityresolutionSchemamapping(BaseModel):
     SchemaArn: Optional[str]
     CreatedAt: Optional[str]
     UpdatedAt: Optional[str]
+    HasWorkflows: Optional[bool]
 
     @classmethod
     def _deserialize(
@@ -55,6 +56,7 @@ class AwsEntityresolutionSchemamapping(BaseModel):
             SchemaArn=json_data.get("SchemaArn"),
             CreatedAt=json_data.get("CreatedAt"),
             UpdatedAt=json_data.get("UpdatedAt"),
+            HasWorkflows=json_data.get("HasWorkflows"),
         )
 
 
@@ -66,6 +68,7 @@ _AwsEntityresolutionSchemamapping = AwsEntityresolutionSchemamapping
 class SchemaInputAttribute(BaseModel):
     FieldName: Optional[str]
     Type: Optional[str]
+    SubType: Optional[str]
     GroupName: Optional[str]
     MatchKey: Optional[str]
 
@@ -79,6 +82,7 @@ class SchemaInputAttribute(BaseModel):
         return cls(
             FieldName=json_data.get("FieldName"),
             Type=json_data.get("Type"),
+            SubType=json_data.get("SubType"),
             GroupName=json_data.get("GroupName"),
             MatchKey=json_data.get("MatchKey"),
         )

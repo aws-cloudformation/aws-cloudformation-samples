@@ -248,6 +248,7 @@ class EndpointInput(BaseModel):
     LocalPath: Optional[str]
     S3DataDistributionType: Optional[str]
     S3InputMode: Optional[str]
+    ExcludeFeaturesAttribute: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -261,6 +262,7 @@ class EndpointInput(BaseModel):
             LocalPath=json_data.get("LocalPath"),
             S3DataDistributionType=json_data.get("S3DataDistributionType"),
             S3InputMode=json_data.get("S3InputMode"),
+            ExcludeFeaturesAttribute=json_data.get("ExcludeFeaturesAttribute"),
         )
 
 
@@ -275,6 +277,7 @@ class BatchTransformInput(BaseModel):
     LocalPath: Optional[str]
     S3DataDistributionType: Optional[str]
     S3InputMode: Optional[str]
+    ExcludeFeaturesAttribute: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -289,6 +292,7 @@ class BatchTransformInput(BaseModel):
             LocalPath=json_data.get("LocalPath"),
             S3DataDistributionType=json_data.get("S3DataDistributionType"),
             S3InputMode=json_data.get("S3InputMode"),
+            ExcludeFeaturesAttribute=json_data.get("ExcludeFeaturesAttribute"),
         )
 
 
@@ -541,6 +545,8 @@ _StoppingCondition = StoppingCondition
 @dataclass
 class ScheduleConfig(BaseModel):
     ScheduleExpression: Optional[str]
+    DataAnalysisStartTime: Optional[str]
+    DataAnalysisEndTime: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -551,6 +557,8 @@ class ScheduleConfig(BaseModel):
             return None
         return cls(
             ScheduleExpression=json_data.get("ScheduleExpression"),
+            DataAnalysisStartTime=json_data.get("DataAnalysisStartTime"),
+            DataAnalysisEndTime=json_data.get("DataAnalysisEndTime"),
         )
 
 

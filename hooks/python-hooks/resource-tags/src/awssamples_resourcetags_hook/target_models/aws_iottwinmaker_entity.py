@@ -42,6 +42,7 @@ class AwsIottwinmakerEntity(BaseModel):
     Tags: Optional[Any]
     WorkspaceId: Optional[str]
     Components: Optional[MutableMapping[str, "_Component"]]
+    CompositeComponents: Optional[MutableMapping[str, "_CompositeComponent"]]
 
     @classmethod
     def _deserialize(
@@ -65,6 +66,7 @@ class AwsIottwinmakerEntity(BaseModel):
             Tags=json_data.get("Tags"),
             WorkspaceId=json_data.get("WorkspaceId"),
             Components=json_data.get("Components"),
+            CompositeComponents=json_data.get("CompositeComponents"),
         )
 
 
@@ -336,5 +338,37 @@ class PropertyGroup(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _PropertyGroup = PropertyGroup
+
+
+@dataclass
+class CompositeComponent(BaseModel):
+    ComponentName: Optional[str]
+    ComponentPath: Optional[str]
+    ComponentTypeId: Optional[str]
+    Description: Optional[str]
+    Properties: Optional[MutableMapping[str, "_Property"]]
+    PropertyGroups: Optional[MutableMapping[str, "_PropertyGroup"]]
+    Status: Optional["_Status"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CompositeComponent"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CompositeComponent"]:
+        if not json_data:
+            return None
+        return cls(
+            ComponentName=json_data.get("ComponentName"),
+            ComponentPath=json_data.get("ComponentPath"),
+            ComponentTypeId=json_data.get("ComponentTypeId"),
+            Description=json_data.get("Description"),
+            Properties=json_data.get("Properties"),
+            PropertyGroups=json_data.get("PropertyGroups"),
+            Status=Status._deserialize(json_data.get("Status")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CompositeComponent = CompositeComponent
 
 

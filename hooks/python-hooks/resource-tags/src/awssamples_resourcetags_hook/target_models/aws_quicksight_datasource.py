@@ -100,6 +100,8 @@ class DataSourceParameters(BaseModel):
     AuroraParameters: Optional["_AuroraParameters"]
     S3Parameters: Optional["_S3Parameters"]
     DatabricksParameters: Optional["_DatabricksParameters"]
+    StarburstParameters: Optional["_StarburstParameters"]
+    TrinoParameters: Optional["_TrinoParameters"]
 
     @classmethod
     def _deserialize(
@@ -127,6 +129,8 @@ class DataSourceParameters(BaseModel):
             AuroraParameters=AuroraParameters._deserialize(json_data.get("AuroraParameters")),
             S3Parameters=S3Parameters._deserialize(json_data.get("S3Parameters")),
             DatabricksParameters=DatabricksParameters._deserialize(json_data.get("DatabricksParameters")),
+            StarburstParameters=StarburstParameters._deserialize(json_data.get("StarburstParameters")),
+            TrinoParameters=TrinoParameters._deserialize(json_data.get("TrinoParameters")),
         )
 
 
@@ -572,6 +576,56 @@ class DatabricksParameters(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _DatabricksParameters = DatabricksParameters
+
+
+@dataclass
+class StarburstParameters(BaseModel):
+    Host: Optional[str]
+    Port: Optional[float]
+    Catalog: Optional[str]
+    ProductType: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_StarburstParameters"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_StarburstParameters"]:
+        if not json_data:
+            return None
+        return cls(
+            Host=json_data.get("Host"),
+            Port=json_data.get("Port"),
+            Catalog=json_data.get("Catalog"),
+            ProductType=json_data.get("ProductType"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_StarburstParameters = StarburstParameters
+
+
+@dataclass
+class TrinoParameters(BaseModel):
+    Host: Optional[str]
+    Port: Optional[float]
+    Catalog: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_TrinoParameters"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_TrinoParameters"]:
+        if not json_data:
+            return None
+        return cls(
+            Host=json_data.get("Host"),
+            Port=json_data.get("Port"),
+            Catalog=json_data.get("Catalog"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_TrinoParameters = TrinoParameters
 
 
 @dataclass

@@ -31,14 +31,13 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsSsmParameter(BaseModel):
     Type: Optional[str]
+    Value: Optional[str]
     Description: Optional[str]
     Policies: Optional[str]
     AllowedPattern: Optional[str]
     Tier: Optional[str]
-    Value: Optional[str]
-    DataType: Optional[str]
-    Id: Optional[str]
     Tags: Optional[Any]
+    DataType: Optional[str]
     Name: Optional[str]
 
     @classmethod
@@ -52,14 +51,13 @@ class AwsSsmParameter(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             Type=json_data.get("Type"),
+            Value=json_data.get("Value"),
             Description=json_data.get("Description"),
             Policies=json_data.get("Policies"),
             AllowedPattern=json_data.get("AllowedPattern"),
             Tier=json_data.get("Tier"),
-            Value=json_data.get("Value"),
-            DataType=json_data.get("DataType"),
-            Id=json_data.get("Id"),
             Tags=json_data.get("Tags"),
+            DataType=json_data.get("DataType"),
             Name=json_data.get("Name"),
         )
 

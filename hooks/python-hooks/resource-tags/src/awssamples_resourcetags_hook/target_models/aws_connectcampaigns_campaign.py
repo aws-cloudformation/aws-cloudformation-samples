@@ -64,6 +64,7 @@ _AwsConnectcampaignsCampaign = AwsConnectcampaignsCampaign
 class DialerConfig(BaseModel):
     ProgressiveDialerConfig: Optional["_ProgressiveDialerConfig"]
     PredictiveDialerConfig: Optional["_PredictiveDialerConfig"]
+    AgentlessDialerConfig: Optional["_AgentlessDialerConfig"]
 
     @classmethod
     def _deserialize(
@@ -75,6 +76,7 @@ class DialerConfig(BaseModel):
         return cls(
             ProgressiveDialerConfig=ProgressiveDialerConfig._deserialize(json_data.get("ProgressiveDialerConfig")),
             PredictiveDialerConfig=PredictiveDialerConfig._deserialize(json_data.get("PredictiveDialerConfig")),
+            AgentlessDialerConfig=AgentlessDialerConfig._deserialize(json_data.get("AgentlessDialerConfig")),
         )
 
 
@@ -85,6 +87,7 @@ _DialerConfig = DialerConfig
 @dataclass
 class ProgressiveDialerConfig(BaseModel):
     BandwidthAllocation: Optional[float]
+    DialingCapacity: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -95,6 +98,7 @@ class ProgressiveDialerConfig(BaseModel):
             return None
         return cls(
             BandwidthAllocation=json_data.get("BandwidthAllocation"),
+            DialingCapacity=json_data.get("DialingCapacity"),
         )
 
 
@@ -105,6 +109,7 @@ _ProgressiveDialerConfig = ProgressiveDialerConfig
 @dataclass
 class PredictiveDialerConfig(BaseModel):
     BandwidthAllocation: Optional[float]
+    DialingCapacity: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -115,11 +120,32 @@ class PredictiveDialerConfig(BaseModel):
             return None
         return cls(
             BandwidthAllocation=json_data.get("BandwidthAllocation"),
+            DialingCapacity=json_data.get("DialingCapacity"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _PredictiveDialerConfig = PredictiveDialerConfig
+
+
+@dataclass
+class AgentlessDialerConfig(BaseModel):
+    DialingCapacity: Optional[float]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AgentlessDialerConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AgentlessDialerConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            DialingCapacity=json_data.get("DialingCapacity"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AgentlessDialerConfig = AgentlessDialerConfig
 
 
 @dataclass

@@ -30,14 +30,14 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEcsCluster(BaseModel):
-    Tags: Optional[Any]
-    ClusterName: Optional[str]
     ClusterSettings: Optional[Sequence["_ClusterSettings"]]
-    Configuration: Optional["_ClusterConfiguration"]
-    CapacityProviders: Optional[Sequence[str]]
     DefaultCapacityProviderStrategy: Optional[Sequence["_CapacityProviderStrategyItem"]]
+    Configuration: Optional["_ClusterConfiguration"]
     ServiceConnectDefaults: Optional["_ServiceConnectDefaults"]
+    CapacityProviders: Optional[Sequence[str]]
+    ClusterName: Optional[str]
     Arn: Optional[str]
+    Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
@@ -49,14 +49,14 @@ class AwsEcsCluster(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Tags=json_data.get("Tags"),
-            ClusterName=json_data.get("ClusterName"),
             ClusterSettings=deserialize_list(json_data.get("ClusterSettings"), ClusterSettings),
-            Configuration=ClusterConfiguration._deserialize(json_data.get("Configuration")),
-            CapacityProviders=json_data.get("CapacityProviders"),
             DefaultCapacityProviderStrategy=deserialize_list(json_data.get("DefaultCapacityProviderStrategy"), CapacityProviderStrategyItem),
+            Configuration=ClusterConfiguration._deserialize(json_data.get("Configuration")),
             ServiceConnectDefaults=ServiceConnectDefaults._deserialize(json_data.get("ServiceConnectDefaults")),
+            CapacityProviders=json_data.get("CapacityProviders"),
+            ClusterName=json_data.get("ClusterName"),
             Arn=json_data.get("Arn"),
+            Tags=json_data.get("Tags"),
         )
 
 
@@ -65,31 +65,9 @@ _AwsEcsCluster = AwsEcsCluster
 
 
 @dataclass
-class Tag(BaseModel):
-    Key: Optional[str]
-    Value: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Tag"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Tag"]:
-        if not json_data:
-            return None
-        return cls(
-            Key=json_data.get("Key"),
-            Value=json_data.get("Value"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Tag = Tag
-
-
-@dataclass
 class ClusterSettings(BaseModel):
-    Name: Optional[str]
     Value: Optional[str]
+    Name: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -99,85 +77,13 @@ class ClusterSettings(BaseModel):
         if not json_data:
             return None
         return cls(
-            Name=json_data.get("Name"),
             Value=json_data.get("Value"),
+            Name=json_data.get("Name"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _ClusterSettings = ClusterSettings
-
-
-@dataclass
-class ClusterConfiguration(BaseModel):
-    ExecuteCommandConfiguration: Optional["_ExecuteCommandConfiguration"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ClusterConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ClusterConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            ExecuteCommandConfiguration=ExecuteCommandConfiguration._deserialize(json_data.get("ExecuteCommandConfiguration")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ClusterConfiguration = ClusterConfiguration
-
-
-@dataclass
-class ExecuteCommandConfiguration(BaseModel):
-    KmsKeyId: Optional[str]
-    Logging: Optional[str]
-    LogConfiguration: Optional["_ExecuteCommandLogConfiguration"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ExecuteCommandConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ExecuteCommandConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            KmsKeyId=json_data.get("KmsKeyId"),
-            Logging=json_data.get("Logging"),
-            LogConfiguration=ExecuteCommandLogConfiguration._deserialize(json_data.get("LogConfiguration")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ExecuteCommandConfiguration = ExecuteCommandConfiguration
-
-
-@dataclass
-class ExecuteCommandLogConfiguration(BaseModel):
-    CloudWatchLogGroupName: Optional[str]
-    CloudWatchEncryptionEnabled: Optional[bool]
-    S3BucketName: Optional[str]
-    S3EncryptionEnabled: Optional[bool]
-    S3KeyPrefix: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ExecuteCommandLogConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ExecuteCommandLogConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            CloudWatchLogGroupName=json_data.get("CloudWatchLogGroupName"),
-            CloudWatchEncryptionEnabled=json_data.get("CloudWatchEncryptionEnabled"),
-            S3BucketName=json_data.get("S3BucketName"),
-            S3EncryptionEnabled=json_data.get("S3EncryptionEnabled"),
-            S3KeyPrefix=json_data.get("S3KeyPrefix"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ExecuteCommandLogConfiguration = ExecuteCommandLogConfiguration
 
 
 @dataclass
@@ -205,6 +111,78 @@ _CapacityProviderStrategyItem = CapacityProviderStrategyItem
 
 
 @dataclass
+class ClusterConfiguration(BaseModel):
+    ExecuteCommandConfiguration: Optional["_ExecuteCommandConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ClusterConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ClusterConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            ExecuteCommandConfiguration=ExecuteCommandConfiguration._deserialize(json_data.get("ExecuteCommandConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ClusterConfiguration = ClusterConfiguration
+
+
+@dataclass
+class ExecuteCommandConfiguration(BaseModel):
+    Logging: Optional[str]
+    KmsKeyId: Optional[str]
+    LogConfiguration: Optional["_ExecuteCommandLogConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ExecuteCommandConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ExecuteCommandConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Logging=json_data.get("Logging"),
+            KmsKeyId=json_data.get("KmsKeyId"),
+            LogConfiguration=ExecuteCommandLogConfiguration._deserialize(json_data.get("LogConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ExecuteCommandConfiguration = ExecuteCommandConfiguration
+
+
+@dataclass
+class ExecuteCommandLogConfiguration(BaseModel):
+    S3EncryptionEnabled: Optional[bool]
+    CloudWatchEncryptionEnabled: Optional[bool]
+    CloudWatchLogGroupName: Optional[str]
+    S3KeyPrefix: Optional[str]
+    S3BucketName: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ExecuteCommandLogConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ExecuteCommandLogConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            S3EncryptionEnabled=json_data.get("S3EncryptionEnabled"),
+            CloudWatchEncryptionEnabled=json_data.get("CloudWatchEncryptionEnabled"),
+            CloudWatchLogGroupName=json_data.get("CloudWatchLogGroupName"),
+            S3KeyPrefix=json_data.get("S3KeyPrefix"),
+            S3BucketName=json_data.get("S3BucketName"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ExecuteCommandLogConfiguration = ExecuteCommandLogConfiguration
+
+
+@dataclass
 class ServiceConnectDefaults(BaseModel):
     Namespace: Optional[str]
 
@@ -222,5 +200,27 @@ class ServiceConnectDefaults(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _ServiceConnectDefaults = ServiceConnectDefaults
+
+
+@dataclass
+class Tag(BaseModel):
+    Value: Optional[str]
+    Key: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Tag"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Tag"]:
+        if not json_data:
+            return None
+        return cls(
+            Value=json_data.get("Value"),
+            Key=json_data.get("Key"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Tag = Tag
 
 

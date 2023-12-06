@@ -196,6 +196,7 @@ class EndpointInput(BaseModel):
     LocalPath: Optional[str]
     S3DataDistributionType: Optional[str]
     S3InputMode: Optional[str]
+    ExcludeFeaturesAttribute: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -209,6 +210,7 @@ class EndpointInput(BaseModel):
             LocalPath=json_data.get("LocalPath"),
             S3DataDistributionType=json_data.get("S3DataDistributionType"),
             S3InputMode=json_data.get("S3InputMode"),
+            ExcludeFeaturesAttribute=json_data.get("ExcludeFeaturesAttribute"),
         )
 
 
@@ -223,6 +225,7 @@ class BatchTransformInput(BaseModel):
     LocalPath: Optional[str]
     S3DataDistributionType: Optional[str]
     S3InputMode: Optional[str]
+    ExcludeFeaturesAttribute: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -237,6 +240,7 @@ class BatchTransformInput(BaseModel):
             LocalPath=json_data.get("LocalPath"),
             S3DataDistributionType=json_data.get("S3DataDistributionType"),
             S3InputMode=json_data.get("S3InputMode"),
+            ExcludeFeaturesAttribute=json_data.get("ExcludeFeaturesAttribute"),
         )
 
 

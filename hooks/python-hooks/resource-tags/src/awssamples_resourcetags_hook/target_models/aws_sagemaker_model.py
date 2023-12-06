@@ -76,6 +76,7 @@ class ContainerDefinition(BaseModel):
     Environment: Optional[MutableMapping[str, Any]]
     ModelDataUrl: Optional[str]
     Image: Optional[str]
+    ModelDataSource: Optional["_ModelDataSource"]
     MultiModelConfig: Optional["_MultiModelConfig"]
 
     @classmethod
@@ -94,6 +95,7 @@ class ContainerDefinition(BaseModel):
             Environment=json_data.get("Environment"),
             ModelDataUrl=json_data.get("ModelDataUrl"),
             Image=json_data.get("Image"),
+            ModelDataSource=ModelDataSource._deserialize(json_data.get("ModelDataSource")),
             MultiModelConfig=MultiModelConfig._deserialize(json_data.get("MultiModelConfig")),
         )
 
@@ -142,6 +144,50 @@ class RepositoryAuthConfig(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _RepositoryAuthConfig = RepositoryAuthConfig
+
+
+@dataclass
+class ModelDataSource(BaseModel):
+    S3DataSource: Optional["_S3DataSource"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ModelDataSource"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ModelDataSource"]:
+        if not json_data:
+            return None
+        return cls(
+            S3DataSource=S3DataSource._deserialize(json_data.get("S3DataSource")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ModelDataSource = ModelDataSource
+
+
+@dataclass
+class S3DataSource(BaseModel):
+    S3DataType: Optional[str]
+    CompressionType: Optional[str]
+    S3Uri: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_S3DataSource"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_S3DataSource"]:
+        if not json_data:
+            return None
+        return cls(
+            S3DataType=json_data.get("S3DataType"),
+            CompressionType=json_data.get("CompressionType"),
+            S3Uri=json_data.get("S3Uri"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_S3DataSource = S3DataSource
 
 
 @dataclass

@@ -38,6 +38,7 @@ class AwsCleanroomsMembership(BaseModel):
     MembershipIdentifier: Optional[str]
     QueryLogStatus: Optional[str]
     DefaultResultConfiguration: Optional["_MembershipProtectedQueryResultConfiguration"]
+    PaymentConfiguration: Optional["_MembershipPaymentConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -57,6 +58,7 @@ class AwsCleanroomsMembership(BaseModel):
             MembershipIdentifier=json_data.get("MembershipIdentifier"),
             QueryLogStatus=json_data.get("QueryLogStatus"),
             DefaultResultConfiguration=MembershipProtectedQueryResultConfiguration._deserialize(json_data.get("DefaultResultConfiguration")),
+            PaymentConfiguration=MembershipPaymentConfiguration._deserialize(json_data.get("PaymentConfiguration")),
         )
 
 
@@ -150,5 +152,45 @@ class ProtectedQueryS3OutputConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _ProtectedQueryS3OutputConfiguration = ProtectedQueryS3OutputConfiguration
+
+
+@dataclass
+class MembershipPaymentConfiguration(BaseModel):
+    QueryCompute: Optional["_MembershipQueryComputePaymentConfig"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MembershipPaymentConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MembershipPaymentConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            QueryCompute=MembershipQueryComputePaymentConfig._deserialize(json_data.get("QueryCompute")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MembershipPaymentConfiguration = MembershipPaymentConfiguration
+
+
+@dataclass
+class MembershipQueryComputePaymentConfig(BaseModel):
+    IsResponsible: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MembershipQueryComputePaymentConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MembershipQueryComputePaymentConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            IsResponsible=json_data.get("IsResponsible"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MembershipQueryComputePaymentConfig = MembershipQueryComputePaymentConfig
 
 

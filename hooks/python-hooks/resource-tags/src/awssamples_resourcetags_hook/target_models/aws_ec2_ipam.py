@@ -40,6 +40,7 @@ class AwsEc2Ipam(BaseModel):
     PrivateDefaultScopeId: Optional[str]
     ScopeCount: Optional[int]
     OperatingRegions: Optional[AbstractSet["_IpamOperatingRegion"]]
+    Tier: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -62,6 +63,7 @@ class AwsEc2Ipam(BaseModel):
             PrivateDefaultScopeId=json_data.get("PrivateDefaultScopeId"),
             ScopeCount=json_data.get("ScopeCount"),
             OperatingRegions=set_or_none(json_data.get("OperatingRegions")),
+            Tier=json_data.get("Tier"),
             Tags=json_data.get("Tags"),
         )
 

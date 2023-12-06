@@ -38,6 +38,7 @@ class AwsFisExperimenttemplate(BaseModel):
     LogConfiguration: Optional["_ExperimentTemplateLogConfiguration"]
     RoleArn: Optional[str]
     Tags: Optional[Any]
+    ExperimentOptions: Optional["_ExperimentTemplateExperimentOptions"]
 
     @classmethod
     def _deserialize(
@@ -57,6 +58,7 @@ class AwsFisExperimenttemplate(BaseModel):
             LogConfiguration=ExperimentTemplateLogConfiguration._deserialize(json_data.get("LogConfiguration")),
             RoleArn=json_data.get("RoleArn"),
             Tags=json_data.get("Tags"),
+            ExperimentOptions=ExperimentTemplateExperimentOptions._deserialize(json_data.get("ExperimentOptions")),
         )
 
 
@@ -230,5 +232,27 @@ class S3Configuration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _S3Configuration = S3Configuration
+
+
+@dataclass
+class ExperimentTemplateExperimentOptions(BaseModel):
+    AccountTargeting: Optional[str]
+    EmptyTargetResolutionMode: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ExperimentTemplateExperimentOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ExperimentTemplateExperimentOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            AccountTargeting=json_data.get("AccountTargeting"),
+            EmptyTargetResolutionMode=json_data.get("EmptyTargetResolutionMode"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ExperimentTemplateExperimentOptions = ExperimentTemplateExperimentOptions
 
 

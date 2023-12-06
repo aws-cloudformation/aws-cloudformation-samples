@@ -39,6 +39,8 @@ class AwsNetworkmanagerLink(BaseModel):
     Description: Optional[str]
     Tags: Optional[Any]
     Type: Optional[str]
+    CreatedAt: Optional[str]
+    State: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -59,6 +61,8 @@ class AwsNetworkmanagerLink(BaseModel):
             Description=json_data.get("Description"),
             Tags=json_data.get("Tags"),
             Type=json_data.get("Type"),
+            CreatedAt=json_data.get("CreatedAt"),
+            State=json_data.get("State"),
         )
 
 

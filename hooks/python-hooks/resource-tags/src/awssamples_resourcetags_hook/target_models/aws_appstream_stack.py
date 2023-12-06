@@ -106,6 +106,7 @@ _StorageConnector = StorageConnector
 class UserSetting(BaseModel):
     Permission: Optional[str]
     Action: Optional[str]
+    MaximumLength: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -117,6 +118,7 @@ class UserSetting(BaseModel):
         return cls(
             Permission=json_data.get("Permission"),
             Action=json_data.get("Action"),
+            MaximumLength=json_data.get("MaximumLength"),
         )
 
 

@@ -30,12 +30,14 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsGameliftScript(BaseModel):
-    Id: Optional[str]
-    Arn: Optional[str]
+    Name: Optional[str]
     StorageLocation: Optional["_S3Location"]
     Version: Optional[str]
     Tags: Optional[Any]
-    Name: Optional[str]
+    CreationTime: Optional[str]
+    Arn: Optional[str]
+    Id: Optional[str]
+    SizeOnDisk: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -47,12 +49,14 @@ class AwsGameliftScript(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Id=json_data.get("Id"),
-            Arn=json_data.get("Arn"),
+            Name=json_data.get("Name"),
             StorageLocation=S3Location._deserialize(json_data.get("StorageLocation")),
             Version=json_data.get("Version"),
             Tags=json_data.get("Tags"),
-            Name=json_data.get("Name"),
+            CreationTime=json_data.get("CreationTime"),
+            Arn=json_data.get("Arn"),
+            Id=json_data.get("Id"),
+            SizeOnDisk=json_data.get("SizeOnDisk"),
         )
 
 
@@ -62,9 +66,9 @@ _AwsGameliftScript = AwsGameliftScript
 
 @dataclass
 class S3Location(BaseModel):
-    ObjectVersion: Optional[str]
     Bucket: Optional[str]
     Key: Optional[str]
+    ObjectVersion: Optional[str]
     RoleArn: Optional[str]
 
     @classmethod
@@ -75,9 +79,9 @@ class S3Location(BaseModel):
         if not json_data:
             return None
         return cls(
-            ObjectVersion=json_data.get("ObjectVersion"),
             Bucket=json_data.get("Bucket"),
             Key=json_data.get("Key"),
+            ObjectVersion=json_data.get("ObjectVersion"),
             RoleArn=json_data.get("RoleArn"),
         )
 
@@ -88,8 +92,8 @@ _S3Location = S3Location
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -99,8 +103,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

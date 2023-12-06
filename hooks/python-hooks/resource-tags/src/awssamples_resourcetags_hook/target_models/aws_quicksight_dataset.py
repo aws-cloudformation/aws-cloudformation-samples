@@ -537,6 +537,7 @@ class CastColumnTypeOperation(BaseModel):
     ColumnName: Optional[str]
     Format: Optional[str]
     NewColumnType: Optional[str]
+    SubType: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -549,6 +550,7 @@ class CastColumnTypeOperation(BaseModel):
             ColumnName=json_data.get("ColumnName"),
             Format=json_data.get("Format"),
             NewColumnType=json_data.get("NewColumnType"),
+            SubType=json_data.get("SubType"),
         )
 
 
@@ -769,6 +771,7 @@ _JoinKeyProperties = JoinKeyProperties
 @dataclass
 class OutputColumn(BaseModel):
     Type: Optional[str]
+    SubType: Optional[str]
     Description: Optional[str]
     Name: Optional[str]
 
@@ -781,6 +784,7 @@ class OutputColumn(BaseModel):
             return None
         return cls(
             Type=json_data.get("Type"),
+            SubType=json_data.get("SubType"),
             Description=json_data.get("Description"),
             Name=json_data.get("Name"),
         )
@@ -867,6 +871,7 @@ _RelationalTable = RelationalTable
 @dataclass
 class InputColumn(BaseModel):
     Type: Optional[str]
+    SubType: Optional[str]
     Name: Optional[str]
 
     @classmethod
@@ -878,6 +883,7 @@ class InputColumn(BaseModel):
             return None
         return cls(
             Type=json_data.get("Type"),
+            SubType=json_data.get("SubType"),
             Name=json_data.get("Name"),
         )
 

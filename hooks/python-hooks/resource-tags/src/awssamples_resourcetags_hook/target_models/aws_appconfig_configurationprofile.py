@@ -35,10 +35,12 @@ class AwsAppconfigConfigurationprofile(BaseModel):
     Description: Optional[str]
     Validators: Optional[Sequence["_Validators"]]
     RetrievalRoleArn: Optional[str]
-    Id: Optional[str]
+    ConfigurationProfileId: Optional[str]
     ApplicationId: Optional[str]
     Tags: Optional[Any]
     Name: Optional[str]
+    KmsKeyIdentifier: Optional[str]
+    KmsKeyArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -55,10 +57,12 @@ class AwsAppconfigConfigurationprofile(BaseModel):
             Description=json_data.get("Description"),
             Validators=deserialize_list(json_data.get("Validators"), Validators),
             RetrievalRoleArn=json_data.get("RetrievalRoleArn"),
-            Id=json_data.get("Id"),
+            ConfigurationProfileId=json_data.get("ConfigurationProfileId"),
             ApplicationId=json_data.get("ApplicationId"),
             Tags=json_data.get("Tags"),
             Name=json_data.get("Name"),
+            KmsKeyIdentifier=json_data.get("KmsKeyIdentifier"),
+            KmsKeyArn=json_data.get("KmsKeyArn"),
         )
 
 
@@ -90,8 +94,8 @@ _Validators = Validators
 
 @dataclass
 class Tags(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -101,8 +105,8 @@ class Tags(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

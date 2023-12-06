@@ -82,6 +82,7 @@ class HlsManifestConfiguration(BaseModel):
     ManifestWindowSeconds: Optional[int]
     ProgramDateTimeIntervalSeconds: Optional[int]
     ScteHls: Optional["_ScteHls"]
+    FilterConfiguration: Optional["_FilterConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -97,6 +98,7 @@ class HlsManifestConfiguration(BaseModel):
             ManifestWindowSeconds=json_data.get("ManifestWindowSeconds"),
             ProgramDateTimeIntervalSeconds=json_data.get("ProgramDateTimeIntervalSeconds"),
             ScteHls=ScteHls._deserialize(json_data.get("ScteHls")),
+            FilterConfiguration=FilterConfiguration._deserialize(json_data.get("FilterConfiguration")),
         )
 
 
@@ -125,6 +127,32 @@ _ScteHls = ScteHls
 
 
 @dataclass
+class FilterConfiguration(BaseModel):
+    ManifestFilter: Optional[str]
+    Start: Optional[str]
+    End: Optional[str]
+    TimeDelaySeconds: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_FilterConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_FilterConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            ManifestFilter=json_data.get("ManifestFilter"),
+            Start=json_data.get("Start"),
+            End=json_data.get("End"),
+            TimeDelaySeconds=json_data.get("TimeDelaySeconds"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_FilterConfiguration = FilterConfiguration
+
+
+@dataclass
 class LowLatencyHlsManifestConfiguration(BaseModel):
     ManifestName: Optional[str]
     Url: Optional[str]
@@ -132,6 +160,7 @@ class LowLatencyHlsManifestConfiguration(BaseModel):
     ManifestWindowSeconds: Optional[int]
     ProgramDateTimeIntervalSeconds: Optional[int]
     ScteHls: Optional["_ScteHls"]
+    FilterConfiguration: Optional["_FilterConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -147,6 +176,7 @@ class LowLatencyHlsManifestConfiguration(BaseModel):
             ManifestWindowSeconds=json_data.get("ManifestWindowSeconds"),
             ProgramDateTimeIntervalSeconds=json_data.get("ProgramDateTimeIntervalSeconds"),
             ScteHls=ScteHls._deserialize(json_data.get("ScteHls")),
+            FilterConfiguration=FilterConfiguration._deserialize(json_data.get("FilterConfiguration")),
         )
 
 

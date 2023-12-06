@@ -30,19 +30,20 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEc2Transitgateway(BaseModel):
-    DefaultRouteTablePropagation: Optional[str]
     Description: Optional[str]
+    AssociationDefaultRouteTableId: Optional[str]
     AutoAcceptSharedAttachments: Optional[str]
+    TransitGatewayArn: Optional[str]
+    DefaultRouteTablePropagation: Optional[str]
+    TransitGatewayCidrBlocks: Optional[Sequence[str]]
+    PropagationDefaultRouteTableId: Optional[str]
     DefaultRouteTableAssociation: Optional[str]
     Id: Optional[str]
     VpnEcmpSupport: Optional[str]
     DnsSupport: Optional[str]
     MulticastSupport: Optional[str]
     AmazonSideAsn: Optional[int]
-    TransitGatewayCidrBlocks: Optional[Sequence[str]]
     Tags: Optional[Any]
-    AssociationDefaultRouteTableId: Optional[str]
-    PropagationDefaultRouteTableId: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -54,19 +55,20 @@ class AwsEc2Transitgateway(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            DefaultRouteTablePropagation=json_data.get("DefaultRouteTablePropagation"),
             Description=json_data.get("Description"),
+            AssociationDefaultRouteTableId=json_data.get("AssociationDefaultRouteTableId"),
             AutoAcceptSharedAttachments=json_data.get("AutoAcceptSharedAttachments"),
+            TransitGatewayArn=json_data.get("TransitGatewayArn"),
+            DefaultRouteTablePropagation=json_data.get("DefaultRouteTablePropagation"),
+            TransitGatewayCidrBlocks=json_data.get("TransitGatewayCidrBlocks"),
+            PropagationDefaultRouteTableId=json_data.get("PropagationDefaultRouteTableId"),
             DefaultRouteTableAssociation=json_data.get("DefaultRouteTableAssociation"),
             Id=json_data.get("Id"),
             VpnEcmpSupport=json_data.get("VpnEcmpSupport"),
             DnsSupport=json_data.get("DnsSupport"),
             MulticastSupport=json_data.get("MulticastSupport"),
             AmazonSideAsn=json_data.get("AmazonSideAsn"),
-            TransitGatewayCidrBlocks=json_data.get("TransitGatewayCidrBlocks"),
             Tags=json_data.get("Tags"),
-            AssociationDefaultRouteTableId=json_data.get("AssociationDefaultRouteTableId"),
-            PropagationDefaultRouteTableId=json_data.get("PropagationDefaultRouteTableId"),
         )
 
 

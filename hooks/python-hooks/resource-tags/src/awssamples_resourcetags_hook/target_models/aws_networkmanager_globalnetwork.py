@@ -34,6 +34,8 @@ class AwsNetworkmanagerGlobalnetwork(BaseModel):
     Id: Optional[str]
     Description: Optional[str]
     Tags: Optional[Any]
+    CreatedAt: Optional[str]
+    State: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -49,6 +51,8 @@ class AwsNetworkmanagerGlobalnetwork(BaseModel):
             Id=json_data.get("Id"),
             Description=json_data.get("Description"),
             Tags=json_data.get("Tags"),
+            CreatedAt=json_data.get("CreatedAt"),
+            State=json_data.get("State"),
         )
 
 

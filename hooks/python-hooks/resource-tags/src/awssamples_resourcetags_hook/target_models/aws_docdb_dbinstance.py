@@ -30,7 +30,6 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsDocdbDbinstance(BaseModel):
-    Endpoint: Optional[str]
     DBInstanceClass: Optional[str]
     Port: Optional[str]
     DBClusterIdentifier: Optional[str]
@@ -38,8 +37,11 @@ class AwsDocdbDbinstance(BaseModel):
     PreferredMaintenanceWindow: Optional[str]
     EnablePerformanceInsights: Optional[bool]
     AutoMinorVersionUpgrade: Optional[bool]
-    Id: Optional[str]
     DBInstanceIdentifier: Optional[str]
+    CACertificateIdentifier: Optional[str]
+    CertificateRotationRestart: Optional[bool]
+    Endpoint: Optional[str]
+    Id: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -52,7 +54,6 @@ class AwsDocdbDbinstance(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Endpoint=json_data.get("Endpoint"),
             DBInstanceClass=json_data.get("DBInstanceClass"),
             Port=json_data.get("Port"),
             DBClusterIdentifier=json_data.get("DBClusterIdentifier"),
@@ -60,8 +61,11 @@ class AwsDocdbDbinstance(BaseModel):
             PreferredMaintenanceWindow=json_data.get("PreferredMaintenanceWindow"),
             EnablePerformanceInsights=json_data.get("EnablePerformanceInsights"),
             AutoMinorVersionUpgrade=json_data.get("AutoMinorVersionUpgrade"),
-            Id=json_data.get("Id"),
             DBInstanceIdentifier=json_data.get("DBInstanceIdentifier"),
+            CACertificateIdentifier=json_data.get("CACertificateIdentifier"),
+            CertificateRotationRestart=json_data.get("CertificateRotationRestart"),
+            Endpoint=json_data.get("Endpoint"),
+            Id=json_data.get("Id"),
             Tags=json_data.get("Tags"),
         )
 

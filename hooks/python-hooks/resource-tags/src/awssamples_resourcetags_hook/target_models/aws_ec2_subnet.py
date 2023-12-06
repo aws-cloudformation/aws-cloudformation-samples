@@ -30,20 +30,22 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEc2Subnet(BaseModel):
-    AssignIpv6AddressOnCreation: Optional[bool]
-    VpcId: Optional[str]
     MapPublicIpOnLaunch: Optional[bool]
-    NetworkAclAssociationId: Optional[str]
-    AvailabilityZone: Optional[str]
+    EnableDns64: Optional[bool]
     AvailabilityZoneId: Optional[str]
+    OutpostArn: Optional[str]
+    AvailabilityZone: Optional[str]
     CidrBlock: Optional[str]
     SubnetId: Optional[str]
+    Ipv6NetmaskLength: Optional[int]
+    AssignIpv6AddressOnCreation: Optional[bool]
+    VpcId: Optional[str]
+    Ipv4NetmaskLength: Optional[int]
+    NetworkAclAssociationId: Optional[str]
+    PrivateDnsNameOptionsOnLaunch: Optional["_PrivateDnsNameOptionsOnLaunch"]
+    Ipv6Native: Optional[bool]
     Ipv6CidrBlocks: Optional[Sequence[str]]
     Ipv6CidrBlock: Optional[str]
-    OutpostArn: Optional[str]
-    Ipv6Native: Optional[bool]
-    EnableDns64: Optional[bool]
-    PrivateDnsNameOptionsOnLaunch: Optional["_PrivateDnsNameOptionsOnLaunch"]
     Tags: Optional[Any]
 
     @classmethod
@@ -56,20 +58,22 @@ class AwsEc2Subnet(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            AssignIpv6AddressOnCreation=json_data.get("AssignIpv6AddressOnCreation"),
-            VpcId=json_data.get("VpcId"),
             MapPublicIpOnLaunch=json_data.get("MapPublicIpOnLaunch"),
-            NetworkAclAssociationId=json_data.get("NetworkAclAssociationId"),
-            AvailabilityZone=json_data.get("AvailabilityZone"),
+            EnableDns64=json_data.get("EnableDns64"),
             AvailabilityZoneId=json_data.get("AvailabilityZoneId"),
+            OutpostArn=json_data.get("OutpostArn"),
+            AvailabilityZone=json_data.get("AvailabilityZone"),
             CidrBlock=json_data.get("CidrBlock"),
             SubnetId=json_data.get("SubnetId"),
+            Ipv6NetmaskLength=json_data.get("Ipv6NetmaskLength"),
+            AssignIpv6AddressOnCreation=json_data.get("AssignIpv6AddressOnCreation"),
+            VpcId=json_data.get("VpcId"),
+            Ipv4NetmaskLength=json_data.get("Ipv4NetmaskLength"),
+            NetworkAclAssociationId=json_data.get("NetworkAclAssociationId"),
+            PrivateDnsNameOptionsOnLaunch=PrivateDnsNameOptionsOnLaunch._deserialize(json_data.get("PrivateDnsNameOptionsOnLaunch")),
+            Ipv6Native=json_data.get("Ipv6Native"),
             Ipv6CidrBlocks=json_data.get("Ipv6CidrBlocks"),
             Ipv6CidrBlock=json_data.get("Ipv6CidrBlock"),
-            OutpostArn=json_data.get("OutpostArn"),
-            Ipv6Native=json_data.get("Ipv6Native"),
-            EnableDns64=json_data.get("EnableDns64"),
-            PrivateDnsNameOptionsOnLaunch=PrivateDnsNameOptionsOnLaunch._deserialize(json_data.get("PrivateDnsNameOptionsOnLaunch")),
             Tags=json_data.get("Tags"),
         )
 
@@ -80,8 +84,8 @@ _AwsEc2Subnet = AwsEc2Subnet
 
 @dataclass
 class PrivateDnsNameOptionsOnLaunch(BaseModel):
-    HostnameType: Optional[str]
     EnableResourceNameDnsARecord: Optional[bool]
+    HostnameType: Optional[str]
     EnableResourceNameDnsAAAARecord: Optional[bool]
 
     @classmethod
@@ -92,8 +96,8 @@ class PrivateDnsNameOptionsOnLaunch(BaseModel):
         if not json_data:
             return None
         return cls(
-            HostnameType=json_data.get("HostnameType"),
             EnableResourceNameDnsARecord=json_data.get("EnableResourceNameDnsARecord"),
+            HostnameType=json_data.get("HostnameType"),
             EnableResourceNameDnsAAAARecord=json_data.get("EnableResourceNameDnsAAAARecord"),
         )
 

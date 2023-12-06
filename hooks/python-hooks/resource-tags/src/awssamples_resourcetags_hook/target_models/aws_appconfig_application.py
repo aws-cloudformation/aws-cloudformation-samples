@@ -31,7 +31,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsAppconfigApplication(BaseModel):
     Description: Optional[str]
-    Id: Optional[str]
+    ApplicationId: Optional[str]
     Tags: Optional[Any]
     Name: Optional[str]
 
@@ -46,7 +46,7 @@ class AwsAppconfigApplication(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             Description=json_data.get("Description"),
-            Id=json_data.get("Id"),
+            ApplicationId=json_data.get("ApplicationId"),
             Tags=json_data.get("Tags"),
             Name=json_data.get("Name"),
         )
@@ -58,8 +58,8 @@ _AwsAppconfigApplication = AwsAppconfigApplication
 
 @dataclass
 class Tags(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -69,8 +69,8 @@ class Tags(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

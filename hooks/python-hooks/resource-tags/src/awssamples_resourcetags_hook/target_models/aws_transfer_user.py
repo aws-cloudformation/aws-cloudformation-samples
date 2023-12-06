@@ -76,6 +76,7 @@ _AwsTransferUser = AwsTransferUser
 class HomeDirectoryMapEntry(BaseModel):
     Entry: Optional[str]
     Target: Optional[str]
+    Type: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -87,6 +88,7 @@ class HomeDirectoryMapEntry(BaseModel):
         return cls(
             Entry=json_data.get("Entry"),
             Target=json_data.get("Target"),
+            Type=json_data.get("Type"),
         )
 
 

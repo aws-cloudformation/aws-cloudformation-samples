@@ -41,6 +41,7 @@ class AwsTransferServer(BaseModel):
     EndpointType: Optional[str]
     SecurityPolicyName: Optional[str]
     ProtocolDetails: Optional["_ProtocolDetails"]
+    S3StorageOptions: Optional["_S3StorageOptions"]
     WorkflowDetails: Optional["_WorkflowDetails"]
     Arn: Optional[str]
     Domain: Optional[str]
@@ -69,6 +70,7 @@ class AwsTransferServer(BaseModel):
             EndpointType=json_data.get("EndpointType"),
             SecurityPolicyName=json_data.get("SecurityPolicyName"),
             ProtocolDetails=ProtocolDetails._deserialize(json_data.get("ProtocolDetails")),
+            S3StorageOptions=S3StorageOptions._deserialize(json_data.get("S3StorageOptions")),
             WorkflowDetails=WorkflowDetails._deserialize(json_data.get("WorkflowDetails")),
             Arn=json_data.get("Arn"),
             Domain=json_data.get("Domain"),
@@ -162,6 +164,26 @@ class ProtocolDetails(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _ProtocolDetails = ProtocolDetails
+
+
+@dataclass
+class S3StorageOptions(BaseModel):
+    DirectoryListingOptimization: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_S3StorageOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_S3StorageOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            DirectoryListingOptimization=json_data.get("DirectoryListingOptimization"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_S3StorageOptions = S3StorageOptions
 
 
 @dataclass

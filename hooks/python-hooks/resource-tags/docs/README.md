@@ -107,6 +107,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Backup::BackupVault`
 * `AWS::Backup::Framework`
 * `AWS::Backup::ReportPlan`
+* `AWS::Backup::RestoreTestingPlan`
 * `AWS::BackupGateway::Hypervisor`
 * `AWS::Batch::ComputeEnvironment`
 * `AWS::Batch::JobDefinition`
@@ -148,6 +149,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::CodePipeline::CustomActionType`
 * `AWS::CodePipeline::Pipeline`
 * `AWS::CodeStarConnections::Connection`
+* `AWS::CodeStarConnections::RepositoryLink`
 * `AWS::CodeStarNotifications::NotificationRule`
 * `AWS::Cognito::UserPool`
 * `AWS::Comprehend::DocumentClassifier`
@@ -169,8 +171,10 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Connect::TaskTemplate`
 * `AWS::Connect::TrafficDistributionGroup`
 * `AWS::Connect::User`
+* `AWS::Connect::UserHierarchyGroup`
 * `AWS::Connect::View`
 * `AWS::ConnectCampaigns::Campaign`
+* `AWS::ControlTower::LandingZone`
 * `AWS::CustomerProfiles::CalculatedAttributeDefinition`
 * `AWS::CustomerProfiles::Domain`
 * `AWS::CustomerProfiles::EventStream`
@@ -278,6 +282,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EKS::FargateProfile`
 * `AWS::EKS::IdentityProviderConfig`
 * `AWS::EKS::Nodegroup`
+* `AWS::EKS::PodIdentityAssociation`
 * `AWS::EMR::Cluster`
 * `AWS::EMR::Studio`
 * `AWS::EMR::WALWorkspace`
@@ -287,6 +292,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ElastiCache::ParameterGroup`
 * `AWS::ElastiCache::ReplicationGroup`
 * `AWS::ElastiCache::SecurityGroup`
+* `AWS::ElastiCache::ServerlessCache`
 * `AWS::ElastiCache::SubnetGroup`
 * `AWS::ElastiCache::User`
 * `AWS::ElastiCache::UserGroup`
@@ -294,7 +300,9 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ElasticLoadBalancing::LoadBalancer`
 * `AWS::ElasticLoadBalancingV2::LoadBalancer`
 * `AWS::ElasticLoadBalancingV2::TargetGroup`
+* `AWS::ElasticLoadBalancingV2::TrustStore`
 * `AWS::Elasticsearch::Domain`
+* `AWS::EntityResolution::IdMappingWorkflow`
 * `AWS::EntityResolution::MatchingWorkflow`
 * `AWS::EntityResolution::SchemaMapping`
 * `AWS::EventSchemas::Discoverer`
@@ -377,6 +385,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ImageBuilder::ImagePipeline`
 * `AWS::ImageBuilder::ImageRecipe`
 * `AWS::ImageBuilder::InfrastructureConfiguration`
+* `AWS::ImageBuilder::LifecyclePolicy`
 * `AWS::Inspector::ResourceGroup`
 * `AWS::InternetMonitor::Monitor`
 * `AWS::IoT::Authorizer`
@@ -388,10 +397,13 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IoT::FleetMetric`
 * `AWS::IoT::JobTemplate`
 * `AWS::IoT::MitigationAction`
+* `AWS::IoT::Policy`
 * `AWS::IoT::ProvisioningTemplate`
 * `AWS::IoT::RoleAlias`
 * `AWS::IoT::ScheduledAudit`
 * `AWS::IoT::SecurityProfile`
+* `AWS::IoT::SoftwarePackage`
+* `AWS::IoT::SoftwarePackageVersion`
 * `AWS::IoT::ThingGroup`
 * `AWS::IoT::ThingType`
 * `AWS::IoT::TopicRule`
@@ -454,11 +466,15 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Lightsail::Distribution`
 * `AWS::Lightsail::Instance`
 * `AWS::Lightsail::LoadBalancer`
+* `AWS::Logs::Delivery`
+* `AWS::Logs::DeliveryDestination`
+* `AWS::Logs::DeliverySource`
 * `AWS::Logs::LogGroup`
 * `AWS::LookoutEquipment::InferenceScheduler`
 * `AWS::M2::Application`
 * `AWS::M2::Environment`
 * `AWS::MSK::Cluster`
+* `AWS::MSK::Replicator`
 * `AWS::MSK::ServerlessCluster`
 * `AWS::MSK::VpcConnection`
 * `AWS::MWAA::Environment`
@@ -472,6 +488,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::MediaLive::Channel`
 * `AWS::MediaLive::Input`
 * `AWS::MediaLive::InputSecurityGroup`
+* `AWS::MediaLive::Multiplex`
 * `AWS::MediaPackage::Asset`
 * `AWS::MediaPackage::Channel`
 * `AWS::MediaPackage::OriginEndpoint`
@@ -614,8 +631,12 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Route53Resolver::OutpostResolver`
 * `AWS::Route53Resolver::ResolverEndpoint`
 * `AWS::Route53Resolver::ResolverRule`
+* `AWS::S3::AccessGrant`
+* `AWS::S3::AccessGrantsInstance`
+* `AWS::S3::AccessGrantsLocation`
 * `AWS::S3::Bucket`
 * `AWS::S3::StorageLens`
+* `AWS::S3::StorageLensGroup`
 * `AWS::S3Outposts::Bucket`
 * `AWS::SES::ContactList`
 * `AWS::SNS::Topic`
@@ -639,6 +660,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SageMaker::EndpointConfig`
 * `AWS::SageMaker::FeatureGroup`
 * `AWS::SageMaker::Image`
+* `AWS::SageMaker::InferenceComponent`
 * `AWS::SageMaker::InferenceExperiment`
 * `AWS::SageMaker::Model`
 * `AWS::SageMaker::ModelBiasJobDefinition`
@@ -703,6 +725,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Wisdom::KnowledgeBase`
 * `AWS::WorkSpaces::ConnectionAlias`
 * `AWS::WorkSpaces::Workspace`
+* `AWS::WorkSpacesThinClient::Environment`
 * `AWS::WorkSpacesWeb::BrowserSettings`
 * `AWS::WorkSpacesWeb::IpAccessSettings`
 * `AWS::WorkSpacesWeb::NetworkSettings`

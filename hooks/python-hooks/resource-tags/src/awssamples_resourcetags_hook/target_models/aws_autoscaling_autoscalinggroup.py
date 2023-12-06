@@ -46,16 +46,16 @@ class AwsAutoscalingAutoscalinggroup(BaseModel):
     VPCZoneIdentifier: Optional[Sequence[str]]
     Tags: Optional[Any]
     Context: Optional[str]
-    LaunchTemplateSpecification: Optional[str]
     CapacityRebalance: Optional[bool]
     InstanceId: Optional[str]
     AvailabilityZones: Optional[Sequence[str]]
+    NotificationConfiguration: Optional["_NotificationConfiguration"]
     MetricsCollection: Optional[Sequence["_MetricsCollection"]]
+    InstanceMaintenancePolicy: Optional["_InstanceMaintenancePolicy"]
     MaxSize: Optional[str]
     MinSize: Optional[str]
     TerminationPolicies: Optional[Sequence[str]]
     AutoScalingGroupName: Optional[str]
-    Id: Optional[str]
     DesiredCapacityType: Optional[str]
     PlacementGroup: Optional[str]
     HealthCheckType: Optional[str]
@@ -87,16 +87,16 @@ class AwsAutoscalingAutoscalinggroup(BaseModel):
             VPCZoneIdentifier=json_data.get("VPCZoneIdentifier"),
             Tags=json_data.get("Tags"),
             Context=json_data.get("Context"),
-            LaunchTemplateSpecification=json_data.get("LaunchTemplateSpecification"),
             CapacityRebalance=json_data.get("CapacityRebalance"),
             InstanceId=json_data.get("InstanceId"),
             AvailabilityZones=json_data.get("AvailabilityZones"),
+            NotificationConfiguration=NotificationConfiguration._deserialize(json_data.get("NotificationConfiguration")),
             MetricsCollection=deserialize_list(json_data.get("MetricsCollection"), MetricsCollection),
+            InstanceMaintenancePolicy=InstanceMaintenancePolicy._deserialize(json_data.get("InstanceMaintenancePolicy")),
             MaxSize=json_data.get("MaxSize"),
             MinSize=json_data.get("MinSize"),
             TerminationPolicies=json_data.get("TerminationPolicies"),
             AutoScalingGroupName=json_data.get("AutoScalingGroupName"),
-            Id=json_data.get("Id"),
             DesiredCapacityType=json_data.get("DesiredCapacityType"),
             PlacementGroup=json_data.get("PlacementGroup"),
             HealthCheckType=json_data.get("HealthCheckType"),
@@ -142,7 +142,7 @@ _LifecycleHookSpecification = LifecycleHookSpecification
 
 @dataclass
 class NotificationConfiguration(BaseModel):
-    TopicARN: Optional[str]
+    TopicARN: Optional[Any]
     NotificationTypes: Optional[Sequence[str]]
 
     @classmethod
@@ -165,8 +165,8 @@ _NotificationConfiguration = NotificationConfiguration
 @dataclass
 class LaunchTemplateSpecification(BaseModel):
     LaunchTemplateName: Optional[str]
-    LaunchTemplateId: Optional[str]
     Version: Optional[str]
+    LaunchTemplateId: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -177,8 +177,8 @@ class LaunchTemplateSpecification(BaseModel):
             return None
         return cls(
             LaunchTemplateName=json_data.get("LaunchTemplateName"),
-            LaunchTemplateId=json_data.get("LaunchTemplateId"),
             Version=json_data.get("Version"),
+            LaunchTemplateId=json_data.get("LaunchTemplateId"),
         )
 
 
@@ -188,8 +188,8 @@ _LaunchTemplateSpecification = LaunchTemplateSpecification
 
 @dataclass
 class MixedInstancesPolicy(BaseModel):
-    LaunchTemplate: Optional["_LaunchTemplate"]
     InstancesDistribution: Optional["_InstancesDistribution"]
+    LaunchTemplate: Optional["_LaunchTemplate"]
 
     @classmethod
     def _deserialize(
@@ -199,13 +199,43 @@ class MixedInstancesPolicy(BaseModel):
         if not json_data:
             return None
         return cls(
-            LaunchTemplate=LaunchTemplate._deserialize(json_data.get("LaunchTemplate")),
             InstancesDistribution=InstancesDistribution._deserialize(json_data.get("InstancesDistribution")),
+            LaunchTemplate=LaunchTemplate._deserialize(json_data.get("LaunchTemplate")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _MixedInstancesPolicy = MixedInstancesPolicy
+
+
+@dataclass
+class InstancesDistribution(BaseModel):
+    OnDemandAllocationStrategy: Optional[str]
+    OnDemandBaseCapacity: Optional[int]
+    OnDemandPercentageAboveBaseCapacity: Optional[int]
+    SpotInstancePools: Optional[int]
+    SpotAllocationStrategy: Optional[str]
+    SpotMaxPrice: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_InstancesDistribution"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_InstancesDistribution"]:
+        if not json_data:
+            return None
+        return cls(
+            OnDemandAllocationStrategy=json_data.get("OnDemandAllocationStrategy"),
+            OnDemandBaseCapacity=json_data.get("OnDemandBaseCapacity"),
+            OnDemandPercentageAboveBaseCapacity=json_data.get("OnDemandPercentageAboveBaseCapacity"),
+            SpotInstancePools=json_data.get("SpotInstancePools"),
+            SpotAllocationStrategy=json_data.get("SpotAllocationStrategy"),
+            SpotMaxPrice=json_data.get("SpotMaxPrice"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_InstancesDistribution = InstancesDistribution
 
 
 @dataclass
@@ -258,24 +288,24 @@ _LaunchTemplateOverrides = LaunchTemplateOverrides
 
 @dataclass
 class InstanceRequirements(BaseModel):
-    LocalStorageTypes: Optional[Sequence[str]]
-    InstanceGenerations: Optional[Sequence[str]]
+    LocalStorageTypes: Optional[AbstractSet[str]]
+    InstanceGenerations: Optional[AbstractSet[str]]
     NetworkInterfaceCount: Optional["_NetworkInterfaceCountRequest"]
-    AcceleratorTypes: Optional[Sequence[str]]
+    AcceleratorTypes: Optional[AbstractSet[str]]
     MemoryGiBPerVCpu: Optional["_MemoryGiBPerVCpuRequest"]
-    AcceleratorManufacturers: Optional[Sequence[str]]
+    AcceleratorManufacturers: Optional[AbstractSet[str]]
     ExcludedInstanceTypes: Optional[Sequence[str]]
     VCpuCount: Optional["_VCpuCountRequest"]
     AllowedInstanceTypes: Optional[Sequence[str]]
     LocalStorage: Optional[str]
-    CpuManufacturers: Optional[Sequence[str]]
+    CpuManufacturers: Optional[AbstractSet[str]]
     AcceleratorCount: Optional["_AcceleratorCountRequest"]
     NetworkBandwidthGbps: Optional["_NetworkBandwidthGbpsRequest"]
     BareMetal: Optional[str]
     RequireHibernateSupport: Optional[bool]
     BaselineEbsBandwidthMbps: Optional["_BaselineEbsBandwidthMbpsRequest"]
     SpotMaxPricePercentageOverLowestPrice: Optional[int]
-    AcceleratorNames: Optional[Sequence[str]]
+    AcceleratorNames: Optional[AbstractSet[str]]
     AcceleratorTotalMemoryMiB: Optional["_AcceleratorTotalMemoryMiBRequest"]
     OnDemandMaxPricePercentageOverLowestPrice: Optional[int]
     BurstablePerformance: Optional[str]
@@ -290,24 +320,24 @@ class InstanceRequirements(BaseModel):
         if not json_data:
             return None
         return cls(
-            LocalStorageTypes=json_data.get("LocalStorageTypes"),
-            InstanceGenerations=json_data.get("InstanceGenerations"),
+            LocalStorageTypes=set_or_none(json_data.get("LocalStorageTypes")),
+            InstanceGenerations=set_or_none(json_data.get("InstanceGenerations")),
             NetworkInterfaceCount=NetworkInterfaceCountRequest._deserialize(json_data.get("NetworkInterfaceCount")),
-            AcceleratorTypes=json_data.get("AcceleratorTypes"),
+            AcceleratorTypes=set_or_none(json_data.get("AcceleratorTypes")),
             MemoryGiBPerVCpu=MemoryGiBPerVCpuRequest._deserialize(json_data.get("MemoryGiBPerVCpu")),
-            AcceleratorManufacturers=json_data.get("AcceleratorManufacturers"),
+            AcceleratorManufacturers=set_or_none(json_data.get("AcceleratorManufacturers")),
             ExcludedInstanceTypes=json_data.get("ExcludedInstanceTypes"),
             VCpuCount=VCpuCountRequest._deserialize(json_data.get("VCpuCount")),
             AllowedInstanceTypes=json_data.get("AllowedInstanceTypes"),
             LocalStorage=json_data.get("LocalStorage"),
-            CpuManufacturers=json_data.get("CpuManufacturers"),
+            CpuManufacturers=set_or_none(json_data.get("CpuManufacturers")),
             AcceleratorCount=AcceleratorCountRequest._deserialize(json_data.get("AcceleratorCount")),
             NetworkBandwidthGbps=NetworkBandwidthGbpsRequest._deserialize(json_data.get("NetworkBandwidthGbps")),
             BareMetal=json_data.get("BareMetal"),
             RequireHibernateSupport=json_data.get("RequireHibernateSupport"),
             BaselineEbsBandwidthMbps=BaselineEbsBandwidthMbpsRequest._deserialize(json_data.get("BaselineEbsBandwidthMbps")),
             SpotMaxPricePercentageOverLowestPrice=json_data.get("SpotMaxPricePercentageOverLowestPrice"),
-            AcceleratorNames=json_data.get("AcceleratorNames"),
+            AcceleratorNames=set_or_none(json_data.get("AcceleratorNames")),
             AcceleratorTotalMemoryMiB=AcceleratorTotalMemoryMiBRequest._deserialize(json_data.get("AcceleratorTotalMemoryMiB")),
             OnDemandMaxPricePercentageOverLowestPrice=json_data.get("OnDemandMaxPricePercentageOverLowestPrice"),
             BurstablePerformance=json_data.get("BurstablePerformance"),
@@ -322,8 +352,8 @@ _InstanceRequirements = InstanceRequirements
 
 @dataclass
 class NetworkInterfaceCountRequest(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -333,8 +363,8 @@ class NetworkInterfaceCountRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -344,8 +374,8 @@ _NetworkInterfaceCountRequest = NetworkInterfaceCountRequest
 
 @dataclass
 class MemoryGiBPerVCpuRequest(BaseModel):
-    Max: Optional[int]
-    Min: Optional[int]
+    Min: Optional[float]
+    Max: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -355,8 +385,8 @@ class MemoryGiBPerVCpuRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -366,8 +396,8 @@ _MemoryGiBPerVCpuRequest = MemoryGiBPerVCpuRequest
 
 @dataclass
 class VCpuCountRequest(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -377,8 +407,8 @@ class VCpuCountRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -388,8 +418,8 @@ _VCpuCountRequest = VCpuCountRequest
 
 @dataclass
 class AcceleratorCountRequest(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -399,8 +429,8 @@ class AcceleratorCountRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -410,8 +440,8 @@ _AcceleratorCountRequest = AcceleratorCountRequest
 
 @dataclass
 class NetworkBandwidthGbpsRequest(BaseModel):
-    Max: Optional[float]
     Min: Optional[float]
+    Max: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -421,8 +451,8 @@ class NetworkBandwidthGbpsRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -432,8 +462,8 @@ _NetworkBandwidthGbpsRequest = NetworkBandwidthGbpsRequest
 
 @dataclass
 class BaselineEbsBandwidthMbpsRequest(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -443,8 +473,8 @@ class BaselineEbsBandwidthMbpsRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -454,8 +484,8 @@ _BaselineEbsBandwidthMbpsRequest = BaselineEbsBandwidthMbpsRequest
 
 @dataclass
 class AcceleratorTotalMemoryMiBRequest(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -465,8 +495,8 @@ class AcceleratorTotalMemoryMiBRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -476,8 +506,8 @@ _AcceleratorTotalMemoryMiBRequest = AcceleratorTotalMemoryMiBRequest
 
 @dataclass
 class MemoryMiBRequest(BaseModel):
-    Max: Optional[int]
     Min: Optional[int]
+    Max: Optional[int]
 
     @classmethod
     def _deserialize(
@@ -487,8 +517,8 @@ class MemoryMiBRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
@@ -498,8 +528,8 @@ _MemoryMiBRequest = MemoryMiBRequest
 
 @dataclass
 class TotalLocalStorageGBRequest(BaseModel):
-    Max: Optional[int]
-    Min: Optional[int]
+    Min: Optional[float]
+    Max: Optional[float]
 
     @classmethod
     def _deserialize(
@@ -509,43 +539,13 @@ class TotalLocalStorageGBRequest(BaseModel):
         if not json_data:
             return None
         return cls(
-            Max=json_data.get("Max"),
             Min=json_data.get("Min"),
+            Max=json_data.get("Max"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _TotalLocalStorageGBRequest = TotalLocalStorageGBRequest
-
-
-@dataclass
-class InstancesDistribution(BaseModel):
-    OnDemandAllocationStrategy: Optional[str]
-    OnDemandBaseCapacity: Optional[int]
-    OnDemandPercentageAboveBaseCapacity: Optional[int]
-    SpotInstancePools: Optional[int]
-    SpotAllocationStrategy: Optional[str]
-    SpotMaxPrice: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_InstancesDistribution"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_InstancesDistribution"]:
-        if not json_data:
-            return None
-        return cls(
-            OnDemandAllocationStrategy=json_data.get("OnDemandAllocationStrategy"),
-            OnDemandBaseCapacity=json_data.get("OnDemandBaseCapacity"),
-            OnDemandPercentageAboveBaseCapacity=json_data.get("OnDemandPercentageAboveBaseCapacity"),
-            SpotInstancePools=json_data.get("SpotInstancePools"),
-            SpotAllocationStrategy=json_data.get("SpotAllocationStrategy"),
-            SpotMaxPrice=json_data.get("SpotMaxPrice"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_InstancesDistribution = InstancesDistribution
 
 
 @dataclass
@@ -574,8 +574,8 @@ _TagProperty = TagProperty
 
 @dataclass
 class MetricsCollection(BaseModel):
-    Granularity: Optional[str]
     Metrics: Optional[Sequence[str]]
+    Granularity: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -585,12 +585,34 @@ class MetricsCollection(BaseModel):
         if not json_data:
             return None
         return cls(
-            Granularity=json_data.get("Granularity"),
             Metrics=json_data.get("Metrics"),
+            Granularity=json_data.get("Granularity"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _MetricsCollection = MetricsCollection
+
+
+@dataclass
+class InstanceMaintenancePolicy(BaseModel):
+    MaxHealthyPercentage: Optional[int]
+    MinHealthyPercentage: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_InstanceMaintenancePolicy"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_InstanceMaintenancePolicy"]:
+        if not json_data:
+            return None
+        return cls(
+            MaxHealthyPercentage=json_data.get("MaxHealthyPercentage"),
+            MinHealthyPercentage=json_data.get("MinHealthyPercentage"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_InstanceMaintenancePolicy = InstanceMaintenancePolicy
 
 

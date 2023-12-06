@@ -31,29 +31,29 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsEcsService(BaseModel):
     PlatformVersion: Optional[str]
-    HealthCheckGracePeriodSeconds: Optional[int]
-    EnableECSManagedTags: Optional[bool]
-    EnableExecuteCommand: Optional[bool]
-    PlacementConstraints: Optional[Sequence["_PlacementConstraint"]]
     PropagateTags: Optional[str]
-    Cluster: Optional[str]
-    LoadBalancers: Optional[Sequence["_LoadBalancer"]]
-    ServiceConnectConfiguration: Optional["_ServiceConnectConfiguration"]
     ServiceArn: Optional[str]
-    DesiredCount: Optional[int]
     PlacementStrategies: Optional[Sequence["_PlacementStrategy"]]
-    DeploymentController: Optional["_DeploymentController"]
     ServiceRegistries: Optional[Sequence["_ServiceRegistry"]]
     CapacityProviderStrategy: Optional[Sequence["_CapacityProviderStrategyItem"]]
     LaunchType: Optional[str]
     Name: Optional[str]
-    Role: Optional[str]
     SchedulingStrategy: Optional[str]
+    NetworkConfiguration: Optional["_NetworkConfiguration"]
+    Tags: Optional[Any]
+    HealthCheckGracePeriodSeconds: Optional[int]
+    EnableECSManagedTags: Optional[bool]
+    EnableExecuteCommand: Optional[bool]
+    PlacementConstraints: Optional[Sequence["_PlacementConstraint"]]
+    Cluster: Optional[str]
+    LoadBalancers: Optional[Sequence["_LoadBalancer"]]
+    ServiceConnectConfiguration: Optional["_ServiceConnectConfiguration"]
+    DesiredCount: Optional[int]
+    DeploymentController: Optional["_DeploymentController"]
+    Role: Optional[str]
     TaskDefinition: Optional[str]
     ServiceName: Optional[str]
-    NetworkConfiguration: Optional["_NetworkConfiguration"]
     DeploymentConfiguration: Optional["_DeploymentConfiguration"]
-    Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
@@ -66,34 +66,172 @@ class AwsEcsService(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             PlatformVersion=json_data.get("PlatformVersion"),
-            HealthCheckGracePeriodSeconds=json_data.get("HealthCheckGracePeriodSeconds"),
-            EnableECSManagedTags=json_data.get("EnableECSManagedTags"),
-            EnableExecuteCommand=json_data.get("EnableExecuteCommand"),
-            PlacementConstraints=deserialize_list(json_data.get("PlacementConstraints"), PlacementConstraint),
             PropagateTags=json_data.get("PropagateTags"),
-            Cluster=json_data.get("Cluster"),
-            LoadBalancers=deserialize_list(json_data.get("LoadBalancers"), LoadBalancer),
-            ServiceConnectConfiguration=ServiceConnectConfiguration._deserialize(json_data.get("ServiceConnectConfiguration")),
             ServiceArn=json_data.get("ServiceArn"),
-            DesiredCount=json_data.get("DesiredCount"),
             PlacementStrategies=deserialize_list(json_data.get("PlacementStrategies"), PlacementStrategy),
-            DeploymentController=DeploymentController._deserialize(json_data.get("DeploymentController")),
             ServiceRegistries=deserialize_list(json_data.get("ServiceRegistries"), ServiceRegistry),
             CapacityProviderStrategy=deserialize_list(json_data.get("CapacityProviderStrategy"), CapacityProviderStrategyItem),
             LaunchType=json_data.get("LaunchType"),
             Name=json_data.get("Name"),
-            Role=json_data.get("Role"),
             SchedulingStrategy=json_data.get("SchedulingStrategy"),
+            NetworkConfiguration=NetworkConfiguration._deserialize(json_data.get("NetworkConfiguration")),
+            Tags=json_data.get("Tags"),
+            HealthCheckGracePeriodSeconds=json_data.get("HealthCheckGracePeriodSeconds"),
+            EnableECSManagedTags=json_data.get("EnableECSManagedTags"),
+            EnableExecuteCommand=json_data.get("EnableExecuteCommand"),
+            PlacementConstraints=deserialize_list(json_data.get("PlacementConstraints"), PlacementConstraint),
+            Cluster=json_data.get("Cluster"),
+            LoadBalancers=deserialize_list(json_data.get("LoadBalancers"), LoadBalancer),
+            ServiceConnectConfiguration=ServiceConnectConfiguration._deserialize(json_data.get("ServiceConnectConfiguration")),
+            DesiredCount=json_data.get("DesiredCount"),
+            DeploymentController=DeploymentController._deserialize(json_data.get("DeploymentController")),
+            Role=json_data.get("Role"),
             TaskDefinition=json_data.get("TaskDefinition"),
             ServiceName=json_data.get("ServiceName"),
-            NetworkConfiguration=NetworkConfiguration._deserialize(json_data.get("NetworkConfiguration")),
             DeploymentConfiguration=DeploymentConfiguration._deserialize(json_data.get("DeploymentConfiguration")),
-            Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _AwsEcsService = AwsEcsService
+
+
+@dataclass
+class PlacementStrategy(BaseModel):
+    Field: Optional[str]
+    Type: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PlacementStrategy"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PlacementStrategy"]:
+        if not json_data:
+            return None
+        return cls(
+            Field=json_data.get("Field"),
+            Type=json_data.get("Type"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PlacementStrategy = PlacementStrategy
+
+
+@dataclass
+class ServiceRegistry(BaseModel):
+    ContainerName: Optional[str]
+    Port: Optional[int]
+    ContainerPort: Optional[int]
+    RegistryArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ServiceRegistry"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ServiceRegistry"]:
+        if not json_data:
+            return None
+        return cls(
+            ContainerName=json_data.get("ContainerName"),
+            Port=json_data.get("Port"),
+            ContainerPort=json_data.get("ContainerPort"),
+            RegistryArn=json_data.get("RegistryArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ServiceRegistry = ServiceRegistry
+
+
+@dataclass
+class CapacityProviderStrategyItem(BaseModel):
+    CapacityProvider: Optional[str]
+    Base: Optional[int]
+    Weight: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CapacityProviderStrategyItem"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CapacityProviderStrategyItem"]:
+        if not json_data:
+            return None
+        return cls(
+            CapacityProvider=json_data.get("CapacityProvider"),
+            Base=json_data.get("Base"),
+            Weight=json_data.get("Weight"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CapacityProviderStrategyItem = CapacityProviderStrategyItem
+
+
+@dataclass
+class NetworkConfiguration(BaseModel):
+    AwsvpcConfiguration: Optional["_AwsVpcConfiguration"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_NetworkConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_NetworkConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            AwsvpcConfiguration=AwsVpcConfiguration._deserialize(json_data.get("AwsvpcConfiguration")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_NetworkConfiguration = NetworkConfiguration
+
+
+@dataclass
+class AwsVpcConfiguration(BaseModel):
+    SecurityGroups: Optional[Sequence[str]]
+    Subnets: Optional[Sequence[str]]
+    AssignPublicIp: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AwsVpcConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AwsVpcConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            SecurityGroups=json_data.get("SecurityGroups"),
+            Subnets=json_data.get("Subnets"),
+            AssignPublicIp=json_data.get("AssignPublicIp"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AwsVpcConfiguration = AwsVpcConfiguration
+
+
+@dataclass
+class Tag(BaseModel):
+    Value: Optional[str]
+    Key: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Tag"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Tag"]:
+        if not json_data:
+            return None
+        return cls(
+            Value=json_data.get("Value"),
+            Key=json_data.get("Key"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Tag = Tag
 
 
 @dataclass
@@ -265,28 +403,6 @@ _Secret = Secret
 
 
 @dataclass
-class PlacementStrategy(BaseModel):
-    Field: Optional[str]
-    Type: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_PlacementStrategy"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_PlacementStrategy"]:
-        if not json_data:
-            return None
-        return cls(
-            Field=json_data.get("Field"),
-            Type=json_data.get("Type"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_PlacementStrategy = PlacementStrategy
-
-
-@dataclass
 class DeploymentController(BaseModel):
     Type: Optional[str]
 
@@ -304,100 +420,6 @@ class DeploymentController(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _DeploymentController = DeploymentController
-
-
-@dataclass
-class ServiceRegistry(BaseModel):
-    ContainerName: Optional[str]
-    Port: Optional[int]
-    ContainerPort: Optional[int]
-    RegistryArn: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ServiceRegistry"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ServiceRegistry"]:
-        if not json_data:
-            return None
-        return cls(
-            ContainerName=json_data.get("ContainerName"),
-            Port=json_data.get("Port"),
-            ContainerPort=json_data.get("ContainerPort"),
-            RegistryArn=json_data.get("RegistryArn"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_ServiceRegistry = ServiceRegistry
-
-
-@dataclass
-class CapacityProviderStrategyItem(BaseModel):
-    CapacityProvider: Optional[str]
-    Base: Optional[int]
-    Weight: Optional[int]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_CapacityProviderStrategyItem"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_CapacityProviderStrategyItem"]:
-        if not json_data:
-            return None
-        return cls(
-            CapacityProvider=json_data.get("CapacityProvider"),
-            Base=json_data.get("Base"),
-            Weight=json_data.get("Weight"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_CapacityProviderStrategyItem = CapacityProviderStrategyItem
-
-
-@dataclass
-class NetworkConfiguration(BaseModel):
-    AwsvpcConfiguration: Optional["_AwsVpcConfiguration"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_NetworkConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_NetworkConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            AwsvpcConfiguration=AwsVpcConfiguration._deserialize(json_data.get("AwsvpcConfiguration")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_NetworkConfiguration = NetworkConfiguration
-
-
-@dataclass
-class AwsVpcConfiguration(BaseModel):
-    SecurityGroups: Optional[Sequence[str]]
-    Subnets: Optional[Sequence[str]]
-    AssignPublicIp: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_AwsVpcConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsVpcConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            SecurityGroups=json_data.get("SecurityGroups"),
-            Subnets=json_data.get("Subnets"),
-            AssignPublicIp=json_data.get("AssignPublicIp"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_AwsVpcConfiguration = AwsVpcConfiguration
 
 
 @dataclass
@@ -470,27 +492,5 @@ class DeploymentCircuitBreaker(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _DeploymentCircuitBreaker = DeploymentCircuitBreaker
-
-
-@dataclass
-class Tag(BaseModel):
-    Value: Optional[str]
-    Key: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Tag"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Tag"]:
-        if not json_data:
-            return None
-        return cls(
-            Value=json_data.get("Value"),
-            Key=json_data.get("Key"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Tag = Tag
 
 

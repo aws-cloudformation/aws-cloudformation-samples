@@ -36,11 +36,13 @@ class AwsSnsTopic(BaseModel):
     Subscription: Optional[Sequence["_Subscription"]]
     FifoTopic: Optional[bool]
     ContentBasedDeduplication: Optional[bool]
+    ArchivePolicy: Optional[MutableMapping[str, Any]]
     Tags: Optional[Any]
     TopicName: Optional[str]
     TopicArn: Optional[str]
     SignatureVersion: Optional[str]
     TracingConfig: Optional[str]
+    DeliveryStatusLogging: Optional[AbstractSet["_LoggingConfig"]]
 
     @classmethod
     def _deserialize(
@@ -58,11 +60,13 @@ class AwsSnsTopic(BaseModel):
             Subscription=deserialize_list(json_data.get("Subscription"), Subscription),
             FifoTopic=json_data.get("FifoTopic"),
             ContentBasedDeduplication=json_data.get("ContentBasedDeduplication"),
+            ArchivePolicy=json_data.get("ArchivePolicy"),
             Tags=json_data.get("Tags"),
             TopicName=json_data.get("TopicName"),
             TopicArn=json_data.get("TopicArn"),
             SignatureVersion=json_data.get("SignatureVersion"),
             TracingConfig=json_data.get("TracingConfig"),
+            DeliveryStatusLogging=set_or_none(json_data.get("DeliveryStatusLogging")),
         )
 
 
@@ -112,5 +116,31 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class LoggingConfig(BaseModel):
+    Protocol: Optional[str]
+    SuccessFeedbackRoleArn: Optional[str]
+    SuccessFeedbackSampleRate: Optional[str]
+    FailureFeedbackRoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LoggingConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LoggingConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            Protocol=json_data.get("Protocol"),
+            SuccessFeedbackRoleArn=json_data.get("SuccessFeedbackRoleArn"),
+            SuccessFeedbackSampleRate=json_data.get("SuccessFeedbackSampleRate"),
+            FailureFeedbackRoleArn=json_data.get("FailureFeedbackRoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LoggingConfig = LoggingConfig
 
 

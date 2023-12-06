@@ -52,6 +52,7 @@ class AwsLambdaFunction(BaseModel):
     SnapStartResponse: Optional["_SnapStartResponse"]
     Code: Optional["_Code"]
     Role: Optional[str]
+    LoggingConfig: Optional["_LoggingConfig"]
     Environment: Optional["_Environment"]
     Arn: Optional[str]
     EphemeralStorage: Optional["_EphemeralStorage"]
@@ -89,6 +90,7 @@ class AwsLambdaFunction(BaseModel):
             SnapStartResponse=SnapStartResponse._deserialize(json_data.get("SnapStartResponse")),
             Code=Code._deserialize(json_data.get("Code")),
             Role=json_data.get("Role"),
+            LoggingConfig=LoggingConfig._deserialize(json_data.get("LoggingConfig")),
             Environment=Environment._deserialize(json_data.get("Environment")),
             Arn=json_data.get("Arn"),
             EphemeralStorage=EphemeralStorage._deserialize(json_data.get("EphemeralStorage")),
@@ -122,6 +124,7 @@ _TracingConfig = TracingConfig
 
 @dataclass
 class VpcConfig(BaseModel):
+    Ipv6AllowedForDualStack: Optional[bool]
     SecurityGroupIds: Optional[Sequence[str]]
     SubnetIds: Optional[Sequence[str]]
 
@@ -133,6 +136,7 @@ class VpcConfig(BaseModel):
         if not json_data:
             return None
         return cls(
+            Ipv6AllowedForDualStack=json_data.get("Ipv6AllowedForDualStack"),
             SecurityGroupIds=json_data.get("SecurityGroupIds"),
             SubnetIds=json_data.get("SubnetIds"),
         )
@@ -320,6 +324,32 @@ class Code(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Code = Code
+
+
+@dataclass
+class LoggingConfig(BaseModel):
+    LogFormat: Optional[str]
+    ApplicationLogLevel: Optional[str]
+    LogGroup: Optional[str]
+    SystemLogLevel: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LoggingConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LoggingConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            LogFormat=json_data.get("LogFormat"),
+            ApplicationLogLevel=json_data.get("ApplicationLogLevel"),
+            LogGroup=json_data.get("LogGroup"),
+            SystemLogLevel=json_data.get("SystemLogLevel"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LoggingConfig = LoggingConfig
 
 
 @dataclass

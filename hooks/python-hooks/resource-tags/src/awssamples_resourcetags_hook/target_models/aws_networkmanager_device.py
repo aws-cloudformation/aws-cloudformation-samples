@@ -43,6 +43,7 @@ class AwsNetworkmanagerDevice(BaseModel):
     Type: Optional[str]
     Vendor: Optional[str]
     CreatedAt: Optional[str]
+    State: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -67,6 +68,7 @@ class AwsNetworkmanagerDevice(BaseModel):
             Type=json_data.get("Type"),
             Vendor=json_data.get("Vendor"),
             CreatedAt=json_data.get("CreatedAt"),
+            State=json_data.get("State"),
         )
 
 

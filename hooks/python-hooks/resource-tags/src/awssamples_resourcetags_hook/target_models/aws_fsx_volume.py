@@ -198,13 +198,16 @@ _UserAndGroupQuotas = UserAndGroupQuotas
 class OntapConfiguration(BaseModel):
     JunctionPath: Optional[str]
     StorageVirtualMachineId: Optional[str]
-    SnapshotPolicy: Optional[str]
     TieringPolicy: Optional["_TieringPolicy"]
-    StorageEfficiencyEnabled: Optional[str]
     SizeInMegabytes: Optional[str]
-    CopyTagsToBackups: Optional[str]
+    VolumeStyle: Optional[str]
+    SizeInBytes: Optional[str]
     SecurityStyle: Optional[str]
     SnaplockConfiguration: Optional["_SnaplockConfiguration"]
+    AggregateConfiguration: Optional["_AggregateConfiguration"]
+    SnapshotPolicy: Optional[str]
+    StorageEfficiencyEnabled: Optional[str]
+    CopyTagsToBackups: Optional[str]
     OntapVolumeType: Optional[str]
 
     @classmethod
@@ -217,13 +220,16 @@ class OntapConfiguration(BaseModel):
         return cls(
             JunctionPath=json_data.get("JunctionPath"),
             StorageVirtualMachineId=json_data.get("StorageVirtualMachineId"),
-            SnapshotPolicy=json_data.get("SnapshotPolicy"),
             TieringPolicy=TieringPolicy._deserialize(json_data.get("TieringPolicy")),
-            StorageEfficiencyEnabled=json_data.get("StorageEfficiencyEnabled"),
             SizeInMegabytes=json_data.get("SizeInMegabytes"),
-            CopyTagsToBackups=json_data.get("CopyTagsToBackups"),
+            VolumeStyle=json_data.get("VolumeStyle"),
+            SizeInBytes=json_data.get("SizeInBytes"),
             SecurityStyle=json_data.get("SecurityStyle"),
             SnaplockConfiguration=SnaplockConfiguration._deserialize(json_data.get("SnaplockConfiguration")),
+            AggregateConfiguration=AggregateConfiguration._deserialize(json_data.get("AggregateConfiguration")),
+            SnapshotPolicy=json_data.get("SnapshotPolicy"),
+            StorageEfficiencyEnabled=json_data.get("StorageEfficiencyEnabled"),
+            CopyTagsToBackups=json_data.get("CopyTagsToBackups"),
             OntapVolumeType=json_data.get("OntapVolumeType"),
         )
 
@@ -350,6 +356,28 @@ class RetentionPeriod(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _RetentionPeriod = RetentionPeriod
+
+
+@dataclass
+class AggregateConfiguration(BaseModel):
+    Aggregates: Optional[Sequence[str]]
+    ConstituentsPerAggregate: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_AggregateConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_AggregateConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Aggregates=json_data.get("Aggregates"),
+            ConstituentsPerAggregate=json_data.get("ConstituentsPerAggregate"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_AggregateConfiguration = AggregateConfiguration
 
 
 @dataclass

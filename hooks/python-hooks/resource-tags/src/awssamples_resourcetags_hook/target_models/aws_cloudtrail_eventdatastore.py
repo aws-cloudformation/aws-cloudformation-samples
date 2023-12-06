@@ -36,12 +36,15 @@ class AwsCloudtrailEventdatastore(BaseModel):
     MultiRegionEnabled: Optional[bool]
     Name: Optional[str]
     OrganizationEnabled: Optional[bool]
+    BillingMode: Optional[str]
     RetentionPeriod: Optional[int]
     Status: Optional[str]
     TerminationProtectionEnabled: Optional[bool]
     UpdatedTimestamp: Optional[str]
     KmsKeyId: Optional[str]
     Tags: Optional[Any]
+    InsightSelectors: Optional[AbstractSet["_InsightSelector"]]
+    InsightsDestination: Optional[str]
     IngestionEnabled: Optional[bool]
 
     @classmethod
@@ -60,12 +63,15 @@ class AwsCloudtrailEventdatastore(BaseModel):
             MultiRegionEnabled=json_data.get("MultiRegionEnabled"),
             Name=json_data.get("Name"),
             OrganizationEnabled=json_data.get("OrganizationEnabled"),
+            BillingMode=json_data.get("BillingMode"),
             RetentionPeriod=json_data.get("RetentionPeriod"),
             Status=json_data.get("Status"),
             TerminationProtectionEnabled=json_data.get("TerminationProtectionEnabled"),
             UpdatedTimestamp=json_data.get("UpdatedTimestamp"),
             KmsKeyId=json_data.get("KmsKeyId"),
             Tags=json_data.get("Tags"),
+            InsightSelectors=set_or_none(json_data.get("InsightSelectors")),
+            InsightsDestination=json_data.get("InsightsDestination"),
             IngestionEnabled=json_data.get("IngestionEnabled"),
         )
 
@@ -148,5 +154,25 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class InsightSelector(BaseModel):
+    InsightType: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_InsightSelector"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_InsightSelector"]:
+        if not json_data:
+            return None
+        return cls(
+            InsightType=json_data.get("InsightType"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_InsightSelector = InsightSelector
 
 

@@ -34,6 +34,7 @@ class AwsRdsDbinstance(BaseModel):
     AllowMajorVersionUpgrade: Optional[bool]
     AssociatedRoles: Optional[Sequence["_DBInstanceRole"]]
     AutoMinorVersionUpgrade: Optional[bool]
+    AutomaticBackupReplicationRegion: Optional[str]
     AvailabilityZone: Optional[str]
     BackupRetentionPeriod: Optional[int]
     CACertificateIdentifier: Optional[str]
@@ -54,6 +55,7 @@ class AwsRdsDbinstance(BaseModel):
     DBSnapshotIdentifier: Optional[str]
     DBSubnetGroupName: Optional[str]
     DBSystemId: Optional[str]
+    DedicatedLogVolume: Optional[bool]
     DeleteAutomatedBackups: Optional[bool]
     DeletionProtection: Optional[bool]
     Domain: Optional[str]
@@ -122,6 +124,7 @@ class AwsRdsDbinstance(BaseModel):
             AllowMajorVersionUpgrade=json_data.get("AllowMajorVersionUpgrade"),
             AssociatedRoles=deserialize_list(json_data.get("AssociatedRoles"), DBInstanceRole),
             AutoMinorVersionUpgrade=json_data.get("AutoMinorVersionUpgrade"),
+            AutomaticBackupReplicationRegion=json_data.get("AutomaticBackupReplicationRegion"),
             AvailabilityZone=json_data.get("AvailabilityZone"),
             BackupRetentionPeriod=json_data.get("BackupRetentionPeriod"),
             CACertificateIdentifier=json_data.get("CACertificateIdentifier"),
@@ -142,6 +145,7 @@ class AwsRdsDbinstance(BaseModel):
             DBSnapshotIdentifier=json_data.get("DBSnapshotIdentifier"),
             DBSubnetGroupName=json_data.get("DBSubnetGroupName"),
             DBSystemId=json_data.get("DBSystemId"),
+            DedicatedLogVolume=json_data.get("DedicatedLogVolume"),
             DeleteAutomatedBackups=json_data.get("DeleteAutomatedBackups"),
             DeletionProtection=json_data.get("DeletionProtection"),
             Domain=json_data.get("Domain"),

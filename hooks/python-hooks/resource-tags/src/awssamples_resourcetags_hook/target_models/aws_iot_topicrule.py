@@ -88,28 +88,28 @@ _TopicRulePayload = TopicRulePayload
 
 @dataclass
 class Action(BaseModel):
-    S3: Optional["_S3Action"]
     CloudwatchAlarm: Optional["_CloudwatchAlarmAction"]
     CloudwatchLogs: Optional["_CloudwatchLogsAction"]
-    IotEvents: Optional["_IotEventsAction"]
-    Firehose: Optional["_FirehoseAction"]
-    Republish: Optional["_RepublishAction"]
-    StepFunctions: Optional["_StepFunctionsAction"]
-    DynamoDB: Optional["_DynamoDBAction"]
-    Http: Optional["_HttpAction"]
-    DynamoDBv2: Optional["_DynamoDBv2Action"]
     CloudwatchMetric: Optional["_CloudwatchMetricAction"]
-    IotSiteWise: Optional["_IotSiteWiseAction"]
+    DynamoDB: Optional["_DynamoDBAction"]
+    DynamoDBv2: Optional["_DynamoDBv2Action"]
     Elasticsearch: Optional["_ElasticsearchAction"]
-    Sqs: Optional["_SqsAction"]
-    Kinesis: Optional["_KinesisAction"]
+    Firehose: Optional["_FirehoseAction"]
+    Http: Optional["_HttpAction"]
     IotAnalytics: Optional["_IotAnalyticsAction"]
-    Sns: Optional["_SnsAction"]
-    Lambda: Optional["_LambdaAction"]
-    Timestream: Optional["_TimestreamAction"]
+    IotEvents: Optional["_IotEventsAction"]
+    IotSiteWise: Optional["_IotSiteWiseAction"]
     Kafka: Optional["_KafkaAction"]
-    OpenSearch: Optional["_OpenSearchAction"]
+    Kinesis: Optional["_KinesisAction"]
+    Lambda: Optional["_LambdaAction"]
     Location: Optional["_LocationAction"]
+    OpenSearch: Optional["_OpenSearchAction"]
+    Republish: Optional["_RepublishAction"]
+    S3: Optional["_S3Action"]
+    Sns: Optional["_SnsAction"]
+    Sqs: Optional["_SqsAction"]
+    StepFunctions: Optional["_StepFunctionsAction"]
+    Timestream: Optional["_TimestreamAction"]
 
     @classmethod
     def _deserialize(
@@ -119,59 +119,33 @@ class Action(BaseModel):
         if not json_data:
             return None
         return cls(
-            S3=S3Action._deserialize(json_data.get("S3")),
             CloudwatchAlarm=CloudwatchAlarmAction._deserialize(json_data.get("CloudwatchAlarm")),
             CloudwatchLogs=CloudwatchLogsAction._deserialize(json_data.get("CloudwatchLogs")),
-            IotEvents=IotEventsAction._deserialize(json_data.get("IotEvents")),
-            Firehose=FirehoseAction._deserialize(json_data.get("Firehose")),
-            Republish=RepublishAction._deserialize(json_data.get("Republish")),
-            StepFunctions=StepFunctionsAction._deserialize(json_data.get("StepFunctions")),
-            DynamoDB=DynamoDBAction._deserialize(json_data.get("DynamoDB")),
-            Http=HttpAction._deserialize(json_data.get("Http")),
-            DynamoDBv2=DynamoDBv2Action._deserialize(json_data.get("DynamoDBv2")),
             CloudwatchMetric=CloudwatchMetricAction._deserialize(json_data.get("CloudwatchMetric")),
-            IotSiteWise=IotSiteWiseAction._deserialize(json_data.get("IotSiteWise")),
+            DynamoDB=DynamoDBAction._deserialize(json_data.get("DynamoDB")),
+            DynamoDBv2=DynamoDBv2Action._deserialize(json_data.get("DynamoDBv2")),
             Elasticsearch=ElasticsearchAction._deserialize(json_data.get("Elasticsearch")),
-            Sqs=SqsAction._deserialize(json_data.get("Sqs")),
-            Kinesis=KinesisAction._deserialize(json_data.get("Kinesis")),
+            Firehose=FirehoseAction._deserialize(json_data.get("Firehose")),
+            Http=HttpAction._deserialize(json_data.get("Http")),
             IotAnalytics=IotAnalyticsAction._deserialize(json_data.get("IotAnalytics")),
-            Sns=SnsAction._deserialize(json_data.get("Sns")),
-            Lambda=LambdaAction._deserialize(json_data.get("Lambda")),
-            Timestream=TimestreamAction._deserialize(json_data.get("Timestream")),
+            IotEvents=IotEventsAction._deserialize(json_data.get("IotEvents")),
+            IotSiteWise=IotSiteWiseAction._deserialize(json_data.get("IotSiteWise")),
             Kafka=KafkaAction._deserialize(json_data.get("Kafka")),
-            OpenSearch=OpenSearchAction._deserialize(json_data.get("OpenSearch")),
+            Kinesis=KinesisAction._deserialize(json_data.get("Kinesis")),
+            Lambda=LambdaAction._deserialize(json_data.get("Lambda")),
             Location=LocationAction._deserialize(json_data.get("Location")),
+            OpenSearch=OpenSearchAction._deserialize(json_data.get("OpenSearch")),
+            Republish=RepublishAction._deserialize(json_data.get("Republish")),
+            S3=S3Action._deserialize(json_data.get("S3")),
+            Sns=SnsAction._deserialize(json_data.get("Sns")),
+            Sqs=SqsAction._deserialize(json_data.get("Sqs")),
+            StepFunctions=StepFunctionsAction._deserialize(json_data.get("StepFunctions")),
+            Timestream=TimestreamAction._deserialize(json_data.get("Timestream")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _Action = Action
-
-
-@dataclass
-class S3Action(BaseModel):
-    BucketName: Optional[str]
-    Key: Optional[str]
-    RoleArn: Optional[str]
-    CannedAcl: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_S3Action"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_S3Action"]:
-        if not json_data:
-            return None
-        return cls(
-            BucketName=json_data.get("BucketName"),
-            Key=json_data.get("Key"),
-            RoleArn=json_data.get("RoleArn"),
-            CannedAcl=json_data.get("CannedAcl"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_S3Action = S3Action
 
 
 @dataclass
@@ -225,157 +199,33 @@ _CloudwatchLogsAction = CloudwatchLogsAction
 
 
 @dataclass
-class IotEventsAction(BaseModel):
-    InputName: Optional[str]
+class CloudwatchMetricAction(BaseModel):
+    MetricName: Optional[str]
+    MetricValue: Optional[str]
+    MetricNamespace: Optional[str]
+    MetricUnit: Optional[str]
     RoleArn: Optional[str]
-    MessageId: Optional[str]
-    BatchMode: Optional[bool]
+    MetricTimestamp: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_IotEventsAction"],
+        cls: Type["_CloudwatchMetricAction"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_IotEventsAction"]:
+    ) -> Optional["_CloudwatchMetricAction"]:
         if not json_data:
             return None
         return cls(
-            InputName=json_data.get("InputName"),
+            MetricName=json_data.get("MetricName"),
+            MetricValue=json_data.get("MetricValue"),
+            MetricNamespace=json_data.get("MetricNamespace"),
+            MetricUnit=json_data.get("MetricUnit"),
             RoleArn=json_data.get("RoleArn"),
-            MessageId=json_data.get("MessageId"),
-            BatchMode=json_data.get("BatchMode"),
+            MetricTimestamp=json_data.get("MetricTimestamp"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_IotEventsAction = IotEventsAction
-
-
-@dataclass
-class FirehoseAction(BaseModel):
-    DeliveryStreamName: Optional[str]
-    RoleArn: Optional[str]
-    Separator: Optional[str]
-    BatchMode: Optional[bool]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_FirehoseAction"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_FirehoseAction"]:
-        if not json_data:
-            return None
-        return cls(
-            DeliveryStreamName=json_data.get("DeliveryStreamName"),
-            RoleArn=json_data.get("RoleArn"),
-            Separator=json_data.get("Separator"),
-            BatchMode=json_data.get("BatchMode"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_FirehoseAction = FirehoseAction
-
-
-@dataclass
-class RepublishAction(BaseModel):
-    Qos: Optional[int]
-    Topic: Optional[str]
-    RoleArn: Optional[str]
-    Headers: Optional["_RepublishActionHeaders"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_RepublishAction"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_RepublishAction"]:
-        if not json_data:
-            return None
-        return cls(
-            Qos=json_data.get("Qos"),
-            Topic=json_data.get("Topic"),
-            RoleArn=json_data.get("RoleArn"),
-            Headers=RepublishActionHeaders._deserialize(json_data.get("Headers")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_RepublishAction = RepublishAction
-
-
-@dataclass
-class RepublishActionHeaders(BaseModel):
-    PayloadFormatIndicator: Optional[str]
-    ContentType: Optional[str]
-    ResponseTopic: Optional[str]
-    CorrelationData: Optional[str]
-    MessageExpiry: Optional[str]
-    UserProperties: Optional[Sequence["_UserProperty"]]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_RepublishActionHeaders"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_RepublishActionHeaders"]:
-        if not json_data:
-            return None
-        return cls(
-            PayloadFormatIndicator=json_data.get("PayloadFormatIndicator"),
-            ContentType=json_data.get("ContentType"),
-            ResponseTopic=json_data.get("ResponseTopic"),
-            CorrelationData=json_data.get("CorrelationData"),
-            MessageExpiry=json_data.get("MessageExpiry"),
-            UserProperties=deserialize_list(json_data.get("UserProperties"), UserProperty),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_RepublishActionHeaders = RepublishActionHeaders
-
-
-@dataclass
-class UserProperty(BaseModel):
-    Key: Optional[str]
-    Value: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_UserProperty"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_UserProperty"]:
-        if not json_data:
-            return None
-        return cls(
-            Key=json_data.get("Key"),
-            Value=json_data.get("Value"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_UserProperty = UserProperty
-
-
-@dataclass
-class StepFunctionsAction(BaseModel):
-    ExecutionNamePrefix: Optional[str]
-    StateMachineName: Optional[str]
-    RoleArn: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_StepFunctionsAction"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_StepFunctionsAction"]:
-        if not json_data:
-            return None
-        return cls(
-            ExecutionNamePrefix=json_data.get("ExecutionNamePrefix"),
-            StateMachineName=json_data.get("StateMachineName"),
-            RoleArn=json_data.get("RoleArn"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_StepFunctionsAction = StepFunctionsAction
+_CloudwatchMetricAction = CloudwatchMetricAction
 
 
 @dataclass
@@ -412,6 +262,102 @@ class DynamoDBAction(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _DynamoDBAction = DynamoDBAction
+
+
+@dataclass
+class DynamoDBv2Action(BaseModel):
+    PutItem: Optional["_PutItemInput"]
+    RoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DynamoDBv2Action"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DynamoDBv2Action"]:
+        if not json_data:
+            return None
+        return cls(
+            PutItem=PutItemInput._deserialize(json_data.get("PutItem")),
+            RoleArn=json_data.get("RoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DynamoDBv2Action = DynamoDBv2Action
+
+
+@dataclass
+class PutItemInput(BaseModel):
+    TableName: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PutItemInput"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PutItemInput"]:
+        if not json_data:
+            return None
+        return cls(
+            TableName=json_data.get("TableName"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PutItemInput = PutItemInput
+
+
+@dataclass
+class ElasticsearchAction(BaseModel):
+    Type: Optional[str]
+    Index: Optional[str]
+    Id: Optional[str]
+    Endpoint: Optional[str]
+    RoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ElasticsearchAction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ElasticsearchAction"]:
+        if not json_data:
+            return None
+        return cls(
+            Type=json_data.get("Type"),
+            Index=json_data.get("Index"),
+            Id=json_data.get("Id"),
+            Endpoint=json_data.get("Endpoint"),
+            RoleArn=json_data.get("RoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ElasticsearchAction = ElasticsearchAction
+
+
+@dataclass
+class FirehoseAction(BaseModel):
+    DeliveryStreamName: Optional[str]
+    RoleArn: Optional[str]
+    Separator: Optional[str]
+    BatchMode: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_FirehoseAction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_FirehoseAction"]:
+        if not json_data:
+            return None
+        return cls(
+            DeliveryStreamName=json_data.get("DeliveryStreamName"),
+            RoleArn=json_data.get("RoleArn"),
+            Separator=json_data.get("Separator"),
+            BatchMode=json_data.get("BatchMode"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_FirehoseAction = FirehoseAction
 
 
 @dataclass
@@ -507,75 +453,53 @@ _SigV4Authorization = SigV4Authorization
 
 
 @dataclass
-class DynamoDBv2Action(BaseModel):
-    PutItem: Optional["_PutItemInput"]
+class IotAnalyticsAction(BaseModel):
     RoleArn: Optional[str]
+    ChannelName: Optional[str]
+    BatchMode: Optional[bool]
 
     @classmethod
     def _deserialize(
-        cls: Type["_DynamoDBv2Action"],
+        cls: Type["_IotAnalyticsAction"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_DynamoDBv2Action"]:
+    ) -> Optional["_IotAnalyticsAction"]:
         if not json_data:
             return None
         return cls(
-            PutItem=PutItemInput._deserialize(json_data.get("PutItem")),
             RoleArn=json_data.get("RoleArn"),
+            ChannelName=json_data.get("ChannelName"),
+            BatchMode=json_data.get("BatchMode"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_DynamoDBv2Action = DynamoDBv2Action
+_IotAnalyticsAction = IotAnalyticsAction
 
 
 @dataclass
-class PutItemInput(BaseModel):
-    TableName: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_PutItemInput"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_PutItemInput"]:
-        if not json_data:
-            return None
-        return cls(
-            TableName=json_data.get("TableName"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_PutItemInput = PutItemInput
-
-
-@dataclass
-class CloudwatchMetricAction(BaseModel):
-    MetricName: Optional[str]
-    MetricValue: Optional[str]
-    MetricNamespace: Optional[str]
-    MetricUnit: Optional[str]
+class IotEventsAction(BaseModel):
+    InputName: Optional[str]
     RoleArn: Optional[str]
-    MetricTimestamp: Optional[str]
+    MessageId: Optional[str]
+    BatchMode: Optional[bool]
 
     @classmethod
     def _deserialize(
-        cls: Type["_CloudwatchMetricAction"],
+        cls: Type["_IotEventsAction"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_CloudwatchMetricAction"]:
+    ) -> Optional["_IotEventsAction"]:
         if not json_data:
             return None
         return cls(
-            MetricName=json_data.get("MetricName"),
-            MetricValue=json_data.get("MetricValue"),
-            MetricNamespace=json_data.get("MetricNamespace"),
-            MetricUnit=json_data.get("MetricUnit"),
+            InputName=json_data.get("InputName"),
             RoleArn=json_data.get("RoleArn"),
-            MetricTimestamp=json_data.get("MetricTimestamp"),
+            MessageId=json_data.get("MessageId"),
+            BatchMode=json_data.get("BatchMode"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_CloudwatchMetricAction = CloudwatchMetricAction
+_IotEventsAction = IotEventsAction
 
 
 @dataclass
@@ -701,55 +625,55 @@ _AssetPropertyTimestamp = AssetPropertyTimestamp
 
 
 @dataclass
-class ElasticsearchAction(BaseModel):
-    Type: Optional[str]
-    Index: Optional[str]
-    Id: Optional[str]
-    Endpoint: Optional[str]
-    RoleArn: Optional[str]
+class KafkaAction(BaseModel):
+    DestinationArn: Optional[str]
+    Topic: Optional[str]
+    Key: Optional[str]
+    Partition: Optional[str]
+    ClientProperties: Optional[MutableMapping[str, str]]
+    Headers: Optional[Sequence["_KafkaActionHeader"]]
 
     @classmethod
     def _deserialize(
-        cls: Type["_ElasticsearchAction"],
+        cls: Type["_KafkaAction"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ElasticsearchAction"]:
+    ) -> Optional["_KafkaAction"]:
         if not json_data:
             return None
         return cls(
-            Type=json_data.get("Type"),
-            Index=json_data.get("Index"),
-            Id=json_data.get("Id"),
-            Endpoint=json_data.get("Endpoint"),
-            RoleArn=json_data.get("RoleArn"),
+            DestinationArn=json_data.get("DestinationArn"),
+            Topic=json_data.get("Topic"),
+            Key=json_data.get("Key"),
+            Partition=json_data.get("Partition"),
+            ClientProperties=json_data.get("ClientProperties"),
+            Headers=deserialize_list(json_data.get("Headers"), KafkaActionHeader),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_ElasticsearchAction = ElasticsearchAction
+_KafkaAction = KafkaAction
 
 
 @dataclass
-class SqsAction(BaseModel):
-    RoleArn: Optional[str]
-    UseBase64: Optional[bool]
-    QueueUrl: Optional[str]
+class KafkaActionHeader(BaseModel):
+    Value: Optional[str]
+    Key: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_SqsAction"],
+        cls: Type["_KafkaActionHeader"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_SqsAction"]:
+    ) -> Optional["_KafkaActionHeader"]:
         if not json_data:
             return None
         return cls(
-            RoleArn=json_data.get("RoleArn"),
-            UseBase64=json_data.get("UseBase64"),
-            QueueUrl=json_data.get("QueueUrl"),
+            Value=json_data.get("Value"),
+            Key=json_data.get("Key"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_SqsAction = SqsAction
+_KafkaActionHeader = KafkaActionHeader
 
 
 @dataclass
@@ -777,27 +701,207 @@ _KinesisAction = KinesisAction
 
 
 @dataclass
-class IotAnalyticsAction(BaseModel):
-    RoleArn: Optional[str]
-    ChannelName: Optional[str]
-    BatchMode: Optional[bool]
+class LambdaAction(BaseModel):
+    FunctionArn: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_IotAnalyticsAction"],
+        cls: Type["_LambdaAction"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_IotAnalyticsAction"]:
+    ) -> Optional["_LambdaAction"]:
         if not json_data:
             return None
         return cls(
-            RoleArn=json_data.get("RoleArn"),
-            ChannelName=json_data.get("ChannelName"),
-            BatchMode=json_data.get("BatchMode"),
+            FunctionArn=json_data.get("FunctionArn"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_IotAnalyticsAction = IotAnalyticsAction
+_LambdaAction = LambdaAction
+
+
+@dataclass
+class LocationAction(BaseModel):
+    RoleArn: Optional[str]
+    TrackerName: Optional[str]
+    DeviceId: Optional[str]
+    Latitude: Optional[str]
+    Longitude: Optional[str]
+    Timestamp: Optional["_Timestamp"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LocationAction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LocationAction"]:
+        if not json_data:
+            return None
+        return cls(
+            RoleArn=json_data.get("RoleArn"),
+            TrackerName=json_data.get("TrackerName"),
+            DeviceId=json_data.get("DeviceId"),
+            Latitude=json_data.get("Latitude"),
+            Longitude=json_data.get("Longitude"),
+            Timestamp=Timestamp._deserialize(json_data.get("Timestamp")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LocationAction = LocationAction
+
+
+@dataclass
+class Timestamp(BaseModel):
+    Value: Optional[str]
+    Unit: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Timestamp"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Timestamp"]:
+        if not json_data:
+            return None
+        return cls(
+            Value=json_data.get("Value"),
+            Unit=json_data.get("Unit"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Timestamp = Timestamp
+
+
+@dataclass
+class OpenSearchAction(BaseModel):
+    Type: Optional[str]
+    Index: Optional[str]
+    Id: Optional[str]
+    Endpoint: Optional[str]
+    RoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_OpenSearchAction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_OpenSearchAction"]:
+        if not json_data:
+            return None
+        return cls(
+            Type=json_data.get("Type"),
+            Index=json_data.get("Index"),
+            Id=json_data.get("Id"),
+            Endpoint=json_data.get("Endpoint"),
+            RoleArn=json_data.get("RoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_OpenSearchAction = OpenSearchAction
+
+
+@dataclass
+class RepublishAction(BaseModel):
+    Qos: Optional[int]
+    Topic: Optional[str]
+    RoleArn: Optional[str]
+    Headers: Optional["_RepublishActionHeaders"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RepublishAction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RepublishAction"]:
+        if not json_data:
+            return None
+        return cls(
+            Qos=json_data.get("Qos"),
+            Topic=json_data.get("Topic"),
+            RoleArn=json_data.get("RoleArn"),
+            Headers=RepublishActionHeaders._deserialize(json_data.get("Headers")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RepublishAction = RepublishAction
+
+
+@dataclass
+class RepublishActionHeaders(BaseModel):
+    PayloadFormatIndicator: Optional[str]
+    ContentType: Optional[str]
+    ResponseTopic: Optional[str]
+    CorrelationData: Optional[str]
+    MessageExpiry: Optional[str]
+    UserProperties: Optional[Sequence["_UserProperty"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_RepublishActionHeaders"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_RepublishActionHeaders"]:
+        if not json_data:
+            return None
+        return cls(
+            PayloadFormatIndicator=json_data.get("PayloadFormatIndicator"),
+            ContentType=json_data.get("ContentType"),
+            ResponseTopic=json_data.get("ResponseTopic"),
+            CorrelationData=json_data.get("CorrelationData"),
+            MessageExpiry=json_data.get("MessageExpiry"),
+            UserProperties=deserialize_list(json_data.get("UserProperties"), UserProperty),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_RepublishActionHeaders = RepublishActionHeaders
+
+
+@dataclass
+class UserProperty(BaseModel):
+    Key: Optional[str]
+    Value: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_UserProperty"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_UserProperty"]:
+        if not json_data:
+            return None
+        return cls(
+            Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_UserProperty = UserProperty
+
+
+@dataclass
+class S3Action(BaseModel):
+    BucketName: Optional[str]
+    Key: Optional[str]
+    RoleArn: Optional[str]
+    CannedAcl: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_S3Action"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_S3Action"]:
+        if not json_data:
+            return None
+        return cls(
+            BucketName=json_data.get("BucketName"),
+            Key=json_data.get("Key"),
+            RoleArn=json_data.get("RoleArn"),
+            CannedAcl=json_data.get("CannedAcl"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_S3Action = S3Action
 
 
 @dataclass
@@ -825,23 +929,51 @@ _SnsAction = SnsAction
 
 
 @dataclass
-class LambdaAction(BaseModel):
-    FunctionArn: Optional[str]
+class SqsAction(BaseModel):
+    RoleArn: Optional[str]
+    UseBase64: Optional[bool]
+    QueueUrl: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_LambdaAction"],
+        cls: Type["_SqsAction"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_LambdaAction"]:
+    ) -> Optional["_SqsAction"]:
         if not json_data:
             return None
         return cls(
-            FunctionArn=json_data.get("FunctionArn"),
+            RoleArn=json_data.get("RoleArn"),
+            UseBase64=json_data.get("UseBase64"),
+            QueueUrl=json_data.get("QueueUrl"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_LambdaAction = LambdaAction
+_SqsAction = SqsAction
+
+
+@dataclass
+class StepFunctionsAction(BaseModel):
+    ExecutionNamePrefix: Optional[str]
+    StateMachineName: Optional[str]
+    RoleArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_StepFunctionsAction"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_StepFunctionsAction"]:
+        if not json_data:
+            return None
+        return cls(
+            ExecutionNamePrefix=json_data.get("ExecutionNamePrefix"),
+            StateMachineName=json_data.get("StateMachineName"),
+            RoleArn=json_data.get("RoleArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_StepFunctionsAction = StepFunctionsAction
 
 
 @dataclass
@@ -914,114 +1046,6 @@ class TimestreamTimestamp(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _TimestreamTimestamp = TimestreamTimestamp
-
-
-@dataclass
-class KafkaAction(BaseModel):
-    DestinationArn: Optional[str]
-    Topic: Optional[str]
-    Key: Optional[str]
-    Partition: Optional[str]
-    ClientProperties: Optional[MutableMapping[str, str]]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_KafkaAction"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_KafkaAction"]:
-        if not json_data:
-            return None
-        return cls(
-            DestinationArn=json_data.get("DestinationArn"),
-            Topic=json_data.get("Topic"),
-            Key=json_data.get("Key"),
-            Partition=json_data.get("Partition"),
-            ClientProperties=json_data.get("ClientProperties"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_KafkaAction = KafkaAction
-
-
-@dataclass
-class OpenSearchAction(BaseModel):
-    Type: Optional[str]
-    Index: Optional[str]
-    Id: Optional[str]
-    Endpoint: Optional[str]
-    RoleArn: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_OpenSearchAction"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_OpenSearchAction"]:
-        if not json_data:
-            return None
-        return cls(
-            Type=json_data.get("Type"),
-            Index=json_data.get("Index"),
-            Id=json_data.get("Id"),
-            Endpoint=json_data.get("Endpoint"),
-            RoleArn=json_data.get("RoleArn"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_OpenSearchAction = OpenSearchAction
-
-
-@dataclass
-class LocationAction(BaseModel):
-    RoleArn: Optional[str]
-    TrackerName: Optional[str]
-    DeviceId: Optional[str]
-    Latitude: Optional[str]
-    Longitude: Optional[str]
-    Timestamp: Optional["_Timestamp"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_LocationAction"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_LocationAction"]:
-        if not json_data:
-            return None
-        return cls(
-            RoleArn=json_data.get("RoleArn"),
-            TrackerName=json_data.get("TrackerName"),
-            DeviceId=json_data.get("DeviceId"),
-            Latitude=json_data.get("Latitude"),
-            Longitude=json_data.get("Longitude"),
-            Timestamp=Timestamp._deserialize(json_data.get("Timestamp")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_LocationAction = LocationAction
-
-
-@dataclass
-class Timestamp(BaseModel):
-    Value: Optional[str]
-    Unit: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Timestamp"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Timestamp"]:
-        if not json_data:
-            return None
-        return cls(
-            Value=json_data.get("Value"),
-            Unit=json_data.get("Unit"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Timestamp = Timestamp
 
 
 @dataclass

@@ -31,20 +31,19 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsElasticloadbalancingv2Loadbalancer(BaseModel):
     IpAddressType: Optional[str]
-    SecurityGroups: Optional[Sequence[str]]
-    LoadBalancerAttributes: Optional[Sequence["_LoadBalancerAttribute"]]
+    SecurityGroups: Optional[AbstractSet[str]]
+    LoadBalancerAttributes: Optional[AbstractSet["_LoadBalancerAttribute"]]
     Scheme: Optional[str]
     DNSName: Optional[str]
     Name: Optional[str]
     LoadBalancerName: Optional[str]
-    Subnets: Optional[Sequence[str]]
+    Subnets: Optional[AbstractSet[str]]
     Type: Optional[str]
     CanonicalHostedZoneID: Optional[str]
     LoadBalancerArn: Optional[str]
-    Id: Optional[str]
     Tags: Optional[Any]
     LoadBalancerFullName: Optional[str]
-    SubnetMappings: Optional[Sequence["_SubnetMapping"]]
+    SubnetMappings: Optional[AbstractSet["_SubnetMapping"]]
 
     @classmethod
     def _deserialize(
@@ -57,20 +56,19 @@ class AwsElasticloadbalancingv2Loadbalancer(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             IpAddressType=json_data.get("IpAddressType"),
-            SecurityGroups=json_data.get("SecurityGroups"),
-            LoadBalancerAttributes=deserialize_list(json_data.get("LoadBalancerAttributes"), LoadBalancerAttribute),
+            SecurityGroups=set_or_none(json_data.get("SecurityGroups")),
+            LoadBalancerAttributes=set_or_none(json_data.get("LoadBalancerAttributes")),
             Scheme=json_data.get("Scheme"),
             DNSName=json_data.get("DNSName"),
             Name=json_data.get("Name"),
             LoadBalancerName=json_data.get("LoadBalancerName"),
-            Subnets=json_data.get("Subnets"),
+            Subnets=set_or_none(json_data.get("Subnets")),
             Type=json_data.get("Type"),
             CanonicalHostedZoneID=json_data.get("CanonicalHostedZoneID"),
             LoadBalancerArn=json_data.get("LoadBalancerArn"),
-            Id=json_data.get("Id"),
             Tags=json_data.get("Tags"),
             LoadBalancerFullName=json_data.get("LoadBalancerFullName"),
-            SubnetMappings=deserialize_list(json_data.get("SubnetMappings"), SubnetMapping),
+            SubnetMappings=set_or_none(json_data.get("SubnetMappings")),
         )
 
 
@@ -124,9 +122,9 @@ _Tag = Tag
 
 @dataclass
 class SubnetMapping(BaseModel):
+    AllocationId: Optional[str]
     IPv6Address: Optional[str]
     SubnetId: Optional[str]
-    AllocationId: Optional[str]
     PrivateIPv4Address: Optional[str]
 
     @classmethod
@@ -137,9 +135,9 @@ class SubnetMapping(BaseModel):
         if not json_data:
             return None
         return cls(
+            AllocationId=json_data.get("AllocationId"),
             IPv6Address=json_data.get("IPv6Address"),
             SubnetId=json_data.get("SubnetId"),
-            AllocationId=json_data.get("AllocationId"),
             PrivateIPv4Address=json_data.get("PrivateIPv4Address"),
         )
 
