@@ -2,7 +2,7 @@
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::EC2InstanceTypes::Hook",
     "language": "java",
-    "runtime": "java8",
+    "runtime": "java11",
     "entrypoint": "com.awssamples.ec2instancetypes.hook.HookHandlerWrapper::handleRequest",
     "testEntrypoint": "com.awssamples.ec2instancetypes.hook.HookHandlerWrapper::testEntrypoint",
     "settings": {

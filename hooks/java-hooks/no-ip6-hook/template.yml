@@ -12,13 +12,13 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.awssamples.noip6.hook.HookHandlerWrapper::handleRequest
-      Runtime: java8
+      Runtime: java11
       CodeUri: ./target/awssamples-noip6-hook-handler-1.0-SNAPSHOT.jar
 
   TestEntrypoint:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.awssamples.noip6.hook.HookHandlerWrapper::testEntrypoint
-      Runtime: java8
+      Runtime: java11
       CodeUri: ./target/awssamples-noip6-hook-handler-1.0-SNAPSHOT.jar
 

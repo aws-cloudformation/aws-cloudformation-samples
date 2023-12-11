@@ -2,7 +2,7 @@
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::EFSEncrypt::Hook",
     "language": "java",
-    "runtime": "java8",
+    "runtime": "java11",
     "entrypoint": "com.awssamples.efsencrypt.hook.HookHandlerWrapper::handleRequest",
     "testEntrypoint": "com.awssamples.efsencrypt.hook.HookHandlerWrapper::testEntrypoint",
     "settings": {

@@ -1,8 +1,8 @@
 {
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::IAMPrincipalBoundary::Hook",
-    "language": "python37",
-    "runtime": "python3.7",
+    "language": "python39",
+    "runtime": "python3.9",
     "entrypoint": "awssamples_iamprincipalboundary_hook.handlers.hook",
     "testEntrypoint": "awssamples_iamprincipalboundary_hook.handlers.test_entrypoint",
     "settings": {

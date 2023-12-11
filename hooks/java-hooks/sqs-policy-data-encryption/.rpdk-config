@@ -2,7 +2,7 @@
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::SQSPolicyEncryption::Hook",
     "language": "java",
-    "runtime": "java8",
+    "runtime": "java11",
     "entrypoint": "com.awssamples.sqspolicyencryption.hook.HookHandlerWrapper::handleRequest",
     "testEntrypoint": "com.awssamples.sqspolicyencryption.hook.HookHandlerWrapper::testEntrypoint",
     "settings": {
