@@ -1,8 +1,8 @@
 {
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::EksClusterLogging::Hook",
-    "language": "python37",
-    "runtime": "python3.7",
+    "language": "python39",
+    "runtime": "python3.9",
     "entrypoint": "awssamples_eksclusterlogging_hook.handlers.hook",
     "testEntrypoint": "awssamples_eksclusterlogging_hook.handlers.test_entrypoint",
     "settings": {

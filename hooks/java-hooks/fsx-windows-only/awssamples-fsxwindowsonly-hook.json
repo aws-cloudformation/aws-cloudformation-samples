@@ -1,8 +1,8 @@
 {
     "typeName": "AWSSamples::FSxWindowsOnly::Hook",
     "description": "Example hook to check that the type of Amazon FSx file system is WINDOWS.",
-    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/fsx-winows-only",
-    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/fsx-winows-only/README.md",
+    "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/hooks/java-hooks/fsx-windows-only",
+    "documentationUrl": "https://github.com/aws-cloudformation/aws-cloudformation-samples/blob/main/hooks/java-hooks/fsx-windows-only/README.md",
     "typeConfiguration": {
         "properties": {},
         "additionalProperties": false

@@ -2,7 +2,7 @@
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::FSxWindowsOnly::Hook",
     "language": "java",
-    "runtime": "java8",
+    "runtime": "java11",
     "entrypoint": "com.awssamples.fsxwindowsonly.hook.HookHandlerWrapper::handleRequest",
     "testEntrypoint": "com.awssamples.fsxwindowsonly.hook.HookHandlerWrapper::testEntrypoint",
     "settings": {

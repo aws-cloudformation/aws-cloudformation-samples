@@ -2,7 +2,7 @@
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::SQSNonPublic::Hook",
     "language": "java",
-    "runtime": "java8",
+    "runtime": "java11",
     "entrypoint": "com.awssamples.sqsnonpublic.hook.HookHandlerWrapper::handleRequest",
     "testEntrypoint": "com.awssamples.sqsnonpublic.hook.HookHandlerWrapper::testEntrypoint",
     "settings": {

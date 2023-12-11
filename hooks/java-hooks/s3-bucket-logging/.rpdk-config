@@ -2,7 +2,7 @@
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::S3BucketLoggingCompliance::Hook",
     "language": "java",
-    "runtime": "java8",
+    "runtime": "java11",
     "entrypoint": "com.awssamples.s3bucketloggingcompliance.hook.HookHandlerWrapper::handleRequest",
     "testEntrypoint": "com.awssamples.s3bucketloggingcompliance.hook.HookHandlerWrapper::testEntrypoint",
     "settings": {

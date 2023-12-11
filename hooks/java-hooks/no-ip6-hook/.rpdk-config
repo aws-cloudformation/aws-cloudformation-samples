@@ -2,7 +2,7 @@
     "artifact_type": "HOOK",
     "typeName": "AWSSamples::NoIP6::Hook",
     "language": "java",
-    "runtime": "java8",
+    "runtime": "java11",
     "entrypoint": "com.awssamples.noip6.hook.HookHandlerWrapper::handleRequest",
     "testEntrypoint": "com.awssamples.noip6.hook.HookHandlerWrapper::testEntrypoint",
     "settings": {
