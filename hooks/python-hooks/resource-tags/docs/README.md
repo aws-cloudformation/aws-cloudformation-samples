@@ -103,6 +103,10 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Athena::WorkGroup`
 * `AWS::AuditManager::Assessment`
 * `AWS::AutoScaling::AutoScalingGroup`
+* `AWS::B2BI::Capability`
+* `AWS::B2BI::Partnership`
+* `AWS::B2BI::Profile`
+* `AWS::B2BI::Transformer`
 * `AWS::Backup::BackupPlan`
 * `AWS::Backup::BackupVault`
 * `AWS::Backup::Framework`
@@ -161,6 +165,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Connect::ContactFlowModule`
 * `AWS::Connect::EvaluationForm`
 * `AWS::Connect::HoursOfOperation`
+* `AWS::Connect::Instance`
 * `AWS::Connect::PhoneNumber`
 * `AWS::Connect::Prompt`
 * `AWS::Connect::Queue`
@@ -182,8 +187,11 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::CustomerProfiles::ObjectType`
 * `AWS::DAX::Cluster`
 * `AWS::DLM::LifecyclePolicy`
+* `AWS::DMS::DataProvider`
 * `AWS::DMS::Endpoint`
 * `AWS::DMS::EventSubscription`
+* `AWS::DMS::InstanceProfile`
+* `AWS::DMS::MigrationProject`
 * `AWS::DMS::ReplicationConfig`
 * `AWS::DMS::ReplicationInstance`
 * `AWS::DMS::ReplicationSubnetGroup`
@@ -277,6 +285,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ECS::TaskDefinition`
 * `AWS::EFS::AccessPoint`
 * `AWS::EFS::FileSystem`
+* `AWS::EKS::AccessEntry`
 * `AWS::EKS::Addon`
 * `AWS::EKS::Cluster`
 * `AWS::EKS::FargateProfile`
@@ -386,11 +395,13 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ImageBuilder::ImageRecipe`
 * `AWS::ImageBuilder::InfrastructureConfiguration`
 * `AWS::ImageBuilder::LifecyclePolicy`
+* `AWS::ImageBuilder::Workflow`
 * `AWS::Inspector::ResourceGroup`
 * `AWS::InternetMonitor::Monitor`
 * `AWS::IoT::Authorizer`
 * `AWS::IoT::BillingGroup`
 * `AWS::IoT::CACertificate`
+* `AWS::IoT::CertificateProvider`
 * `AWS::IoT::CustomMetric`
 * `AWS::IoT::Dimension`
 * `AWS::IoT::DomainConfiguration`
@@ -516,6 +527,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::NetworkFirewall::Firewall`
 * `AWS::NetworkFirewall::FirewallPolicy`
 * `AWS::NetworkFirewall::RuleGroup`
+* `AWS::NetworkFirewall::TLSInspectionConfiguration`
 * `AWS::NetworkManager::ConnectAttachment`
 * `AWS::NetworkManager::ConnectPeer`
 * `AWS::NetworkManager::CoreNetwork`

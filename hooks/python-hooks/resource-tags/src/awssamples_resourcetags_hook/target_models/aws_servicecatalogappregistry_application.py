@@ -35,6 +35,9 @@ class AwsServicecatalogappregistryApplication(BaseModel):
     Name: Optional[str]
     Description: Optional[str]
     Tags: Optional[Any]
+    ApplicationTagKey: Optional[str]
+    ApplicationTagValue: Optional[str]
+    ApplicationName: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -51,6 +54,9 @@ class AwsServicecatalogappregistryApplication(BaseModel):
             Name=json_data.get("Name"),
             Description=json_data.get("Description"),
             Tags=json_data.get("Tags"),
+            ApplicationTagKey=json_data.get("ApplicationTagKey"),
+            ApplicationTagValue=json_data.get("ApplicationTagValue"),
+            ApplicationName=json_data.get("ApplicationName"),
         )
 
 

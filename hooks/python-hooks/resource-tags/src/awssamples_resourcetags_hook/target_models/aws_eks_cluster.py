@@ -30,21 +30,22 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsEksCluster(BaseModel):
-    Logging: Optional["_Logging"]
-    EncryptionConfigKeyArn: Optional[str]
-    CertificateAuthorityData: Optional[str]
     EncryptionConfig: Optional[Sequence["_EncryptionConfig"]]
     KubernetesNetworkConfig: Optional["_KubernetesNetworkConfig"]
-    RoleArn: Optional[str]
+    Logging: Optional["_Logging"]
     Name: Optional[str]
-    Endpoint: Optional[str]
-    Version: Optional[str]
-    ClusterSecurityGroupId: Optional[str]
     Id: Optional[str]
-    OutpostConfig: Optional["_OutpostConfig"]
-    Arn: Optional[str]
     ResourcesVpcConfig: Optional["_ResourcesVpcConfig"]
+    OutpostConfig: Optional["_OutpostConfig"]
+    AccessConfig: Optional["_AccessConfig"]
+    RoleArn: Optional[str]
+    Version: Optional[str]
     Tags: Optional[Any]
+    Arn: Optional[str]
+    Endpoint: Optional[str]
+    CertificateAuthorityData: Optional[str]
+    ClusterSecurityGroupId: Optional[str]
+    EncryptionConfigKeyArn: Optional[str]
     OpenIdConnectIssuerUrl: Optional[str]
 
     @classmethod
@@ -57,27 +58,94 @@ class AwsEksCluster(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Logging=Logging._deserialize(json_data.get("Logging")),
-            EncryptionConfigKeyArn=json_data.get("EncryptionConfigKeyArn"),
-            CertificateAuthorityData=json_data.get("CertificateAuthorityData"),
             EncryptionConfig=deserialize_list(json_data.get("EncryptionConfig"), EncryptionConfig),
             KubernetesNetworkConfig=KubernetesNetworkConfig._deserialize(json_data.get("KubernetesNetworkConfig")),
-            RoleArn=json_data.get("RoleArn"),
+            Logging=Logging._deserialize(json_data.get("Logging")),
             Name=json_data.get("Name"),
-            Endpoint=json_data.get("Endpoint"),
-            Version=json_data.get("Version"),
-            ClusterSecurityGroupId=json_data.get("ClusterSecurityGroupId"),
             Id=json_data.get("Id"),
-            OutpostConfig=OutpostConfig._deserialize(json_data.get("OutpostConfig")),
-            Arn=json_data.get("Arn"),
             ResourcesVpcConfig=ResourcesVpcConfig._deserialize(json_data.get("ResourcesVpcConfig")),
+            OutpostConfig=OutpostConfig._deserialize(json_data.get("OutpostConfig")),
+            AccessConfig=AccessConfig._deserialize(json_data.get("AccessConfig")),
+            RoleArn=json_data.get("RoleArn"),
+            Version=json_data.get("Version"),
             Tags=json_data.get("Tags"),
+            Arn=json_data.get("Arn"),
+            Endpoint=json_data.get("Endpoint"),
+            CertificateAuthorityData=json_data.get("CertificateAuthorityData"),
+            ClusterSecurityGroupId=json_data.get("ClusterSecurityGroupId"),
+            EncryptionConfigKeyArn=json_data.get("EncryptionConfigKeyArn"),
             OpenIdConnectIssuerUrl=json_data.get("OpenIdConnectIssuerUrl"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _AwsEksCluster = AwsEksCluster
+
+
+@dataclass
+class EncryptionConfig(BaseModel):
+    Provider: Optional["_Provider"]
+    Resources: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EncryptionConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EncryptionConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            Provider=Provider._deserialize(json_data.get("Provider")),
+            Resources=json_data.get("Resources"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EncryptionConfig = EncryptionConfig
+
+
+@dataclass
+class Provider(BaseModel):
+    KeyArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Provider"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Provider"]:
+        if not json_data:
+            return None
+        return cls(
+            KeyArn=json_data.get("KeyArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Provider = Provider
+
+
+@dataclass
+class KubernetesNetworkConfig(BaseModel):
+    ServiceIpv4Cidr: Optional[str]
+    ServiceIpv6Cidr: Optional[str]
+    IpFamily: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_KubernetesNetworkConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_KubernetesNetworkConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            ServiceIpv4Cidr=json_data.get("ServiceIpv4Cidr"),
+            ServiceIpv6Cidr=json_data.get("ServiceIpv6Cidr"),
+            IpFamily=json_data.get("IpFamily"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_KubernetesNetworkConfig = KubernetesNetworkConfig
 
 
 @dataclass
@@ -141,76 +209,38 @@ _LoggingTypeConfig = LoggingTypeConfig
 
 
 @dataclass
-class EncryptionConfig(BaseModel):
-    Resources: Optional[Sequence[str]]
-    Provider: Optional["_Provider"]
+class ResourcesVpcConfig(BaseModel):
+    EndpointPrivateAccess: Optional[bool]
+    EndpointPublicAccess: Optional[bool]
+    PublicAccessCidrs: Optional[Sequence[str]]
+    SecurityGroupIds: Optional[Sequence[str]]
+    SubnetIds: Optional[Sequence[str]]
 
     @classmethod
     def _deserialize(
-        cls: Type["_EncryptionConfig"],
+        cls: Type["_ResourcesVpcConfig"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EncryptionConfig"]:
+    ) -> Optional["_ResourcesVpcConfig"]:
         if not json_data:
             return None
         return cls(
-            Resources=json_data.get("Resources"),
-            Provider=Provider._deserialize(json_data.get("Provider")),
+            EndpointPrivateAccess=json_data.get("EndpointPrivateAccess"),
+            EndpointPublicAccess=json_data.get("EndpointPublicAccess"),
+            PublicAccessCidrs=json_data.get("PublicAccessCidrs"),
+            SecurityGroupIds=json_data.get("SecurityGroupIds"),
+            SubnetIds=json_data.get("SubnetIds"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_EncryptionConfig = EncryptionConfig
-
-
-@dataclass
-class Provider(BaseModel):
-    KeyArn: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Provider"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Provider"]:
-        if not json_data:
-            return None
-        return cls(
-            KeyArn=json_data.get("KeyArn"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Provider = Provider
-
-
-@dataclass
-class KubernetesNetworkConfig(BaseModel):
-    ServiceIpv4Cidr: Optional[str]
-    ServiceIpv6Cidr: Optional[str]
-    IpFamily: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_KubernetesNetworkConfig"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_KubernetesNetworkConfig"]:
-        if not json_data:
-            return None
-        return cls(
-            ServiceIpv4Cidr=json_data.get("ServiceIpv4Cidr"),
-            ServiceIpv6Cidr=json_data.get("ServiceIpv6Cidr"),
-            IpFamily=json_data.get("IpFamily"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_KubernetesNetworkConfig = KubernetesNetworkConfig
+_ResourcesVpcConfig = ResourcesVpcConfig
 
 
 @dataclass
 class OutpostConfig(BaseModel):
     OutpostArns: Optional[Sequence[str]]
-    ControlPlanePlacement: Optional["_ControlPlanePlacement"]
     ControlPlaneInstanceType: Optional[str]
+    ControlPlanePlacement: Optional["_ControlPlanePlacement"]
 
     @classmethod
     def _deserialize(
@@ -221,8 +251,8 @@ class OutpostConfig(BaseModel):
             return None
         return cls(
             OutpostArns=json_data.get("OutpostArns"),
-            ControlPlanePlacement=ControlPlanePlacement._deserialize(json_data.get("ControlPlanePlacement")),
             ControlPlaneInstanceType=json_data.get("ControlPlaneInstanceType"),
+            ControlPlanePlacement=ControlPlanePlacement._deserialize(json_data.get("ControlPlanePlacement")),
         )
 
 
@@ -251,37 +281,31 @@ _ControlPlanePlacement = ControlPlanePlacement
 
 
 @dataclass
-class ResourcesVpcConfig(BaseModel):
-    EndpointPublicAccess: Optional[bool]
-    PublicAccessCidrs: Optional[Sequence[str]]
-    EndpointPrivateAccess: Optional[bool]
-    SecurityGroupIds: Optional[Sequence[str]]
-    SubnetIds: Optional[Sequence[str]]
+class AccessConfig(BaseModel):
+    BootstrapClusterCreatorAdminPermissions: Optional[bool]
+    AuthenticationMode: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_ResourcesVpcConfig"],
+        cls: Type["_AccessConfig"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ResourcesVpcConfig"]:
+    ) -> Optional["_AccessConfig"]:
         if not json_data:
             return None
         return cls(
-            EndpointPublicAccess=json_data.get("EndpointPublicAccess"),
-            PublicAccessCidrs=json_data.get("PublicAccessCidrs"),
-            EndpointPrivateAccess=json_data.get("EndpointPrivateAccess"),
-            SecurityGroupIds=json_data.get("SecurityGroupIds"),
-            SubnetIds=json_data.get("SubnetIds"),
+            BootstrapClusterCreatorAdminPermissions=json_data.get("BootstrapClusterCreatorAdminPermissions"),
+            AuthenticationMode=json_data.get("AuthenticationMode"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_ResourcesVpcConfig = ResourcesVpcConfig
+_AccessConfig = AccessConfig
 
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -291,8 +315,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

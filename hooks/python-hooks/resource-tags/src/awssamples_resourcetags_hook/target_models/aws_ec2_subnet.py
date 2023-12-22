@@ -37,10 +37,8 @@ class AwsEc2Subnet(BaseModel):
     AvailabilityZone: Optional[str]
     CidrBlock: Optional[str]
     SubnetId: Optional[str]
-    Ipv6NetmaskLength: Optional[int]
     AssignIpv6AddressOnCreation: Optional[bool]
     VpcId: Optional[str]
-    Ipv4NetmaskLength: Optional[int]
     NetworkAclAssociationId: Optional[str]
     PrivateDnsNameOptionsOnLaunch: Optional["_PrivateDnsNameOptionsOnLaunch"]
     Ipv6Native: Optional[bool]
@@ -65,10 +63,8 @@ class AwsEc2Subnet(BaseModel):
             AvailabilityZone=json_data.get("AvailabilityZone"),
             CidrBlock=json_data.get("CidrBlock"),
             SubnetId=json_data.get("SubnetId"),
-            Ipv6NetmaskLength=json_data.get("Ipv6NetmaskLength"),
             AssignIpv6AddressOnCreation=json_data.get("AssignIpv6AddressOnCreation"),
             VpcId=json_data.get("VpcId"),
-            Ipv4NetmaskLength=json_data.get("Ipv4NetmaskLength"),
             NetworkAclAssociationId=json_data.get("NetworkAclAssociationId"),
             PrivateDnsNameOptionsOnLaunch=PrivateDnsNameOptionsOnLaunch._deserialize(json_data.get("PrivateDnsNameOptionsOnLaunch")),
             Ipv6Native=json_data.get("Ipv6Native"),

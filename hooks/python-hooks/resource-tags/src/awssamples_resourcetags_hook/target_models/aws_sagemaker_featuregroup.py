@@ -96,6 +96,7 @@ _FeatureDefinition = FeatureDefinition
 class OnlineStoreConfig(BaseModel):
     SecurityConfig: Optional["_OnlineStoreSecurityConfig"]
     EnableOnlineStore: Optional[bool]
+    StorageType: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -107,6 +108,7 @@ class OnlineStoreConfig(BaseModel):
         return cls(
             SecurityConfig=OnlineStoreSecurityConfig._deserialize(json_data.get("SecurityConfig")),
             EnableOnlineStore=json_data.get("EnableOnlineStore"),
+            StorageType=json_data.get("StorageType"),
         )
 
 

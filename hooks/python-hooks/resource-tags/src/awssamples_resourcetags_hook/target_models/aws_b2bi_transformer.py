@@ -29,89 +29,93 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEcsCapacityprovider(BaseModel):
-    AutoScalingGroupProvider: Optional["_AutoScalingGroupProvider"]
-    Tags: Optional[Any]
+class AwsB2biTransformer(BaseModel):
+    CreatedAt: Optional[str]
+    EdiType: Optional["_EdiType"]
+    FileFormat: Optional[str]
+    MappingTemplate: Optional[str]
+    ModifiedAt: Optional[str]
     Name: Optional[str]
+    SampleDocument: Optional[str]
+    Status: Optional[str]
+    Tags: Optional[Any]
+    TransformerArn: Optional[str]
+    TransformerId: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEcsCapacityprovider"],
+        cls: Type["_AwsB2biTransformer"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEcsCapacityprovider"]:
+    ) -> Optional["_AwsB2biTransformer"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            AutoScalingGroupProvider=AutoScalingGroupProvider._deserialize(json_data.get("AutoScalingGroupProvider")),
-            Tags=json_data.get("Tags"),
+            CreatedAt=json_data.get("CreatedAt"),
+            EdiType=EdiType._deserialize(json_data.get("EdiType")),
+            FileFormat=json_data.get("FileFormat"),
+            MappingTemplate=json_data.get("MappingTemplate"),
+            ModifiedAt=json_data.get("ModifiedAt"),
             Name=json_data.get("Name"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_AwsEcsCapacityprovider = AwsEcsCapacityprovider
-
-
-@dataclass
-class AutoScalingGroupProvider(BaseModel):
-    ManagedScaling: Optional["_ManagedScaling"]
-    AutoScalingGroupArn: Optional[str]
-    ManagedTerminationProtection: Optional[str]
-    ManagedDraining: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_AutoScalingGroupProvider"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AutoScalingGroupProvider"]:
-        if not json_data:
-            return None
-        return cls(
-            ManagedScaling=ManagedScaling._deserialize(json_data.get("ManagedScaling")),
-            AutoScalingGroupArn=json_data.get("AutoScalingGroupArn"),
-            ManagedTerminationProtection=json_data.get("ManagedTerminationProtection"),
-            ManagedDraining=json_data.get("ManagedDraining"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_AutoScalingGroupProvider = AutoScalingGroupProvider
-
-
-@dataclass
-class ManagedScaling(BaseModel):
-    Status: Optional[str]
-    MinimumScalingStepSize: Optional[int]
-    InstanceWarmupPeriod: Optional[int]
-    TargetCapacity: Optional[int]
-    MaximumScalingStepSize: Optional[int]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_ManagedScaling"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ManagedScaling"]:
-        if not json_data:
-            return None
-        return cls(
+            SampleDocument=json_data.get("SampleDocument"),
             Status=json_data.get("Status"),
-            MinimumScalingStepSize=json_data.get("MinimumScalingStepSize"),
-            InstanceWarmupPeriod=json_data.get("InstanceWarmupPeriod"),
-            TargetCapacity=json_data.get("TargetCapacity"),
-            MaximumScalingStepSize=json_data.get("MaximumScalingStepSize"),
+            Tags=json_data.get("Tags"),
+            TransformerArn=json_data.get("TransformerArn"),
+            TransformerId=json_data.get("TransformerId"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_ManagedScaling = ManagedScaling
+_AwsB2biTransformer = AwsB2biTransformer
+
+
+@dataclass
+class EdiType(BaseModel):
+    X12Details: Optional["_X12Details"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EdiType"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EdiType"]:
+        if not json_data:
+            return None
+        return cls(
+            X12Details=X12Details._deserialize(json_data.get("X12Details")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EdiType = EdiType
+
+
+@dataclass
+class X12Details(BaseModel):
+    TransactionSet: Optional[str]
+    Version: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_X12Details"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_X12Details"]:
+        if not json_data:
+            return None
+        return cls(
+            TransactionSet=json_data.get("TransactionSet"),
+            Version=json_data.get("Version"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_X12Details = X12Details
 
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -121,8 +125,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

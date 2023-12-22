@@ -30,10 +30,13 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsAppsyncGraphqlapi(BaseModel):
+    QueryDepthLimit: Optional[int]
     OpenIDConnectConfig: Optional["_OpenIDConnectConfig"]
+    IntrospectionConfig: Optional[str]
     MergedApiExecutionRoleArn: Optional[str]
     RealtimeDns: Optional[str]
     OwnerContact: Optional[str]
+    ResolverCountLimit: Optional[int]
     Name: Optional[str]
     AdditionalAuthenticationProviders: Optional[Sequence["_AdditionalAuthenticationProvider"]]
     RealtimeUrl: Optional[str]
@@ -48,6 +51,7 @@ class AwsAppsyncGraphqlapi(BaseModel):
     UserPoolConfig: Optional["_UserPoolConfig"]
     ApiId: Optional[str]
     Tags: Optional[Any]
+    GraphQLEndpointArn: Optional[str]
     AuthenticationType: Optional[str]
     LogConfig: Optional["_LogConfig"]
 
@@ -61,10 +65,13 @@ class AwsAppsyncGraphqlapi(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            QueryDepthLimit=json_data.get("QueryDepthLimit"),
             OpenIDConnectConfig=OpenIDConnectConfig._deserialize(json_data.get("OpenIDConnectConfig")),
+            IntrospectionConfig=json_data.get("IntrospectionConfig"),
             MergedApiExecutionRoleArn=json_data.get("MergedApiExecutionRoleArn"),
             RealtimeDns=json_data.get("RealtimeDns"),
             OwnerContact=json_data.get("OwnerContact"),
+            ResolverCountLimit=json_data.get("ResolverCountLimit"),
             Name=json_data.get("Name"),
             AdditionalAuthenticationProviders=deserialize_list(json_data.get("AdditionalAuthenticationProviders"), AdditionalAuthenticationProvider),
             RealtimeUrl=json_data.get("RealtimeUrl"),
@@ -79,6 +86,7 @@ class AwsAppsyncGraphqlapi(BaseModel):
             UserPoolConfig=UserPoolConfig._deserialize(json_data.get("UserPoolConfig")),
             ApiId=json_data.get("ApiId"),
             Tags=json_data.get("Tags"),
+            GraphQLEndpointArn=json_data.get("GraphQLEndpointArn"),
             AuthenticationType=json_data.get("AuthenticationType"),
             LogConfig=LogConfig._deserialize(json_data.get("LogConfig")),
         )

@@ -622,11 +622,15 @@ _MongoDbSettings = MongoDbSettings
 
 @dataclass
 class IbmDb2Settings(BaseModel):
-    SecretsManagerSecretId: Optional[str]
+    LoadTimeout: Optional[int]
     SetDataCaptureChanges: Optional[bool]
-    SecretsManagerAccessRoleArn: Optional[str]
+    MaxFileSize: Optional[int]
+    KeepCsvFiles: Optional[bool]
     CurrentLsn: Optional[str]
     MaxKBytesPerRead: Optional[int]
+    SecretsManagerSecretId: Optional[str]
+    WriteBufferSize: Optional[int]
+    SecretsManagerAccessRoleArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -636,11 +640,15 @@ class IbmDb2Settings(BaseModel):
         if not json_data:
             return None
         return cls(
-            SecretsManagerSecretId=json_data.get("SecretsManagerSecretId"),
+            LoadTimeout=json_data.get("LoadTimeout"),
             SetDataCaptureChanges=json_data.get("SetDataCaptureChanges"),
-            SecretsManagerAccessRoleArn=json_data.get("SecretsManagerAccessRoleArn"),
+            MaxFileSize=json_data.get("MaxFileSize"),
+            KeepCsvFiles=json_data.get("KeepCsvFiles"),
             CurrentLsn=json_data.get("CurrentLsn"),
             MaxKBytesPerRead=json_data.get("MaxKBytesPerRead"),
+            SecretsManagerSecretId=json_data.get("SecretsManagerSecretId"),
+            WriteBufferSize=json_data.get("WriteBufferSize"),
+            SecretsManagerAccessRoleArn=json_data.get("SecretsManagerAccessRoleArn"),
         )
 
 

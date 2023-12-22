@@ -107,6 +107,7 @@ _OidcOptions = OidcOptions
 @dataclass
 class DeviceOptions(BaseModel):
     TenantId: Optional[str]
+    PublicSigningKeyUrl: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -117,6 +118,7 @@ class DeviceOptions(BaseModel):
             return None
         return cls(
             TenantId=json_data.get("TenantId"),
+            PublicSigningKeyUrl=json_data.get("PublicSigningKeyUrl"),
         )
 
 

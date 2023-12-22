@@ -30,19 +30,22 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsBatchJobdefinition(BaseModel):
-    Parameters: Optional[MutableMapping[str, Any]]
-    Timeout: Optional["_Timeout"]
-    JobDefinitionName: Optional[str]
-    PropagateTags: Optional[bool]
-    PlatformCapabilities: Optional[Sequence[str]]
-    EksProperties: Optional["_EksProperties"]
-    Type: Optional[str]
-    NodeProperties: Optional["_NodeProperties"]
-    SchedulingPriority: Optional[int]
     ContainerProperties: Optional["_ContainerProperties"]
-    Id: Optional[str]
+    ContainerOrchestrationType: Optional[str]
+    NodeProperties: Optional["_NodeProperties"]
+    JobDefinitionName: Optional[str]
+    JobDefinitionArn: Optional[str]
+    Revision: Optional[int]
+    Status: Optional[str]
+    SchedulingPriority: Optional[int]
+    Parameters: Optional[MutableMapping[str, str]]
+    PlatformCapabilities: Optional[Sequence[str]]
+    PropagateTags: Optional[bool]
     RetryStrategy: Optional["_RetryStrategy"]
+    Timeout: Optional["_JobTimeout"]
+    Type: Optional[str]
     Tags: Optional[Any]
+    EksProperties: Optional["_EksProperties"]
 
     @classmethod
     def _deserialize(
@@ -54,19 +57,22 @@ class AwsBatchJobdefinition(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            Parameters=json_data.get("Parameters"),
-            Timeout=Timeout._deserialize(json_data.get("Timeout")),
-            JobDefinitionName=json_data.get("JobDefinitionName"),
-            PropagateTags=json_data.get("PropagateTags"),
-            PlatformCapabilities=json_data.get("PlatformCapabilities"),
-            EksProperties=EksProperties._deserialize(json_data.get("EksProperties")),
-            Type=json_data.get("Type"),
-            NodeProperties=NodeProperties._deserialize(json_data.get("NodeProperties")),
-            SchedulingPriority=json_data.get("SchedulingPriority"),
             ContainerProperties=ContainerProperties._deserialize(json_data.get("ContainerProperties")),
-            Id=json_data.get("Id"),
+            ContainerOrchestrationType=json_data.get("ContainerOrchestrationType"),
+            NodeProperties=NodeProperties._deserialize(json_data.get("NodeProperties")),
+            JobDefinitionName=json_data.get("JobDefinitionName"),
+            JobDefinitionArn=json_data.get("JobDefinitionArn"),
+            Revision=json_data.get("Revision"),
+            Status=json_data.get("Status"),
+            SchedulingPriority=json_data.get("SchedulingPriority"),
+            Parameters=json_data.get("Parameters"),
+            PlatformCapabilities=json_data.get("PlatformCapabilities"),
+            PropagateTags=json_data.get("PropagateTags"),
             RetryStrategy=RetryStrategy._deserialize(json_data.get("RetryStrategy")),
+            Timeout=JobTimeout._deserialize(json_data.get("Timeout")),
+            Type=json_data.get("Type"),
             Tags=json_data.get("Tags"),
+            EksProperties=EksProperties._deserialize(json_data.get("EksProperties")),
         )
 
 
@@ -75,387 +81,29 @@ _AwsBatchJobdefinition = AwsBatchJobdefinition
 
 
 @dataclass
-class Timeout(BaseModel):
-    AttemptDurationSeconds: Optional[int]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Timeout"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Timeout"]:
-        if not json_data:
-            return None
-        return cls(
-            AttemptDurationSeconds=json_data.get("AttemptDurationSeconds"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Timeout = Timeout
-
-
-@dataclass
-class EksProperties(BaseModel):
-    PodProperties: Optional["_PodProperties"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksProperties"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksProperties"]:
-        if not json_data:
-            return None
-        return cls(
-            PodProperties=PodProperties._deserialize(json_data.get("PodProperties")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksProperties = EksProperties
-
-
-@dataclass
-class PodProperties(BaseModel):
-    Volumes: Optional[Sequence["_EksVolume"]]
-    DnsPolicy: Optional[str]
-    Containers: Optional[Sequence["_EksContainer"]]
-    Metadata: Optional["_Metadata"]
-    ServiceAccountName: Optional[str]
-    HostNetwork: Optional[bool]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_PodProperties"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_PodProperties"]:
-        if not json_data:
-            return None
-        return cls(
-            Volumes=deserialize_list(json_data.get("Volumes"), EksVolume),
-            DnsPolicy=json_data.get("DnsPolicy"),
-            Containers=deserialize_list(json_data.get("Containers"), EksContainer),
-            Metadata=Metadata._deserialize(json_data.get("Metadata")),
-            ServiceAccountName=json_data.get("ServiceAccountName"),
-            HostNetwork=json_data.get("HostNetwork"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_PodProperties = PodProperties
-
-
-@dataclass
-class EksVolume(BaseModel):
-    Secret: Optional["_EksSecret"]
-    EmptyDir: Optional["_EksEmptyDir"]
-    HostPath: Optional["_EksHostPath"]
-    Name: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksVolume"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksVolume"]:
-        if not json_data:
-            return None
-        return cls(
-            Secret=EksSecret._deserialize(json_data.get("Secret")),
-            EmptyDir=EksEmptyDir._deserialize(json_data.get("EmptyDir")),
-            HostPath=EksHostPath._deserialize(json_data.get("HostPath")),
-            Name=json_data.get("Name"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksVolume = EksVolume
-
-
-@dataclass
-class EksSecret(BaseModel):
-    SecretName: Optional[str]
-    Optional: Optional[bool]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksSecret"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksSecret"]:
-        if not json_data:
-            return None
-        return cls(
-            SecretName=json_data.get("SecretName"),
-            Optional=json_data.get("Optional"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksSecret = EksSecret
-
-
-@dataclass
-class EksEmptyDir(BaseModel):
-    Medium: Optional[str]
-    SizeLimit: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksEmptyDir"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksEmptyDir"]:
-        if not json_data:
-            return None
-        return cls(
-            Medium=json_data.get("Medium"),
-            SizeLimit=json_data.get("SizeLimit"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksEmptyDir = EksEmptyDir
-
-
-@dataclass
-class EksHostPath(BaseModel):
-    Path: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksHostPath"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksHostPath"]:
-        if not json_data:
-            return None
-        return cls(
-            Path=json_data.get("Path"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksHostPath = EksHostPath
-
-
-@dataclass
-class EksContainer(BaseModel):
-    Args: Optional[Sequence[str]]
-    VolumeMounts: Optional[Sequence["_EksContainerVolumeMount"]]
-    ImagePullPolicy: Optional[str]
-    Command: Optional[Sequence[str]]
-    SecurityContext: Optional["_EksContainerSecurityContext"]
-    Resources: Optional["_EksContainerResourceRequirements"]
-    Image: Optional[str]
-    Env: Optional[Sequence["_EksContainerEnvironmentVariable"]]
-    Name: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksContainer"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksContainer"]:
-        if not json_data:
-            return None
-        return cls(
-            Args=json_data.get("Args"),
-            VolumeMounts=deserialize_list(json_data.get("VolumeMounts"), EksContainerVolumeMount),
-            ImagePullPolicy=json_data.get("ImagePullPolicy"),
-            Command=json_data.get("Command"),
-            SecurityContext=EksContainerSecurityContext._deserialize(json_data.get("SecurityContext")),
-            Resources=EksContainerResourceRequirements._deserialize(json_data.get("Resources")),
-            Image=json_data.get("Image"),
-            Env=deserialize_list(json_data.get("Env"), EksContainerEnvironmentVariable),
-            Name=json_data.get("Name"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksContainer = EksContainer
-
-
-@dataclass
-class EksContainerVolumeMount(BaseModel):
-    MountPath: Optional[str]
-    ReadOnly: Optional[bool]
-    Name: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksContainerVolumeMount"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksContainerVolumeMount"]:
-        if not json_data:
-            return None
-        return cls(
-            MountPath=json_data.get("MountPath"),
-            ReadOnly=json_data.get("ReadOnly"),
-            Name=json_data.get("Name"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksContainerVolumeMount = EksContainerVolumeMount
-
-
-@dataclass
-class EksContainerSecurityContext(BaseModel):
-    RunAsUser: Optional[int]
-    RunAsGroup: Optional[int]
-    RunAsNonRoot: Optional[bool]
-    Privileged: Optional[bool]
-    ReadOnlyRootFilesystem: Optional[bool]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksContainerSecurityContext"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksContainerSecurityContext"]:
-        if not json_data:
-            return None
-        return cls(
-            RunAsUser=json_data.get("RunAsUser"),
-            RunAsGroup=json_data.get("RunAsGroup"),
-            RunAsNonRoot=json_data.get("RunAsNonRoot"),
-            Privileged=json_data.get("Privileged"),
-            ReadOnlyRootFilesystem=json_data.get("ReadOnlyRootFilesystem"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksContainerSecurityContext = EksContainerSecurityContext
-
-
-@dataclass
-class EksContainerResourceRequirements(BaseModel):
-    Requests: Optional[MutableMapping[str, Any]]
-    Limits: Optional[MutableMapping[str, Any]]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksContainerResourceRequirements"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksContainerResourceRequirements"]:
-        if not json_data:
-            return None
-        return cls(
-            Requests=json_data.get("Requests"),
-            Limits=json_data.get("Limits"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksContainerResourceRequirements = EksContainerResourceRequirements
-
-
-@dataclass
-class EksContainerEnvironmentVariable(BaseModel):
-    Value: Optional[str]
-    Name: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EksContainerEnvironmentVariable"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EksContainerEnvironmentVariable"]:
-        if not json_data:
-            return None
-        return cls(
-            Value=json_data.get("Value"),
-            Name=json_data.get("Name"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EksContainerEnvironmentVariable = EksContainerEnvironmentVariable
-
-
-@dataclass
-class Metadata(BaseModel):
-    Labels: Optional[MutableMapping[str, Any]]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Metadata"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Metadata"]:
-        if not json_data:
-            return None
-        return cls(
-            Labels=json_data.get("Labels"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Metadata = Metadata
-
-
-@dataclass
-class NodeProperties(BaseModel):
-    MainNode: Optional[int]
-    NodeRangeProperties: Optional[Sequence["_NodeRangeProperty"]]
-    NumNodes: Optional[int]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_NodeProperties"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_NodeProperties"]:
-        if not json_data:
-            return None
-        return cls(
-            MainNode=json_data.get("MainNode"),
-            NodeRangeProperties=deserialize_list(json_data.get("NodeRangeProperties"), NodeRangeProperty),
-            NumNodes=json_data.get("NumNodes"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_NodeProperties = NodeProperties
-
-
-@dataclass
-class NodeRangeProperty(BaseModel):
-    Container: Optional["_ContainerProperties"]
-    TargetNodes: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_NodeRangeProperty"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_NodeRangeProperty"]:
-        if not json_data:
-            return None
-        return cls(
-            Container=ContainerProperties._deserialize(json_data.get("Container")),
-            TargetNodes=json_data.get("TargetNodes"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_NodeRangeProperty = NodeRangeProperty
-
-
-@dataclass
 class ContainerProperties(BaseModel):
-    User: Optional[str]
-    Secrets: Optional[Sequence["_Secret"]]
-    Memory: Optional[int]
-    Privileged: Optional[bool]
-    LinuxParameters: Optional["_LinuxParameters"]
-    FargatePlatformConfiguration: Optional["_FargatePlatformConfiguration"]
-    JobRoleArn: Optional[str]
-    ReadonlyRootFilesystem: Optional[bool]
-    Vcpus: Optional[int]
-    Image: Optional[str]
-    ResourceRequirements: Optional[Sequence["_ResourceRequirement"]]
-    LogConfiguration: Optional["_LogConfiguration"]
-    MountPoints: Optional[Sequence["_MountPoints"]]
-    ExecutionRoleArn: Optional[str]
-    RuntimePlatform: Optional["_RuntimePlatform"]
-    Volumes: Optional[Sequence["_Volumes"]]
     Command: Optional[Sequence[str]]
     Environment: Optional[Sequence["_Environment"]]
+    Image: Optional[str]
+    JobRoleArn: Optional[str]
+    Memory: Optional[int]
+    MountPoints: Optional[Sequence["_MountPoint"]]
+    Privileged: Optional[bool]
+    ReadonlyRootFilesystem: Optional[bool]
     Ulimits: Optional[Sequence["_Ulimit"]]
-    NetworkConfiguration: Optional["_NetworkConfiguration"]
+    User: Optional[str]
+    Vcpus: Optional[int]
+    Volumes: Optional[Sequence["_Volume"]]
     InstanceType: Optional[str]
+    ResourceRequirements: Optional[Sequence["_ResourceRequirement"]]
+    LinuxParameters: Optional["_LinuxParameters"]
+    LogConfiguration: Optional["_LogConfiguration"]
+    ExecutionRoleArn: Optional[str]
+    Secrets: Optional[Sequence["_Secret"]]
+    NetworkConfiguration: Optional["_NetworkConfiguration"]
+    FargatePlatformConfiguration: Optional["_FargatePlatformConfiguration"]
     EphemeralStorage: Optional["_EphemeralStorage"]
+    RuntimePlatform: Optional["_RuntimePlatform"]
 
     @classmethod
     def _deserialize(
@@ -465,28 +113,28 @@ class ContainerProperties(BaseModel):
         if not json_data:
             return None
         return cls(
-            User=json_data.get("User"),
-            Secrets=deserialize_list(json_data.get("Secrets"), Secret),
-            Memory=json_data.get("Memory"),
-            Privileged=json_data.get("Privileged"),
-            LinuxParameters=LinuxParameters._deserialize(json_data.get("LinuxParameters")),
-            FargatePlatformConfiguration=FargatePlatformConfiguration._deserialize(json_data.get("FargatePlatformConfiguration")),
-            JobRoleArn=json_data.get("JobRoleArn"),
-            ReadonlyRootFilesystem=json_data.get("ReadonlyRootFilesystem"),
-            Vcpus=json_data.get("Vcpus"),
-            Image=json_data.get("Image"),
-            ResourceRequirements=deserialize_list(json_data.get("ResourceRequirements"), ResourceRequirement),
-            LogConfiguration=LogConfiguration._deserialize(json_data.get("LogConfiguration")),
-            MountPoints=deserialize_list(json_data.get("MountPoints"), MountPoints),
-            ExecutionRoleArn=json_data.get("ExecutionRoleArn"),
-            RuntimePlatform=RuntimePlatform._deserialize(json_data.get("RuntimePlatform")),
-            Volumes=deserialize_list(json_data.get("Volumes"), Volumes),
             Command=json_data.get("Command"),
             Environment=deserialize_list(json_data.get("Environment"), Environment),
+            Image=json_data.get("Image"),
+            JobRoleArn=json_data.get("JobRoleArn"),
+            Memory=json_data.get("Memory"),
+            MountPoints=deserialize_list(json_data.get("MountPoints"), MountPoint),
+            Privileged=json_data.get("Privileged"),
+            ReadonlyRootFilesystem=json_data.get("ReadonlyRootFilesystem"),
             Ulimits=deserialize_list(json_data.get("Ulimits"), Ulimit),
-            NetworkConfiguration=NetworkConfiguration._deserialize(json_data.get("NetworkConfiguration")),
+            User=json_data.get("User"),
+            Vcpus=json_data.get("Vcpus"),
+            Volumes=deserialize_list(json_data.get("Volumes"), Volume),
             InstanceType=json_data.get("InstanceType"),
+            ResourceRequirements=deserialize_list(json_data.get("ResourceRequirements"), ResourceRequirement),
+            LinuxParameters=LinuxParameters._deserialize(json_data.get("LinuxParameters")),
+            LogConfiguration=LogConfiguration._deserialize(json_data.get("LogConfiguration")),
+            ExecutionRoleArn=json_data.get("ExecutionRoleArn"),
+            Secrets=deserialize_list(json_data.get("Secrets"), Secret),
+            NetworkConfiguration=NetworkConfiguration._deserialize(json_data.get("NetworkConfiguration")),
+            FargatePlatformConfiguration=FargatePlatformConfiguration._deserialize(json_data.get("FargatePlatformConfiguration")),
             EphemeralStorage=EphemeralStorage._deserialize(json_data.get("EphemeralStorage")),
+            RuntimePlatform=RuntimePlatform._deserialize(json_data.get("RuntimePlatform")),
         )
 
 
@@ -495,35 +143,199 @@ _ContainerProperties = ContainerProperties
 
 
 @dataclass
-class Secret(BaseModel):
-    ValueFrom: Optional[str]
+class Environment(BaseModel):
+    Name: Optional[str]
+    Value: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Environment"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Environment"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            Value=json_data.get("Value"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Environment = Environment
+
+
+@dataclass
+class MountPoint(BaseModel):
+    ContainerPath: Optional[str]
+    ReadOnly: Optional[bool]
+    SourceVolume: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_MountPoint"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_MountPoint"]:
+        if not json_data:
+            return None
+        return cls(
+            ContainerPath=json_data.get("ContainerPath"),
+            ReadOnly=json_data.get("ReadOnly"),
+            SourceVolume=json_data.get("SourceVolume"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_MountPoint = MountPoint
+
+
+@dataclass
+class Ulimit(BaseModel):
+    HardLimit: Optional[int]
+    Name: Optional[str]
+    SoftLimit: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Ulimit"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Ulimit"]:
+        if not json_data:
+            return None
+        return cls(
+            HardLimit=json_data.get("HardLimit"),
+            Name=json_data.get("Name"),
+            SoftLimit=json_data.get("SoftLimit"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Ulimit = Ulimit
+
+
+@dataclass
+class Volume(BaseModel):
+    Host: Optional["_Host"]
+    EfsVolumeConfiguration: Optional["_EFSVolumeConfiguration"]
     Name: Optional[str]
 
     @classmethod
     def _deserialize(
-        cls: Type["_Secret"],
+        cls: Type["_Volume"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Secret"]:
+    ) -> Optional["_Volume"]:
         if not json_data:
             return None
         return cls(
-            ValueFrom=json_data.get("ValueFrom"),
+            Host=Host._deserialize(json_data.get("Host")),
+            EfsVolumeConfiguration=EFSVolumeConfiguration._deserialize(json_data.get("EfsVolumeConfiguration")),
             Name=json_data.get("Name"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_Secret = Secret
+_Volume = Volume
+
+
+@dataclass
+class Host(BaseModel):
+    SourcePath: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Host"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Host"]:
+        if not json_data:
+            return None
+        return cls(
+            SourcePath=json_data.get("SourcePath"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Host = Host
+
+
+@dataclass
+class EFSVolumeConfiguration(BaseModel):
+    FileSystemId: Optional[str]
+    RootDirectory: Optional[str]
+    TransitEncryption: Optional[str]
+    TransitEncryptionPort: Optional[int]
+    AuthorizationConfig: Optional["_EFSAuthorizationConfig"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EFSVolumeConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EFSVolumeConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            FileSystemId=json_data.get("FileSystemId"),
+            RootDirectory=json_data.get("RootDirectory"),
+            TransitEncryption=json_data.get("TransitEncryption"),
+            TransitEncryptionPort=json_data.get("TransitEncryptionPort"),
+            AuthorizationConfig=EFSAuthorizationConfig._deserialize(json_data.get("AuthorizationConfig")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EFSVolumeConfiguration = EFSVolumeConfiguration
+
+
+@dataclass
+class EFSAuthorizationConfig(BaseModel):
+    AccessPointId: Optional[str]
+    Iam: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EFSAuthorizationConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EFSAuthorizationConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            AccessPointId=json_data.get("AccessPointId"),
+            Iam=json_data.get("Iam"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EFSAuthorizationConfig = EFSAuthorizationConfig
+
+
+@dataclass
+class ResourceRequirement(BaseModel):
+    Type: Optional[str]
+    Value: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_ResourceRequirement"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_ResourceRequirement"]:
+        if not json_data:
+            return None
+        return cls(
+            Type=json_data.get("Type"),
+            Value=json_data.get("Value"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_ResourceRequirement = ResourceRequirement
 
 
 @dataclass
 class LinuxParameters(BaseModel):
-    Swappiness: Optional[int]
-    Tmpfs: Optional[Sequence["_Tmpfs"]]
-    SharedMemorySize: Optional[int]
     Devices: Optional[Sequence["_Device"]]
     InitProcessEnabled: Optional[bool]
     MaxSwap: Optional[int]
+    Swappiness: Optional[int]
+    SharedMemorySize: Optional[int]
+    Tmpfs: Optional[Sequence["_Tmpfs"]]
 
     @classmethod
     def _deserialize(
@@ -533,12 +345,12 @@ class LinuxParameters(BaseModel):
         if not json_data:
             return None
         return cls(
-            Swappiness=json_data.get("Swappiness"),
-            Tmpfs=deserialize_list(json_data.get("Tmpfs"), Tmpfs),
-            SharedMemorySize=json_data.get("SharedMemorySize"),
             Devices=deserialize_list(json_data.get("Devices"), Device),
             InitProcessEnabled=json_data.get("InitProcessEnabled"),
             MaxSwap=json_data.get("MaxSwap"),
+            Swappiness=json_data.get("Swappiness"),
+            SharedMemorySize=json_data.get("SharedMemorySize"),
+            Tmpfs=deserialize_list(json_data.get("Tmpfs"), Tmpfs),
         )
 
 
@@ -547,10 +359,34 @@ _LinuxParameters = LinuxParameters
 
 
 @dataclass
+class Device(BaseModel):
+    HostPath: Optional[str]
+    ContainerPath: Optional[str]
+    Permissions: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Device"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Device"]:
+        if not json_data:
+            return None
+        return cls(
+            HostPath=json_data.get("HostPath"),
+            ContainerPath=json_data.get("ContainerPath"),
+            Permissions=json_data.get("Permissions"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Device = Device
+
+
+@dataclass
 class Tmpfs(BaseModel):
     ContainerPath: Optional[str]
-    MountOptions: Optional[Sequence[str]]
     Size: Optional[int]
+    MountOptions: Optional[Sequence[str]]
 
     @classmethod
     def _deserialize(
@@ -561,8 +397,8 @@ class Tmpfs(BaseModel):
             return None
         return cls(
             ContainerPath=json_data.get("ContainerPath"),
-            MountOptions=json_data.get("MountOptions"),
             Size=json_data.get("Size"),
+            MountOptions=json_data.get("MountOptions"),
         )
 
 
@@ -571,27 +407,69 @@ _Tmpfs = Tmpfs
 
 
 @dataclass
-class Device(BaseModel):
-    Permissions: Optional[Sequence[str]]
-    HostPath: Optional[str]
-    ContainerPath: Optional[str]
+class LogConfiguration(BaseModel):
+    LogDriver: Optional[str]
+    Options: Optional[MutableMapping[str, str]]
+    SecretOptions: Optional[Sequence["_Secret"]]
 
     @classmethod
     def _deserialize(
-        cls: Type["_Device"],
+        cls: Type["_LogConfiguration"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Device"]:
+    ) -> Optional["_LogConfiguration"]:
         if not json_data:
             return None
         return cls(
-            Permissions=json_data.get("Permissions"),
-            HostPath=json_data.get("HostPath"),
-            ContainerPath=json_data.get("ContainerPath"),
+            LogDriver=json_data.get("LogDriver"),
+            Options=json_data.get("Options"),
+            SecretOptions=deserialize_list(json_data.get("SecretOptions"), Secret),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_Device = Device
+_LogConfiguration = LogConfiguration
+
+
+@dataclass
+class Secret(BaseModel):
+    Name: Optional[str]
+    ValueFrom: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_Secret"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_Secret"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            ValueFrom=json_data.get("ValueFrom"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_Secret = Secret
+
+
+@dataclass
+class NetworkConfiguration(BaseModel):
+    AssignPublicIp: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_NetworkConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_NetworkConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            AssignPublicIp=json_data.get("AssignPublicIp"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_NetworkConfiguration = NetworkConfiguration
 
 
 @dataclass
@@ -615,73 +493,23 @@ _FargatePlatformConfiguration = FargatePlatformConfiguration
 
 
 @dataclass
-class ResourceRequirement(BaseModel):
-    Value: Optional[str]
-    Type: Optional[str]
+class EphemeralStorage(BaseModel):
+    SizeInGiB: Optional[int]
 
     @classmethod
     def _deserialize(
-        cls: Type["_ResourceRequirement"],
+        cls: Type["_EphemeralStorage"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_ResourceRequirement"]:
+    ) -> Optional["_EphemeralStorage"]:
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
-            Type=json_data.get("Type"),
+            SizeInGiB=json_data.get("SizeInGiB"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_ResourceRequirement = ResourceRequirement
-
-
-@dataclass
-class LogConfiguration(BaseModel):
-    SecretOptions: Optional[Sequence["_Secret"]]
-    Options: Optional[MutableMapping[str, Any]]
-    LogDriver: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_LogConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_LogConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            SecretOptions=deserialize_list(json_data.get("SecretOptions"), Secret),
-            Options=json_data.get("Options"),
-            LogDriver=json_data.get("LogDriver"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_LogConfiguration = LogConfiguration
-
-
-@dataclass
-class MountPoints(BaseModel):
-    ReadOnly: Optional[bool]
-    SourceVolume: Optional[str]
-    ContainerPath: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_MountPoints"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_MountPoints"]:
-        if not json_data:
-            return None
-        return cls(
-            ReadOnly=json_data.get("ReadOnly"),
-            SourceVolume=json_data.get("SourceVolume"),
-            ContainerPath=json_data.get("ContainerPath"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_MountPoints = MountPoints
+_EphemeralStorage = EphemeralStorage
 
 
 @dataclass
@@ -707,189 +535,55 @@ _RuntimePlatform = RuntimePlatform
 
 
 @dataclass
-class Volumes(BaseModel):
-    Host: Optional["_VolumesHost"]
-    EfsVolumeConfiguration: Optional["_EfsVolumeConfiguration"]
-    Name: Optional[str]
+class NodeProperties(BaseModel):
+    NumNodes: Optional[int]
+    MainNode: Optional[int]
+    NodeRangeProperties: Optional[Sequence["_NodeRangeProperty"]]
 
     @classmethod
     def _deserialize(
-        cls: Type["_Volumes"],
+        cls: Type["_NodeProperties"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Volumes"]:
+    ) -> Optional["_NodeProperties"]:
         if not json_data:
             return None
         return cls(
-            Host=VolumesHost._deserialize(json_data.get("Host")),
-            EfsVolumeConfiguration=EfsVolumeConfiguration._deserialize(json_data.get("EfsVolumeConfiguration")),
-            Name=json_data.get("Name"),
+            NumNodes=json_data.get("NumNodes"),
+            MainNode=json_data.get("MainNode"),
+            NodeRangeProperties=deserialize_list(json_data.get("NodeRangeProperties"), NodeRangeProperty),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_Volumes = Volumes
+_NodeProperties = NodeProperties
 
 
 @dataclass
-class VolumesHost(BaseModel):
-    SourcePath: Optional[str]
+class NodeRangeProperty(BaseModel):
+    TargetNodes: Optional[str]
+    Container: Optional["_ContainerProperties"]
 
     @classmethod
     def _deserialize(
-        cls: Type["_VolumesHost"],
+        cls: Type["_NodeRangeProperty"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_VolumesHost"]:
+    ) -> Optional["_NodeRangeProperty"]:
         if not json_data:
             return None
         return cls(
-            SourcePath=json_data.get("SourcePath"),
+            TargetNodes=json_data.get("TargetNodes"),
+            Container=ContainerProperties._deserialize(json_data.get("Container")),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_VolumesHost = VolumesHost
-
-
-@dataclass
-class EfsVolumeConfiguration(BaseModel):
-    FileSystemId: Optional[str]
-    TransitEncryption: Optional[str]
-    RootDirectory: Optional[str]
-    TransitEncryptionPort: Optional[int]
-    AuthorizationConfig: Optional["_AuthorizationConfig"]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EfsVolumeConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EfsVolumeConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            FileSystemId=json_data.get("FileSystemId"),
-            TransitEncryption=json_data.get("TransitEncryption"),
-            RootDirectory=json_data.get("RootDirectory"),
-            TransitEncryptionPort=json_data.get("TransitEncryptionPort"),
-            AuthorizationConfig=AuthorizationConfig._deserialize(json_data.get("AuthorizationConfig")),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EfsVolumeConfiguration = EfsVolumeConfiguration
-
-
-@dataclass
-class AuthorizationConfig(BaseModel):
-    Iam: Optional[str]
-    AccessPointId: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_AuthorizationConfig"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AuthorizationConfig"]:
-        if not json_data:
-            return None
-        return cls(
-            Iam=json_data.get("Iam"),
-            AccessPointId=json_data.get("AccessPointId"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_AuthorizationConfig = AuthorizationConfig
-
-
-@dataclass
-class Environment(BaseModel):
-    Value: Optional[str]
-    Name: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Environment"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Environment"]:
-        if not json_data:
-            return None
-        return cls(
-            Value=json_data.get("Value"),
-            Name=json_data.get("Name"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Environment = Environment
-
-
-@dataclass
-class Ulimit(BaseModel):
-    SoftLimit: Optional[int]
-    HardLimit: Optional[int]
-    Name: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_Ulimit"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_Ulimit"]:
-        if not json_data:
-            return None
-        return cls(
-            SoftLimit=json_data.get("SoftLimit"),
-            HardLimit=json_data.get("HardLimit"),
-            Name=json_data.get("Name"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_Ulimit = Ulimit
-
-
-@dataclass
-class NetworkConfiguration(BaseModel):
-    AssignPublicIp: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_NetworkConfiguration"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_NetworkConfiguration"]:
-        if not json_data:
-            return None
-        return cls(
-            AssignPublicIp=json_data.get("AssignPublicIp"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_NetworkConfiguration = NetworkConfiguration
-
-
-@dataclass
-class EphemeralStorage(BaseModel):
-    SizeInGiB: Optional[int]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_EphemeralStorage"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_EphemeralStorage"]:
-        if not json_data:
-            return None
-        return cls(
-            SizeInGiB=json_data.get("SizeInGiB"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_EphemeralStorage = EphemeralStorage
+_NodeRangeProperty = NodeRangeProperty
 
 
 @dataclass
 class RetryStrategy(BaseModel):
-    EvaluateOnExit: Optional[Sequence["_EvaluateOnExit"]]
     Attempts: Optional[int]
+    EvaluateOnExit: Optional[Sequence["_EvaluateOnExit"]]
 
     @classmethod
     def _deserialize(
@@ -899,8 +593,8 @@ class RetryStrategy(BaseModel):
         if not json_data:
             return None
         return cls(
-            EvaluateOnExit=deserialize_list(json_data.get("EvaluateOnExit"), EvaluateOnExit),
             Attempts=json_data.get("Attempts"),
+            EvaluateOnExit=deserialize_list(json_data.get("EvaluateOnExit"), EvaluateOnExit),
         )
 
 
@@ -910,10 +604,10 @@ _RetryStrategy = RetryStrategy
 
 @dataclass
 class EvaluateOnExit(BaseModel):
-    Action: Optional[str]
-    OnStatusReason: Optional[str]
     OnExitCode: Optional[str]
+    OnStatusReason: Optional[str]
     OnReason: Optional[str]
+    Action: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -923,14 +617,326 @@ class EvaluateOnExit(BaseModel):
         if not json_data:
             return None
         return cls(
-            Action=json_data.get("Action"),
-            OnStatusReason=json_data.get("OnStatusReason"),
             OnExitCode=json_data.get("OnExitCode"),
+            OnStatusReason=json_data.get("OnStatusReason"),
             OnReason=json_data.get("OnReason"),
+            Action=json_data.get("Action"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
 _EvaluateOnExit = EvaluateOnExit
+
+
+@dataclass
+class JobTimeout(BaseModel):
+    AttemptDurationSeconds: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_JobTimeout"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_JobTimeout"]:
+        if not json_data:
+            return None
+        return cls(
+            AttemptDurationSeconds=json_data.get("AttemptDurationSeconds"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_JobTimeout = JobTimeout
+
+
+@dataclass
+class EksProperties(BaseModel):
+    PodProperties: Optional["_EksPodProperties"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksProperties"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksProperties"]:
+        if not json_data:
+            return None
+        return cls(
+            PodProperties=EksPodProperties._deserialize(json_data.get("PodProperties")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksProperties = EksProperties
+
+
+@dataclass
+class EksPodProperties(BaseModel):
+    ServiceAccountName: Optional[str]
+    HostNetwork: Optional[bool]
+    DnsPolicy: Optional[str]
+    Containers: Optional[Sequence["_EksContainer"]]
+    Volumes: Optional[Sequence["_EksVolume"]]
+    Metadata: Optional["_EksMetadata"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksPodProperties"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksPodProperties"]:
+        if not json_data:
+            return None
+        return cls(
+            ServiceAccountName=json_data.get("ServiceAccountName"),
+            HostNetwork=json_data.get("HostNetwork"),
+            DnsPolicy=json_data.get("DnsPolicy"),
+            Containers=deserialize_list(json_data.get("Containers"), EksContainer),
+            Volumes=deserialize_list(json_data.get("Volumes"), EksVolume),
+            Metadata=EksMetadata._deserialize(json_data.get("Metadata")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksPodProperties = EksPodProperties
+
+
+@dataclass
+class EksContainer(BaseModel):
+    Name: Optional[str]
+    Image: Optional[str]
+    ImagePullPolicy: Optional[str]
+    Command: Optional[Sequence[str]]
+    Args: Optional[Sequence[str]]
+    Env: Optional[Sequence["_EksContainerEnvironmentVariable"]]
+    Resources: Optional["_EksContainerResourceRequirements"]
+    VolumeMounts: Optional[Sequence["_EksContainerVolumeMount"]]
+    SecurityContext: Optional["_EksContainerSecurityContext"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksContainer"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksContainer"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            Image=json_data.get("Image"),
+            ImagePullPolicy=json_data.get("ImagePullPolicy"),
+            Command=json_data.get("Command"),
+            Args=json_data.get("Args"),
+            Env=deserialize_list(json_data.get("Env"), EksContainerEnvironmentVariable),
+            Resources=EksContainerResourceRequirements._deserialize(json_data.get("Resources")),
+            VolumeMounts=deserialize_list(json_data.get("VolumeMounts"), EksContainerVolumeMount),
+            SecurityContext=EksContainerSecurityContext._deserialize(json_data.get("SecurityContext")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksContainer = EksContainer
+
+
+@dataclass
+class EksContainerEnvironmentVariable(BaseModel):
+    Name: Optional[str]
+    Value: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksContainerEnvironmentVariable"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksContainerEnvironmentVariable"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            Value=json_data.get("Value"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksContainerEnvironmentVariable = EksContainerEnvironmentVariable
+
+
+@dataclass
+class EksContainerResourceRequirements(BaseModel):
+    Limits: Optional[MutableMapping[str, str]]
+    Requests: Optional[MutableMapping[str, str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksContainerResourceRequirements"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksContainerResourceRequirements"]:
+        if not json_data:
+            return None
+        return cls(
+            Limits=json_data.get("Limits"),
+            Requests=json_data.get("Requests"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksContainerResourceRequirements = EksContainerResourceRequirements
+
+
+@dataclass
+class EksContainerVolumeMount(BaseModel):
+    Name: Optional[str]
+    MountPath: Optional[str]
+    ReadOnly: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksContainerVolumeMount"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksContainerVolumeMount"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            MountPath=json_data.get("MountPath"),
+            ReadOnly=json_data.get("ReadOnly"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksContainerVolumeMount = EksContainerVolumeMount
+
+
+@dataclass
+class EksContainerSecurityContext(BaseModel):
+    RunAsUser: Optional[int]
+    RunAsGroup: Optional[int]
+    Privileged: Optional[bool]
+    ReadOnlyRootFilesystem: Optional[bool]
+    RunAsNonRoot: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksContainerSecurityContext"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksContainerSecurityContext"]:
+        if not json_data:
+            return None
+        return cls(
+            RunAsUser=json_data.get("RunAsUser"),
+            RunAsGroup=json_data.get("RunAsGroup"),
+            Privileged=json_data.get("Privileged"),
+            ReadOnlyRootFilesystem=json_data.get("ReadOnlyRootFilesystem"),
+            RunAsNonRoot=json_data.get("RunAsNonRoot"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksContainerSecurityContext = EksContainerSecurityContext
+
+
+@dataclass
+class EksVolume(BaseModel):
+    Name: Optional[str]
+    HostPath: Optional["_EksHostPath"]
+    EmptyDir: Optional["_EksEmptyDir"]
+    Secret: Optional["_EksSecret"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksVolume"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksVolume"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            HostPath=EksHostPath._deserialize(json_data.get("HostPath")),
+            EmptyDir=EksEmptyDir._deserialize(json_data.get("EmptyDir")),
+            Secret=EksSecret._deserialize(json_data.get("Secret")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksVolume = EksVolume
+
+
+@dataclass
+class EksHostPath(BaseModel):
+    Path: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksHostPath"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksHostPath"]:
+        if not json_data:
+            return None
+        return cls(
+            Path=json_data.get("Path"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksHostPath = EksHostPath
+
+
+@dataclass
+class EksEmptyDir(BaseModel):
+    Medium: Optional[str]
+    SizeLimit: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksEmptyDir"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksEmptyDir"]:
+        if not json_data:
+            return None
+        return cls(
+            Medium=json_data.get("Medium"),
+            SizeLimit=json_data.get("SizeLimit"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksEmptyDir = EksEmptyDir
+
+
+@dataclass
+class EksSecret(BaseModel):
+    SecretName: Optional[str]
+    Optional: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksSecret"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksSecret"]:
+        if not json_data:
+            return None
+        return cls(
+            SecretName=json_data.get("SecretName"),
+            Optional=json_data.get("Optional"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksSecret = EksSecret
+
+
+@dataclass
+class EksMetadata(BaseModel):
+    Labels: Optional[MutableMapping[str, str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EksMetadata"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EksMetadata"]:
+        if not json_data:
+            return None
+        return cls(
+            Labels=json_data.get("Labels"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EksMetadata = EksMetadata
 
 

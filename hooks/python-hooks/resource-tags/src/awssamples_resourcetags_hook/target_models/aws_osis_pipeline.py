@@ -30,6 +30,8 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 @dataclass
 class AwsOsisPipeline(BaseModel):
+    BufferOptions: Optional["_BufferOptions"]
+    EncryptionAtRestOptions: Optional["_EncryptionAtRestOptions"]
     LogPublishingOptions: Optional["_LogPublishingOptions"]
     MaxUnits: Optional[int]
     MinUnits: Optional[int]
@@ -51,6 +53,8 @@ class AwsOsisPipeline(BaseModel):
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
+            BufferOptions=BufferOptions._deserialize(json_data.get("BufferOptions")),
+            EncryptionAtRestOptions=EncryptionAtRestOptions._deserialize(json_data.get("EncryptionAtRestOptions")),
             LogPublishingOptions=LogPublishingOptions._deserialize(json_data.get("LogPublishingOptions")),
             MaxUnits=json_data.get("MaxUnits"),
             MinUnits=json_data.get("MinUnits"),
@@ -66,6 +70,46 @@ class AwsOsisPipeline(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _AwsOsisPipeline = AwsOsisPipeline
+
+
+@dataclass
+class BufferOptions(BaseModel):
+    PersistentBufferEnabled: Optional[bool]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_BufferOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_BufferOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            PersistentBufferEnabled=json_data.get("PersistentBufferEnabled"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_BufferOptions = BufferOptions
+
+
+@dataclass
+class EncryptionAtRestOptions(BaseModel):
+    KmsKeyArn: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EncryptionAtRestOptions"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EncryptionAtRestOptions"]:
+        if not json_data:
+            return None
+        return cls(
+            KmsKeyArn=json_data.get("KmsKeyArn"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EncryptionAtRestOptions = EncryptionAtRestOptions
 
 
 @dataclass
