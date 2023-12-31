@@ -35,7 +35,7 @@ class HookHandlerRequest(BaseHookHandlerRequest):
 
 @dataclass
 class TypeConfigurationModel(BaseModel):
-    excludeDBInstanceClassList: Optional[Sequence[Any]]
+    excludeDBInstanceClassList: Optional[Sequence[Any]] = []
 
     @classmethod
     def _deserialize(
