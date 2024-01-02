@@ -44,6 +44,7 @@ class AwsSagemakerDomain(BaseModel):
     DomainId: Optional[str]
     HomeEfsFileSystemId: Optional[str]
     SingleSignOnManagedApplicationInstanceId: Optional[str]
+    SingleSignOnApplicationArn: Optional[str]
     DomainSettings: Optional["_DomainSettings"]
     AppSecurityGroupManagement: Optional[str]
     SecurityGroupIdForDomainBoundary: Optional[str]
@@ -72,6 +73,7 @@ class AwsSagemakerDomain(BaseModel):
             DomainId=json_data.get("DomainId"),
             HomeEfsFileSystemId=json_data.get("HomeEfsFileSystemId"),
             SingleSignOnManagedApplicationInstanceId=json_data.get("SingleSignOnManagedApplicationInstanceId"),
+            SingleSignOnApplicationArn=json_data.get("SingleSignOnApplicationArn"),
             DomainSettings=DomainSettings._deserialize(json_data.get("DomainSettings")),
             AppSecurityGroupManagement=json_data.get("AppSecurityGroupManagement"),
             SecurityGroupIdForDomainBoundary=json_data.get("SecurityGroupIdForDomainBoundary"),
@@ -89,6 +91,13 @@ class UserSettings(BaseModel):
     KernelGatewayAppSettings: Optional["_KernelGatewayAppSettings"]
     RStudioServerProAppSettings: Optional["_RStudioServerProAppSettings"]
     RSessionAppSettings: Optional["_RSessionAppSettings"]
+    JupyterLabAppSettings: Optional["_JupyterLabAppSettings"]
+    SpaceStorageSettings: Optional["_DefaultSpaceStorageSettings"]
+    CodeEditorAppSettings: Optional["_CodeEditorAppSettings"]
+    DefaultLandingUri: Optional[str]
+    StudioWebPortal: Optional[str]
+    CustomPosixUserConfig: Optional["_CustomPosixUserConfig"]
+    CustomFileSystemConfigs: Optional[Sequence["_CustomFileSystemConfig"]]
     SecurityGroups: Optional[Sequence[str]]
     SharingSettings: Optional["_SharingSettings"]
 
@@ -105,6 +114,13 @@ class UserSettings(BaseModel):
             KernelGatewayAppSettings=KernelGatewayAppSettings._deserialize(json_data.get("KernelGatewayAppSettings")),
             RStudioServerProAppSettings=RStudioServerProAppSettings._deserialize(json_data.get("RStudioServerProAppSettings")),
             RSessionAppSettings=RSessionAppSettings._deserialize(json_data.get("RSessionAppSettings")),
+            JupyterLabAppSettings=JupyterLabAppSettings._deserialize(json_data.get("JupyterLabAppSettings")),
+            SpaceStorageSettings=DefaultSpaceStorageSettings._deserialize(json_data.get("SpaceStorageSettings")),
+            CodeEditorAppSettings=CodeEditorAppSettings._deserialize(json_data.get("CodeEditorAppSettings")),
+            DefaultLandingUri=json_data.get("DefaultLandingUri"),
+            StudioWebPortal=json_data.get("StudioWebPortal"),
+            CustomPosixUserConfig=CustomPosixUserConfig._deserialize(json_data.get("CustomPosixUserConfig")),
+            CustomFileSystemConfigs=deserialize_list(json_data.get("CustomFileSystemConfigs"), CustomFileSystemConfig),
             SecurityGroups=json_data.get("SecurityGroups"),
             SharingSettings=SharingSettings._deserialize(json_data.get("SharingSettings")),
         )
@@ -248,6 +264,180 @@ class RSessionAppSettings(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _RSessionAppSettings = RSessionAppSettings
+
+
+@dataclass
+class JupyterLabAppSettings(BaseModel):
+    DefaultResourceSpec: Optional["_ResourceSpec"]
+    LifecycleConfigArns: Optional[Sequence[str]]
+    CodeRepositories: Optional[Sequence["_CodeRepository"]]
+    CustomImages: Optional[Sequence["_CustomImage"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_JupyterLabAppSettings"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_JupyterLabAppSettings"]:
+        if not json_data:
+            return None
+        return cls(
+            DefaultResourceSpec=ResourceSpec._deserialize(json_data.get("DefaultResourceSpec")),
+            LifecycleConfigArns=json_data.get("LifecycleConfigArns"),
+            CodeRepositories=deserialize_list(json_data.get("CodeRepositories"), CodeRepository),
+            CustomImages=deserialize_list(json_data.get("CustomImages"), CustomImage),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_JupyterLabAppSettings = JupyterLabAppSettings
+
+
+@dataclass
+class CodeRepository(BaseModel):
+    RepositoryUrl: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CodeRepository"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CodeRepository"]:
+        if not json_data:
+            return None
+        return cls(
+            RepositoryUrl=json_data.get("RepositoryUrl"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CodeRepository = CodeRepository
+
+
+@dataclass
+class DefaultSpaceStorageSettings(BaseModel):
+    DefaultEbsStorageSettings: Optional["_DefaultEbsStorageSettings"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DefaultSpaceStorageSettings"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DefaultSpaceStorageSettings"]:
+        if not json_data:
+            return None
+        return cls(
+            DefaultEbsStorageSettings=DefaultEbsStorageSettings._deserialize(json_data.get("DefaultEbsStorageSettings")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DefaultSpaceStorageSettings = DefaultSpaceStorageSettings
+
+
+@dataclass
+class DefaultEbsStorageSettings(BaseModel):
+    DefaultEbsVolumeSizeInGb: Optional[int]
+    MaximumEbsVolumeSizeInGb: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_DefaultEbsStorageSettings"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_DefaultEbsStorageSettings"]:
+        if not json_data:
+            return None
+        return cls(
+            DefaultEbsVolumeSizeInGb=json_data.get("DefaultEbsVolumeSizeInGb"),
+            MaximumEbsVolumeSizeInGb=json_data.get("MaximumEbsVolumeSizeInGb"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_DefaultEbsStorageSettings = DefaultEbsStorageSettings
+
+
+@dataclass
+class CodeEditorAppSettings(BaseModel):
+    DefaultResourceSpec: Optional["_ResourceSpec"]
+    LifecycleConfigArns: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CodeEditorAppSettings"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CodeEditorAppSettings"]:
+        if not json_data:
+            return None
+        return cls(
+            DefaultResourceSpec=ResourceSpec._deserialize(json_data.get("DefaultResourceSpec")),
+            LifecycleConfigArns=json_data.get("LifecycleConfigArns"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CodeEditorAppSettings = CodeEditorAppSettings
+
+
+@dataclass
+class CustomPosixUserConfig(BaseModel):
+    Uid: Optional[int]
+    Gid: Optional[int]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CustomPosixUserConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CustomPosixUserConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            Uid=json_data.get("Uid"),
+            Gid=json_data.get("Gid"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CustomPosixUserConfig = CustomPosixUserConfig
+
+
+@dataclass
+class CustomFileSystemConfig(BaseModel):
+    EFSFileSystemConfig: Optional["_EFSFileSystemConfig"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CustomFileSystemConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CustomFileSystemConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            EFSFileSystemConfig=EFSFileSystemConfig._deserialize(json_data.get("EFSFileSystemConfig")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CustomFileSystemConfig = CustomFileSystemConfig
+
+
+@dataclass
+class EFSFileSystemConfig(BaseModel):
+    FileSystemPath: Optional[str]
+    FileSystemId: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EFSFileSystemConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EFSFileSystemConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            FileSystemPath=json_data.get("FileSystemPath"),
+            FileSystemId=json_data.get("FileSystemId"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EFSFileSystemConfig = EFSFileSystemConfig
 
 
 @dataclass

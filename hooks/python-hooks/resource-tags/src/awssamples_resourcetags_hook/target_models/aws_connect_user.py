@@ -41,6 +41,7 @@ class AwsConnectUser(BaseModel):
     SecurityProfileArns: Optional[AbstractSet[str]]
     UserArn: Optional[str]
     Tags: Optional[Any]
+    UserProficiencies: Optional[Sequence["_UserProficiency"]]
 
     @classmethod
     def _deserialize(
@@ -63,6 +64,7 @@ class AwsConnectUser(BaseModel):
             SecurityProfileArns=set_or_none(json_data.get("SecurityProfileArns")),
             UserArn=json_data.get("UserArn"),
             Tags=json_data.get("Tags"),
+            UserProficiencies=deserialize_list(json_data.get("UserProficiencies"), UserProficiency),
         )
 
 
@@ -144,5 +146,29 @@ class Tag(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Tag = Tag
+
+
+@dataclass
+class UserProficiency(BaseModel):
+    AttributeName: Optional[str]
+    AttributeValue: Optional[str]
+    Level: Optional[float]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_UserProficiency"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_UserProficiency"]:
+        if not json_data:
+            return None
+        return cls(
+            AttributeName=json_data.get("AttributeName"),
+            AttributeValue=json_data.get("AttributeValue"),
+            Level=json_data.get("Level"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_UserProficiency = UserProficiency
 
 

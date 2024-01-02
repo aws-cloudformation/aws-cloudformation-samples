@@ -33,6 +33,8 @@ class AwsCloudtrailEventdatastore(BaseModel):
     AdvancedEventSelectors: Optional[AbstractSet["_AdvancedEventSelector"]]
     CreatedTimestamp: Optional[str]
     EventDataStoreArn: Optional[str]
+    FederationEnabled: Optional[bool]
+    FederationRoleArn: Optional[str]
     MultiRegionEnabled: Optional[bool]
     Name: Optional[str]
     OrganizationEnabled: Optional[bool]
@@ -60,6 +62,8 @@ class AwsCloudtrailEventdatastore(BaseModel):
             AdvancedEventSelectors=set_or_none(json_data.get("AdvancedEventSelectors")),
             CreatedTimestamp=json_data.get("CreatedTimestamp"),
             EventDataStoreArn=json_data.get("EventDataStoreArn"),
+            FederationEnabled=json_data.get("FederationEnabled"),
+            FederationRoleArn=json_data.get("FederationRoleArn"),
             MultiRegionEnabled=json_data.get("MultiRegionEnabled"),
             Name=json_data.get("Name"),
             OrganizationEnabled=json_data.get("OrganizationEnabled"),

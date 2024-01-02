@@ -70,6 +70,7 @@ class FirewallPolicy(BaseModel):
     StatefulDefaultActions: Optional[Sequence[str]]
     StatefulEngineOptions: Optional["_StatefulEngineOptions"]
     PolicyVariables: Optional["_PolicyVariables"]
+    TLSInspectionConfigurationArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -87,6 +88,7 @@ class FirewallPolicy(BaseModel):
             StatefulDefaultActions=json_data.get("StatefulDefaultActions"),
             StatefulEngineOptions=StatefulEngineOptions._deserialize(json_data.get("StatefulEngineOptions")),
             PolicyVariables=PolicyVariables._deserialize(json_data.get("PolicyVariables")),
+            TLSInspectionConfigurationArn=json_data.get("TLSInspectionConfigurationArn"),
         )
 
 

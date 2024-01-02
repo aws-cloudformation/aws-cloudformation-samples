@@ -43,6 +43,7 @@ class AwsCodedeployDeploymentgroup(BaseModel):
     DeploymentConfigName: Optional[str]
     AlarmConfiguration: Optional["_AlarmConfiguration"]
     Ec2TagFilters: Optional[Sequence["_EC2TagFilter"]]
+    TerminationHookEnabled: Optional[bool]
     ECSServices: Optional[Sequence["_ECSService"]]
     AutoRollbackConfiguration: Optional["_AutoRollbackConfiguration"]
     LoadBalancerInfo: Optional["_LoadBalancerInfo"]
@@ -74,6 +75,7 @@ class AwsCodedeployDeploymentgroup(BaseModel):
             DeploymentConfigName=json_data.get("DeploymentConfigName"),
             AlarmConfiguration=AlarmConfiguration._deserialize(json_data.get("AlarmConfiguration")),
             Ec2TagFilters=deserialize_list(json_data.get("Ec2TagFilters"), EC2TagFilter),
+            TerminationHookEnabled=json_data.get("TerminationHookEnabled"),
             ECSServices=deserialize_list(json_data.get("ECSServices"), ECSService),
             AutoRollbackConfiguration=AutoRollbackConfiguration._deserialize(json_data.get("AutoRollbackConfiguration")),
             LoadBalancerInfo=LoadBalancerInfo._deserialize(json_data.get("LoadBalancerInfo")),

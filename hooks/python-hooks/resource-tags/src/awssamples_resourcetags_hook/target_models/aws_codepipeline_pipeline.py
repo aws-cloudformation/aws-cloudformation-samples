@@ -31,15 +31,18 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsCodepipelinePipeline(BaseModel):
     ArtifactStores: Optional[Sequence["_ArtifactStoreMap"]]
-    Version: Optional[str]
-    ArtifactStore: Optional["_ArtifactStore"]
     DisableInboundStageTransitions: Optional[Sequence["_StageTransition"]]
     Stages: Optional[Sequence["_StageDeclaration"]]
     RestartExecutionOnUpdate: Optional[bool]
-    Id: Optional[str]
+    Triggers: Optional[Sequence["_PipelineTriggerDeclaration"]]
     RoleArn: Optional[str]
-    Tags: Optional[Any]
     Name: Optional[str]
+    Variables: Optional[Sequence["_VariableDeclaration"]]
+    Version: Optional[str]
+    ArtifactStore: Optional["_ArtifactStore"]
+    PipelineType: Optional[str]
+    Id: Optional[str]
+    Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
@@ -52,15 +55,18 @@ class AwsCodepipelinePipeline(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             ArtifactStores=deserialize_list(json_data.get("ArtifactStores"), ArtifactStoreMap),
-            Version=json_data.get("Version"),
-            ArtifactStore=ArtifactStore._deserialize(json_data.get("ArtifactStore")),
             DisableInboundStageTransitions=deserialize_list(json_data.get("DisableInboundStageTransitions"), StageTransition),
             Stages=deserialize_list(json_data.get("Stages"), StageDeclaration),
             RestartExecutionOnUpdate=json_data.get("RestartExecutionOnUpdate"),
-            Id=json_data.get("Id"),
+            Triggers=deserialize_list(json_data.get("Triggers"), PipelineTriggerDeclaration),
             RoleArn=json_data.get("RoleArn"),
-            Tags=json_data.get("Tags"),
             Name=json_data.get("Name"),
+            Variables=deserialize_list(json_data.get("Variables"), VariableDeclaration),
+            Version=json_data.get("Version"),
+            ArtifactStore=ArtifactStore._deserialize(json_data.get("ArtifactStore")),
+            PipelineType=json_data.get("PipelineType"),
+            Id=json_data.get("Id"),
+            Tags=json_data.get("Tags"),
         )
 
 
@@ -304,6 +310,116 @@ class OutputArtifact(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _OutputArtifact = OutputArtifact
+
+
+@dataclass
+class PipelineTriggerDeclaration(BaseModel):
+    GitConfiguration: Optional["_GitConfiguration"]
+    ProviderType: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PipelineTriggerDeclaration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PipelineTriggerDeclaration"]:
+        if not json_data:
+            return None
+        return cls(
+            GitConfiguration=GitConfiguration._deserialize(json_data.get("GitConfiguration")),
+            ProviderType=json_data.get("ProviderType"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PipelineTriggerDeclaration = PipelineTriggerDeclaration
+
+
+@dataclass
+class GitConfiguration(BaseModel):
+    Push: Optional[Sequence["_GitPushFilter"]]
+    SourceActionName: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_GitConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_GitConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Push=deserialize_list(json_data.get("Push"), GitPushFilter),
+            SourceActionName=json_data.get("SourceActionName"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_GitConfiguration = GitConfiguration
+
+
+@dataclass
+class GitPushFilter(BaseModel):
+    Tags: Optional["_GitTagFilterCriteria"]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_GitPushFilter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_GitPushFilter"]:
+        if not json_data:
+            return None
+        return cls(
+            Tags=GitTagFilterCriteria._deserialize(json_data.get("Tags")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_GitPushFilter = GitPushFilter
+
+
+@dataclass
+class GitTagFilterCriteria(BaseModel):
+    Includes: Optional[Sequence[str]]
+    Excludes: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_GitTagFilterCriteria"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_GitTagFilterCriteria"]:
+        if not json_data:
+            return None
+        return cls(
+            Includes=json_data.get("Includes"),
+            Excludes=json_data.get("Excludes"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_GitTagFilterCriteria = GitTagFilterCriteria
+
+
+@dataclass
+class VariableDeclaration(BaseModel):
+    DefaultValue: Optional[str]
+    Description: Optional[str]
+    Name: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_VariableDeclaration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_VariableDeclaration"]:
+        if not json_data:
+            return None
+        return cls(
+            DefaultValue=json_data.get("DefaultValue"),
+            Description=json_data.get("Description"),
+            Name=json_data.get("Name"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_VariableDeclaration = VariableDeclaration
 
 
 @dataclass

@@ -260,6 +260,7 @@ _ImageConfigurationInput = ImageConfigurationInput
 class MonitoringConfiguration(BaseModel):
     S3MonitoringConfiguration: Optional["_S3MonitoringConfiguration"]
     ManagedPersistenceMonitoringConfiguration: Optional["_ManagedPersistenceMonitoringConfiguration"]
+    CloudWatchLoggingConfiguration: Optional["_CloudWatchLoggingConfiguration"]
 
     @classmethod
     def _deserialize(
@@ -271,6 +272,7 @@ class MonitoringConfiguration(BaseModel):
         return cls(
             S3MonitoringConfiguration=S3MonitoringConfiguration._deserialize(json_data.get("S3MonitoringConfiguration")),
             ManagedPersistenceMonitoringConfiguration=ManagedPersistenceMonitoringConfiguration._deserialize(json_data.get("ManagedPersistenceMonitoringConfiguration")),
+            CloudWatchLoggingConfiguration=CloudWatchLoggingConfiguration._deserialize(json_data.get("CloudWatchLoggingConfiguration")),
         )
 
 
@@ -320,6 +322,56 @@ class ManagedPersistenceMonitoringConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _ManagedPersistenceMonitoringConfiguration = ManagedPersistenceMonitoringConfiguration
+
+
+@dataclass
+class CloudWatchLoggingConfiguration(BaseModel):
+    Enabled: Optional[bool]
+    LogGroupName: Optional[str]
+    LogStreamNamePrefix: Optional[str]
+    EncryptionKeyArn: Optional[str]
+    LogTypeMap: Optional[AbstractSet["_LogTypeMapKeyValuePair"]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_CloudWatchLoggingConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_CloudWatchLoggingConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            Enabled=json_data.get("Enabled"),
+            LogGroupName=json_data.get("LogGroupName"),
+            LogStreamNamePrefix=json_data.get("LogStreamNamePrefix"),
+            EncryptionKeyArn=json_data.get("EncryptionKeyArn"),
+            LogTypeMap=set_or_none(json_data.get("LogTypeMap")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_CloudWatchLoggingConfiguration = CloudWatchLoggingConfiguration
+
+
+@dataclass
+class LogTypeMapKeyValuePair(BaseModel):
+    Key: Optional[str]
+    Value: Optional[AbstractSet[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_LogTypeMapKeyValuePair"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_LogTypeMapKeyValuePair"]:
+        if not json_data:
+            return None
+        return cls(
+            Key=json_data.get("Key"),
+            Value=set_or_none(json_data.get("Value")),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_LogTypeMapKeyValuePair = LogTypeMapKeyValuePair
 
 
 @dataclass

@@ -1995,6 +1995,7 @@ _H265ColorSpaceSettings = H265ColorSpaceSettings
 @dataclass
 class GlobalConfiguration(BaseModel):
     InputEndAction: Optional[str]
+    OutputLockingSettings: Optional["_OutputLockingSettings"]
     OutputTimingSource: Optional[str]
     OutputLockingMode: Optional[str]
     SupportLowFramerateInputs: Optional[str]
@@ -2010,6 +2011,7 @@ class GlobalConfiguration(BaseModel):
             return None
         return cls(
             InputEndAction=json_data.get("InputEndAction"),
+            OutputLockingSettings=OutputLockingSettings._deserialize(json_data.get("OutputLockingSettings")),
             OutputTimingSource=json_data.get("OutputTimingSource"),
             OutputLockingMode=json_data.get("OutputLockingMode"),
             SupportLowFramerateInputs=json_data.get("SupportLowFramerateInputs"),
@@ -2020,6 +2022,50 @@ class GlobalConfiguration(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _GlobalConfiguration = GlobalConfiguration
+
+
+@dataclass
+class OutputLockingSettings(BaseModel):
+    EpochLockingSettings: Optional["_EpochLockingSettings"]
+    PipelineLockingSettings: Optional[MutableMapping[str, Any]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_OutputLockingSettings"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_OutputLockingSettings"]:
+        if not json_data:
+            return None
+        return cls(
+            EpochLockingSettings=EpochLockingSettings._deserialize(json_data.get("EpochLockingSettings")),
+            PipelineLockingSettings=json_data.get("PipelineLockingSettings"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_OutputLockingSettings = OutputLockingSettings
+
+
+@dataclass
+class EpochLockingSettings(BaseModel):
+    JamSyncTime: Optional[str]
+    CustomEpoch: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_EpochLockingSettings"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_EpochLockingSettings"]:
+        if not json_data:
+            return None
+        return cls(
+            JamSyncTime=json_data.get("JamSyncTime"),
+            CustomEpoch=json_data.get("CustomEpoch"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_EpochLockingSettings = EpochLockingSettings
 
 
 @dataclass
@@ -2138,6 +2184,7 @@ _ThumbnailConfiguration = ThumbnailConfiguration
 
 @dataclass
 class FeatureActivations(BaseModel):
+    OutputStaticImageOverlayScheduleActions: Optional[str]
     InputPrepareScheduleActions: Optional[str]
 
     @classmethod
@@ -2148,6 +2195,7 @@ class FeatureActivations(BaseModel):
         if not json_data:
             return None
         return cls(
+            OutputStaticImageOverlayScheduleActions=json_data.get("OutputStaticImageOverlayScheduleActions"),
             InputPrepareScheduleActions=json_data.get("InputPrepareScheduleActions"),
         )
 

@@ -549,6 +549,46 @@
             ]
         }
     },
+    "AWS::B2BI::Capability": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::B2BI::Partnership": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::B2BI::Profile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::B2BI::Transformer": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Backup::BackupPlan": {
         "resourceProperties": {
             "BackupPlanTags": {
@@ -1103,6 +1143,16 @@
             ]
         }
     },
+    "AWS::Connect::Instance": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Connect::PhoneNumber": {
         "resourceProperties": {
             "Tags": [
@@ -1322,6 +1372,16 @@
             ]
         }
     },
+    "AWS::DMS::DataProvider": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::DMS::Endpoint": {
         "resourceProperties": {
             "Tags": [
@@ -1333,6 +1393,26 @@
         }
     },
     "AWS::DMS::EventSubscription": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::DMS::InstanceProfile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::DMS::MigrationProject": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2298,6 +2378,16 @@
     "AWS::EFS::FileSystem": {
         "resourceProperties": {
             "FileSystemTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::EKS::AccessEntry": {
+        "resourceProperties": {
+            "Tags": [
                 {
                     "Key": "Name",
                     "Value": "Test"
@@ -3320,6 +3410,13 @@
             }
         }
     },
+    "AWS::ImageBuilder::Workflow": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
     "AWS::Inspector::ResourceGroup": {
         "resourceProperties": {
             "ResourceGroupTags": [
@@ -3361,6 +3458,16 @@
         }
     },
     "AWS::IoT::CACertificate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::IoT::CertificateProvider": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4566,6 +4673,16 @@
         }
     },
     "AWS::NetworkFirewall::RuleGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::NetworkFirewall::TLSInspectionConfiguration": {
         "resourceProperties": {
             "Tags": [
                 {

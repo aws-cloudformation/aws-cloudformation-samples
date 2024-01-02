@@ -29,63 +29,81 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsApsWorkspace(BaseModel):
-    PrometheusEndpoint: Optional[str]
-    Alias: Optional[str]
-    LoggingConfiguration: Optional["_LoggingConfiguration"]
-    WorkspaceId: Optional[str]
-    AlertManagerDefinition: Optional[str]
+class AwsConnectInstance(BaseModel):
+    Id: Optional[str]
     Arn: Optional[str]
+    IdentityManagementType: Optional[str]
+    InstanceAlias: Optional[str]
+    CreatedTime: Optional[str]
+    ServiceRole: Optional[str]
+    InstanceStatus: Optional[str]
+    DirectoryId: Optional[str]
+    Attributes: Optional["_Attributes"]
     Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsApsWorkspace"],
+        cls: Type["_AwsConnectInstance"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsApsWorkspace"]:
+    ) -> Optional["_AwsConnectInstance"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            PrometheusEndpoint=json_data.get("PrometheusEndpoint"),
-            Alias=json_data.get("Alias"),
-            LoggingConfiguration=LoggingConfiguration._deserialize(json_data.get("LoggingConfiguration")),
-            WorkspaceId=json_data.get("WorkspaceId"),
-            AlertManagerDefinition=json_data.get("AlertManagerDefinition"),
+            Id=json_data.get("Id"),
             Arn=json_data.get("Arn"),
+            IdentityManagementType=json_data.get("IdentityManagementType"),
+            InstanceAlias=json_data.get("InstanceAlias"),
+            CreatedTime=json_data.get("CreatedTime"),
+            ServiceRole=json_data.get("ServiceRole"),
+            InstanceStatus=json_data.get("InstanceStatus"),
+            DirectoryId=json_data.get("DirectoryId"),
+            Attributes=Attributes._deserialize(json_data.get("Attributes")),
             Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsApsWorkspace = AwsApsWorkspace
+_AwsConnectInstance = AwsConnectInstance
 
 
 @dataclass
-class LoggingConfiguration(BaseModel):
-    LogGroupArn: Optional[str]
+class Attributes(BaseModel):
+    InboundCalls: Optional[bool]
+    OutboundCalls: Optional[bool]
+    ContactflowLogs: Optional[bool]
+    ContactLens: Optional[bool]
+    AutoResolveBestVoices: Optional[bool]
+    UseCustomTTSVoices: Optional[bool]
+    EarlyMedia: Optional[bool]
 
     @classmethod
     def _deserialize(
-        cls: Type["_LoggingConfiguration"],
+        cls: Type["_Attributes"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_LoggingConfiguration"]:
+    ) -> Optional["_Attributes"]:
         if not json_data:
             return None
         return cls(
-            LogGroupArn=json_data.get("LogGroupArn"),
+            InboundCalls=json_data.get("InboundCalls"),
+            OutboundCalls=json_data.get("OutboundCalls"),
+            ContactflowLogs=json_data.get("ContactflowLogs"),
+            ContactLens=json_data.get("ContactLens"),
+            AutoResolveBestVoices=json_data.get("AutoResolveBestVoices"),
+            UseCustomTTSVoices=json_data.get("UseCustomTTSVoices"),
+            EarlyMedia=json_data.get("EarlyMedia"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_LoggingConfiguration = LoggingConfiguration
+_Attributes = Attributes
 
 
 @dataclass
 class Tag(BaseModel):
-    Value: Optional[str]
     Key: Optional[str]
+    Value: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -95,8 +113,8 @@ class Tag(BaseModel):
         if not json_data:
             return None
         return cls(
-            Value=json_data.get("Value"),
             Key=json_data.get("Key"),
+            Value=json_data.get("Value"),
         )
 
 

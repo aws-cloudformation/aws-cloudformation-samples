@@ -46,6 +46,10 @@ class AwsEmrStudio(BaseModel):
     WorkspaceSecurityGroupId: Optional[str]
     IdpAuthUrl: Optional[str]
     IdpRelayStateParameterName: Optional[str]
+    TrustedIdentityPropagationEnabled: Optional[bool]
+    IdcUserAssignment: Optional[str]
+    IdcInstanceArn: Optional[str]
+    EncryptionKeyArn: Optional[str]
 
     @classmethod
     def _deserialize(
@@ -73,6 +77,10 @@ class AwsEmrStudio(BaseModel):
             WorkspaceSecurityGroupId=json_data.get("WorkspaceSecurityGroupId"),
             IdpAuthUrl=json_data.get("IdpAuthUrl"),
             IdpRelayStateParameterName=json_data.get("IdpRelayStateParameterName"),
+            TrustedIdentityPropagationEnabled=json_data.get("TrustedIdentityPropagationEnabled"),
+            IdcUserAssignment=json_data.get("IdcUserAssignment"),
+            IdcInstanceArn=json_data.get("IdcInstanceArn"),
+            EncryptionKeyArn=json_data.get("EncryptionKeyArn"),
         )
 
 

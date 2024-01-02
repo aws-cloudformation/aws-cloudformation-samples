@@ -33,6 +33,7 @@ class AwsOpensearchserviceDomain(BaseModel):
     ClusterConfig: Optional["_ClusterConfig"]
     DomainName: Optional[str]
     AccessPolicies: Optional[MutableMapping[str, Any]]
+    IPAddressType: Optional[str]
     EngineVersion: Optional[str]
     AdvancedOptions: Optional[MutableMapping[str, str]]
     LogPublishingOptions: Optional[MutableMapping[str, "_LogPublishingOption"]]
@@ -43,6 +44,7 @@ class AwsOpensearchserviceDomain(BaseModel):
     CognitoOptions: Optional["_CognitoOptions"]
     AdvancedSecurityOptions: Optional["_AdvancedSecurityOptionsInput"]
     DomainEndpoint: Optional[str]
+    DomainEndpointV2: Optional[str]
     DomainEndpoints: Optional[MutableMapping[str, str]]
     EBSOptions: Optional["_EBSOptions"]
     Id: Optional[str]
@@ -67,6 +69,7 @@ class AwsOpensearchserviceDomain(BaseModel):
             ClusterConfig=ClusterConfig._deserialize(json_data.get("ClusterConfig")),
             DomainName=json_data.get("DomainName"),
             AccessPolicies=json_data.get("AccessPolicies"),
+            IPAddressType=json_data.get("IPAddressType"),
             EngineVersion=json_data.get("EngineVersion"),
             AdvancedOptions=json_data.get("AdvancedOptions"),
             LogPublishingOptions=json_data.get("LogPublishingOptions"),
@@ -77,6 +80,7 @@ class AwsOpensearchserviceDomain(BaseModel):
             CognitoOptions=CognitoOptions._deserialize(json_data.get("CognitoOptions")),
             AdvancedSecurityOptions=AdvancedSecurityOptionsInput._deserialize(json_data.get("AdvancedSecurityOptions")),
             DomainEndpoint=json_data.get("DomainEndpoint"),
+            DomainEndpointV2=json_data.get("DomainEndpointV2"),
             DomainEndpoints=json_data.get("DomainEndpoints"),
             EBSOptions=EBSOptions._deserialize(json_data.get("EBSOptions")),
             Id=json_data.get("Id"),

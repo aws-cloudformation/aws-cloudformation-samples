@@ -36,6 +36,14 @@
         ]
     },
     {
+        "name": "AWS::EMR::Studio",
+        "ignored_target_properties": [
+            {
+                "property_name": "TrustedIdentityPropagationEnabled"
+            }
+        ]
+    },
+    {
         "name": "AWS::FSx::DataRepositoryAssociation",
         "ignored_target_properties": [
             {
@@ -60,14 +68,6 @@
         ]
     },
     {
-        "name": "AWS::QuickSight::DataSet",
-        "ignored_target_properties": [
-            {
-                "property_name": "RowLevelPermissionTagConfiguration"
-            }
-        ]
-    },
-    {
         "name": "AWS::LakeFormation::TagAssociation",
         "ignored_target_properties": [
             {
@@ -80,6 +80,14 @@
         "ignored_target_properties": [
             {
                 "property_name": "Tag"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QuickSight::DataSet",
+        "ignored_target_properties": [
+            {
+                "property_name": "RowLevelPermissionTagConfiguration"
             }
         ]
     }

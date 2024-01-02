@@ -31,6 +31,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsEmrCluster(BaseModel):
     Steps: Optional[Sequence["_StepConfig"]]
+    PlacementGroupConfigs: Optional[Sequence["_PlacementGroupConfig"]]
     StepConcurrencyLevel: Optional[int]
     EbsRootVolumeSize: Optional[int]
     OSReleaseLabel: Optional[str]
@@ -50,8 +51,10 @@ class AwsEmrCluster(BaseModel):
     Applications: Optional[Sequence["_Application"]]
     AutoScalingRole: Optional[str]
     CustomAmiId: Optional[str]
+    EbsRootVolumeIops: Optional[int]
     Instances: Optional["_JobFlowInstancesConfig"]
     ScaleDownBehavior: Optional[str]
+    EbsRootVolumeThroughput: Optional[int]
     JobFlowRole: Optional[str]
     VisibleToAllUsers: Optional[bool]
     SecurityConfiguration: Optional[str]
@@ -68,6 +71,7 @@ class AwsEmrCluster(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             Steps=deserialize_list(json_data.get("Steps"), StepConfig),
+            PlacementGroupConfigs=deserialize_list(json_data.get("PlacementGroupConfigs"), PlacementGroupConfig),
             StepConcurrencyLevel=json_data.get("StepConcurrencyLevel"),
             EbsRootVolumeSize=json_data.get("EbsRootVolumeSize"),
             OSReleaseLabel=json_data.get("OSReleaseLabel"),
@@ -87,8 +91,10 @@ class AwsEmrCluster(BaseModel):
             Applications=deserialize_list(json_data.get("Applications"), Application),
             AutoScalingRole=json_data.get("AutoScalingRole"),
             CustomAmiId=json_data.get("CustomAmiId"),
+            EbsRootVolumeIops=json_data.get("EbsRootVolumeIops"),
             Instances=JobFlowInstancesConfig._deserialize(json_data.get("Instances")),
             ScaleDownBehavior=json_data.get("ScaleDownBehavior"),
+            EbsRootVolumeThroughput=json_data.get("EbsRootVolumeThroughput"),
             JobFlowRole=json_data.get("JobFlowRole"),
             VisibleToAllUsers=json_data.get("VisibleToAllUsers"),
             SecurityConfiguration=json_data.get("SecurityConfiguration"),
@@ -170,6 +176,28 @@ class KeyValue(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _KeyValue = KeyValue
+
+
+@dataclass
+class PlacementGroupConfig(BaseModel):
+    InstanceRole: Optional[str]
+    PlacementStrategy: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_PlacementGroupConfig"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_PlacementGroupConfig"]:
+        if not json_data:
+            return None
+        return cls(
+            InstanceRole=json_data.get("InstanceRole"),
+            PlacementStrategy=json_data.get("PlacementStrategy"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_PlacementGroupConfig = PlacementGroupConfig
 
 
 @dataclass

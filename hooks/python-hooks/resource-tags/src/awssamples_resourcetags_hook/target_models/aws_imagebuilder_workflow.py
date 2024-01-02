@@ -29,52 +29,42 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 
 
 @dataclass
-class AwsEventschemasRegistry(BaseModel):
-    RegistryName: Optional[str]
+class AwsImagebuilderWorkflow(BaseModel):
+    Arn: Optional[str]
+    Name: Optional[str]
+    Version: Optional[str]
     Description: Optional[str]
-    RegistryArn: Optional[str]
+    ChangeDescription: Optional[str]
+    Type: Optional[str]
+    Data: Optional[str]
+    Uri: Optional[str]
+    KmsKeyId: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
     def _deserialize(
-        cls: Type["_AwsEventschemasRegistry"],
+        cls: Type["_AwsImagebuilderWorkflow"],
         json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_AwsEventschemasRegistry"]:
+    ) -> Optional["_AwsImagebuilderWorkflow"]:
         if not json_data:
             return None
         dataclasses = {n: o for n, o in getmembers(sys.modules[__name__]) if isclass(o)}
         recast_object(cls, json_data, dataclasses)
         return cls(
-            RegistryName=json_data.get("RegistryName"),
+            Arn=json_data.get("Arn"),
+            Name=json_data.get("Name"),
+            Version=json_data.get("Version"),
             Description=json_data.get("Description"),
-            RegistryArn=json_data.get("RegistryArn"),
+            ChangeDescription=json_data.get("ChangeDescription"),
+            Type=json_data.get("Type"),
+            Data=json_data.get("Data"),
+            Uri=json_data.get("Uri"),
+            KmsKeyId=json_data.get("KmsKeyId"),
             Tags=json_data.get("Tags"),
         )
 
 
 # work around possible type aliasing issues when variable has same name as a model
-_AwsEventschemasRegistry = AwsEventschemasRegistry
-
-
-@dataclass
-class TagsEntry(BaseModel):
-    Value: Optional[str]
-    Key: Optional[str]
-
-    @classmethod
-    def _deserialize(
-        cls: Type["_TagsEntry"],
-        json_data: Optional[Mapping[str, Any]],
-    ) -> Optional["_TagsEntry"]:
-        if not json_data:
-            return None
-        return cls(
-            Value=json_data.get("Value"),
-            Key=json_data.get("Key"),
-        )
-
-
-# work around possible type aliasing issues when variable has same name as a model
-_TagsEntry = TagsEntry
+_AwsImagebuilderWorkflow = AwsImagebuilderWorkflow
 
 

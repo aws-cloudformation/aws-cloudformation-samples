@@ -40,8 +40,10 @@ class AwsImagebuilderImagepipeline(BaseModel):
     ContainerRecipeArn: Optional[str]
     DistributionConfigurationArn: Optional[str]
     InfrastructureConfigurationArn: Optional[str]
+    Workflows: Optional[Sequence["_WorkflowConfiguration"]]
     EnhancedImageMetadataEnabled: Optional[bool]
     ImageScanningConfiguration: Optional["_ImageScanningConfiguration"]
+    ExecutionRole: Optional[str]
     Tags: Optional[Any]
 
     @classmethod
@@ -64,8 +66,10 @@ class AwsImagebuilderImagepipeline(BaseModel):
             ContainerRecipeArn=json_data.get("ContainerRecipeArn"),
             DistributionConfigurationArn=json_data.get("DistributionConfigurationArn"),
             InfrastructureConfigurationArn=json_data.get("InfrastructureConfigurationArn"),
+            Workflows=deserialize_list(json_data.get("Workflows"), WorkflowConfiguration),
             EnhancedImageMetadataEnabled=json_data.get("EnhancedImageMetadataEnabled"),
             ImageScanningConfiguration=ImageScanningConfiguration._deserialize(json_data.get("ImageScanningConfiguration")),
+            ExecutionRole=json_data.get("ExecutionRole"),
             Tags=json_data.get("Tags"),
         )
 
@@ -116,6 +120,54 @@ class Schedule(BaseModel):
 
 # work around possible type aliasing issues when variable has same name as a model
 _Schedule = Schedule
+
+
+@dataclass
+class WorkflowConfiguration(BaseModel):
+    WorkflowArn: Optional[str]
+    Parameters: Optional[Sequence["_WorkflowParameter"]]
+    ParallelGroup: Optional[str]
+    OnFailure: Optional[str]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_WorkflowConfiguration"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_WorkflowConfiguration"]:
+        if not json_data:
+            return None
+        return cls(
+            WorkflowArn=json_data.get("WorkflowArn"),
+            Parameters=deserialize_list(json_data.get("Parameters"), WorkflowParameter),
+            ParallelGroup=json_data.get("ParallelGroup"),
+            OnFailure=json_data.get("OnFailure"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_WorkflowConfiguration = WorkflowConfiguration
+
+
+@dataclass
+class WorkflowParameter(BaseModel):
+    Name: Optional[str]
+    Value: Optional[Sequence[str]]
+
+    @classmethod
+    def _deserialize(
+        cls: Type["_WorkflowParameter"],
+        json_data: Optional[Mapping[str, Any]],
+    ) -> Optional["_WorkflowParameter"]:
+        if not json_data:
+            return None
+        return cls(
+            Name=json_data.get("Name"),
+            Value=json_data.get("Value"),
+        )
+
+
+# work around possible type aliasing issues when variable has same name as a model
+_WorkflowParameter = WorkflowParameter
 
 
 @dataclass

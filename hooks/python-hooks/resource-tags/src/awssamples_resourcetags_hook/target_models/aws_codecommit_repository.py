@@ -31,6 +31,7 @@ def set_or_none(value: Optional[Sequence[T]]) -> Optional[AbstractSet[T]]:
 @dataclass
 class AwsCodecommitRepository(BaseModel):
     CloneUrlHttp: Optional[str]
+    KmsKeyId: Optional[str]
     CloneUrlSsh: Optional[str]
     RepositoryName: Optional[str]
     Triggers: Optional[Sequence["_RepositoryTrigger"]]
@@ -52,6 +53,7 @@ class AwsCodecommitRepository(BaseModel):
         recast_object(cls, json_data, dataclasses)
         return cls(
             CloneUrlHttp=json_data.get("CloneUrlHttp"),
+            KmsKeyId=json_data.get("KmsKeyId"),
             CloneUrlSsh=json_data.get("CloneUrlSsh"),
             RepositoryName=json_data.get("RepositoryName"),
             Triggers=deserialize_list(json_data.get("Triggers"), RepositoryTrigger),
