@@ -1110,7 +1110,8 @@ def test_get_stack_info() -> None:
     response = mocks.DESCRIBE_STACKS_API_MOCK[1]
 
     client = botocore.session.get_session().create_client(
-        "cloudformation",
+        service_name="cloudformation",
+        region_name="us-east-1",
     )
     stubber = Stubber(client)
 
