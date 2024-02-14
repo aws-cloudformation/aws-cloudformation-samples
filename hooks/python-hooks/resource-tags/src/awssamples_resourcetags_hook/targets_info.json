@@ -879,6 +879,15 @@
         ]
     },
     {
+        "name": "AWS::CodeBuild::Fleet",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CodeBuild::Project",
         "tags_info": [
             {
@@ -1545,6 +1554,15 @@
     },
     {
         "name": "AWS::DataSync::Task",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::DataZone::Domain",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2756,6 +2774,15 @@
         ]
     },
     {
+        "name": "AWS::Glue::CustomEntityType",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::Glue::DataQualityRuleset",
         "tags_info": [
             {
@@ -3080,6 +3107,15 @@
         ]
     },
     {
+        "name": "AWS::IVS::Stage",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IVS::StreamKey",
         "tags_info": [
             {
@@ -3197,6 +3233,15 @@
             {
                 "property_name": "ResourceGroupTags",
                 "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::InspectorV2::CisScanConfiguration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
             }
         ]
     },
@@ -3925,6 +3970,60 @@
         ]
     },
     {
+        "name": "AWS::Location::APIKey",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Location::GeofenceCollection",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Location::Map",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Location::PlaceIndex",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Location::RouteCalculator",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Location::Tracker",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Logs::Delivery",
         "tags_info": [
             {
@@ -4340,6 +4439,15 @@
     },
     {
         "name": "AWS::Neptune::DBSubnetGroup",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::NeptuneGraph::Graph",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -5033,6 +5141,15 @@
     },
     {
         "name": "AWS::RDS::EventSubscription",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::RDS::Integration",
         "tags_info": [
             {
                 "property_name": "Tags",

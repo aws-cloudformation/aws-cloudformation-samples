@@ -929,6 +929,16 @@
             ]
         }
     },
+    "AWS::CodeBuild::Fleet": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::CodeBuild::Project": {
         "resourceProperties": {
             "Tags": [
@@ -1663,6 +1673,16 @@
         }
     },
     "AWS::DataSync::Task": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::DataZone::Domain": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3012,6 +3032,13 @@
             }
         }
     },
+    "AWS::Glue::CustomEntityType": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
     "AWS::Glue::DataQualityRuleset": {
         "resourceProperties": {
             "Tags": {
@@ -3321,6 +3348,16 @@
             ]
         }
     },
+    "AWS::IVS::Stage": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::IVS::StreamKey": {
         "resourceProperties": {
             "Tags": [
@@ -3425,6 +3462,13 @@
                     "Value": "Test"
                 }
             ]
+        }
+    },
+    "AWS::InspectorV2::CisScanConfiguration": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
         }
     },
     "AWS::InternetMonitor::Monitor": {
@@ -4218,6 +4262,66 @@
             ]
         }
     },
+    "AWS::Location::APIKey": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Location::GeofenceCollection": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Location::Map": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Location::PlaceIndex": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Location::RouteCalculator": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Location::Tracker": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Logs::Delivery": {
         "resourceProperties": {
             "Tags": [
@@ -4643,6 +4747,16 @@
         }
     },
     "AWS::Neptune::DBSubnetGroup": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::NeptuneGraph::Graph": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5344,6 +5458,16 @@
         }
     },
     "AWS::RDS::EventSubscription": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::RDS::Integration": {
         "resourceProperties": {
             "Tags": [
                 {

@@ -143,6 +143,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::CloudWatch::MetricStream`
 * `AWS::CodeArtifact::Domain`
 * `AWS::CodeArtifact::Repository`
+* `AWS::CodeBuild::Fleet`
 * `AWS::CodeBuild::Project`
 * `AWS::CodeBuild::ReportGroup`
 * `AWS::CodeCommit::Repository`
@@ -217,6 +218,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::DataSync::LocationSMB`
 * `AWS::DataSync::StorageSystem`
 * `AWS::DataSync::Task`
+* `AWS::DataZone::Domain`
 * `AWS::Detective::Graph`
 * `AWS::DocDB::DBCluster`
 * `AWS::DocDB::DBClusterParameterGroup`
@@ -348,6 +350,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::GameLift::Script`
 * `AWS::GlobalAccelerator::Accelerator`
 * `AWS::Glue::Crawler`
+* `AWS::Glue::CustomEntityType`
 * `AWS::Glue::DataQualityRuleset`
 * `AWS::Glue::DevEndpoint`
 * `AWS::Glue::Job`
@@ -384,6 +387,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IVS::Channel`
 * `AWS::IVS::PlaybackKeyPair`
 * `AWS::IVS::RecordingConfiguration`
+* `AWS::IVS::Stage`
 * `AWS::IVS::StreamKey`
 * `AWS::IVSChat::LoggingConfiguration`
 * `AWS::IVSChat::Room`
@@ -397,6 +401,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ImageBuilder::LifecyclePolicy`
 * `AWS::ImageBuilder::Workflow`
 * `AWS::Inspector::ResourceGroup`
+* `AWS::InspectorV2::CisScanConfiguration`
 * `AWS::InternetMonitor::Monitor`
 * `AWS::IoT::Authorizer`
 * `AWS::IoT::BillingGroup`
@@ -477,6 +482,12 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Lightsail::Distribution`
 * `AWS::Lightsail::Instance`
 * `AWS::Lightsail::LoadBalancer`
+* `AWS::Location::APIKey`
+* `AWS::Location::GeofenceCollection`
+* `AWS::Location::Map`
+* `AWS::Location::PlaceIndex`
+* `AWS::Location::RouteCalculator`
+* `AWS::Location::Tracker`
 * `AWS::Logs::Delivery`
 * `AWS::Logs::DeliveryDestination`
 * `AWS::Logs::DeliverySource`
@@ -524,6 +535,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Neptune::DBInstance`
 * `AWS::Neptune::DBParameterGroup`
 * `AWS::Neptune::DBSubnetGroup`
+* `AWS::NeptuneGraph::Graph`
 * `AWS::NetworkFirewall::Firewall`
 * `AWS::NetworkFirewall::FirewallPolicy`
 * `AWS::NetworkFirewall::RuleGroup`
@@ -601,6 +613,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::RDS::DBSecurityGroup`
 * `AWS::RDS::DBSubnetGroup`
 * `AWS::RDS::EventSubscription`
+* `AWS::RDS::Integration`
 * `AWS::RDS::OptionGroup`
 * `AWS::RUM::AppMonitor`
 * `AWS::Redshift::Cluster`

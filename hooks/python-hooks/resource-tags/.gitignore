@@ -131,3 +131,5 @@ rpdk.log*
 update_hook.log*
 
 awssamples-resourcetags-hook.zip
+
+src/*/target_models/
