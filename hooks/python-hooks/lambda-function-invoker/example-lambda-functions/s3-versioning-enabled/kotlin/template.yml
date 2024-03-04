@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for the s3-versioning-enabled sample Lambda function.
+
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 512
+
+Resources:
+  S3VersioningEnabledFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.awssamples.s3versioningenabled.App::handleRequest
+      Runtime: java17
+      CodeUri: ./target/s3versioningenabled.jar

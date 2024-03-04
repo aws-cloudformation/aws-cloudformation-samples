@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Test-only template that describes an Amazon S3 bucket with versioning enabled.
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: test
+        - Key: AppName
+          Value: test
+        - Key: Env
+          Value: dev
+
+Outputs:
+  S3BucketName:
+    Description: The name of the Amazon S3 bucket.
+    Value: !Ref 'S3Bucket'

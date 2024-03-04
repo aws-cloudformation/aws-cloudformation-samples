@@ -1,0 +1,779 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS Lambda function to use with contract tests for the AWSSamples::LambdaFunctionInvoker::Hook.
+
+Parameters:
+  LambdaFunction1UseCallbacks:
+    Description: Whether or not to use callbacks for the target Lambda function.
+    Type: String
+    AllowedValues:
+      - "no"
+      - "yes"
+    Default: "no"
+
+  LambdaFunction2UseCallbacks:
+    Description: Whether or not to use callbacks for the target Lambda function.
+    Type: String
+    AllowedValues:
+      - "no"
+      - "yes"
+    Default: "no"
+
+  LambdaFunction3UseCallbacks:
+    Description: Whether or not to use callbacks for the target Lambda function.
+    Type: String
+    AllowedValues:
+      - "no"
+      - "yes"
+    Default: "no"
+
+  LambdaFunction4UseCallbacks:
+    Description: Whether or not to use callbacks for the target Lambda function.
+    Type: String
+    AllowedValues:
+      - "no"
+      - "yes"
+    Default: "no"
+
+  LambdaFunction5UseCallbacks:
+    Description: Whether or not to use callbacks for the target Lambda function.
+    Type: String
+    AllowedValues:
+      - "no"
+      - "yes"
+    Default: "no"
+
+  LogRetention:
+    Description: The number of days for the retention of Amazon CloudWatch Logs.
+    Type: String
+    AllowedValues:
+      - 1
+      - 3
+      - 5
+      - 7
+      - 14
+      - 30
+      - 60
+      - 90
+      - 120
+      - 150
+      - 180
+      - 365
+      - 400
+      - 545
+      - 731
+      - 1827
+      - 3653
+    Default: 7
+    ConstraintDescription: Select a value.
+
+Mappings:
+  TestConfig:
+    LambdaFunctions:
+      Prefix: LambdaFunctionInvokerHookTest
+
+Resources:
+  LambdaFunction1:
+    Type: AWS::Lambda::Function
+    DependsOn: LogGroup1
+    Properties:
+      Code:
+        ZipFile: |
+          """Contract tests Lambda function called by AWSSamples::LambdaFunctionInvoker::Hook."""
+
+
+          import logging
+          import os
+
+          LOGGER = logging.getLogger()
+
+          LOGGER.setLevel("INFO")
+          # LOGGER.setLevel("DEBUG")
+
+          # Define for which invocation points to run. Comment out the line
+          # corresponding to the invocation point you do not want to run.
+          HOOK_INVOCATION_POINTS = [
+              "CREATE_PRE_PROVISION",
+              "UPDATE_PRE_PROVISION",
+              "DELETE_PRE_PROVISION",
+          ]
+
+          # Used for toggling between callback-based workflows or not.
+          # For testing purposes only.
+          USE_CALLBACKS = os.environ["USE_CALLBACKS"]
+          CALLBACK_CONTEXT = {"test": 1}
+          CALLBACK_DELAY_SECONDS = 0
+
+
+          def lambda_handler(event, context):
+              """Define the entry point of the function."""
+              LOGGER.debug(event)
+
+              request = event["request"]
+              invocation_point = request["hookContext"]["invocationPoint"]
+              LOGGER.info(f"Invocation point: {invocation_point}")
+              if invocation_point not in HOOK_INVOCATION_POINTS:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": f"Skipping target evaluation for {invocation_point}.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              target_model = request["hookContext"]["targetModel"]
+              resource_properties = target_model["resourceProperties"]
+              LOGGER.debug(f"Resource properties: {resource_properties}")
+
+              callback_context = event["callbackContext"]
+              LOGGER.debug(f"Callback context: {callback_context}")
+
+              if callback_context:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": "(After a reinvocation of the handler) The resource is compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              if "InvalidPropertyKey" in resource_properties:
+                  payload = {
+                      "status": "FAILED",
+                      "errorCode": "NonCompliant",
+                      "message": "The resource is not compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+              else:
+                  if USE_CALLBACKS == 'yes':
+                      payload = {
+                          "status": "IN_PROGRESS",
+                          "errorCode": None,
+                          "message": "In progress",
+                          "callbackContext": CALLBACK_CONTEXT,
+                          "callbackDelaySeconds": CALLBACK_DELAY_SECONDS,
+                      }
+                  else:
+                      payload = {
+                          "status": "SUCCESS",
+                          "errorCode": None,
+                          "message": "The resource is compliant.",
+                          "callbackContext": None,
+                          "callbackDelaySeconds": 0,
+                      }
+              LOGGER.debug(payload)
+              return payload
+      Description: AWS Lambda function to use with contract tests for the AWSSamples::LambdaFunctionInvoker::Hook.
+      Environment:
+        Variables:
+          USE_CALLBACKS: !Ref 'LambdaFunction1UseCallbacks'
+      FunctionName: !Sub
+        - ${TestConfigLambdaFunctionsPrefix}-1
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      Handler: index.lambda_handler
+      MemorySize: 256
+      Role: !GetAtt LambdaFunctionExecutionRole.Arn
+      Runtime: python3.12
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+      Timeout: 15
+
+  LambdaFunction2:
+    Type: AWS::Lambda::Function
+    DependsOn: LogGroup2
+    Properties:
+      Code:
+        ZipFile: |
+          """Contract tests Lambda function called by AWSSamples::LambdaFunctionInvoker::Hook."""
+
+
+          import logging
+          import os
+
+          LOGGER = logging.getLogger()
+
+          LOGGER.setLevel("INFO")
+          # LOGGER.setLevel("DEBUG")
+
+          # Define for which invocation points to run. Comment out the line
+          # corresponding to the invocation point you do not want to run.
+          HOOK_INVOCATION_POINTS = [
+              "CREATE_PRE_PROVISION",
+              "UPDATE_PRE_PROVISION",
+              "DELETE_PRE_PROVISION",
+          ]
+
+          # Used for toggling between callback-based workflows or not.
+          # For testing purposes only.
+          USE_CALLBACKS = os.environ["USE_CALLBACKS"]
+          CALLBACK_CONTEXT = {"test": 1}
+          CALLBACK_DELAY_SECONDS = 0
+
+
+          def lambda_handler(event, context):
+              """Define the entry point of the function."""
+              LOGGER.debug(event)
+
+              request = event["request"]
+              invocation_point = request["hookContext"]["invocationPoint"]
+              LOGGER.info(f"Invocation point: {invocation_point}")
+              if invocation_point not in HOOK_INVOCATION_POINTS:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": f"Skipping target evaluation for {invocation_point}.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              target_model = request["hookContext"]["targetModel"]
+              resource_properties = target_model["resourceProperties"]
+              LOGGER.debug(f"Resource properties: {resource_properties}")
+
+              callback_context = event["callbackContext"]
+              LOGGER.debug(f"Callback context: {callback_context}")
+
+              if callback_context:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": "(After a reinvocation of the handler) The resource is compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              if "InvalidPropertyKey" in resource_properties:
+                  payload = {
+                      "status": "FAILED",
+                      "errorCode": "NonCompliant",
+                      "message": "The resource is not compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+              else:
+                  if USE_CALLBACKS == 'yes':
+                      payload = {
+                          "status": "IN_PROGRESS",
+                          "errorCode": None,
+                          "message": "In progress",
+                          "callbackContext": CALLBACK_CONTEXT,
+                          "callbackDelaySeconds": CALLBACK_DELAY_SECONDS,
+                      }
+                  else:
+                      payload = {
+                          "status": "SUCCESS",
+                          "errorCode": None,
+                          "message": "The resource is compliant.",
+                          "callbackContext": None,
+                          "callbackDelaySeconds": 0,
+                      }
+              LOGGER.debug(payload)
+              return payload
+      Description: AWS Lambda function to use with contract tests for the AWSSamples::LambdaFunctionInvoker::Hook.
+      Environment:
+        Variables:
+          USE_CALLBACKS: !Ref 'LambdaFunction2UseCallbacks'
+      FunctionName: !Sub
+        - ${TestConfigLambdaFunctionsPrefix}-2
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      Handler: index.lambda_handler
+      MemorySize: 256
+      Role: !GetAtt LambdaFunctionExecutionRole.Arn
+      Runtime: python3.12
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+      Timeout: 15
+
+  LambdaFunction3:
+    Type: AWS::Lambda::Function
+    DependsOn: LogGroup3
+    Properties:
+      Code:
+        ZipFile: |
+          """Contract tests Lambda function called by AWSSamples::LambdaFunctionInvoker::Hook."""
+
+
+          import logging
+          import os
+
+          LOGGER = logging.getLogger()
+
+          LOGGER.setLevel("INFO")
+          # LOGGER.setLevel("DEBUG")
+
+          # Define for which invocation points to run. Comment out the line
+          # corresponding to the invocation point you do not want to run.
+          HOOK_INVOCATION_POINTS = [
+              "CREATE_PRE_PROVISION",
+              "UPDATE_PRE_PROVISION",
+              "DELETE_PRE_PROVISION",
+          ]
+
+          # Used for toggling between callback-based workflows or not.
+          # For testing purposes only.
+          USE_CALLBACKS = os.environ["USE_CALLBACKS"]
+          CALLBACK_CONTEXT = {"test": 1}
+          CALLBACK_DELAY_SECONDS = 0
+
+
+          def lambda_handler(event, context):
+              """Define the entry point of the function."""
+              LOGGER.debug(event)
+
+              request = event["request"]
+              invocation_point = request["hookContext"]["invocationPoint"]
+              LOGGER.info(f"Invocation point: {invocation_point}")
+              if invocation_point not in HOOK_INVOCATION_POINTS:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": f"Skipping target evaluation for {invocation_point}.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              target_model = request["hookContext"]["targetModel"]
+              resource_properties = target_model["resourceProperties"]
+              LOGGER.debug(f"Resource properties: {resource_properties}")
+
+              callback_context = event["callbackContext"]
+              LOGGER.debug(f"Callback context: {callback_context}")
+
+              if callback_context:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": "(After a reinvocation of the handler) The resource is compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              if "InvalidPropertyKey" in resource_properties:
+                  payload = {
+                      "status": "FAILED",
+                      "errorCode": "NonCompliant",
+                      "message": "The resource is not compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+              else:
+                  if USE_CALLBACKS == 'yes':
+                      payload = {
+                          "status": "IN_PROGRESS",
+                          "errorCode": None,
+                          "message": "In progress",
+                          "callbackContext": CALLBACK_CONTEXT,
+                          "callbackDelaySeconds": CALLBACK_DELAY_SECONDS,
+                      }
+                  else:
+                      payload = {
+                          "status": "SUCCESS",
+                          "errorCode": None,
+                          "message": "The resource is compliant.",
+                          "callbackContext": None,
+                          "callbackDelaySeconds": 0,
+                      }
+              LOGGER.debug(payload)
+              return payload
+      Description: AWS Lambda function to use with contract tests for the AWSSamples::LambdaFunctionInvoker::Hook.
+      Environment:
+        Variables:
+          USE_CALLBACKS: !Ref 'LambdaFunction3UseCallbacks'
+      FunctionName: !Sub
+        - ${TestConfigLambdaFunctionsPrefix}-3
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      Handler: index.lambda_handler
+      MemorySize: 256
+      Role: !GetAtt LambdaFunctionExecutionRole.Arn
+      Runtime: python3.12
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+      Timeout: 15
+
+  LambdaFunction4:
+    Type: AWS::Lambda::Function
+    DependsOn: LogGroup4
+    Properties:
+      Code:
+        ZipFile: |
+          """Contract tests Lambda function called by AWSSamples::LambdaFunctionInvoker::Hook."""
+
+
+          import logging
+          import os
+
+          LOGGER = logging.getLogger()
+
+          LOGGER.setLevel("INFO")
+          # LOGGER.setLevel("DEBUG")
+
+          # Define for which invocation points to run. Comment out the line
+          # corresponding to the invocation point you do not want to run.
+          HOOK_INVOCATION_POINTS = [
+              "CREATE_PRE_PROVISION",
+              "UPDATE_PRE_PROVISION",
+              "DELETE_PRE_PROVISION",
+          ]
+
+          # Used for toggling between callback-based workflows or not.
+          # For testing purposes only.
+          USE_CALLBACKS = os.environ["USE_CALLBACKS"]
+          CALLBACK_CONTEXT = {"test": 1}
+          CALLBACK_DELAY_SECONDS = 0
+
+
+          def lambda_handler(event, context):
+              """Define the entry point of the function."""
+              LOGGER.debug(event)
+
+              request = event["request"]
+              invocation_point = request["hookContext"]["invocationPoint"]
+              LOGGER.info(f"Invocation point: {invocation_point}")
+              if invocation_point not in HOOK_INVOCATION_POINTS:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": f"Skipping target evaluation for {invocation_point}.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              target_model = request["hookContext"]["targetModel"]
+              resource_properties = target_model["resourceProperties"]
+              LOGGER.debug(f"Resource properties: {resource_properties}")
+
+              callback_context = event["callbackContext"]
+              LOGGER.debug(f"Callback context: {callback_context}")
+
+              if callback_context:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": "(After a reinvocation of the handler) The resource is compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              if "InvalidPropertyKey" in resource_properties:
+                  payload = {
+                      "status": "FAILED",
+                      "errorCode": "NonCompliant",
+                      "message": "The resource is not compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+              else:
+                  if USE_CALLBACKS == 'yes':
+                      payload = {
+                          "status": "IN_PROGRESS",
+                          "errorCode": None,
+                          "message": "In progress",
+                          "callbackContext": CALLBACK_CONTEXT,
+                          "callbackDelaySeconds": CALLBACK_DELAY_SECONDS,
+                      }
+                  else:
+                      payload = {
+                          "status": "SUCCESS",
+                          "errorCode": None,
+                          "message": "The resource is compliant.",
+                          "callbackContext": None,
+                          "callbackDelaySeconds": 0,
+                      }
+              LOGGER.debug(payload)
+              return payload
+      Description: AWS Lambda function to use with contract tests for the AWSSamples::LambdaFunctionInvoker::Hook.
+      Environment:
+        Variables:
+          USE_CALLBACKS: !Ref 'LambdaFunction4UseCallbacks'
+      FunctionName: !Sub
+        - ${TestConfigLambdaFunctionsPrefix}-4
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      Handler: index.lambda_handler
+      MemorySize: 256
+      Role: !GetAtt LambdaFunctionExecutionRole.Arn
+      Runtime: python3.12
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+      Timeout: 15
+
+  LambdaFunction5:
+    Type: AWS::Lambda::Function
+    DependsOn: LogGroup5
+    Properties:
+      Code:
+        ZipFile: |
+          """Contract tests Lambda function called by AWSSamples::LambdaFunctionInvoker::Hook."""
+
+
+          import logging
+          import os
+
+          LOGGER = logging.getLogger()
+
+          LOGGER.setLevel("INFO")
+          # LOGGER.setLevel("DEBUG")
+
+          # Define for which invocation points to run. Comment out the line
+          # corresponding to the invocation point you do not want to run.
+          HOOK_INVOCATION_POINTS = [
+              "CREATE_PRE_PROVISION",
+              "UPDATE_PRE_PROVISION",
+              "DELETE_PRE_PROVISION",
+          ]
+
+          # Used for toggling between callback-based workflows or not.
+          # For testing purposes only.
+          USE_CALLBACKS = os.environ["USE_CALLBACKS"]
+          CALLBACK_CONTEXT = {"test": 1}
+          CALLBACK_DELAY_SECONDS = 0
+
+
+          def lambda_handler(event, context):
+              """Define the entry point of the function."""
+              LOGGER.debug(event)
+
+              request = event["request"]
+              invocation_point = request["hookContext"]["invocationPoint"]
+              LOGGER.info(f"Invocation point: {invocation_point}")
+              if invocation_point not in HOOK_INVOCATION_POINTS:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": f"Skipping target evaluation for {invocation_point}.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              target_model = request["hookContext"]["targetModel"]
+              resource_properties = target_model["resourceProperties"]
+              LOGGER.debug(f"Resource properties: {resource_properties}")
+
+              callback_context = event["callbackContext"]
+              LOGGER.debug(f"Callback context: {callback_context}")
+
+              if callback_context:
+                  return {
+                      "status": "SUCCESS",
+                      "errorCode": None,
+                      "message": "(After a reinvocation of the handler) The resource is compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+
+              if "InvalidPropertyKey" in resource_properties:
+                  payload = {
+                      "status": "FAILED",
+                      "errorCode": "NonCompliant",
+                      "message": "The resource is not compliant.",
+                      "callbackContext": None,
+                      "callbackDelaySeconds": 0,
+                  }
+              else:
+                  if USE_CALLBACKS == 'yes':
+                      payload = {
+                          "status": "IN_PROGRESS",
+                          "errorCode": None,
+                          "message": "In progress",
+                          "callbackContext": CALLBACK_CONTEXT,
+                          "callbackDelaySeconds": CALLBACK_DELAY_SECONDS,
+                      }
+                  else:
+                      payload = {
+                          "status": "SUCCESS",
+                          "errorCode": None,
+                          "message": "The resource is compliant.",
+                          "callbackContext": None,
+                          "callbackDelaySeconds": 0,
+                      }
+              LOGGER.debug(payload)
+              return payload
+      Description: AWS Lambda function to use with contract tests for the AWSSamples::LambdaFunctionInvoker::Hook.
+      Environment:
+        Variables:
+          USE_CALLBACKS: !Ref 'LambdaFunction5UseCallbacks'
+      FunctionName: !Sub
+        - ${TestConfigLambdaFunctionsPrefix}-5
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      Handler: index.lambda_handler
+      MemorySize: 256
+      Role: !GetAtt LambdaFunctionExecutionRole.Arn
+      Runtime: python3.12
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+      Timeout: 15
+
+  LambdaFunctionExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Path: /
+      RoleName: !Sub
+        - ${TestConfigLambdaFunctionsPrefix}-${AWS::Region}
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+
+  LogGroup1:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub
+        - /aws/lambda/${TestConfigLambdaFunctionsPrefix}-1
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      RetentionInDays: !Ref 'LogRetention'
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+
+  LogGroup2:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub
+        - /aws/lambda/${TestConfigLambdaFunctionsPrefix}-2
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      RetentionInDays: !Ref 'LogRetention'
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+
+  LogGroup3:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub
+        - /aws/lambda/${TestConfigLambdaFunctionsPrefix}-3
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      RetentionInDays: !Ref 'LogRetention'
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+
+  LogGroup4:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub
+        - /aws/lambda/${TestConfigLambdaFunctionsPrefix}-4
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      RetentionInDays: !Ref 'LogRetention'
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+
+  LogGroup5:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub
+        - /aws/lambda/${TestConfigLambdaFunctionsPrefix}-5
+        - TestConfigLambdaFunctionsPrefix: !FindInMap
+            - TestConfig
+            - LambdaFunctions
+            - Prefix
+      RetentionInDays: !Ref 'LogRetention'
+      Tags:
+        - Key: Name
+          Value: AWSSamples::LambdaFunctionInvoker::Hook test Lambda function
+        - Key: AppName
+          Value: AWSSamples::LambdaFunctionInvoker::Hook
+        - Key: Env
+          Value: dev
+
+Outputs:
+  LambdaFunction1Name:
+    Value: !Ref 'LambdaFunction1'
+
+  LambdaFunction2Name:
+    Value: !Ref 'LambdaFunction2'
+
+  LambdaFunction3Name:
+    Value: !Ref 'LambdaFunction3'
+
+  LambdaFunction4Name:
+    Value: !Ref 'LambdaFunction4'
+
+  LambdaFunction5Name:
+    Value: !Ref 'LambdaFunction5'
