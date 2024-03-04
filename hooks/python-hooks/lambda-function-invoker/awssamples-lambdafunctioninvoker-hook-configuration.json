@@ -1,0 +1,22 @@
+{
+    "properties": {
+        "LambdaFunctions": {
+            "description": "Amazon Resource Name (ARN), name, version, or alias of `maxItems` (typically, `1`) Lambda function(s) to invoke with this hook.",
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 170,
+                "pattern": "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?"
+            }
+        }
+    },
+    "required": [
+        "LambdaFunctions"
+    ],
+    "additionalProperties": false,
+    "definitions": {},
+    "typeName": "AWSSamples::LambdaFunctionInvoker::Hook"
+}

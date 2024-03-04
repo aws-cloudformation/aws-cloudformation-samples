@@ -1,0 +1,24 @@
+{
+  "request": {
+    "clientRequestToken": "REDACTED",
+    "hookContext": {
+      "awsAccountId": "REDACTED",
+      "stackId": "REDACTED",
+      "changeSetId": null,
+      "hookTypeName": "AWS::LambdaFunctionInvoker::Hook",
+      "hookTypeVersion": "00000001",
+      "invocationPoint": "CREATE_PRE_PROVISION",
+      "targetName": "AWS::S3::Bucket",
+      "targetType": "RESOURCE",
+      "targetLogicalId": "REDACTED",
+      "targetModel": {
+        "resourceProperties": {
+          "VersioningConfiguration": {
+            "Status": "Enabled"
+          }
+        }
+      }
+    }
+  },
+  "callbackContext": {}
+}

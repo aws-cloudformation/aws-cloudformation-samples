@@ -1,0 +1,15 @@
+[report]
+fail_under = 85
+show_missing = True
+
+[run]
+branch = True
+include =
+    contract_test_inputs_generator/*
+    src/*/*
+omit =
+    contract_test_inputs_generator/tests/*
+    */__init__.py
+    src/*/models.py
+    src/*/target_models/*
+    src/*/tests/*
