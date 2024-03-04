@@ -468,7 +468,7 @@ def lambda_handler(event, context):
 ```
 
 
-## Tests
+## Hook tests
 
 The following sections show tests you run as part of developing this
 hook.
