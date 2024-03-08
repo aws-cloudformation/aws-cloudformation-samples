@@ -117,7 +117,7 @@ export const handler = async (event) => {
     // Default fallback to FAILED in the event of other errors.
     payload = {
       'status': 'FAILED',
-      'errorCode': 'InternalError',
+      'errorCode': 'InternalFailure',
       'message': message,
       'callbackContext': null,
       'callbackDelaySeconds': 0,
