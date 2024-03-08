@@ -148,7 +148,7 @@ def lambda_handler(event, context):
         message = str(exception)
         payload = {
             "status": "FAILED",
-            "errorCode": "InternalError",
+            "errorCode": "InternalFailure",
             "message": message,
             "callbackContext": None,
             "callbackDelaySeconds": 0,

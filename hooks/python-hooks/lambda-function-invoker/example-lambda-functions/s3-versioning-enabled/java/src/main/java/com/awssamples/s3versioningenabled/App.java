@@ -196,7 +196,7 @@ public class App implements RequestStreamHandler {
             // Default fallback to FAILED in the event of other errors.
             final JSONObject response = new JSONObject();
             response.put("status", "FAILED");
-            response.put("errorCode", "InternalError");
+            response.put("errorCode", "InternalFailure");
             response.put("message", message);
             response.put("callbackContext", Collections.EMPTY_MAP);
             response.put("callbackDelaySeconds", 0);
