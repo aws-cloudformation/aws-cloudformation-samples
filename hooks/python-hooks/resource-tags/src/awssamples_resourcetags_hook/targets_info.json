@@ -1220,6 +1220,24 @@
         ]
     },
     {
+        "name": "AWS::ControlTower::EnabledBaseline",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ControlTower::EnabledControl",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ControlTower::LandingZone",
         "tags_info": [
             {
@@ -2177,6 +2195,15 @@
     },
     {
         "name": "AWS::ECS::TaskDefinition",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ECS::TaskSet",
         "tags_info": [
             {
                 "property_name": "Tags",

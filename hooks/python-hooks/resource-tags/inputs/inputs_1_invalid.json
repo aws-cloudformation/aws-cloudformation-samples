@@ -1305,6 +1305,26 @@
             ]
         }
     },
+    "AWS::ControlTower::EnabledBaseline": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::ControlTower::EnabledControl": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
     "AWS::ControlTower::LandingZone": {
         "resourceProperties": {
             "Tags": [
@@ -2376,6 +2396,16 @@
         }
     },
     "AWS::ECS::TaskDefinition": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "invalid",
+                    "Value": ""
+                }
+            ]
+        }
+    },
+    "AWS::ECS::TaskSet": {
         "resourceProperties": {
             "Tags": [
                 {

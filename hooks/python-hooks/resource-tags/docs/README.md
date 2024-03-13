@@ -180,6 +180,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Connect::UserHierarchyGroup`
 * `AWS::Connect::View`
 * `AWS::ConnectCampaigns::Campaign`
+* `AWS::ControlTower::EnabledBaseline`
+* `AWS::ControlTower::EnabledControl`
 * `AWS::ControlTower::LandingZone`
 * `AWS::CustomerProfiles::CalculatedAttributeDefinition`
 * `AWS::CustomerProfiles::Domain`
@@ -285,6 +287,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ECS::Cluster`
 * `AWS::ECS::Service`
 * `AWS::ECS::TaskDefinition`
+* `AWS::ECS::TaskSet`
 * `AWS::EFS::AccessPoint`
 * `AWS::EFS::FileSystem`
 * `AWS::EKS::AccessEntry`
