@@ -19,6 +19,16 @@
             ]
         }
     },
+    "AWS::APS::Scraper": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::APS::Workspace": {
         "resourceProperties": {
             "Tags": [
@@ -269,6 +279,16 @@
         }
     },
     "AWS::AppFlow::Flow": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::AppIntegrations::Application": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -589,6 +609,16 @@
             ]
         }
     },
+    "AWS::BCMDataExports::Export": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Backup::BackupPlan": {
         "resourceProperties": {
             "BackupPlanTags": {
@@ -666,6 +696,40 @@
         }
     },
     "AWS::Batch::SchedulingPolicy": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::Bedrock::Agent": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            },
+            "TestAliasTags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::Bedrock::AgentAlias": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::Bedrock::Guardrail": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Bedrock::KnowledgeBase": {
         "resourceProperties": {
             "Tags": {
                 "Name": "Test"
@@ -812,6 +876,26 @@
             ]
         }
     },
+    "AWS::CleanRooms::PrivacyBudgetTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::CleanRoomsML::TrainingDataset": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Cloud9::EnvironmentEC2": {
         "resourceProperties": {
             "Tags": [
@@ -892,6 +976,26 @@
             ]
         }
     },
+    "AWS::CloudWatch::Alarm": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::CloudWatch::CompositeAlarm": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::CloudWatch::InsightRule": {
         "resourceProperties": {
             "Tags": {
@@ -910,6 +1014,16 @@
         }
     },
     "AWS::CodeArtifact::Domain": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::CodeArtifact::PackageGroup": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -960,6 +1074,16 @@
         }
     },
     "AWS::CodeCommit::Repository": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::CodeConnections::Connection": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -2364,6 +2488,16 @@
             ]
         }
     },
+    "AWS::ECR::RepositoryCreationTemplate": {
+        "resourceProperties": {
+            "ResourceTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::ECS::CapacityProvider": {
         "resourceProperties": {
             "Tags": [
@@ -2702,6 +2836,16 @@
             ]
         }
     },
+    "AWS::EntityResolution::IdNamespace": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::EntityResolution::MatchingWorkflow": {
         "resourceProperties": {
             "Tags": [
@@ -2985,6 +3129,16 @@
             ]
         }
     },
+    "AWS::GameLift::ContainerGroupDefinition": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::GameLift::GameServerGroup": {
         "resourceProperties": {
             "Tags": [
@@ -3046,6 +3200,16 @@
         }
     },
     "AWS::GlobalAccelerator::Accelerator": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::GlobalAccelerator::CrossAccountAttachment": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3358,7 +3522,27 @@
             ]
         }
     },
+    "AWS::IVS::EncoderConfiguration": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::IVS::PlaybackKeyPair": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::IVS::PlaybackRestrictionPolicy": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3379,6 +3563,16 @@
         }
     },
     "AWS::IVS::Stage": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::IVS::StorageConfiguration": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -4077,6 +4271,36 @@
         }
     },
     "AWS::KMS::ReplicaKey": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::KafkaConnect::Connector": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::KafkaConnect::CustomPlugin": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::KafkaConnect::WorkerConfiguration": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5171,6 +5395,16 @@
             ]
         }
     },
+    "AWS::PaymentCryptography::Key": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Pinpoint::App": {
         "resourceProperties": {
             "Tags": {
@@ -5278,6 +5512,66 @@
         }
     },
     "AWS::Proton::ServiceTemplate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::QBusiness::Application": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::QBusiness::DataSource": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::QBusiness::Index": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::QBusiness::Plugin": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::QBusiness::Retriever": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::QBusiness::WebExperience": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -5773,6 +6067,26 @@
             ]
         }
     },
+    "AWS::Route53Profiles::Profile": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Route53Profiles::ProfileAssociation": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Route53RecoveryControl::Cluster": {
         "resourceProperties": {
             "Tags": [
@@ -6061,6 +6375,16 @@
         }
     },
     "AWS::SSMIncidents::ResponsePlan": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SSO::Application": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -6384,6 +6708,26 @@
             }
         }
     },
+    "AWS::SecurityLake::DataLake": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SecurityLake::Subscriber": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::ServiceCatalog::CloudFormationProduct": {
         "resourceProperties": {
             "Tags": [
@@ -6549,6 +6893,16 @@
         }
     },
     "AWS::Timestream::Database": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Timestream::InfluxDBInstance": {
         "resourceProperties": {
             "Tags": [
                 {
