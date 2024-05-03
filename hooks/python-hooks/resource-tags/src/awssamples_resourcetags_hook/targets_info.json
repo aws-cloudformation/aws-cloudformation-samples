@@ -18,6 +18,15 @@
         ]
     },
     {
+        "name": "AWS::APS::Scraper",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::APS::Workspace",
         "tags_info": [
             {
@@ -262,6 +271,15 @@
     },
     {
         "name": "AWS::AppFlow::Flow",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::AppIntegrations::Application",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -549,6 +567,15 @@
         ]
     },
     {
+        "name": "AWS::BCMDataExports::Export",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Backup::BackupPlan",
         "tags_info": [
             {
@@ -637,6 +664,46 @@
     },
     {
         "name": "AWS::Batch::SchedulingPolicy",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Bedrock::Agent",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            },
+            {
+                "property_name": "TestAliasTags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Bedrock::AgentAlias",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Bedrock::Guardrail",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Bedrock::KnowledgeBase",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -771,6 +838,24 @@
         ]
     },
     {
+        "name": "AWS::CleanRooms::PrivacyBudgetTemplate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CleanRoomsML::TrainingDataset",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Cloud9::EnvironmentEC2",
         "tags_info": [
             {
@@ -843,6 +928,24 @@
         ]
     },
     {
+        "name": "AWS::CloudWatch::Alarm",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CloudWatch::CompositeAlarm",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CloudWatch::InsightRule",
         "tags_info": [
             {
@@ -862,6 +965,15 @@
     },
     {
         "name": "AWS::CodeArtifact::Domain",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CodeArtifact::PackageGroup",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -907,6 +1019,15 @@
     },
     {
         "name": "AWS::CodeCommit::Repository",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::CodeConnections::Connection",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -2157,6 +2278,15 @@
         ]
     },
     {
+        "name": "AWS::ECR::RepositoryCreationTemplate",
+        "tags_info": [
+            {
+                "property_name": "ResourceTags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ECS::CapacityProvider",
         "tags_info": [
             {
@@ -2473,6 +2603,15 @@
         ]
     },
     {
+        "name": "AWS::EntityResolution::IdNamespace",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::EntityResolution::MatchingWorkflow",
         "tags_info": [
             {
@@ -2729,6 +2868,15 @@
         ]
     },
     {
+        "name": "AWS::GameLift::ContainerGroupDefinition",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::GameLift::GameServerGroup",
         "tags_info": [
             {
@@ -2784,6 +2932,15 @@
     },
     {
         "name": "AWS::GlobalAccelerator::Accelerator",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::GlobalAccelerator::CrossAccountAttachment",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3116,7 +3273,25 @@
         ]
     },
     {
+        "name": "AWS::IVS::EncoderConfiguration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::IVS::PlaybackKeyPair",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IVS::PlaybackRestrictionPolicy",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3135,6 +3310,15 @@
     },
     {
         "name": "AWS::IVS::Stage",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::IVS::StorageConfiguration",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3805,6 +3989,33 @@
     },
     {
         "name": "AWS::KMS::ReplicaKey",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::KafkaConnect::Connector",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::KafkaConnect::CustomPlugin",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::KafkaConnect::WorkerConfiguration",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -4861,6 +5072,15 @@
         ]
     },
     {
+        "name": "AWS::PaymentCryptography::Key",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Pinpoint::App",
         "tags_info": [
             {
@@ -4979,6 +5199,60 @@
     },
     {
         "name": "AWS::Proton::ServiceTemplate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QBusiness::Application",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QBusiness::DataSource",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QBusiness::Index",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QBusiness::Plugin",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QBusiness::Retriever",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::QBusiness::WebExperience",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -5446,6 +5720,24 @@
         ]
     },
     {
+        "name": "AWS::Route53Profiles::Profile",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Route53Profiles::ProfileAssociation",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Route53RecoveryControl::Cluster",
         "tags_info": [
             {
@@ -5708,6 +6000,15 @@
     },
     {
         "name": "AWS::SSMIncidents::ResponsePlan",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SSO::Application",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -6004,6 +6305,24 @@
         ]
     },
     {
+        "name": "AWS::SecurityLake::DataLake",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SecurityLake::Subscriber",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::ServiceCatalog::CloudFormationProduct",
         "tags_info": [
             {
@@ -6158,6 +6477,15 @@
     },
     {
         "name": "AWS::Timestream::Database",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Timestream::InfluxDBInstance",
         "tags_info": [
             {
                 "property_name": "Tags",

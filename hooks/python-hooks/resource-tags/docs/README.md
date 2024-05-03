@@ -48,6 +48,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 
 * `AWS::ACMPCA::CertificateAuthority`
 * `AWS::APS::RuleGroupsNamespace`
+* `AWS::APS::Scraper`
 * `AWS::APS::Workspace`
 * `AWS::AccessAnalyzer::Analyzer`
 * `AWS::AmazonMQ::Broker`
@@ -76,6 +77,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::AppConfig::Extension`
 * `AWS::AppConfig::ExtensionAssociation`
 * `AWS::AppFlow::Flow`
+* `AWS::AppIntegrations::Application`
 * `AWS::AppIntegrations::DataIntegration`
 * `AWS::AppIntegrations::EventIntegration`
 * `AWS::AppMesh::GatewayRoute`
@@ -107,6 +109,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::B2BI::Partnership`
 * `AWS::B2BI::Profile`
 * `AWS::B2BI::Transformer`
+* `AWS::BCMDataExports::Export`
 * `AWS::Backup::BackupPlan`
 * `AWS::Backup::BackupVault`
 * `AWS::Backup::Framework`
@@ -117,6 +120,10 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Batch::JobDefinition`
 * `AWS::Batch::JobQueue`
 * `AWS::Batch::SchedulingPolicy`
+* `AWS::Bedrock::Agent`
+* `AWS::Bedrock::AgentAlias`
+* `AWS::Bedrock::Guardrail`
+* `AWS::Bedrock::KnowledgeBase`
 * `AWS::BillingConductor::BillingGroup`
 * `AWS::BillingConductor::CustomLineItem`
 * `AWS::BillingConductor::PricingPlan`
@@ -131,6 +138,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::CleanRooms::ConfiguredTable`
 * `AWS::CleanRooms::ConfiguredTableAssociation`
 * `AWS::CleanRooms::Membership`
+* `AWS::CleanRooms::PrivacyBudgetTemplate`
+* `AWS::CleanRoomsML::TrainingDataset`
 * `AWS::Cloud9::EnvironmentEC2`
 * `AWS::CloudFormation::Stack`
 * `AWS::CloudFormation::StackSet`
@@ -139,14 +148,18 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::CloudTrail::Channel`
 * `AWS::CloudTrail::EventDataStore`
 * `AWS::CloudTrail::Trail`
+* `AWS::CloudWatch::Alarm`
+* `AWS::CloudWatch::CompositeAlarm`
 * `AWS::CloudWatch::InsightRule`
 * `AWS::CloudWatch::MetricStream`
 * `AWS::CodeArtifact::Domain`
+* `AWS::CodeArtifact::PackageGroup`
 * `AWS::CodeArtifact::Repository`
 * `AWS::CodeBuild::Fleet`
 * `AWS::CodeBuild::Project`
 * `AWS::CodeBuild::ReportGroup`
 * `AWS::CodeCommit::Repository`
+* `AWS::CodeConnections::Connection`
 * `AWS::CodeDeploy::Application`
 * `AWS::CodeDeploy::DeploymentGroup`
 * `AWS::CodeGuruProfiler::ProfilingGroup`
@@ -283,6 +296,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EC2::Volume`
 * `AWS::ECR::PublicRepository`
 * `AWS::ECR::Repository`
+* `AWS::ECR::RepositoryCreationTemplate`
 * `AWS::ECS::CapacityProvider`
 * `AWS::ECS::Cluster`
 * `AWS::ECS::Service`
@@ -317,6 +331,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::ElasticLoadBalancingV2::TrustStore`
 * `AWS::Elasticsearch::Domain`
 * `AWS::EntityResolution::IdMappingWorkflow`
+* `AWS::EntityResolution::IdNamespace`
 * `AWS::EntityResolution::MatchingWorkflow`
 * `AWS::EntityResolution::SchemaMapping`
 * `AWS::EventSchemas::Discoverer`
@@ -345,6 +360,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::FraudDetector::List`
 * `AWS::FraudDetector::Outcome`
 * `AWS::FraudDetector::Variable`
+* `AWS::GameLift::ContainerGroupDefinition`
 * `AWS::GameLift::GameServerGroup`
 * `AWS::GameLift::GameSessionQueue`
 * `AWS::GameLift::Location`
@@ -352,6 +368,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::GameLift::MatchmakingRuleSet`
 * `AWS::GameLift::Script`
 * `AWS::GlobalAccelerator::Accelerator`
+* `AWS::GlobalAccelerator::CrossAccountAttachment`
 * `AWS::Glue::Crawler`
 * `AWS::Glue::CustomEntityType`
 * `AWS::Glue::DataQualityRuleset`
@@ -388,9 +405,12 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IAM::User`
 * `AWS::IAM::VirtualMFADevice`
 * `AWS::IVS::Channel`
+* `AWS::IVS::EncoderConfiguration`
 * `AWS::IVS::PlaybackKeyPair`
+* `AWS::IVS::PlaybackRestrictionPolicy`
 * `AWS::IVS::RecordingConfiguration`
 * `AWS::IVS::Stage`
+* `AWS::IVS::StorageConfiguration`
 * `AWS::IVS::StreamKey`
 * `AWS::IVSChat::LoggingConfiguration`
 * `AWS::IVSChat::Room`
@@ -465,6 +485,9 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::IoTWireless::WirelessGateway`
 * `AWS::KMS::Key`
 * `AWS::KMS::ReplicaKey`
+* `AWS::KafkaConnect::Connector`
+* `AWS::KafkaConnect::CustomPlugin`
+* `AWS::KafkaConnect::WorkerConfiguration`
 * `AWS::Kendra::DataSource`
 * `AWS::Kendra::Faq`
 * `AWS::Kendra::Index`
@@ -581,6 +604,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::PCAConnectorAD::Template`
 * `AWS::Panorama::ApplicationInstance`
 * `AWS::Panorama::Package`
+* `AWS::PaymentCryptography::Key`
 * `AWS::Pinpoint::App`
 * `AWS::Pinpoint::Campaign`
 * `AWS::Pinpoint::EmailTemplate`
@@ -595,6 +619,12 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Proton::EnvironmentAccountConnection`
 * `AWS::Proton::EnvironmentTemplate`
 * `AWS::Proton::ServiceTemplate`
+* `AWS::QBusiness::Application`
+* `AWS::QBusiness::DataSource`
+* `AWS::QBusiness::Index`
+* `AWS::QBusiness::Plugin`
+* `AWS::QBusiness::Retriever`
+* `AWS::QBusiness::WebExperience`
 * `AWS::QLDB::Ledger`
 * `AWS::QLDB::Stream`
 * `AWS::QuickSight::Analysis`
@@ -646,6 +676,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::RolesAnywhere::TrustAnchor`
 * `AWS::Route53::HealthCheck`
 * `AWS::Route53::HostedZone`
+* `AWS::Route53Profiles::Profile`
+* `AWS::Route53Profiles::ProfileAssociation`
 * `AWS::Route53RecoveryControl::Cluster`
 * `AWS::Route53RecoveryControl::ControlPanel`
 * `AWS::Route53RecoveryControl::SafetyRule`
@@ -676,6 +708,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SSMContacts::Rotation`
 * `AWS::SSMIncidents::ReplicationSet`
 * `AWS::SSMIncidents::ResponsePlan`
+* `AWS::SSO::Application`
 * `AWS::SSO::PermissionSet`
 * `AWS::SageMaker::App`
 * `AWS::SageMaker::AppImageConfig`
@@ -708,6 +741,8 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SecretsManager::Secret`
 * `AWS::SecurityHub::AutomationRule`
 * `AWS::SecurityHub::Hub`
+* `AWS::SecurityLake::DataLake`
+* `AWS::SecurityLake::Subscriber`
 * `AWS::ServiceCatalog::CloudFormationProduct`
 * `AWS::ServiceCatalog::CloudFormationProvisionedProduct`
 * `AWS::ServiceCatalog::Portfolio`
@@ -726,6 +761,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Synthetics::Group`
 * `AWS::SystemsManagerSAP::Application`
 * `AWS::Timestream::Database`
+* `AWS::Timestream::InfluxDBInstance`
 * `AWS::Timestream::ScheduledQuery`
 * `AWS::Timestream::Table`
 * `AWS::Transfer::Agreement`
