@@ -549,7 +549,7 @@
               },
               {
                 "ComponentArn": {
-                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/update-linux/1.0.0"
+                  "Fn::Sub": "arn:${AWS::Partition}:imagebuilder:${AWS::Region}:aws:component/update-linux/1.0.2"
                 }
               }
             ]
