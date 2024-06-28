@@ -188,7 +188,7 @@ example:
       "awsAccountId": "REDACTED",
       "stackId": "REDACTED",
       "changeSetId": null,
-      "hookTypeName": "AWS::LambdaFunctionInvoker::Hook",
+      "hookTypeName": "AWSSamples::LambdaFunctionInvoker::Hook",
       "hookTypeVersion": "00000001",
       "invocationPoint": "CREATE_PRE_PROVISION",
       "targetName": "AWS::S3::Bucket",
