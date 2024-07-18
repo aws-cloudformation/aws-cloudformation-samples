@@ -99,7 +99,9 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::AppStream::ImageBuilder`
 * `AWS::AppStream::Stack`
 * `AWS::AppSync::GraphQLApi`
+* `AWS::AppTest::TestCase`
 * `AWS::ApplicationInsights::Application`
+* `AWS::ApplicationSignals::ServiceLevelObjective`
 * `AWS::Athena::CapacityReservation`
 * `AWS::Athena::DataCatalog`
 * `AWS::Athena::WorkGroup`
@@ -128,11 +130,15 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::BillingConductor::CustomLineItem`
 * `AWS::BillingConductor::PricingPlan`
 * `AWS::BillingConductor::PricingRule`
+* `AWS::Budgets::Budget`
+* `AWS::Budgets::BudgetsAction`
 * `AWS::CE::AnomalyMonitor`
 * `AWS::CE::AnomalySubscription`
 * `AWS::Cassandra::Keyspace`
 * `AWS::Cassandra::Table`
 * `AWS::CertificateManager::Certificate`
+* `AWS::Chatbot::MicrosoftTeamsChannelConfiguration`
+* `AWS::Chatbot::SlackChannelConfiguration`
 * `AWS::CleanRooms::AnalysisTemplate`
 * `AWS::CleanRooms::Collaboration`
 * `AWS::CleanRooms::ConfiguredTable`
@@ -234,6 +240,10 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::DataSync::StorageSystem`
 * `AWS::DataSync::Task`
 * `AWS::DataZone::Domain`
+* `AWS::Deadline::Farm`
+* `AWS::Deadline::Fleet`
+* `AWS::Deadline::LicenseEndpoint`
+* `AWS::Deadline::Queue`
 * `AWS::Detective::Graph`
 * `AWS::DocDB::DBCluster`
 * `AWS::DocDB::DBClusterParameterGroup`
@@ -276,6 +286,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::EC2::SecurityGroup`
 * `AWS::EC2::Subnet`
 * `AWS::EC2::TrafficMirrorFilter`
+* `AWS::EC2::TrafficMirrorFilterRule`
 * `AWS::EC2::TrafficMirrorSession`
 * `AWS::EC2::TrafficMirrorTarget`
 * `AWS::EC2::TransitGateway`
@@ -395,6 +406,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::GuardDuty::Detector`
 * `AWS::GuardDuty::Filter`
 * `AWS::GuardDuty::IPSet`
+* `AWS::GuardDuty::MalwareProtectionPlan`
 * `AWS::GuardDuty::ThreatIntelSet`
 * `AWS::HealthImaging::Datastore`
 * `AWS::HealthLake::FHIRDatastore`
@@ -498,6 +510,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::KinesisVideo::SignalingChannel`
 * `AWS::KinesisVideo::Stream`
 * `AWS::Lambda::Function`
+* `AWS::LaunchWizard::Deployment`
 * `AWS::Lex::Bot`
 * `AWS::Lex::BotAlias`
 * `AWS::Lightsail::Bucket`
@@ -699,6 +712,13 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::S3::StorageLensGroup`
 * `AWS::S3Outposts::Bucket`
 * `AWS::SES::ContactList`
+* `AWS::SES::MailManagerAddonInstance`
+* `AWS::SES::MailManagerAddonSubscription`
+* `AWS::SES::MailManagerArchive`
+* `AWS::SES::MailManagerIngressPoint`
+* `AWS::SES::MailManagerRelay`
+* `AWS::SES::MailManagerRuleSet`
+* `AWS::SES::MailManagerTrafficPolicy`
 * `AWS::SNS::Topic`
 * `AWS::SQS::Queue`
 * `AWS::SSM::Document`
@@ -709,6 +729,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SSMIncidents::ReplicationSet`
 * `AWS::SSMIncidents::ResponsePlan`
 * `AWS::SSO::Application`
+* `AWS::SSO::Instance`
 * `AWS::SSO::PermissionSet`
 * `AWS::SageMaker::App`
 * `AWS::SageMaker::AppImageConfig`
@@ -723,6 +744,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::SageMaker::Image`
 * `AWS::SageMaker::InferenceComponent`
 * `AWS::SageMaker::InferenceExperiment`
+* `AWS::SageMaker::MlflowTrackingServer`
 * `AWS::SageMaker::Model`
 * `AWS::SageMaker::ModelBiasJobDefinition`
 * `AWS::SageMaker::ModelCard`
@@ -740,6 +762,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Scheduler::ScheduleGroup`
 * `AWS::SecretsManager::Secret`
 * `AWS::SecurityHub::AutomationRule`
+* `AWS::SecurityHub::ConfigurationPolicy`
 * `AWS::SecurityHub::Hub`
 * `AWS::SecurityLake::DataLake`
 * `AWS::SecurityLake::Subscriber`
@@ -789,6 +812,7 @@ _Allowed Values_: <code>resource</code> | <code>stack</code> | <code>resource+st
 * `AWS::Wisdom::KnowledgeBase`
 * `AWS::WorkSpaces::ConnectionAlias`
 * `AWS::WorkSpaces::Workspace`
+* `AWS::WorkSpaces::WorkspacesPool`
 * `AWS::WorkSpacesThinClient::Environment`
 * `AWS::WorkSpacesWeb::BrowserSettings`
 * `AWS::WorkSpacesWeb::IpAccessSettings`
