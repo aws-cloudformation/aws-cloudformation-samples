@@ -508,7 +508,24 @@
             ]
         }
     },
+    "AWS::AppTest::TestCase": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
     "AWS::ApplicationInsights::Application": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::ApplicationSignals::ServiceLevelObjective": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -776,6 +793,26 @@
             ]
         }
     },
+    "AWS::Budgets::Budget": {
+        "resourceProperties": {
+            "ResourceTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Budgets::BudgetsAction": {
+        "resourceProperties": {
+            "ResourceTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::CE::AnomalyMonitor": {
         "resourceProperties": {
             "ResourceTags": [
@@ -817,6 +854,26 @@
         }
     },
     "AWS::CertificateManager::Certificate": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Chatbot::MicrosoftTeamsChannelConfiguration": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Chatbot::SlackChannelConfiguration": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -1836,6 +1893,46 @@
             ]
         }
     },
+    "AWS::Deadline::Farm": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Deadline::Fleet": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Deadline::LicenseEndpoint": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::Deadline::Queue": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::Detective::Graph": {
         "resourceProperties": {
             "Tags": [
@@ -2279,6 +2376,16 @@
         }
     },
     "AWS::EC2::TrafficMirrorFilter": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::EC2::TrafficMirrorFilterRule": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -3425,6 +3532,16 @@
             ]
         }
     },
+    "AWS::GuardDuty::MalwareProtectionPlan": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::GuardDuty::ThreatIntelSet": {
         "resourceProperties": {
             "Tags": [
@@ -4401,6 +4518,16 @@
         }
     },
     "AWS::Lambda::Function": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::LaunchWizard::Deployment": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -6297,6 +6424,76 @@
             ]
         }
     },
+    "AWS::SES::MailManagerAddonInstance": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SES::MailManagerAddonSubscription": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SES::MailManagerArchive": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SES::MailManagerIngressPoint": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SES::MailManagerRelay": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SES::MailManagerRuleSet": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SES::MailManagerTrafficPolicy": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::SNS::Topic": {
         "resourceProperties": {
             "Tags": [
@@ -6385,6 +6582,16 @@
         }
     },
     "AWS::SSO::Application": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SSO::Instance": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -6525,6 +6732,16 @@
         }
     },
     "AWS::SageMaker::InferenceExperiment": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
+    "AWS::SageMaker::MlflowTrackingServer": {
         "resourceProperties": {
             "Tags": [
                 {
@@ -6695,6 +6912,13 @@
         }
     },
     "AWS::SecurityHub::AutomationRule": {
+        "resourceProperties": {
+            "Tags": {
+                "Name": "Test"
+            }
+        }
+    },
+    "AWS::SecurityHub::ConfigurationPolicy": {
         "resourceProperties": {
             "Tags": {
                 "Name": "Test"
@@ -7182,8 +7406,24 @@
             ]
         }
     },
+    "AWS::WorkSpaces::WorkspacesPool": {
+        "resourceProperties": {
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ]
+        }
+    },
     "AWS::WorkSpacesThinClient::Environment": {
         "resourceProperties": {
+            "DeviceCreationTags": [
+                {
+                    "Key": "Name",
+                    "Value": "Test"
+                }
+            ],
             "Tags": [
                 {
                     "Key": "Name",

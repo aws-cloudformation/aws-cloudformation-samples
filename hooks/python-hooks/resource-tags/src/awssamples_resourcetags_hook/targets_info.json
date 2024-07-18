@@ -477,7 +477,25 @@
         ]
     },
     {
+        "name": "AWS::AppTest::TestCase",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
         "name": "AWS::ApplicationInsights::Application",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::ApplicationSignals::ServiceLevelObjective",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -748,6 +766,24 @@
         ]
     },
     {
+        "name": "AWS::Budgets::Budget",
+        "tags_info": [
+            {
+                "property_name": "ResourceTags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Budgets::BudgetsAction",
+        "tags_info": [
+            {
+                "property_name": "ResourceTags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::CE::AnomalyMonitor",
         "tags_info": [
             {
@@ -785,6 +821,24 @@
     },
     {
         "name": "AWS::CertificateManager::Certificate",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Chatbot::MicrosoftTeamsChannelConfiguration",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Chatbot::SlackChannelConfiguration",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -1710,6 +1764,42 @@
         ]
     },
     {
+        "name": "AWS::Deadline::Farm",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Deadline::Fleet",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Deadline::LicenseEndpoint",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Deadline::Queue",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::Detective::Graph",
         "tags_info": [
             {
@@ -2090,6 +2180,15 @@
     },
     {
         "name": "AWS::EC2::TrafficMirrorFilter",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::TrafficMirrorFilterRule",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -3183,6 +3282,15 @@
         ]
     },
     {
+        "name": "AWS::GuardDuty::MalwareProtectionPlan",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::GuardDuty::ThreatIntelSet",
         "tags_info": [
             {
@@ -4106,6 +4214,15 @@
     },
     {
         "name": "AWS::Lambda::Function",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::LaunchWizard::Deployment",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -5927,6 +6044,69 @@
         ]
     },
     {
+        "name": "AWS::SES::MailManagerAddonInstance",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SES::MailManagerAddonSubscription",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SES::MailManagerArchive",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SES::MailManagerIngressPoint",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SES::MailManagerRelay",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SES::MailManagerRuleSet",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SES::MailManagerTrafficPolicy",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::SNS::Topic",
         "tags_info": [
             {
@@ -6009,6 +6189,15 @@
     },
     {
         "name": "AWS::SSO::Application",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SSO::Instance",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -6135,6 +6324,15 @@
     },
     {
         "name": "AWS::SageMaker::InferenceExperiment",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SageMaker::MlflowTrackingServer",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -6288,6 +6486,15 @@
     },
     {
         "name": "AWS::SecurityHub::AutomationRule",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "object"
+            }
+        ]
+    },
+    {
+        "name": "AWS::SecurityHub::ConfigurationPolicy",
         "tags_info": [
             {
                 "property_name": "Tags",
@@ -6737,8 +6944,21 @@
         ]
     },
     {
+        "name": "AWS::WorkSpaces::WorkspacesPool",
+        "tags_info": [
+            {
+                "property_name": "Tags",
+                "property_type": "array"
+            }
+        ]
+    },
+    {
         "name": "AWS::WorkSpacesThinClient::Environment",
         "tags_info": [
+            {
+                "property_name": "DeviceCreationTags",
+                "property_type": "array"
+            },
             {
                 "property_name": "Tags",
                 "property_type": "array"
