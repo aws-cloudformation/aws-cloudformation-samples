@@ -1,0 +1,4 @@
+// make a copy of this file as .vscode/settings.json and set your SSH URI
+{
+    "docker.host": "ssh://ec2-user@<YOUR_SSH_HOST>"
+}
