@@ -1,3 +1,5 @@
+# flake8: noqa: E231
+
 """Unit tests for the handlers.py module."""
 
 import re
