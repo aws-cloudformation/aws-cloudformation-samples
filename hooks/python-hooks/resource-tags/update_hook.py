@@ -68,6 +68,11 @@ CLIENT = boto3.client(
     config=CLIENT_CONFIG,
 )
 
+# Regular expression patterns to match in property names when looking
+# for potential tag-related or tag-propagation-related properties.
+TAG_PROPERTIES_PATTERN = "Tag"
+TAG_PROPAGATION_PROPERTIES_PATTERN = "Propagat"
+
 # Data types for tag-related resource properties.
 TAG_PROPERTY_TYPES = [
     "array",
@@ -78,12 +83,6 @@ TAG_PROPERTY_TYPES = [
 TAG_PROPAGATION_PROPERTY_TYPES = [
     "boolean",
     "string",
-]
-
-# Data types for tag propagation property values.
-TAG_PROPAGATION_VALUES_PROPERTY_TYPES = [
-    "boolean",
-    "enum",
 ]
 
 SRC_PATH = "src/awssamples_resourcetags_hook/"
@@ -210,12 +209,16 @@ def _resource_type_tag_info_builder(
 ) -> Dict[str, Any]:
     """Build a dictionary with tag-related information for type_name."""
     LOG.info(f"Determining type for property: {property_name}")
+
+    property_type = ""
+    relevance_filter = []
+    tag_info = {}
+    tag_propagation_values: Any = None
+
     if relevance == "tag":
         relevance_filter = TAG_PROPERTY_TYPES
-        tag_info = {}
     elif relevance == "tag_propagation":
         relevance_filter = TAG_PROPAGATION_PROPERTY_TYPES
-        tag_propagation_values: Dict[Any, Any] = {}
 
     # Determine if target property information can be retrieved directly.
     if schema_properties[property_name].get(target_reference):
@@ -310,11 +313,13 @@ def _get_resource_type_tags_info(
     schema_properties = schema_object["properties"]
     LOG.debug(f"{type_name} schema_properties: {schema_properties}")
 
-    # Search for property keys that contain the `Tag` occurrence.
+    # Search for property keys that contain potential tags-related
+    # properties.
     tag_properties = {
         key
         for key, value in schema_properties.items()
-        if re.search("Tag", key)
+        if re.search(TAG_PROPERTIES_PATTERN, key)
+        and not re.search(TAG_PROPAGATION_PROPERTIES_PATTERN, key)
     }
     for tag_property in sorted(tag_properties):
         if _is_ignored_target(
@@ -337,11 +342,12 @@ def _get_resource_type_tags_info(
                 resource_type_tag_info,
             )
 
-    # Search for property keys that contain the `Propagat` occurrence.
+    # Search for property keys that contain potential tag
+    # propagation-related properties.
     tag_propagation_properties = {
         key
         for key, value in schema_properties.items()
-        if re.search("Propagat", key)
+        if re.search(TAG_PROPAGATION_PROPERTIES_PATTERN, key)
     }
     for tag_propagation_property in sorted(tag_propagation_properties):
         if _is_ignored_target(

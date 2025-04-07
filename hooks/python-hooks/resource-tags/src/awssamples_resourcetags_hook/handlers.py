@@ -449,7 +449,12 @@ def _validate_resource_properties(
 ) -> ProgressEvent:
     """Validate properties for a supported resource."""
     LOG.debug(f"target_tag_property_name: {target_tag_property_name}")
+
+    # Default validation error message.
+    message = "Resource properties validation error."
+
     validation_error_found = None
+
     if not resource_properties:
         validation_error_found = True
         message = "No resource properties specified."
@@ -720,7 +725,11 @@ def _validate_tag_propagation(
     ):
         return progress
 
+    # Default validation error message.
+    message = "Tag propagation validation error."
+
     validation_errors = []
+
     if target_name == "AWS::AutoScaling::AutoScalingGroup":
         for resource_tag in resource_tags:
             if not resource_tag.get(

@@ -25,6 +25,25 @@
         ]
     },
     {
+        "name": "AWS::Connect::SecurityProfile",
+        "ignored_target_properties": [
+            {
+                "property_name": "AllowedAccessControlTags"
+            },
+            {
+                "property_name": "TagRestrictedResources"
+            }
+        ]
+    },
+    {
+        "name": "AWS::EC2::IPAMPool",
+        "ignored_target_properties": [
+            {
+                "property_name": "AllocationResourceTags"
+            }
+        ]
+    },
+    {
         "name": "AWS::EC2::TransitGateway",
         "ignored_target_properties": [
             {
@@ -44,10 +63,10 @@
         ]
     },
     {
-        "name": "AWS::FSx::DataRepositoryAssociation",
+        "name": "AWS::FMS::Policy",
         "ignored_target_properties": [
             {
-                "property_name": "Tags"
+                "property_name": "ResourceTags"
             }
         ]
     },
@@ -76,6 +95,25 @@
         ]
     },
     {
+        "name": "AWS::QuickSight::DataSet",
+        "ignored_target_properties": [
+            {
+                "property_name": "RowLevelPermissionTagConfiguration"
+            }
+        ]
+    },
+    {
+        "name": "AWS::Rbin::Rule",
+        "ignored_target_properties": [
+            {
+                "property_name": "ExcludeResourceTags"
+            },
+            {
+                "property_name": "ResourceTags"
+            }
+        ]
+    },
+    {
         "name": "AWS::SageMaker::ModelPackage",
         "ignored_target_properties": [
             {
@@ -84,10 +122,10 @@
         ]
     },
     {
-        "name": "AWS::QuickSight::DataSet",
+        "name": "AWS::Synthetics::Canary",
         "ignored_target_properties": [
             {
-                "property_name": "RowLevelPermissionTagConfiguration"
+                "property_name": "ResourcesToReplicateTags"
             }
         ]
     }

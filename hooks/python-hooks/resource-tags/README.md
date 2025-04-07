@@ -197,7 +197,7 @@ RESOURCE_TYPE_CATEGORIES = [
 
 For more information, see _Filters_ and _Category_ in the [list_types()](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudformation.html#CloudFormation.Client.list_types) Boto3 documentation.
 
-When ready to update the hook, run the following script from the project's root directory:
+When ready to update the hook, make sure to [configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) on your machine: when you do so, also configure the `us-east-1` region as the default AWS region.  Next, run the following script from the project's root directory:
 
 ```shell
 ./update_hook.py
