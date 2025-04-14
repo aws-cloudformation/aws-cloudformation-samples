@@ -1,0 +1,24 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "The template creates a new DevInstance",
+    "Resources": {
+        "MyInstance": {
+            "Type": "AWSSamples::Devtools::Devinstance",
+            "Properties": {
+                "InstanceType":"m4.xlarge",
+                "DiskSize": 100,
+                "Keypair" : "dev"
+            }
+        }
+    },
+    "Outputs": {
+        "ssh": {
+          "Value": {
+            "Fn::GetAtt": [
+                "MyInstance",
+                "SSH"
+              ]
+          }
+        }
+      }
+}

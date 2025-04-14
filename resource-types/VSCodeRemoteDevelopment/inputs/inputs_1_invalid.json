@@ -1,0 +1,5 @@
+{
+    "InstanceType":"notAnInstance",
+    "DiskSize": 100,
+    "Keypair" : "dev"
+}

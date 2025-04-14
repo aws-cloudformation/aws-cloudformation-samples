@@ -1,0 +1,5 @@
+{
+    "InstanceType":"m4.2xlarge",
+    "DiskSize": 200,
+    "Keypair" : "dev"
+}

@@ -1,0 +1,20 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "CREATE",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+            "InstanceType":"m4.xlarge",
+            "DiskSize":200,
+            "Keypair": "dev",
+            "UID": "DevInstance-c97e3580-f33e-4cf6-a30d-a52c212e8d25"
+        },
+        "previousResourceState": null,
+        "logicalResourceIdentifier": null
+    },
+    "callbackContext": {"state":"creating"}
+}

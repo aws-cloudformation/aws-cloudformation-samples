@@ -1,0 +1,16 @@
+{
+    "credentials": {
+        "accessKeyId": "",
+        "secretAccessKey": "",
+        "sessionToken": ""
+    },
+    "action": "DELETE",
+    "request": {
+        "clientRequestToken": "4b90a7e4-b790-456b-a937-0cfdfa211dfe",
+        "desiredResourceState": {
+        },
+        "previousResourceState": null,
+        "logicalResourceIdentifier": null
+    },
+    "callbackContext": {"state": "deleting", "uid": "DevInstance-b47b8408-1ea4-4207-a4e3-94233f897451"}
+}
