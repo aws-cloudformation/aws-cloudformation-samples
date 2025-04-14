@@ -1,0 +1,50 @@
+{
+    "typeName": "AWSSamples::Ec2SsmSmOnly::Hook",
+    "description": "Checks that EC2 instances being deployed are configured to only allow use of SSM Session Manager to access the instance",
+    "sourceUrl": "https://github.com/aws-cloudformation/example-sse-hook",
+    "documentationUrl": "https://github.com/aws-cloudformation/example-sse-hook/blob/master/README.md",
+    "typeConfiguration": {
+        "properties": {
+            "requireSessionManagerEncryption": {
+                "type": "boolean",
+                "description": "Set to 'true' to require kms:decrypt action with a valid key-name resource",
+                "enum": [
+                    true,
+                    false
+                ],
+                "default": false
+            }
+        },
+        "additionalProperties": false
+    },
+    "required": [],
+    "handlers": {
+        "preCreate": {
+            "targetNames": [
+                "AWS::EC2::Instance",
+                "AWS::EC2::LaunchTemplate"
+            ],
+            "permissions": [
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeImages",
+                "iam:GetInstanceProfile",
+                "iam:SimulatePrincipalPolicy",
+                "iam:GetRole"
+            ]
+        },
+        "preUpdate": {
+            "targetNames": [
+                "AWS::EC2::Instance",
+                "AWS::EC2::LaunchTemplate"
+            ],
+            "permissions": [
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeImages",
+                "iam:GetInstanceProfile",
+                "iam:SimulatePrincipalPolicy",
+                "iam:GetRole"
+            ]
+        }
+    },
+    "additionalProperties": false
+}
